@@ -1,33 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { testDraw } from './canvas-drawing/test'
+import { CanvasScreen } from './components/CanvasScreen'
+import { Directive, GameState } from './game-state/types'
+import { Controls } from './components/Controls'
+import { useInterval } from './useInterval'
+import { cycle } from './game-state/cycle'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [game, setGame] = useState<GameState>({ x: 10, y: 30 })
+  const [directives, setDirectives] = useState<Directive[]>([])
+
+  const addDirective = (directive: Directive) => {
+    setDirectives([...directives, directive])
+  }
+
+  const refresh =
+    () => {
+      const newGame = cycle(game, directives)
+      setDirectives([])
+      setGame(newGame)
+    }
+
+  useInterval(refresh, 100)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CanvasScreen draw={testDraw(game)} />
+      <Controls {...{ game, addDirective }} />
+
+      <pre>{JSON.stringify(game, undefined, 2)}</pre>
     </>
   )
 }
