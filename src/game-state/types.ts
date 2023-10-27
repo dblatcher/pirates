@@ -4,6 +4,7 @@ export type Ship = {
     h: number,
     width: number,
     length: number,
+    sailLevel: number,
     name?: string,
 }
 
