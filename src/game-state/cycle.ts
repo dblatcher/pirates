@@ -1,18 +1,24 @@
+import { getXYVector } from "../lib/geometry";
 import { Directive, GameState } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[]): GameState => {
 
     const game = { ...gameState }
 
-    const r = Math.floor(Math.random() * 10) - 4
-    game.y += r
+    const [player] = game.ships
 
-    directives.forEach(directive => {
-        switch (directive) {
-            case "LEFT": game.x = game.x - 5; break
-            case "RIGHT": game.x = game.x + 5; break
-        }
-    })
+    if (player) {
+
+        const forward = getXYVector(2, player.h)
+        player.x = player.x += forward.x
+        player.y = player.y += forward.y
+        directives.forEach(directive => {
+            switch (directive) {
+                case "LEFT": player.h = player.h + Math.PI * .025; break
+                case "RIGHT": player.h = player.h - Math.PI * .025; break
+            }
+        })
+    }
 
     return game
 }

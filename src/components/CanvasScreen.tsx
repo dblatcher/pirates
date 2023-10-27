@@ -19,6 +19,6 @@ export const CanvasScreen = ({ draw }: Props) => {
         border: '1px solid black',
         display: 'inline-block'
     }}>
-        <canvas ref={canvasRef}></canvas>
+        <canvas width={500} height={500} ref={canvasRef}></canvas>
     </div>
 }
