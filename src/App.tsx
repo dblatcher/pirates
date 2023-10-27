@@ -17,21 +17,18 @@ function App() {
     setDirectives([...directives, directive])
   }
 
-  const refresh =
-    () => {
-      const newGame = cycle(game, directives)
-      setDirectives([])
-      setGame(newGame)
-    }
+  const refresh = () => {
+    const newGame = cycle(game, directives)
+    setDirectives([])
+    setGame(newGame)
+  }
 
-  useInterval(refresh, 100)
+  useInterval(refresh, 50)
 
   return (
     <>
       <CanvasScreen draw={drawScene(game)} />
       <Controls {...{ game, addDirective }} />
-
-      <pre>{JSON.stringify(game, undefined, 2)}</pre>
     </>
   )
 }

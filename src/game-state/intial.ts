@@ -26,5 +26,14 @@ export const initalState: GameState = {
             length: 40,
             sailLevel: 0.5
         },
-    ]
+    ],
+    projectiles: [
+        {
+            x: 200,
+            y: 200,
+            z: 5,
+            dz: 2,
+            h: Math.PI * .7
+        }
+    ],
 }
