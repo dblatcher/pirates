@@ -1,5 +1,5 @@
 import { getXYVector } from "../lib/geometry";
-import { Directive, GameState } from "./types";
+import { Directive, GameState, Order } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[]): GameState => {
 
@@ -14,9 +14,14 @@ export const cycle = (gameState: GameState, directives: Directive[]): GameState 
     const [player] = game.ships
     if (player) {
         directives.forEach(directive => {
-            switch (directive) {
-                case "LEFT": player.h = player.h + Math.PI * .025; break
-                case "RIGHT": player.h = player.h - Math.PI * .025; break
+            switch (directive.order) {
+                case Order.LEFT: player.h = player.h + Math.PI * .025; break
+                case Order.RIGHT: player.h = player.h - Math.PI * .025; break
+                case Order.SAILS: {
+                    const { quantity = 0 } = directive
+                    player.sailLevel = quantity
+                    break;
+                }
             }
         })
     }

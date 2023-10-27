@@ -13,4 +13,13 @@ export type GameState = {
     ships: Ship[],
 }
 
-export type Directive = 'LEFT' | 'RIGHT'
+export enum Order {
+    LEFT,
+    RIGHT,
+    SAILS,
+}
+
+export type Directive = {
+    order: Order,
+    quantity?: number,
+}
