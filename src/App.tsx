@@ -12,13 +12,16 @@ import { initalState } from './game-state/intial'
 function App() {
   const [game, setGame] = useState<GameState>(initalState)
   const [directives, setDirectives] = useState<Directive[]>([])
+  const [log, setLog] = useState<string[]>(['Yarrgh!'])
+
+  const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
   const addDirective = (directive: Directive) => {
     setDirectives([...directives, directive])
   }
 
   const refresh = () => {
-    const newGame = cycle(game, directives)
+    const newGame = cycle(game, directives, pushLog)
     setDirectives([])
     setGame(newGame)
   }
@@ -26,10 +29,20 @@ function App() {
   useInterval(refresh, 50)
 
   return (
-    <>
-      <CanvasScreen draw={drawScene(game)} />
-      <Controls {...{ game, addDirective }} />
-    </>
+    <div style={{ display: 'flex' }}>
+      <main>
+        <CanvasScreen draw={drawScene(game)} />
+        <Controls {...{ game, addDirective }} />
+      </main>
+
+      <aside>
+        <ul>
+          {log.map((entry, index) =>
+            <li key={index}>{entry}</li>
+          )}
+        </ul>
+      </aside>
+    </div>
   )
 }
 

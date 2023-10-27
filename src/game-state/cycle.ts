@@ -1,7 +1,7 @@
 import { getXYVector } from "../lib/geometry";
 import { Directive, GameState, Order } from "./types";
 
-export const cycle = (gameState: GameState, directives: Directive[]): GameState => {
+export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
 
     const game = { ...gameState }
 
@@ -39,8 +39,9 @@ export const cycle = (gameState: GameState, directives: Directive[]): GameState 
                         y: player.y,
                         z: 5,
                         dz: 2,
-                        h: player.h + Math.PI *quantity
+                        h: player.h + Math.PI * quantity
                     })
+                    pushLog('fired!')
                     break
                 }
             }
