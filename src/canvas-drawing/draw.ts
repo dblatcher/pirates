@@ -1,7 +1,6 @@
-import { GameState, Ship } from "../game-state/types";
-import { getXYVector, translate } from "../lib/geometry";
-import { drawShip } from "./drawShip";
+import { GameState } from "../game-state/types";
 import { drawProjectile } from "./drawProjectile";
+import { drawShip } from "./drawShip";
 
 
 export const drawScene = (game: GameState) => (canvas: HTMLCanvasElement) => {
