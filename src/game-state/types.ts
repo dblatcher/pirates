@@ -15,6 +15,8 @@ export type GameState = {
 export type ViewPort = {
     x: number,
     y: number,
+    width: number,
+    height: number,
 }
 
 export enum Order {

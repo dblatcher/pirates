@@ -13,7 +13,7 @@ const SCREEN_HEIGHT = 450
 
 function App() {
   const [game, setGame] = useState<GameState>(initalState)
-  const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10 })
+  const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
   const [paused, setPaused] = useState(false)
   const [directives, setDirectives] = useState<Directive[]>([])
   const [log, setLog] = useState<string[]>(['Yarrgh!'])
@@ -29,8 +29,11 @@ function App() {
     const [player] = newGame.ships
     if (player) {
       setViewPort({
-        x: player.x - SCREEN_WIDTH / 2,
-        y: player.y - SCREEN_HEIGHT / 2
+        width: viewPort.width,
+        height: viewPort.height,
+        x: player.x - viewPort.width / 2,
+        y: player.y - viewPort.height / 2,
+
       })
     }
     setDirectives([])
@@ -43,7 +46,7 @@ function App() {
     <div style={{ display: 'flex' }}>
       <main>
         <p>{viewPort.x.toFixed(2)}, {viewPort.y.toFixed(2)}</p>
-        <CanvasScreen draw={drawScene(game, viewPort)} width={SCREEN_WIDTH} height={SCREEN_HEIGHT}/>
+        <CanvasScreen draw={drawScene(game, viewPort)} width={viewPort.width} height={viewPort.height} />
         <Controls {...{ game, addDirective }} paused={paused} />
       </main>
 
