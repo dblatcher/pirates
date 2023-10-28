@@ -13,7 +13,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
         game.ships.forEach(ship => {
             if (willProjectileHitShip(projectile, ship)) {
                 projectilesThatHitSomething.push(projectile)
-                console.log('HIT', ship.name)
+                pushLog(`Hit ${ship.name ?? 'a ship'}`)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }
         })
