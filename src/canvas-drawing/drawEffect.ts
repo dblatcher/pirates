@@ -9,7 +9,7 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
     switch (effect.type) {
         case EffectType.SPLASH: {
             ctx.beginPath();
-            ctx.strokeStyle = 'blue'
+            ctx.strokeStyle = 'white'
             arc(x, y, effect.radius, 0, Math.PI * 2)
             ctx.stroke();
             break;

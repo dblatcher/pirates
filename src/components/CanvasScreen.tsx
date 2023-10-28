@@ -19,7 +19,8 @@ export const CanvasScreen = ({ draw, width, height }: Props) => {
 
     return <div style={{
         border: '1px solid black',
-        display: 'inline-block'
+        display: 'inline-block',
+        backgroundColor: 'skyblue',
     }}>
         <canvas width={width} height={height} ref={canvasRef}></canvas>
     </div>
