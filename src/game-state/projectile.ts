@@ -1,4 +1,4 @@
-import { getXYVector } from "../lib/geometry";
+import { getXYVector, translate } from "../lib/geometry";
 import { GameState } from "./types";
 
 export type Projectile = {
@@ -19,10 +19,14 @@ export const launchProjectile = (start: { x: number, y: number, h: number }, gam
     })
 }
 
-export const updateProjectile = (projectile:Projectile) => {
-    const forward = getXYVector(3, projectile.h)
-    projectile.x = projectile.x += forward.x
-    projectile.y = projectile.y += forward.y
+export const getProjectilesNextPosition = (projectile: Projectile) => {
+    return translate(projectile, getXYVector(3, projectile.h))
+}
+
+export const updateProjectile = (projectile: Projectile) => {
+    const nextPosition = getProjectilesNextPosition(projectile)
+    projectile.x = nextPosition.x
+    projectile.y = nextPosition.y
     projectile.z = projectile.z += projectile.dz
     projectile.dz = projectile.dz -= .1
 }

@@ -1,4 +1,4 @@
-import { getXYVector, translate } from "../lib/geometry"
+import { getXYVector, translate, XY } from "../lib/geometry"
 import { launchProjectile } from "./projectile"
 import { GameState } from "./types"
 
@@ -23,6 +23,17 @@ export const updateShip = (ship: Ship) => {
         ship.cannonsCooldown = ship.cannonsCooldown - 1
     }
 }
+
+export const getCollisionCircles = (ship: Ship): Array<XY & { r: number }> => {
+    const { x, y, width, h, length } = ship
+    const r = width / 2
+    const pointAlongMiddleAt = (distanceFromCentre: number) =>
+        translate(getXYVector((length - width) * distanceFromCentre, h), { x, y })
+
+    //TO DO - calculate the number of circles needed based on width & length 
+    return [.5, .25, 0, -.25, -.5].map(pointAlongMiddleAt).map(point => ({ ...point, r }))
+}
+
 
 export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): boolean => {
     if (ship.cannonsCooldown > 0) {
