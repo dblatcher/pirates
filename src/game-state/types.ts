@@ -12,6 +12,11 @@ export type GameState = {
     effects: Effect[],
 }
 
+export type ViewPort = {
+    x: number,
+    y: number,
+}
+
 export enum Order {
     LEFT,
     RIGHT,

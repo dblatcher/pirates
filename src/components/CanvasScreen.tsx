@@ -2,9 +2,11 @@ import { createRef, useLayoutEffect } from "react"
 
 interface Props {
     draw?: { (canvas: HTMLCanvasElement): void }
+    width: number;
+    height: number;
 }
 
-export const CanvasScreen = ({ draw }: Props) => {
+export const CanvasScreen = ({ draw, width, height }: Props) => {
     const canvasRef = createRef<HTMLCanvasElement>()
     const renderCanvas = () => {
         const element = canvasRef.current
@@ -19,6 +21,6 @@ export const CanvasScreen = ({ draw }: Props) => {
         border: '1px solid black',
         display: 'inline-block'
     }}>
-        <canvas width={500} height={500} ref={canvasRef}></canvas>
+        <canvas width={width} height={height} ref={canvasRef}></canvas>
     </div>
 }
