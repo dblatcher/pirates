@@ -1,3 +1,4 @@
+import { EffectType } from "./effect";
 import { GameState } from "./types";
 
 export const initalState: GameState = {
@@ -30,13 +31,14 @@ export const initalState: GameState = {
             cannonsCooldown: 0,
         },
     ],
-    projectiles: [
+    projectiles: [],
+    effects: [
         {
-            x: 200,
-            y: 200,
-            z: 5,
-            dz: 2,
-            h: Math.PI * .7
+            type: EffectType.SPLASH,
+            x: 100,
+            y: 100,
+            radius: 1,
+            timeLeft: 50
         }
-    ],
+    ]
 }

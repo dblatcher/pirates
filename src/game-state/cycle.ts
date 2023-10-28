@@ -1,20 +1,28 @@
+import { splitArray } from "../lib/util";
+import { createSplash, updateEffect } from "./effect";
 import { updateProjectile } from "./projectile";
 import { launchFromShip, updateShip } from "./ship";
 import { Directive, GameState, Order } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
-
     const game = { ...gameState }
-
     game.ships.forEach(ship => {
         updateShip(ship)
     })
-
     game.projectiles.forEach(projectile => {
         updateProjectile(projectile)
     })
+    game.effects.forEach(effect => {
+        updateEffect(effect)
+    })
 
-    game.projectiles = game.projectiles.filter(projectile => projectile.z > 0)
+    const [projectilesInAir, projectilesLanded] = splitArray(game.projectiles, projectile => projectile.z > 0)
+    game.projectiles = projectilesInAir
+    projectilesLanded.forEach(projectile => {
+        createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
+    })
+
+    game.effects = game.effects.filter(effect => effect.timeLeft > 0)
 
     const [player] = game.ships
     if (player) {
