@@ -1,21 +1,24 @@
 import { GameState } from "./types";
 
 export enum EffectType {
-    SPLASH
+    SPLASH, IMPACT
 }
 type BaseEffect = {
-    type: EffectType;
     x: number;
     y: number;
     timeLeft: number;
 }
 
-
 export type Splash = BaseEffect & {
+    type: EffectType.SPLASH;
     radius: number;
 }
 
-export type Effect = Splash
+export type Impact = BaseEffect & {
+    type: EffectType.IMPACT
+}
+
+export type Effect = Splash | Impact
 
 export const updateEffect = (effect: Effect) => {
     effect.timeLeft = effect.timeLeft - 1
@@ -27,9 +30,14 @@ export const updateEffect = (effect: Effect) => {
 }
 
 export const createSplash = (start: Omit<Splash, 'type'>, game: GameState) => {
-
     game.effects.push({
         ...start,
         type: EffectType.SPLASH
+    })
+}
+export const createImpact = (start: Omit<Impact, 'type'>, game: GameState) => {
+    game.effects.push({
+        ...start,
+        type: EffectType.IMPACT
     })
 }

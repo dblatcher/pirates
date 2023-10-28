@@ -1,5 +1,5 @@
 import { splitArray } from "../lib/util";
-import { createSplash, updateEffect } from "./effect";
+import { createImpact, createSplash, updateEffect } from "./effect";
 import { Projectile, updateProjectile } from "./projectile";
 import { launchFromShip, updateShip } from "./ship";
 import { Directive, GameState, Order } from "./types";
@@ -14,6 +14,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
             if (willProjectileHitShip(projectile, ship)) {
                 projectilesThatHitSomething.push(projectile)
                 console.log('HIT', ship.name)
+                createImpact({ ...projectile, timeLeft: 50 }, game)
             }
         })
     })
