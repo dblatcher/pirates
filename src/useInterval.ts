@@ -27,6 +27,8 @@ export function useInterval(callback: () => void, delay: number | null) {
         }
 
         const id = setInterval(() => callback(), delay)
-        return () => clearInterval(id)
+        return () => {
+            clearInterval(id)
+        }
     }, [delay, callback])
 }

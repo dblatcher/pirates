@@ -11,6 +11,7 @@ import { initalState } from './game-state/intial'
 
 function App() {
   const [game, setGame] = useState<GameState>(initalState)
+  const [paused, setPaused] = useState(false)
   const [directives, setDirectives] = useState<Directive[]>([])
   const [log, setLog] = useState<string[]>(['Yarrgh!'])
 
@@ -26,16 +27,17 @@ function App() {
     setGame(newGame)
   }
 
-  useInterval(refresh, 50)
+  useInterval(refresh, paused ? null : 10)
 
   return (
     <div style={{ display: 'flex' }}>
       <main>
         <CanvasScreen draw={drawScene(game)} />
-        <Controls {...{ game, addDirective }} />
+        <Controls {...{ game, addDirective }} paused={paused} />
       </main>
 
       <aside>
+        <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
         <ul>
           {log.map((entry, index) =>
             <li key={index}>{entry}</li>

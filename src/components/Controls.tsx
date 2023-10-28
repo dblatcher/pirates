@@ -2,22 +2,28 @@ import { Directive, Order } from "../game-state/types";
 
 interface Props {
     addDirective: { (directive: Directive): void }
+    paused: boolean
 }
 
-export const Controls = ({ addDirective }: Props) => {
+export const Controls = ({ addDirective, paused }: Props) => {
+
+    const addUnlessPaused = (directive: Directive) => {
+        if (paused) { return }
+        addDirective(directive)
+    }
 
     const goLeft = () => {
-        addDirective({ order: Order.LEFT })
+        addUnlessPaused({ order: Order.LEFT })
     }
     const goRight = () => {
-        addDirective({ order: Order.RIGHT })
+        addUnlessPaused({ order: Order.RIGHT })
     }
 
     const sailsTo = (quantity: number) => () => {
-        addDirective({ order: Order.SAILS, quantity })
+        addUnlessPaused({ order: Order.SAILS, quantity })
     }
     const fireTo = (quantity: number) => () => {
-        addDirective({ order: Order.FIRE, quantity })
+        addUnlessPaused({ order: Order.FIRE, quantity })
     }
 
     return <div>
