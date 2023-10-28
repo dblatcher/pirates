@@ -1,4 +1,4 @@
-import { getXYVector } from "../lib/geometry"
+import { getXYVector, translate } from "../lib/geometry"
 import { launchProjectile } from "./projectile"
 import { GameState } from "./types"
 
@@ -28,13 +28,30 @@ export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): 
     if (ship.cannonsCooldown > 0) {
         return false
     }
+    const directionOfFire = ship.h + relativeH
 
-    const direction = ship.h + relativeH
-    launchProjectile({
-        x: ship.x,
-        y: ship.y,
-        h: direction
-    }, game)
+    const getStartAt = (distanceFromBroadsideCenter: number) => {
+        const placeInMiddleOfShip = translate(ship, getXYVector(ship.length * distanceFromBroadsideCenter, ship.h))
+        const placeOutFromShip = translate(placeInMiddleOfShip, getXYVector(1 + ship.width, directionOfFire))
+        return {
+            ...placeOutFromShip,
+            h: directionOfFire
+        }
+    }
+
+    const startPositions = [
+        getStartAt(-1 / 4),
+        getStartAt(0),
+        getStartAt(1 / 4),
+    ]
+
+    startPositions.forEach(start => {
+        launchProjectile({
+            x: start.x,
+            y: start.y,
+            h: directionOfFire
+        }, game)
+    })
     ship.cannonsCooldown = 200
     return true
 }
