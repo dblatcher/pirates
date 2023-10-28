@@ -1,4 +1,5 @@
 import { getXYVector } from "../lib/geometry";
+import { launch } from "./launch";
 import { Directive, GameState, Order } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
@@ -34,13 +35,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
                 }
                 case Order.FIRE: {
                     const { quantity = 0 } = directive
-                    game.projectiles.push({
-                        x: player.x,
-                        y: player.y,
-                        z: 5,
-                        dz: 2,
-                        h: player.h + Math.PI * quantity
-                    })
+                    launch(Math.PI * quantity, player, game)
                     pushLog('fired!')
                     break
                 }
