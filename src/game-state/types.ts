@@ -1,20 +1,9 @@
-export type Ship = {
-    x: number,
-    y: number,
-    h: number,
-    width: number,
-    length: number,
-    sailLevel: number,
-    name?: string,
-}
+import type { Projectile } from './projectile'
+import type { Ship } from './ship'
 
-export type Projectile = {
-    x: number
-    y: number
-    z: number
-    h: number
-    dz: number
-}
+export type { Ship } from './ship'
+export type { Projectile } from './projectile'
+
 
 export type GameState = {
     ships: Ship[],

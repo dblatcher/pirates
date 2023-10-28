@@ -1,5 +1,5 @@
-import { getXYVector } from "../lib/geometry";
-import { launch } from "./launch";
+import { updateProjectile } from "./projectile";
+import { launchFromShip, updateShip } from "./ship";
 import { Directive, GameState, Order } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
@@ -7,17 +7,11 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
     const game = { ...gameState }
 
     game.ships.forEach(ship => {
-        const forward = getXYVector(ship.sailLevel, ship.h)
-        ship.x = ship.x += forward.x
-        ship.y = ship.y += forward.y
+        updateShip(ship)
     })
 
     game.projectiles.forEach(projectile => {
-        const forward = getXYVector(3, projectile.h)
-        projectile.x = projectile.x += forward.x
-        projectile.y = projectile.y += forward.y
-        projectile.z = projectile.z += projectile.dz
-        projectile.dz = projectile.dz -= .1
+        updateProjectile(projectile)
     })
 
     game.projectiles = game.projectiles.filter(projectile => projectile.z > 0)
@@ -35,8 +29,8 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
                 }
                 case Order.FIRE: {
                     const { quantity = 0 } = directive
-                    launch(Math.PI * quantity, player, game)
-                    pushLog('fired!')
+                    const fired = launchFromShip(Math.PI * quantity, player, game)
+                    pushLog(fired ? 'fired!' : `not loaded: ${player.cannonsCooldown}`)
                     break
                 }
             }
