@@ -56,6 +56,7 @@ export const followDirectives = (ship: Ship, directives: Directive[], game:GameS
             }
         }
     })
+    return game
 }
 
 export const getCollisionCircles = (ship: Ship): Array<XY & { r: number }> => {

@@ -6,7 +6,7 @@ import { followDirectives, updateShip } from "./ship";
 import { Directive, GameState } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
-    const game = { ...gameState }
+    let game = { ...gameState }
     game.cycleNumber = game.cycleNumber + 1
 
     const projectilesThatHitSomething: Projectile[] = []
@@ -42,7 +42,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
 
     const [player] = game.ships
     if (player) {
-        followDirectives(player, directives, gameState, pushLog)
+        game = followDirectives(player, directives, game, pushLog)
     }
     return game
 }
