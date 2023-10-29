@@ -11,8 +11,8 @@ const keyCommands: Record<string, Directive | undefined> = {
     'ArrowRight': { order: Order.RIGHT },
     'ArrowUp': { order: Order.SAILS_BY, quantity: .1 },
     'ArrowDown': { order: Order.SAILS_BY, quantity: -.1 },
-    'KeyA': { order: Order.FIRE, quantity: -.5 },
-    'KeyD': { order: Order.FIRE, quantity: .5 },
+    'KeyA': { order: Order.FIRE, quantity: .5 },
+    'KeyD': { order: Order.FIRE, quantity: -.5 },
 }
 
 export const KeyboardControls = ({ paused, addDirective }: Props) => {
