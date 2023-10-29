@@ -1,4 +1,4 @@
-import { getXYVector, translate, XY } from "../lib/geometry"
+import { getXYVector, Rect, translate, XY } from "../lib/geometry"
 import { clamp } from "../lib/util"
 import { launchProjectile } from "./projectile"
 import { Directive, GameState, Order } from "./types"
@@ -32,7 +32,7 @@ export const updateShip = (ship: Ship) => {
     }
 }
 
-export const followDirectives = (ship: Ship, directives: Directive[], game:GameState, pushLog: { (newLog: string): void }) => {
+export const followDirectives = (ship: Ship, directives: Directive[], game: GameState, pushLog: { (newLog: string): void }) => {
     directives.forEach(directive => {
         switch (directive.order) {
             case Order.LEFT: ship.h = ship.h + Math.PI * .025; break
@@ -69,6 +69,14 @@ export const getCollisionCircles = (ship: Ship): Array<XY & { r: number }> => {
     return [.5, .25, 0, -.25, -.5].map(pointAlongMiddleAt).map(point => ({ ...point, r }))
 }
 
+export const getBoundingRect = (ship: Ship, margin = 6): Rect => {
+    const zoneSize = margin + ship.length / 2
+    const top = ship.y - zoneSize;
+    const bottom = ship.y + zoneSize;
+    const left = ship.x - zoneSize;
+    const right = ship.x + zoneSize;
+    return { top, bottom, left, right }
+}
 
 export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): boolean => {
     if (ship.cannonsCooldown > 0) {
