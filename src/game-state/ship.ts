@@ -1,6 +1,7 @@
 import { getXYVector, translate, XY } from "../lib/geometry"
+import { clamp } from "../lib/util"
 import { launchProjectile } from "./projectile"
-import { GameState } from "./types"
+import { Directive, GameState, Order } from "./types"
 
 export type Ship = {
     x: number,
@@ -29,6 +30,32 @@ export const updateShip = (ship: Ship) => {
     if (ship.cannonsCooldown > 0) {
         ship.cannonsCooldown = ship.cannonsCooldown - 1
     }
+}
+
+export const followDirectives = (ship: Ship, directives: Directive[], game:GameState, pushLog: { (newLog: string): void }) => {
+    directives.forEach(directive => {
+        switch (directive.order) {
+            case Order.LEFT: ship.h = ship.h + Math.PI * .025; break
+            case Order.RIGHT: ship.h = ship.h - Math.PI * .025; break
+            case Order.SAILS_TO: {
+                const { quantity = 0 } = directive
+                ship.sailLevelTarget = clamp(quantity)
+                break;
+            }
+            case Order.SAILS_BY: {
+                const { quantity = 0 } = directive
+                const { sailLevelTarget } = ship
+                ship.sailLevelTarget = clamp(sailLevelTarget + quantity)
+                break;
+            }
+            case Order.FIRE: {
+                const { quantity = 0 } = directive
+                const fired = launchFromShip(Math.PI * quantity, ship, game)
+                pushLog(fired ? 'fired!' : `not loaded: ${ship.cannonsCooldown}`)
+                break
+            }
+        }
+    })
 }
 
 export const getCollisionCircles = (ship: Ship): Array<XY & { r: number }> => {

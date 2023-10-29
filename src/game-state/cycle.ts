@@ -1,9 +1,9 @@
-import { clamp, splitArray } from "../lib/util";
+import { willProjectileHitShip } from "../lib/collisions";
+import { splitArray } from "../lib/util";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { Projectile, updateProjectile } from "./projectile";
-import { launchFromShip, updateShip } from "./ship";
-import { Directive, GameState, Order } from "./types";
-import { willProjectileHitShip } from "../lib/collisions"
+import { followDirectives, updateShip } from "./ship";
+import { Directive, GameState } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
     const game = { ...gameState }
@@ -42,29 +42,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
 
     const [player] = game.ships
     if (player) {
-        directives.forEach(directive => {
-            switch (directive.order) {
-                case Order.LEFT: player.h = player.h + Math.PI * .025; break
-                case Order.RIGHT: player.h = player.h - Math.PI * .025; break
-                case Order.SAILS_TO: {
-                    const { quantity = 0 } = directive
-                    player.sailLevelTarget = clamp(quantity)
-                    break;
-                }
-                case Order.SAILS_BY: {
-                    const { quantity = 0 } = directive
-                    const { sailLevelTarget } = player
-                    player.sailLevelTarget = clamp(sailLevelTarget + quantity)
-                    break;
-                }
-                case Order.FIRE: {
-                    const { quantity = 0 } = directive
-                    const fired = launchFromShip(Math.PI * quantity, player, game)
-                    pushLog(fired ? 'fired!' : `not loaded: ${player.cannonsCooldown}`)
-                    break
-                }
-            }
-        })
+        followDirectives(player, directives, gameState, pushLog)
     }
     return game
 }
