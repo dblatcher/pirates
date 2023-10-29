@@ -12,7 +12,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     const drawingMethods = drawWithOffset(ctx, viewPort)
     const { ships, projectiles, effects } = game
     ctx.clearRect(0, 0, viewPort.width, viewPort.height)
-    drawBackground(ctx, drawingMethods, viewPort)
+    drawBackground(ctx, drawingMethods, viewPort, game.cycleNumber)
     ships.forEach(ship => drawShip(ctx, drawingMethods, ship))
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

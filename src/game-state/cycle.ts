@@ -7,6 +7,7 @@ import { willProjectileHitShip } from "../lib/collisions"
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
     const game = { ...gameState }
+    game.cycleNumber = game.cycleNumber + 1
 
     const projectilesThatHitSomething: Projectile[] = []
     game.projectiles.forEach(projectile => {

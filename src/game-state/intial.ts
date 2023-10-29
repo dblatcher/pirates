@@ -2,6 +2,7 @@ import { EffectType } from "./effect";
 import { GameState } from "./types";
 
 export const initalState: GameState = {
+    cycleNumber: 0,
     ships: [
         {
             x: 200,

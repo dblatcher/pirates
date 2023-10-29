@@ -10,6 +10,7 @@ export type GameState = {
     ships: Ship[],
     projectiles: Projectile[],
     effects: Effect[],
+    cycleNumber: number
 }
 
 export type ViewPort = {
