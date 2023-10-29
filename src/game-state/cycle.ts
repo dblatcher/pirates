@@ -48,7 +48,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
                 case Order.RIGHT: player.h = player.h - Math.PI * .025; break
                 case Order.SAILS: {
                     const { quantity = 0 } = directive
-                    player.sailLevel = quantity
+                    player.sailLevelTarget = quantity
                     break;
                 }
                 case Order.FIRE: {

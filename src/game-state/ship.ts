@@ -9,16 +9,23 @@ export type Ship = {
     width: number,
     length: number,
     sailLevel: number,
+    sailLevelTarget: number,
     name?: string,
     // to do - model multiple cannons!
     cannonsCooldown: number,
 }
 
+// TO DO - vary by ship and crew
+const SAIL_CHANGE_RATE = .01
+
 export const updateShip = (ship: Ship) => {
     const forward = getXYVector(ship.sailLevel, ship.h)
     ship.x = ship.x += forward.x
     ship.y = ship.y += forward.y
-
+    if (ship.sailLevel !== ship.sailLevelTarget) {
+        const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
+        ship.sailLevel = ship.sailLevel + change
+    }
     if (ship.cannonsCooldown > 0) {
         ship.cannonsCooldown = ship.cannonsCooldown - 1
     }
