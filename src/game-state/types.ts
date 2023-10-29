@@ -1,3 +1,4 @@
+import { XY } from '../lib/geometry'
 import { Effect } from './effect'
 import type { Projectile } from './projectile'
 import type { Ship } from './ship'
@@ -21,7 +22,9 @@ export type ViewPort = {
 }
 
 export type Collison = {
-    bodies: [Ship, Ship]
+    ship: Ship;
+    vector: XY;
+    obstacle: Ship
 }
 
 export enum Order {

@@ -30,7 +30,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
 
     otherShips.forEach(otherShip => {
         if (willShipHitOtherShip(ship, forward, otherShip)) {
-            collisions.push({ bodies: [ship, otherShip] })
+            collisions.push({ ship, obstacle: otherShip, vector: forward })
             hitAShip = true
         }
     })
