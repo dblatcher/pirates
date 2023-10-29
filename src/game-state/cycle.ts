@@ -9,11 +9,11 @@ import { Collison, Directive, GameState } from "./types";
 const fireCannons = (game: GameState) => {
     game.ships.forEach(ship => {
         if (ship.firingLeft) {
-            launchFromShip(Math.PI * -.5, ship, game)
+            launchFromShip('LEFT', ship, game)
         }
         ship.firingLeft = false
         if (ship.firingRight) {
-            launchFromShip(Math.PI * .5, ship, game)
+            launchFromShip('RIGHT', ship, game)
         }
         ship.firingRight = false
     })

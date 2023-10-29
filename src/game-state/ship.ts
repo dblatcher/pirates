@@ -14,7 +14,8 @@ export type Ship = {
     sailLevelTarget: number,
     name?: string,
     // to do - model multiple cannons!
-    cannonsCooldown: number,
+    cannonsCooldownLeft: number,
+    cannonsCooldownRight: number,
     firingLeft?: boolean,
     firingRight?: boolean,
 }
@@ -46,8 +47,11 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
         ship.sailLevel = ship.sailLevel + change
     }
-    if (ship.cannonsCooldown > 0) {
-        ship.cannonsCooldown = ship.cannonsCooldown - 1
+    if (ship.cannonsCooldownLeft > 0) {
+        ship.cannonsCooldownLeft = ship.cannonsCooldownLeft - 1
+    }
+    if (ship.cannonsCooldownRight > 0) {
+        ship.cannonsCooldownRight = ship.cannonsCooldownRight - 1
     }
 }
 
@@ -101,11 +105,15 @@ export const getBoundingRect = (ship: Ship, margin = 6): Rect => {
     return { top, bottom, left, right }
 }
 
-export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): boolean => {
-    if (ship.cannonsCooldown > 0) {
+export const launchFromShip = (side: 'LEFT' | 'RIGHT', ship: Ship, game: GameState): boolean => {
+    const coolDownKey = side === 'LEFT' ? 'cannonsCooldownLeft' : 'cannonsCooldownRight' 
+
+    if (ship[coolDownKey] > 0) {
         return false
     }
-    const directionOfFire = ship.h + relativeH
+
+    const hh = side === 'LEFT' ? (-.5 * Math.PI) : (.5 * Math.PI)
+    const directionOfFire = ship.h + hh
 
     const getStartAt = (distanceFromBroadsideCenter: number) => {
         const placeInMiddleOfShip = translate(ship, getXYVector(ship.length * distanceFromBroadsideCenter, ship.h))
@@ -116,6 +124,7 @@ export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): 
         }
     }
 
+    //TO DO - any number
     const startPositions = [
         getStartAt(-1 / 4),
         getStartAt(0),
@@ -129,6 +138,6 @@ export const launchFromShip = (relativeH: number, ship: Ship, game: GameState): 
             h: directionOfFire
         }, game)
     })
-    ship.cannonsCooldown = 200
+    ship[coolDownKey] = 200
     return true
 }
