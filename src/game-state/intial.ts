@@ -12,9 +12,11 @@ export const initalState: GameState = {
             width: 20,
             length: 80,
             sailLevel: 0,
-            sailLevelTarget:0,
-            cannonsCooldownLeft: 0,
-            cannonsCooldownRight: 0,
+            sailLevelTarget: 0,
+            cannons: [
+                { side: 'LEFT', cooldown: 0 },
+                { side: 'RIGHT', cooldown: 0 },
+            ],
         },
         {
             name: 'The Flying Goose',
@@ -25,8 +27,7 @@ export const initalState: GameState = {
             length: 60,
             sailLevel: 0.5,
             sailLevelTarget: 0,
-            cannonsCooldownLeft: 0,
-            cannonsCooldownRight: 0,
+            cannons: [],
         },
         {
             name: 'The Dead Duck',
@@ -36,9 +37,8 @@ export const initalState: GameState = {
             width: 30,
             length: 120,
             sailLevel: 0,
-            sailLevelTarget:0,
-            cannonsCooldownLeft: 0,
-            cannonsCooldownRight: 0,
+            sailLevelTarget: 0,
+            cannons: []
         },
     ],
     projectiles: [],

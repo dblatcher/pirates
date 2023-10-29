@@ -29,3 +29,6 @@ export const isPointInsideRect = (point: XY, rect: Rect): boolean => {
 export const doCircleIntersect = (c1: Circle, c2: Circle): boolean => {
     return getDistance(c1, c2) < c1.r + c2.r
 }
+
+export const _90_DEG_LEFT = Math.PI * .5
+export const _90_DEG_RIGHT = Math.PI * -.5

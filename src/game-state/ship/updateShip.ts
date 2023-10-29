@@ -30,10 +30,9 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
         ship.sailLevel = ship.sailLevel + change
     }
-    if (ship.cannonsCooldownLeft > 0) {
-        ship.cannonsCooldownLeft = ship.cannonsCooldownLeft - 1
-    }
-    if (ship.cannonsCooldownRight > 0) {
-        ship.cannonsCooldownRight = ship.cannonsCooldownRight - 1
-    }
+    ship.cannons.forEach(cannon => {
+        if (cannon.cooldown > 0) {
+            cannon.cooldown = cannon.cooldown - 1
+        }
+    })
 }

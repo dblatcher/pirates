@@ -38,4 +38,5 @@ export enum Order {
 export type Directive = {
     order: Order,
     quantity?: number,
+    side?: 'LEFT' | 'RIGHT'
 }

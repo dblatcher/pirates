@@ -1,3 +1,9 @@
+export type Cannon = {
+    cooldown: number,
+    firing?: boolean,
+    side: 'LEFT' | 'RIGHT'
+}
+
 export type Ship = {
     x: number,
     y: number,
@@ -8,8 +14,5 @@ export type Ship = {
     sailLevelTarget: number,
     name?: string,
     // to do - model multiple cannons!
-    cannonsCooldownLeft: number,
-    cannonsCooldownRight: number,
-    firingLeft?: boolean,
-    firingRight?: boolean,
+    cannons: Cannon[]
 }

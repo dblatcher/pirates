@@ -22,11 +22,10 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 break;
             }
             case Order.FIRE: {
-                const { quantity = 0 } = directive;
-                if (quantity > 0) {
-                    ship.firingRight = true;
-                } else {
-                    ship.firingLeft = true;
+                const { side } = directive;
+                if (side) {
+                    const cannon = ship.cannons.find(cannon => cannon.side === side)
+                    if (cannon) { cannon.firing = true }
                 }
                 break;
             }

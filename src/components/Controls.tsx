@@ -22,8 +22,8 @@ export const Controls = ({ addDirective, paused }: Props) => {
     const sailsTo = (quantity: number) => () => {
         addUnlessPaused({ order: Order.SAILS_TO, quantity })
     }
-    const fireTo = (quantity: number) => () => {
-        addUnlessPaused({ order: Order.FIRE, quantity })
+    const fireTo = (side: 'LEFT' | 'RIGHT') => () => {
+        addUnlessPaused({ order: Order.FIRE, side })
     }
 
     return <div>
@@ -32,7 +32,7 @@ export const Controls = ({ addDirective, paused }: Props) => {
         <button onClick={sailsTo(0)}>sails down</button>
         <button onClick={sailsTo(.5)}>half sails</button>
         <button onClick={sailsTo(1)}>full sails</button>
-        <button onClick={fireTo(.5)}>FIRE</button>
-        <button onClick={fireTo(-.5)}>FIRE</button>
+        <button onClick={fireTo('RIGHT')}>FIRE</button>
+        <button onClick={fireTo('LEFT')}>FIRE</button>
     </div>
 }
