@@ -1,6 +1,6 @@
-import { getCollisionCircles } from "../game-state/ship";
-import { Projectile, Ship } from "../game-state/types";
-import { getDistance } from "./geometry";
+import { getCollisionCircles } from "./ship";
+import { Projectile, Ship } from "./types";
+import { getDistance } from "../lib/geometry";
 
 
 const isWithinBoundingRect = (projectile: Projectile, ship: Ship): boolean => {
