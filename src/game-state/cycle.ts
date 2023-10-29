@@ -1,4 +1,4 @@
-import { splitArray } from "../lib/util";
+import { clamp, splitArray } from "../lib/util";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { Projectile, updateProjectile } from "./projectile";
 import { launchFromShip, updateShip } from "./ship";
@@ -46,9 +46,15 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
             switch (directive.order) {
                 case Order.LEFT: player.h = player.h + Math.PI * .025; break
                 case Order.RIGHT: player.h = player.h - Math.PI * .025; break
-                case Order.SAILS: {
+                case Order.SAILS_TO: {
                     const { quantity = 0 } = directive
-                    player.sailLevelTarget = quantity
+                    player.sailLevelTarget = clamp(quantity)
+                    break;
+                }
+                case Order.SAILS_BY: {
+                    const { quantity = 0 } = directive
+                    const { sailLevelTarget } = player
+                    player.sailLevelTarget = clamp(sailLevelTarget + quantity)
                     break;
                 }
                 case Order.FIRE: {

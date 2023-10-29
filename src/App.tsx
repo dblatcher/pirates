@@ -7,6 +7,7 @@ import { Controls } from './components/Controls'
 import { useInterval } from './useInterval'
 import { cycle } from './game-state/cycle'
 import { initalState } from './game-state/intial'
+import { KeyboardControls } from './components/KeyboardControls'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -58,6 +59,9 @@ function App() {
           )}
         </ul>
       </aside>
+      <KeyboardControls
+        addDirective={addDirective}
+        paused={paused} />
     </div>
   )
 }

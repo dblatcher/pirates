@@ -11,3 +11,7 @@ export const splitArray = <T,>(list: T[], predicate: { (item: T): boolean }): [T
     })
     return [passes, fails]
 }
+
+export function clamp(value: number, max = 1, min = 0) {
+    return Math.max(Math.min(value, max), min)
+}

@@ -20,7 +20,7 @@ export const Controls = ({ addDirective, paused }: Props) => {
     }
 
     const sailsTo = (quantity: number) => () => {
-        addUnlessPaused({ order: Order.SAILS, quantity })
+        addUnlessPaused({ order: Order.SAILS_TO, quantity })
     }
     const fireTo = (quantity: number) => () => {
         addUnlessPaused({ order: Order.FIRE, quantity })

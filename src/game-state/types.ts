@@ -23,8 +23,9 @@ export type ViewPort = {
 export enum Order {
     LEFT,
     RIGHT,
-    SAILS,
+    SAILS_TO,
     FIRE,
+    SAILS_BY,
 }
 
 export type Directive = {
