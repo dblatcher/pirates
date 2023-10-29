@@ -1,6 +1,6 @@
-import { getBoundingRect, getCollisionCircles } from "./ship";
-import { Projectile, Ship } from "./types";
-import { XY, doCircleIntersect, getDistance, isPointInsideRect, translate } from "../lib/geometry";
+import { doCircleIntersect, getDistance, isPointInsideRect, translate, XY } from "../lib/geometry";
+import { getBoundingRect, getCollisionCircles, Ship } from "./ship";
+import { Projectile } from "./types";
 
 export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boolean => {
 

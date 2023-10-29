@@ -1,5 +1,5 @@
-import { willProjectileHitShip } from "./collisions";
 import { splitArray } from "../lib/util";
+import { willProjectileHitShip } from "./collisions";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { Projectile, updateProjectile } from "./projectile";
 import { followDirectives, launchFromShip, updateShip } from "./ship";
