@@ -1,4 +1,5 @@
 export type XY = { x: number, y: number }
+export type Circle = { x: number, y: number, r: number }
 export type Rect = { top: number, left: number, bottom: number, right: number }
 
 function getVectorX(magnitude: number, direction: number) { return magnitude * Math.sin(direction) }
@@ -23,4 +24,8 @@ export const isPointInsideRect = (point: XY, rect: Rect): boolean => {
         point.x < left ||
         point.x > right
     )
+}
+
+export const doCircleIntersect = (c1: Circle, c2: Circle): boolean => {
+    return getDistance(c1, c2) < c1.r + c2.r
 }

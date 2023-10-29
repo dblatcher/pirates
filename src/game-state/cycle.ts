@@ -3,12 +3,12 @@ import { splitArray } from "../lib/util";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { Projectile, updateProjectile } from "./projectile";
 import { followDirectives, updateShip } from "./ship";
-import { Directive, GameState } from "./types";
+import { Collison, Directive, GameState } from "./types";
 
 export const cycle = (gameState: GameState, directives: Directive[], pushLog: { (newLog: string): void }): GameState => {
     let game = { ...gameState }
     game.cycleNumber = game.cycleNumber + 1
-
+    
     const projectilesThatHitSomething: Projectile[] = []
     game.projectiles.forEach(projectile => {
         game.ships.forEach(ship => {
@@ -21,9 +21,10 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
     })
 
     const projectilesThatDidNotHitAnyThing = game.projectiles.filter(projectile => !projectilesThatHitSomething.includes(projectile))
-
+    
+    const collisons: Collison[] = []
     game.ships.forEach(ship => {
-        updateShip(ship)
+        updateShip(ship, gameState, collisons)
     })
     game.projectiles.forEach(projectile => {
         updateProjectile(projectile)
@@ -31,6 +32,8 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
     game.effects.forEach(effect => {
         updateEffect(effect)
     })
+
+    // TO DO - handle collisions
 
     const [projectilesInAir, projectilesLanded] = splitArray(projectilesThatDidNotHitAnyThing, projectile => projectile.z > 0)
     game.projectiles = projectilesInAir
@@ -40,6 +43,7 @@ export const cycle = (gameState: GameState, directives: Directive[], pushLog: { 
 
     game.effects = game.effects.filter(effect => effect.timeLeft > 0)
 
+    // Should we do this first?
     const [player] = game.ships
     if (player) {
         game = followDirectives(player, directives, game, pushLog)

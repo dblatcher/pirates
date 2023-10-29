@@ -5,6 +5,7 @@ export const initalState: GameState = {
     cycleNumber: 0,
     ships: [
         {
+            name: 'Player McPlayerFace',
             x: 200,
             y: 200,
             h: Math.PI * .5,

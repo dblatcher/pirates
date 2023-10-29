@@ -1,7 +1,8 @@
 import { getXYVector, Rect, translate, XY } from "../lib/geometry"
 import { clamp } from "../lib/util"
+import { willShipHitOtherShip } from "./collisions"
 import { launchProjectile } from "./projectile"
-import { Directive, GameState, Order } from "./types"
+import { Collison, Directive, GameState, Order } from "./types"
 
 export type Ship = {
     x: number,
@@ -19,10 +20,26 @@ export type Ship = {
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
 
-export const updateShip = (ship: Ship) => {
+export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const forward = getXYVector(ship.sailLevel, ship.h)
-    ship.x = ship.x += forward.x
-    ship.y = ship.y += forward.y
+    // TO DO - need to do turning here and pass the change to the willShipHitOtherShip
+    // function
+
+    let hitAShip = false
+    const otherShips = game.ships.filter(shipInList => shipInList !== ship)
+
+    otherShips.forEach(otherShip => {
+        if (willShipHitOtherShip(ship, forward, otherShip)) {
+            collisions.push({ bodies: [ship, otherShip] })
+            hitAShip = true
+        }
+    })
+
+    if (!hitAShip) {
+        ship.x = ship.x += forward.x
+        ship.y = ship.y += forward.y
+    }
+
     if (ship.sailLevel !== ship.sailLevelTarget) {
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
         ship.sailLevel = ship.sailLevel + change
@@ -34,6 +51,8 @@ export const updateShip = (ship: Ship) => {
 
 export const followDirectives = (ship: Ship, directives: Directive[], game: GameState, pushLog: { (newLog: string): void }) => {
     directives.forEach(directive => {
+        // TO DO - steering can't turn directly - need to set intent,
+        // resolve in the update function with collision detection
         switch (directive.order) {
             case Order.LEFT: ship.h = ship.h + Math.PI * .025; break
             case Order.RIGHT: ship.h = ship.h - Math.PI * .025; break
@@ -50,6 +69,9 @@ export const followDirectives = (ship: Ship, directives: Directive[], game: Game
             }
             case Order.FIRE: {
                 const { quantity = 0 } = directive
+                // TO DO - the actual firing can be donw in the main cycle functiom
+                // add an 'intends to fire' flag to the ship instead?
+                // then this function doesn't need game - only modifies the ship
                 const fired = launchFromShip(Math.PI * quantity, ship, game)
                 pushLog(fired ? 'fired!' : `not loaded: ${ship.cannonsCooldown}`)
                 break

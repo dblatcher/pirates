@@ -20,6 +20,10 @@ export type ViewPort = {
     height: number,
 }
 
+export type Collison = {
+    bodies: [Ship, Ship]
+}
+
 export enum Order {
     LEFT,
     RIGHT,
