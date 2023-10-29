@@ -23,7 +23,7 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
             }
             case Order.FIRE: {
                 const { side } = directive;
-                if (side) {
+                if (typeof side !== undefined) {
                     const cannon = ship.cannons.find(cannon => cannon.side === side)
                     if (cannon) { cannon.firing = true }
                 }

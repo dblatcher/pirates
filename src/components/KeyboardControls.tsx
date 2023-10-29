@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Directive, Order } from "../game-state/types"
+import { Directive, Order, Side } from "../game-state/types"
 
 interface Props {
     paused: boolean
@@ -11,8 +11,8 @@ const keyCommands: Record<string, Directive | undefined> = {
     'ArrowRight': { order: Order.RIGHT },
     'ArrowUp': { order: Order.SAILS_BY, quantity: .1 },
     'ArrowDown': { order: Order.SAILS_BY, quantity: -.1 },
-    'KeyA': { order: Order.FIRE, side: 'LEFT' },
-    'KeyD': { order: Order.FIRE, side: 'RIGHT' },
+    'KeyA': { order: Order.FIRE, side: Side.LEFT },
+    'KeyD': { order: Order.FIRE, side: Side.RIGHT },
 }
 
 export const KeyboardControls = ({ paused, addDirective }: Props) => {

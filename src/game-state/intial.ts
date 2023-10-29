@@ -1,5 +1,5 @@
 import { EffectType } from "./effect";
-import { GameState } from "./types";
+import { GameState, Side } from "./types";
 
 export const initalState: GameState = {
     cycleNumber: 0,
@@ -14,8 +14,8 @@ export const initalState: GameState = {
             sailLevel: 0,
             sailLevelTarget: 0,
             cannons: [
-                { side: 'LEFT', cooldown: 0 },
-                { side: 'RIGHT', cooldown: 0 },
+                { side: Side.LEFT, cooldown: 0 },
+                { side: Side.RIGHT, cooldown: 0 },
             ],
         },
         {

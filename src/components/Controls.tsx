@@ -1,4 +1,4 @@
-import { Directive, Order } from "../game-state/types";
+import { Directive, Order, Side } from "../game-state/types";
 
 interface Props {
     addDirective: { (directive: Directive): void }
@@ -22,7 +22,7 @@ export const Controls = ({ addDirective, paused }: Props) => {
     const sailsTo = (quantity: number) => () => {
         addUnlessPaused({ order: Order.SAILS_TO, quantity })
     }
-    const fireTo = (side: 'LEFT' | 'RIGHT') => () => {
+    const fireTo = (side: Side) => () => {
         addUnlessPaused({ order: Order.FIRE, side })
     }
 
@@ -32,7 +32,7 @@ export const Controls = ({ addDirective, paused }: Props) => {
         <button onClick={sailsTo(0)}>sails down</button>
         <button onClick={sailsTo(.5)}>half sails</button>
         <button onClick={sailsTo(1)}>full sails</button>
-        <button onClick={fireTo('RIGHT')}>FIRE</button>
-        <button onClick={fireTo('LEFT')}>FIRE</button>
+        <button onClick={fireTo(Side.RIGHT)}>FIRE</button>
+        <button onClick={fireTo(Side.LEFT)}>FIRE</button>
     </div>
 }

@@ -1,20 +1,17 @@
-import { Ship } from "./types"
+import { Cannon, Ship } from "./types"
 import { translate, getXYVector, _90_DEG_LEFT, _90_DEG_RIGHT } from "../../lib/geometry"
 import { launchProjectile } from "../projectile"
-import { GameState } from "../types"
+import { GameState, Side } from "../types"
 
-export const launchFromShip = (side: 'LEFT' | 'RIGHT', ship: Ship, game: GameState): boolean => {
-    const cannon = ship.cannons.find(cannon => cannon.side == side)
-    if (!cannon) {
-        return false
-    }
 
+export const launchFromShip = (cannon:Cannon, ship: Ship, game: GameState): boolean => {
     if (cannon.cooldown > 0) {
         cannon.firing = false
         return false
     }
 
-    const hh = side === 'LEFT' ? _90_DEG_LEFT : _90_DEG_RIGHT
+    console.log(cannon.side)
+    const hh = cannon.side === Side.LEFT ? _90_DEG_LEFT : _90_DEG_RIGHT
     const directionOfFire = ship.h + hh
 
     const getStartAt = (distanceFromBroadsideCenter: number) => {

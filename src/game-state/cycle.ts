@@ -10,7 +10,7 @@ const fireCannons = (game: GameState) => {
     game.ships.forEach(ship => {
         ship.cannons.forEach(cannon => {
             if (cannon.firing) {
-                launchFromShip(cannon.side, ship, game)
+                launchFromShip(cannon, ship, game)
             }
         })
     })

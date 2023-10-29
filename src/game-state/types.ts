@@ -35,8 +35,12 @@ export enum Order {
     SAILS_BY,
 }
 
+export enum Side {
+    LEFT,RIGHT
+}
+
 export type Directive = {
     order: Order,
     quantity?: number,
-    side?: 'LEFT' | 'RIGHT'
+    side?: Side
 }
