@@ -1,22 +1,34 @@
-import { getProjectilesNextPosition } from "../game-state/projectile";
 import { getCollisionCircles } from "../game-state/ship";
 import { Projectile, Ship } from "../game-state/types";
 import { getDistance } from "./geometry";
 
 
+const isWithinBoundingRect = (projectile: Projectile, ship: Ship): boolean => {
+    // assumption - ship is never wider than it is long
+    // 6 is twice the current projectile speed
+    const zoneSize = 6 + ship.length / 2
+    const top = ship.y - zoneSize;
+    const bottom = ship.y + zoneSize;
+    const left = ship.x - zoneSize;
+    const right = ship.x + zoneSize;
+
+    return !(
+        projectile.y < top ||
+        projectile.y > bottom ||
+        projectile.x < left ||
+        projectile.x > right
+    )
+}
+
 export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boolean => {
-
-    // TO DO - check if outside bounding collision rectile for the ship 
-    // to avoid more expensive checks
-
+    if (!isWithinBoundingRect(projectile, ship)) {
+        return false
+    }
     const circles = getCollisionCircles(ship)
     if (circles.some(circle => getDistance(projectile, circle) < circle.r)) {
         return true
     }
-    // ONLY NEED TO NO THIS IF porjectiles can move fast enought to go right through a ship
-    // in one cycle
-    // TO DO - test if the next position will collide
-    // TO DO - test if the project position after moving is 
-    // on the other side of the ship - IE passed through
+    // IF projectiles never move fast enought to pass through a ship in one cycle, don't
+    // need to check it they passed right through
     return false
 }
