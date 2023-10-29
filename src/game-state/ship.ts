@@ -15,6 +15,8 @@ export type Ship = {
     name?: string,
     // to do - model multiple cannons!
     cannonsCooldown: number,
+    firingLeft?: boolean,
+    firingRight?: boolean,
 }
 
 // TO DO - vary by ship and crew
@@ -49,7 +51,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
     }
 }
 
-export const followDirectives = (ship: Ship, directives: Directive[], game: GameState, pushLog: { (newLog: string): void }) => {
+export const followDirectives = (ship: Ship, directives: Directive[]) => {
     directives.forEach(directive => {
         // TO DO - steering can't turn directly - need to set intent,
         // resolve in the update function with collision detection
@@ -69,16 +71,15 @@ export const followDirectives = (ship: Ship, directives: Directive[], game: Game
             }
             case Order.FIRE: {
                 const { quantity = 0 } = directive
-                // TO DO - the actual firing can be donw in the main cycle functiom
-                // add an 'intends to fire' flag to the ship instead?
-                // then this function doesn't need game - only modifies the ship
-                const fired = launchFromShip(Math.PI * quantity, ship, game)
-                pushLog(fired ? 'fired!' : `not loaded: ${ship.cannonsCooldown}`)
+                if (quantity > 0) {
+                    ship.firingRight = true
+                } else {
+                    ship.firingLeft = true
+                }
                 break
             }
         }
     })
-    return game
 }
 
 export const getCollisionCircles = (ship: Ship): Array<XY & { r: number }> => {
