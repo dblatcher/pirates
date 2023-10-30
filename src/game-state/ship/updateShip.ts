@@ -1,29 +1,50 @@
-import { getXYVector } from "../../lib/geometry"
+import { getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { Collison, GameState } from "../types"
+import { getBoundingRect, getCollisionCircles } from "./collision-shapes"
 import { Ship } from "./types"
 
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
 
+const SHIP_TURN_RATE = Math.PI * 0.1
+
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
+    const otherShipsNearby = game.ships
+        .filter(shipInList => shipInList !== ship)
+        .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
+
+
+    let hitAnotherShipFromGoingForward = false
     const forward = getXYVector(ship.sailLevel, ship.h)
-    // TO DO - need to do turning here and pass the change to the willShipHitOtherShip
-    // function
+    const shipCirclesAfterGoForward = getCollisionCircles({ ...ship, x: ship.x + forward.x, y: ship.y + forward.y })
 
-    let hitAShip = false
-    const otherShips = game.ships.filter(shipInList => shipInList !== ship)
-
-    otherShips.forEach(otherShip => {
-        if (willShipHitOtherShip(ship, forward, otherShip)) {
+    otherShipsNearby.forEach(otherShip => {
+        if (willShipHitOtherShip(shipCirclesAfterGoForward, otherShip)) {
             collisions.push({ ship, obstacle: otherShip, vector: forward })
-            hitAShip = true
+            hitAnotherShipFromGoingForward = true
         }
     })
 
-    if (!hitAShip) {
+    if (!hitAnotherShipFromGoingForward) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
+    }
+
+
+    const newHeading = ship.h + SHIP_TURN_RATE * ship.wheel
+    const shipCirclesAfterTurning = getCollisionCircles({ ...ship, h: newHeading })
+    let hitAnotherShipFromTurning = false
+    otherShipsNearby.forEach(otherShip => {
+        if (willShipHitOtherShip(shipCirclesAfterTurning, otherShip)) {
+            // collisions.push({ ship, obstacle: otherShip, vector: forward })
+            hitAnotherShipFromTurning = true
+        }
+    })
+
+
+    if (!hitAnotherShipFromTurning) {
+        ship.h = newHeading
     }
 
     if (ship.sailLevel !== ship.sailLevelTarget) {

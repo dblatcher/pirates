@@ -1,4 +1,4 @@
-import { doCircleIntersect, getDistance, isPointInsideRect, translate, XY } from "../lib/geometry";
+import { Circle, doCircleIntersect, getDistance, isPointInsideRect, translate, XY } from "../lib/geometry";
 import { getBoundingRect, getCollisionCircles, Ship } from "./ship";
 import { Projectile } from "./types";
 
@@ -17,17 +17,7 @@ export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boole
     return false
 }
 
-// TO DO - allow for could turn, but not go forward and vice-versa
-export const willShipHitOtherShip = (ship: Ship, forward: XY, otherShip: Ship): boolean => {
-    if (!isPointInsideRect(ship, getBoundingRect(otherShip, ship.length + 2))) {
-        return false
-    }
-
-    // TO DO - allow for turning!
-    // TO DO - running the map on every iteration - do once and make it an argument
-    const shipCircles = getCollisionCircles(ship)
-    const shipCirclesAfterMove = shipCircles.map(c => ({ ...translate(c, forward), r: c.r }))
-
+export const willShipHitOtherShip = ( shipCirclesAfterMove: Circle[], otherShip: Ship): boolean => {
     const otherShipCircles = getCollisionCircles(otherShip)
     return shipCirclesAfterMove.some(
         shipCircle => otherShipCircles.some(

@@ -12,6 +12,7 @@ export const initalState: GameState = {
             width: 20,
             length: 80,
             sailLevel: 0,
+            wheel: 0,
             sailLevelTarget: 0,
             cannons: [
                 { side: Side.LEFT, cooldown: 0 },
@@ -26,6 +27,7 @@ export const initalState: GameState = {
             width: 15,
             length: 60,
             sailLevel: 0.5,
+            wheel: 0,
             sailLevelTarget: 0,
             cannons: [],
         },
@@ -37,6 +39,7 @@ export const initalState: GameState = {
             width: 30,
             length: 120,
             sailLevel: 0,
+            wheel: 0,
             sailLevelTarget: 0,
             cannons: []
         },

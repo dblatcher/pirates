@@ -4,12 +4,19 @@ import { Ship } from "./types";
 
 
 export const followDirectives = (ship: Ship, directives: Directive[]) => {
+
+    ship.wheel = 0
+
     directives.forEach(directive => {
         // TO DO - steering can't turn directly - need to set intent,
         // resolve in the update function with collision detection
         switch (directive.order) {
-            case Order.LEFT: ship.h = ship.h + Math.PI * 0.025; break;
-            case Order.RIGHT: ship.h = ship.h - Math.PI * 0.025; break;
+            case Order.LEFT:
+                ship.wheel = .25
+                break;
+            case Order.RIGHT:
+                ship.wheel = -.25
+                break;
             case Order.SAILS_TO: {
                 const { quantity = 0 } = directive;
                 ship.sailLevelTarget = clamp(quantity);

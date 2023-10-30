@@ -1,3 +1,4 @@
+import { getHeading, getXYVector } from "../lib/geometry";
 import { splitArray } from "../lib/util";
 import { willProjectileHitShip } from "./collisions";
 import { createImpact, createSplash, updateEffect } from "./effect";
@@ -37,6 +38,10 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
     game.projectiles = projectilesInAir
 }
 
+// const handleShipCollison = (collision:Collison) => {
+//     const {ship,vector, obstacle} = collision
+// } 
+
 export const cycle = (
     gameState: GameState,
     directives: Directive[],
@@ -64,8 +69,9 @@ export const cycle = (
 
     handleProjectileHitsAndLandings(game, pushLog)
 
-
     // TO DO - handle collisions
+    // collisons.forEach(handleShipCollison)
+
 
     fireCannons(game)
 

@@ -14,6 +14,7 @@ export type Ship = {
     length: number,
     sailLevel: number,
     sailLevelTarget: number,
+    wheel: number,
     name?: string,
     // to do - model multiple cannons per side!
     cannons: Cannon[]

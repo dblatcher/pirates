@@ -7,6 +7,18 @@ function getVectorY(magnitude: number, direction: number) { return magnitude * M
 
 export function getXYVector(magnitude: number, direction: number): XY { return { x: getVectorX(magnitude, direction), y: getVectorY(magnitude, direction) } }
 
+export const getHeading = (vector: XY): number => {
+    const { x, y } = vector
+    if (x == 0 && y == 0) { return 0; }
+    if (y == 0 && x != 0) {
+        return x < 0 ? Math.PI * 1.5 : Math.PI * 0.5;
+    }
+    if (x == 0 && y != 0) {
+        return y > 0 ? 0 : Math.PI * 1;
+    }
+    return (y > 0) ? Math.atan(x / y) : Math.PI + Math.atan(x / y)
+}
+
 export const translate = (position: XY, vector: XY): XY => ({
     x: position.x + vector.x,
     y: position.y + vector.y,

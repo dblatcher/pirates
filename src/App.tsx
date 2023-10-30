@@ -9,6 +9,7 @@ import { cycle } from './game-state/cycle'
 import { initalState } from './game-state/intial'
 import { KeyboardControls } from './components/KeyboardControls'
 import { ShipsLog } from './components/ShipsLog'
+import { ShipDashBoard } from './components/ShipDashboard'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -43,7 +44,7 @@ function App() {
   }
 
   useInterval(refresh, paused ? null : 10)
-
+  const [player] = game.ships
   return (
     <div style={{ display: 'flex' }}>
       <main>
@@ -54,6 +55,10 @@ function App() {
 
       <aside>
         <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
+        {player && (
+          <ShipDashBoard ship={player} />
+
+        )}
         <ShipsLog entries={log} />
       </aside>
       <KeyboardControls
