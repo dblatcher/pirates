@@ -4,14 +4,13 @@ import { getXYVector, translate } from "../lib/geometry";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 
-export const drawShip = (ctx: CanvasRenderingContext2D, drawMethods:OffsetDrawMethods, ship: Ship) => {
-    const { x, y, h, width, length, sailLevel } = ship
+export const drawShipBase = (ctx: CanvasRenderingContext2D, drawMethods: OffsetDrawMethods, ship: Ship) => {
+    const { x, y, h, width, length } = ship
     const { arc, lineTo, moveTo } = drawMethods
     const fore = translate(getXYVector((length) / 2, h), { x, y })
     const back = translate(getXYVector(-length / 2, h), { x, y })
     const foreCircle = translate(getXYVector((length - width) / 2, h), { x, y })
     const backCircle = translate(getXYVector(-(length - width) / 2, h), { x, y })
-    const mastTop = translate({ x, y }, { x: 25, y: -25 })
 
     const collisionCircles = getCollisionCircles(ship)
 
@@ -42,6 +41,12 @@ export const drawShip = (ctx: CanvasRenderingContext2D, drawMethods:OffsetDrawMe
     moveTo(back.x, back.y)
     lineTo(fore.x, fore.y)
     ctx.stroke();
+}
+
+export const drawShipMast = (ctx: CanvasRenderingContext2D, drawMethods: OffsetDrawMethods, ship: Ship) => {
+    const { x, y, sailLevel } = ship
+    const { lineTo, moveTo } = drawMethods
+    const mastTop = translate({ x, y }, { x: 25, y: -25 })
 
     ctx.beginPath()
     ctx.strokeStyle = 'black'
