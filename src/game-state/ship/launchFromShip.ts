@@ -4,14 +4,13 @@ import { launchProjectile } from "../projectile"
 import { GameState, Side } from "../types"
 
 
-export const launchFromShip = (cannon:Cannon, ship: Ship, game: GameState): boolean => {
+export const launchFromShip = (cannon: Cannon, ship: Ship, game: GameState): boolean => {
     if (cannon.cooldown > 0) {
         cannon.firing = false
         return false
     }
 
-    console.log(cannon.side)
-    const hh = cannon.side === Side.LEFT ? _90_DEG_LEFT : _90_DEG_RIGHT
+    const hh = (cannon.side === Side.LEFT) ? _90_DEG_LEFT : _90_DEG_RIGHT
     const directionOfFire = ship.h + hh
 
     const getStartAt = (distanceFromBroadsideCenter: number) => {
