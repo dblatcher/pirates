@@ -14,7 +14,7 @@ export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
     }
 }
 
-//TO DO - take an array of masses to filter
+
 export const isInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
     const landAndAreaAround = getBoundingRect(landmass, 20)
     const viewPortRect: Rect = {
@@ -24,4 +24,17 @@ export const isInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
         bottom: viewPort.y + viewPort.height
     }
     return doRectsIntersect(viewPortRect, landAndAreaAround)
+}
+
+export const areInView = (landmasses: Landmass[], viewPort: ViewPort): Landmass[] => {
+    const viewPortRect: Rect = {
+        left: viewPort.x,
+        top: viewPort.y,
+        right: viewPort.x + viewPort.width,
+        bottom: viewPort.y + viewPort.height
+    }
+
+    return landmasses.filter(landmass =>
+        doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
+    )
 }
