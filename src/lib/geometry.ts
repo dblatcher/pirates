@@ -31,11 +31,22 @@ export const getDistance = (p1: XY, p2: XY): number => {
 export const isPointInsideRect = (point: XY, rect: Rect): boolean => {
     const { top, left, bottom, right } = rect
     return !(
-        point.y < top ||
-        point.y > bottom ||
-        point.x < left ||
-        point.x > right
+        point.y <= top ||
+        point.y >= bottom ||
+        point.x <= left ||
+        point.x >= right
     )
+}
+
+export const doRectsIntersect = (r1: Rect, r2: Rect): boolean => {
+    return isPointInsideRect({ x: r1.left, y: r1.top }, r2) ||
+        isPointInsideRect({ x: r1.left, y: r1.bottom }, r2) ||
+        isPointInsideRect({ x: r1.right, y: r1.top }, r2) ||
+        isPointInsideRect({ x: r1.right, y: r1.bottom }, r2) ||
+        isPointInsideRect({ x: r2.left, y: r2.top }, r1) ||
+        isPointInsideRect({ x: r2.left, y: r2.bottom }, r1) ||
+        isPointInsideRect({ x: r2.right, y: r2.top }, r1) ||
+        isPointInsideRect({ x: r2.right, y: r2.bottom }, r1)
 }
 
 export const doCircleIntersect = (c1: Circle, c2: Circle): boolean => {
