@@ -1,4 +1,5 @@
 import { EffectType } from "./effect";
+import { TerrainType } from "./land";
 import { GameState, Side } from "./types";
 
 export const initalState: GameState = {
@@ -52,6 +53,18 @@ export const initalState: GameState = {
             y: 100,
             radius: 1,
             timeLeft: 50
+        }
+    ],
+    land: [
+        {
+            x: 100,
+            y: 100,
+            shape: [
+                [TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
+                [TerrainType.DESERT],
+                [TerrainType.DESERT],
+                [TerrainType.DESERT],
+            ]
         }
     ]
 }

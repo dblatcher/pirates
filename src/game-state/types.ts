@@ -1,5 +1,6 @@
 import { XY } from '../lib/geometry'
 import { Effect } from './effect'
+import { Landmass } from './land'
 import type { Projectile } from './projectile'
 import type { Ship } from './ship'
 
@@ -12,6 +13,7 @@ export type GameState = {
     projectiles: Projectile[],
     effects: Effect[],
     cycleNumber: number
+    land: Landmass[]
 }
 
 export type ViewPort = {
@@ -36,7 +38,7 @@ export enum Order {
 }
 
 export enum Side {
-    LEFT,RIGHT
+    LEFT, RIGHT
 }
 
 export type Directive = {
