@@ -13,14 +13,18 @@ export const drawShipBase = (
 ) => {
     const { h, width, length } = ship
     const { arc, lineTo, moveTo } = drawMethods
-    const fore = translate(getXYVector((length) / 2, h), ship)
-    const back = translate(getXYVector(-length / 2, h), ship)
 
-    const foreBack = translate(fore, getXYVector(width / 2, h + _90_DEG_LEFT + _90_DEG_LEFT))
-    const foreLeft = translate(foreBack, getXYVector(width / 2, h + _90_DEG_LEFT))
-    const foreRight = translate(foreBack, getXYVector(width / 2, h + _90_DEG_RIGHT))
-    const backLeft = translate(back, getXYVector(width / 2, h + _90_DEG_LEFT))
-    const backRight = translate(back, getXYVector(width / 2, h + _90_DEG_RIGHT))
+    const r = h + _90_DEG_RIGHT
+    const l = h + _90_DEG_LEFT
+
+    const fore = translate(getXYVector((length) / 2, h), ship)
+    const foreBack = translate(fore, getXYVector(-width / 2, h))
+    const foreLeft = translate(foreBack, getXYVector(width / 2, l))
+    const foreRight = translate(foreBack, getXYVector(width / 2, r))
+
+    const back = translate(ship, getXYVector(-(length / 2 - width / 2), h))
+    const backLeft = translate(back, getXYVector(width / 2, l))
+    const backRight = translate(back, getXYVector(width / 2, r))
 
     ctx.beginPath()
     ctx.fillStyle = 'brown'
@@ -29,6 +33,8 @@ export const drawShipBase = (
     moveTo(...s(fore))
     lineTo(...s(foreLeft))
     lineTo(...s(backLeft))
+    // moveTo(...s(back))
+
     lineTo(...s(backRight))
     lineTo(...s(foreRight))
     lineTo(...s(fore))
@@ -36,6 +42,11 @@ export const drawShipBase = (
     if (!showCollision) {
         ctx.fill()
     }
+
+    ctx.beginPath()
+    arc(...s(back), width / 2, 0, Math.PI * 2)
+    ctx.fill()
+
     if (showCollision) {
         const collisionCircles = getCollisionCircles(ship)
         collisionCircles.forEach(circle => {
