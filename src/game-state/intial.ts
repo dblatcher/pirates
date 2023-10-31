@@ -60,11 +60,23 @@ export const initalState: GameState = {
             x: 100,
             y: 100,
             shape: [
+                [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN],
                 [TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
-                [TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.PLAIN],
                 [TerrainType.DESERT],
                 [TerrainType.DESERT],
             ]
-        }
+        },
+        {
+            x: 150,
+            y: 300,
+            shape: [
+                [TerrainType.DESERT, TerrainType.DESERT],
+                [TerrainType.DESERT],
+                [TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.DESERT],
+            ]
+        },
     ]
 }
