@@ -1,5 +1,6 @@
-import { getXYVector, isPointInsideRect } from "../../lib/geometry"
+import { getXYVector, isPointInsideRect, translate } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
+import { isLandAt } from "../land"
 import { Collison, GameState } from "../types"
 import { getBoundingRect, getCollisionCircles } from "./collision-shapes"
 import { Ship } from "./types"
@@ -9,16 +10,19 @@ const SAIL_CHANGE_RATE = .01
 
 const SHIP_TURN_RATE = Math.PI * 0.1
 
+const getProwPosition = (ship: Ship) => translate(ship, getXYVector(ship.length / 2, ship.h))
+
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const otherShipsNearby = game.ships
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
 
+    const forward = getXYVector(ship.sailLevel, ship.h)
+    const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
+    const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
+    const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
 
     let hitAnotherShipFromGoingForward = false
-    const forward = getXYVector(ship.sailLevel, ship.h)
-    const shipCirclesAfterGoForward = getCollisionCircles({ ...ship, x: ship.x + forward.x, y: ship.y + forward.y })
-
     otherShipsNearby.forEach(otherShip => {
         if (willShipHitOtherShip(shipCirclesAfterGoForward, otherShip)) {
             collisions.push({ ship, obstacle: otherShip, vector: forward })
@@ -26,11 +30,12 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         }
     })
 
-    if (!hitAnotherShipFromGoingForward) {
+    const runsAgroundFromGoingForward = isLandAt(prowAfterGoForward,game.land)
+
+    if (!hitAnotherShipFromGoingForward && !runsAgroundFromGoingForward) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
     }
-
 
     const newHeading = ship.h + SHIP_TURN_RATE * ship.wheel
     const shipCirclesAfterTurning = getCollisionCircles({ ...ship, h: newHeading })
