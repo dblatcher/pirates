@@ -1,7 +1,9 @@
-import { getHeading, getXYVector } from "../lib/geometry";
+import { getHeading, getXYVector, isPointInsideRect } from "../lib/geometry";
 import { splitArray } from "../lib/util";
 import { willProjectileHitShip } from "./collisions";
 import { createImpact, createSplash, updateEffect } from "./effect";
+import { viewPortToRect } from "./helpers";
+import { getLandInView, isLandAt } from "./land";
 import { Projectile, updateProjectile } from "./projectile";
 import { followDirectives, launchFromShip, updateShip } from "./ship";
 import { Collison, Directive, GameState } from "./types";
@@ -32,8 +34,14 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
 
     const projectilesThatDidNotHitAnyThing = game.projectiles.filter(projectile => !projectilesThatHitSomething.includes(projectile))
     const [projectilesInAir, projectilesLanded] = splitArray(projectilesThatDidNotHitAnyThing, projectile => projectile.z > 0)
+    
+    // TO DO - if they land offscreen, don't bother with the effect
     projectilesLanded.forEach(projectile => {
-        createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
+        if (isLandAt(projectile, game.land)) {
+            createImpact({ x: projectile.x, y: projectile.y, timeLeft: 50, }, game)
+        } else {
+            createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
+        }
     })
     game.projectiles = projectilesInAir
 }

@@ -34,7 +34,7 @@ export const initalState: GameState = {
         },
         {
             name: 'The Dead Duck',
-            x: 200,
+            x: 300,
             y: 300,
             h: Math.PI * 1.4,
             width: 30,

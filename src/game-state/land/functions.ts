@@ -1,6 +1,7 @@
 import { Landmass, TERRAIN_SQUARE_SIZE } from "./model";
-import { Rect, doRectsIntersect } from "../../lib/geometry";
+import { Rect, XY, doRectsIntersect, isPointInsideRect } from "../../lib/geometry";
 import { ViewPort } from "../types";
+import { viewPortToRect } from "../helpers";
 
 
 export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
@@ -15,26 +16,30 @@ export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
 }
 
 
-export const isInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
-    const landAndAreaAround = getBoundingRect(landmass, 20)
-    const viewPortRect: Rect = {
-        left: viewPort.x,
-        top: viewPort.y,
-        right: viewPort.x + viewPort.width,
-        bottom: viewPort.y + viewPort.height
-    }
-    return doRectsIntersect(viewPortRect, landAndAreaAround)
+export const isLandInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
+    const viewPortRect= viewPortToRect(viewPort)
+    return doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
 }
 
-export const areInView = (landmasses: Landmass[], viewPort: ViewPort): Landmass[] => {
-    const viewPortRect: Rect = {
-        left: viewPort.x,
-        top: viewPort.y,
-        right: viewPort.x + viewPort.width,
-        bottom: viewPort.y + viewPort.height
-    }
-
+export const getLandInView = (landmasses: Landmass[], viewPort: ViewPort): Landmass[] => {
+    const viewPortRect= viewPortToRect(viewPort)
     return landmasses.filter(landmass =>
         doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
     )
+}
+
+export const isLandAt = (point: XY, land: Landmass[]): boolean => {
+
+    const landToTest = land.filter(landmass => isPointInsideRect(point, getBoundingRect(landmass)))
+
+    return landToTest.some(landmass => {
+        const sqx = Math.floor((point.x - landmass.x)/TERRAIN_SQUARE_SIZE)
+        const sqy = Math.floor((point.y - landmass.y)/TERRAIN_SQUARE_SIZE)
+        const row = landmass.shape[sqy]
+        if (!row) {
+            return false
+        }
+        const square = row[sqx]
+        return typeof square !== 'undefined'
+    })
 }

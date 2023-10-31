@@ -1,4 +1,4 @@
-import { Landmass, isInView, TERRAIN_SQUARE_SIZE, TerrainType, areInView } from "../game-state/land";
+import { Landmass, TERRAIN_SQUARE_SIZE, TerrainType, getLandInView } from "../game-state/land";
 import { ViewPort } from "../game-state/types";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
@@ -20,7 +20,7 @@ const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
 
 export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[]) {
 
-    const landInView = areInView(land, viewPort)
+    const landInView = getLandInView(land, viewPort)
 
     landInView.forEach(landmass => {
         landmass.shape.forEach((row, rowIndex) => {
