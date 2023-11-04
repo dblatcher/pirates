@@ -1,8 +1,8 @@
-import { getXYVector, isPointInsideRect, translate } from "../../lib/geometry"
+import { getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, GameState } from "../types"
-import { getBoundingRect, getCollisionCircles } from "./collision-shapes"
+import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "./types"
 
 // TO DO - vary by ship and crew
@@ -10,7 +10,6 @@ const SAIL_CHANGE_RATE = .01
 
 const SHIP_TURN_RATE = Math.PI * 0.1
 
-const getProwPosition = (ship: Ship) => translate(ship, getXYVector(ship.length / 2, ship.h))
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const otherShipsNearby = game.ships
