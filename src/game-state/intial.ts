@@ -1,4 +1,5 @@
 import { BasicAutoPilot } from "../ai/basic-ai";
+import { PathFollowAutoPilot } from "../ai/path-follow-ai";
 import { TerrainType } from "./land";
 import { GameState, Side } from "./types";
 
@@ -33,7 +34,20 @@ export const initalState: GameState = {
             sailLevelTarget: 0,
             cannons: [],
             id: 2,
-            ai: new BasicAutoPilot({ mission: { type: 'turn', } }, 2),
+            // ai: new BasicAutoPilot({ mission: { type: 'turn', } }, 2),
+            ai: new PathFollowAutoPilot(
+                {
+                    mission: {
+                        type: 'travel'
+                    },
+                    path: [
+                        {x:350,y:40},
+                        {x:300,y:0},
+                        {x:300,y:300},
+                        {x:500,y:300},
+                        {x:0,y:0},
+                    ]
+                }, 2),
         },
         {
             name: 'The Dead Duck',
