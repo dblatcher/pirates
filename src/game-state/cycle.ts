@@ -1,9 +1,7 @@
-import { getHeading, getXYVector, isPointInsideRect } from "../lib/geometry";
 import { splitArray } from "../lib/util";
 import { willProjectileHitShip } from "./collisions";
 import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
-import { viewPortToRect } from "./helpers";
-import { getLandInView, isLandAt } from "./land";
+import { isLandAt } from "./land";
 import { Projectile, updateProjectile } from "./projectile";
 import { followDirectives, launchFromShip, updateShip } from "./ship";
 import { Collison, Directive, GameState } from "./types";
@@ -62,6 +60,13 @@ export const cycle = (
     if (player) {
         followDirectives(player, directives)
     }
+
+    game.ships.forEach(ship => {
+        if (!ship.ai) {
+            return
+        }
+        followDirectives(ship, ship.ai.issueDirectives(game))
+    })
 
     const collisons: Collison[] = []
     game.ships.forEach(ship => {

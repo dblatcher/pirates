@@ -1,17 +1,10 @@
 import { Directive, GameState } from "../game-state/types";
 import { XY } from "../lib/geometry";
+import { AIState } from "./types";
 
-type Mission {
-    type: string
-}
 
-type AIState = {
-    mission: Mission;
-    destination?: XY;
-    path?: XY[];
-}
 
-export abstract class AutoCaptain {
+export abstract class AI {
     shipId: number;
     state: AIState;
 

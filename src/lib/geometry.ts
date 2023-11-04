@@ -2,6 +2,11 @@ export type XY = { x: number, y: number }
 export type Circle = { x: number, y: number, r: number }
 export type Rect = { top: number, left: number, bottom: number, right: number }
 
+export const _90_DEG_LEFT = Math.PI * .5
+export const _90_DEG_RIGHT = Math.PI * -.5
+export const _360_DEG = Math.PI*2
+export const _DEG = Math.PI/180
+
 function getVectorX(magnitude: number, direction: number) { return magnitude * Math.sin(direction) }
 function getVectorY(magnitude: number, direction: number) { return magnitude * Math.cos(direction) }
 
@@ -17,6 +22,12 @@ export const getHeading = (vector: XY): number => {
         return y > 0 ? 0 : Math.PI * 1;
     }
     return (y > 0) ? Math.atan(x / y) : Math.PI + Math.atan(x / y)
+}
+
+
+export const normaliseHeading = (h: number): number => {
+    const hr = h % (_360_DEG)
+    return hr > 0 ? hr : (_360_DEG) + hr
 }
 
 export const translate = (position: XY, vector: XY): XY => ({
@@ -53,5 +64,3 @@ export const doCircleIntersect = (c1: Circle, c2: Circle): boolean => {
     return getDistance(c1, c2) < c1.r + c2.r
 }
 
-export const _90_DEG_LEFT = Math.PI * .5
-export const _90_DEG_RIGHT = Math.PI * -.5

@@ -1,3 +1,4 @@
+import type { AI } from "../../ai"
 import { Side } from "../types"
 
 export type Cannon = {
@@ -7,6 +8,7 @@ export type Cannon = {
 }
 
 export type Ship = {
+    id: number,
     x: number,
     y: number,
     h: number,
@@ -18,4 +20,5 @@ export type Ship = {
     name?: string,
     // to do - model multiple cannons per side!
     cannons: Cannon[]
+    ai?: AI
 }

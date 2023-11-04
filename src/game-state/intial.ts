@@ -1,4 +1,4 @@
-import { EffectType } from "./effect";
+import { AutoPilot } from "../ai/basic-ai";
 import { TerrainType } from "./land";
 import { GameState, Side } from "./types";
 
@@ -19,11 +19,12 @@ export const initalState: GameState = {
                 { side: Side.LEFT, cooldown: 0 },
                 { side: Side.RIGHT, cooldown: 0 },
             ],
+            id: 1,
         },
         {
             name: 'The Flying Goose',
-            x: 100,
-            y: 100,
+            x: 150,
+            y: 50,
             h: Math.PI * .5,
             width: 15,
             length: 60,
@@ -31,6 +32,8 @@ export const initalState: GameState = {
             wheel: 0,
             sailLevelTarget: 0,
             cannons: [],
+            id: 2,
+            ai: new AutoPilot({ mission: { type: 'turn', } }, 2),
         },
         {
             name: 'The Dead Duck',
@@ -42,19 +45,12 @@ export const initalState: GameState = {
             sailLevel: 0,
             wheel: 0,
             sailLevelTarget: 0,
-            cannons: []
+            cannons: [],
+            id: 3,
         },
     ],
     projectiles: [],
-    effects: [
-        {
-            type: EffectType.SPLASH,
-            x: 100,
-            y: 100,
-            radius: 1,
-            timeLeft: 50
-        }
-    ],
+    effects: [],
     land: [
         {
             x: 100,
