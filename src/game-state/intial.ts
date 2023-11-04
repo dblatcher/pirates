@@ -79,7 +79,7 @@ export const initalState: GameState = {
         },
         {
             x: 150,
-            y: 300,
+            y: 400,
             shape: [
                 [TerrainType.DESERT, TerrainType.DESERT],
                 [TerrainType.DESERT],

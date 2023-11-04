@@ -1,6 +1,6 @@
 
 
-export const TERRAIN_SQUARE_SIZE = 30
+export const TERRAIN_SQUARE_SIZE = 50
 
 export enum TerrainType {
     PLAIN,
