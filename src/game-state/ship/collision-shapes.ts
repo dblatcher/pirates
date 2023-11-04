@@ -1,8 +1,7 @@
-import { getXYVector, Rect, translate, XY } from "../../lib/geometry";
+import { getXYVector, Rect, translate, Circle } from "../../lib/geometry";
 import { Ship } from "./types";
 
-
-export const getCollisionCircles = (ship: Ship): Array<XY & { r: number; }> => {
+export const getCollisionCircles = (ship: Ship): Circle[] => {
     const { x, y, width, h, length } = ship;
     const r = width / 2;
     const pointAlongMiddleAt = (distanceFromCentre: number) => translate(getXYVector((length - width) * distanceFromCentre, h), { x, y });
