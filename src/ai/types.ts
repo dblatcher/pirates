@@ -1,6 +1,6 @@
 import { XY } from "../lib/geometry";
 
-export type Mission {
+export type Mission = {
     type: string
 }
 
