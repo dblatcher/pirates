@@ -10,7 +10,6 @@ const SAIL_CHANGE_RATE = .01
 
 const SHIP_TURN_RATE = Math.PI * 0.1
 
-
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const otherShipsNearby = game.ships
         .filter(shipInList => shipInList !== ship)
