@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { drawScene } from './canvas-drawing/draw'
 import { CanvasScreen } from './components/CanvasScreen'
-import { Directive, GameState, ViewPort } from './game-state/types'
+import { Directive, GameState, Order, ViewPort } from './game-state/types'
 import { Controls } from './components/Controls'
 import { useInterval } from './useInterval'
 import { cycle } from './game-state/cycle'
@@ -28,7 +28,7 @@ function App() {
   }
 
   const refresh = () => {
-    const newGame = cycle(game, directives, pushLog)
+    const newGame = cycle(game, [{ order: Order.RESET_WHEEL }, ...directives], pushLog)
     const [player] = newGame.ships
     if (player) {
       setViewPort({

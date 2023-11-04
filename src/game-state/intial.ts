@@ -23,7 +23,7 @@ export const initalState: GameState = {
         },
         {
             name: 'The Flying Goose',
-            x: 150,
+            x: 250,
             y: 50,
             h: Math.PI * .5,
             width: 15,
@@ -37,7 +37,7 @@ export const initalState: GameState = {
         },
         {
             name: 'The Dead Duck',
-            x: 300,
+            x: 5,
             y: 300,
             h: Math.PI * 1.4,
             width: 30,

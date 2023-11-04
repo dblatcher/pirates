@@ -20,20 +20,25 @@ export class AutoPilot implements AI {
             return []
         }
         const directives: Directive[] = []
-        const h = normaliseHeading(ship.h)
 
         directives.push({
             order: Order.SAILS_TO,
             quantity: .5
         })
 
-        if (ship.y < 75 && h > _DEG* 180) {
+        if (gameState.cycleNumber < 500 ) {
             directives.push({
-                order: Order.RIGHT
+                order: Order.HEADING_TO,
+                quantity: _DEG * 45
             })
-        } else if (ship.x > 200 && h < _360_DEG / 2) {
+        } else if (gameState.cycleNumber < 1000) {
             directives.push({
-                order: Order.RIGHT
+                order: Order.HEADING_TO,
+                quantity: _DEG * -30
+            })
+        } else {
+            directives.push({
+                order: Order.RESET_WHEEL
             })
         }
         return directives

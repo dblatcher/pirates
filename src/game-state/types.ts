@@ -35,6 +35,8 @@ export enum Order {
     SAILS_TO,
     FIRE,
     SAILS_BY,
+    HEADING_TO,
+    RESET_WHEEL,
 }
 
 export enum Side {

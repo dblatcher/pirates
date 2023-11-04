@@ -8,7 +8,7 @@ import { Ship } from "./types"
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
 
-const SHIP_TURN_RATE = Math.PI * 0.1
+const SHIP_TURN_RATE = Math.PI * 0.05
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const otherShipsNearby = game.ships

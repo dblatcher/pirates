@@ -1,3 +1,4 @@
+import { _360_DEG, normaliseHeading } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
 import { Directive, Order } from "../types";
 import { Ship } from "./types";
@@ -5,17 +6,18 @@ import { Ship } from "./types";
 
 export const followDirectives = (ship: Ship, directives: Directive[]) => {
 
-    ship.wheel = 0
-
     directives.forEach(directive => {
         // TO DO - steering can't turn directly - need to set intent,
         // resolve in the update function with collision detection
         switch (directive.order) {
+            case Order.RESET_WHEEL:
+                ship.wheel = 0
+                break;
             case Order.LEFT:
-                ship.wheel = .25
+                ship.wheel = .5
                 break;
             case Order.RIGHT:
-                ship.wheel = -.25
+                ship.wheel = -.5
                 break;
             case Order.SAILS_TO: {
                 const { quantity = 0 } = directive;
@@ -35,6 +37,28 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                     if (cannon) { cannon.firing = true }
                 }
                 break;
+            }
+            case Order.HEADING_TO: {
+                const { quantity = 0 } = directive
+                const { h } = ship
+                const current = normaliseHeading(h)
+                const target = normaliseHeading(quantity)
+
+                let adjustedTarget = target
+                if (current-target > _360_DEG/2) {
+                    adjustedTarget = target + _360_DEG
+                } else if (current-target < -_360_DEG/2) {
+                    adjustedTarget = target - _360_DEG
+                }
+
+                if (current === adjustedTarget) {
+                    ship.wheel = 0
+                } else if (current < adjustedTarget) {
+                    ship.wheel = .2
+                } else if (current > adjustedTarget) {
+                    ship.wheel = -.2
+                }
+
             }
         }
     });
