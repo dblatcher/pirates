@@ -1,4 +1,4 @@
-import { AutoPilot } from "../ai/basic-ai";
+import { BasicAutoPilot } from "../ai/basic-ai";
 import { TerrainType } from "./land";
 import { GameState, Side } from "./types";
 
@@ -33,7 +33,7 @@ export const initalState: GameState = {
             sailLevelTarget: 0,
             cannons: [],
             id: 2,
-            ai: new AutoPilot({ mission: { type: 'turn', } }, 2),
+            ai: new BasicAutoPilot({ mission: { type: 'turn', } }, 2),
         },
         {
             name: 'The Dead Duck',

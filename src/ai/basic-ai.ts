@@ -1,9 +1,9 @@
 import { AI, AIState } from ".";
 import { Directive, GameState, Order } from "../game-state/types";
-import { XY, _360_DEG, _DEG, normaliseHeading } from "../lib/geometry";
+import { XY, _DEG } from "../lib/geometry";
 
 
-export class AutoPilot implements AI {
+export class BasicAutoPilot implements AI {
     shipId: number;
     state: AIState;
 
