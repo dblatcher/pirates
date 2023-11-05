@@ -1,5 +1,5 @@
 import { AI, AIState } from ".";
-import { Directive, GameState, Order } from "../game-state/types";
+import { Directive, GameState, Order, Ship } from "../game-state/types";
 import { XY, _DEG, getDistance, getHeading } from "../lib/geometry";
 
 
@@ -12,17 +12,10 @@ export class PathFollowAutoPilot implements AI {
         this.shipId = shipId
     }
 
-    issueDirectives(gameState: GameState): Directive[] {
+    issueDirectives(ship: Ship, gameState: GameState): Directive[] {
 
-        const ship = gameState.ships.find(ship => ship.id === this.shipId)
-        if (!ship) {
-            console.error('NO SHIP FOR AI', this.shipId)
-            return []
-        }
         const directives: Directive[] = []
-
-        const { path = [] } = this.state
-        const [currentStep] = path
+        const [currentStep] = this.state.path
 
         if (!currentStep) {
             directives.push(
@@ -33,7 +26,7 @@ export class PathFollowAutoPilot implements AI {
             directives.push(
                 { order: Order.RESET_WHEEL },
             )
-            path.shift()
+            this.state.path.shift()
         } else {
             const heading = getHeading(
                 {
@@ -49,6 +42,37 @@ export class PathFollowAutoPilot implements AI {
 
         return directives
     }
+
+    updatePath(ship: Ship, gameState: GameState): void {
+        const { destination, path } = this.state
+        if (path.length === 0) {
+
+            if (!destination) {
+                console.log('End of path, no destination set')
+                // run decide own mission to see what next?
+                // or take next objective in current mission (not modelled yet)
+                return
+            }
+
+            if (getDistance(ship, destination) < 20) {
+                console.log('End of path, reached destination')
+                // run decide own mission to see what next?
+                // or take next objective in current mission (not modelled yet)
+                return
+            }
+            console.log('End of path, not reached destination')
+            // create new path to desintation
+            // should only occur if higher logic change the destination 
+            // after setting the path? Or using a path to get part way?
+            return
+        }
+
+        console.log(`${path.length} steps left in path`)
+        // check if still on course - recalculate path if not
+        // ie if line to next step is blocked,
+        // or more than some distance from it?
+    }
+
     decideOwnMission(gameState: GameState): void {
         throw new Error("Method not implemented.");
     }

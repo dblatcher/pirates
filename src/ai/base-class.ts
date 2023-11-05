@@ -1,4 +1,4 @@
-import { Directive, GameState } from "../game-state/types";
+import { Directive, GameState, Ship } from "../game-state/types";
 import { XY } from "../lib/geometry";
 import { AIState } from "./types";
 
@@ -13,7 +13,9 @@ export abstract class AI {
         this.shipId = shipId
     }
 
-    abstract issueDirectives(gameState: GameState): Directive[]
+    abstract issueDirectives(ship: Ship, gameState: GameState): Directive[]
+
+    abstract updatePath(ship: Ship, gameState: GameState): void
 
     abstract decideOwnMission(gameState: GameState): void
 

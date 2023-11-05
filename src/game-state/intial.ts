@@ -1,4 +1,3 @@
-import { BasicAutoPilot } from "../ai/basic-ai";
 import { PathFollowAutoPilot } from "../ai/path-follow-ai";
 import { TerrainType } from "./land";
 import { GameState, Side } from "./types";
@@ -38,14 +37,14 @@ export const initalState: GameState = {
             ai: new PathFollowAutoPilot(
                 {
                     mission: {
-                        type: 'travel'
+                        type: 'travel',
                     },
+                    destination: { x: 100, y: 500 },
                     path: [
                         {x:350,y:40},
                         {x:300,y:0},
                         {x:300,y:300},
                         {x:500,y:300},
-                        {x:0,y:0},
                     ]
                 }, 2),
         },

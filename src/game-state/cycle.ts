@@ -32,7 +32,7 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
 
     const projectilesThatDidNotHitAnyThing = game.projectiles.filter(projectile => !projectilesThatHitSomething.includes(projectile))
     const [projectilesInAir, projectilesLanded] = splitArray(projectilesThatDidNotHitAnyThing, projectile => projectile.z > 0)
-    
+
     // TO DO - if they land offscreen, don't bother with the effect
     projectilesLanded.forEach(projectile => {
         if (isLandAt(projectile, game.land)) {
@@ -65,8 +65,20 @@ export const cycle = (
         if (!ship.ai) {
             return
         }
-        followDirectives(ship, ship.ai.issueDirectives(game))
+        followDirectives(ship, ship.ai.issueDirectives(ship, game))
     })
+
+    // logic may be quite expensive - don't need to run every cycle
+    // would be better to shard the ships and run some % each cycle
+    // see effect on performance, then decide.
+    if (game.cycleNumber % 100 == 0) {
+        game.ships.forEach(ship => {
+            if (!ship.ai) {
+                return
+            }
+            ship.ai.updatePath(ship, game)
+        })
+    }
 
     const collisons: Collison[] = []
     game.ships.forEach(ship => {

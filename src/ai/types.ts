@@ -7,5 +7,5 @@ export type Mission = {
 export type AIState = {
     mission: Mission;
     destination?: XY;
-    path?: XY[];
+    path: XY[];
 }
