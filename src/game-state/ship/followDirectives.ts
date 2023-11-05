@@ -1,4 +1,4 @@
-import { _360_DEG, normaliseHeading } from "../../lib/geometry";
+import { _360_DEG, _DEG, normaliseHeading } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
 import { Directive, Order } from "../types";
 import { Ship } from "./types";
@@ -45,18 +45,25 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 const target = normaliseHeading(quantity)
 
                 let adjustedTarget = target
-                if (current-target > _360_DEG/2) {
+                if (current - target > _360_DEG / 2) {
                     adjustedTarget = target + _360_DEG
-                } else if (current-target < -_360_DEG/2) {
+                } else if (current - target < -_360_DEG / 2) {
                     adjustedTarget = target - _360_DEG
                 }
+
+                const changeRequired = Math.abs(adjustedTarget - current)
+                const wheelAmount = changeRequired > _DEG * 10
+                    ? .5
+                    : changeRequired > _DEG * 5
+                        ? .1
+                        : .025
 
                 if (current === adjustedTarget) {
                     ship.wheel = 0
                 } else if (current < adjustedTarget) {
-                    ship.wheel = .2
+                    ship.wheel = wheelAmount
                 } else if (current > adjustedTarget) {
-                    ship.wheel = -.2
+                    ship.wheel = -wheelAmount
                 }
 
             }
