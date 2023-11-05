@@ -87,5 +87,16 @@ export const initalState: GameState = {
                 [TerrainType.DESERT, TerrainType.DESERT],
             ]
         },
+        {
+            x: 550,
+            y: 750,
+            shape: [
+                [TerrainType.DESERT, TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.DESERT, TerrainType.DESERT],
+                [TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.DESERT],
+                [TerrainType.DESERT, TerrainType.DESERT],
+            ]
+        },
     ]
 }

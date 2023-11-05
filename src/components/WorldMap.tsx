@@ -37,7 +37,7 @@ export const WorldMap = ({ closeModal, mapHeight, mapWidth, matrix }: Props) => 
             return
         }
         ctx.beginPath()
-        ctx.fillStyle='blue'
+        ctx.fillStyle = 'blue'
         ctx.fillRect(0, 0, mapWidth, mapHeight)
 
         ctx.strokeStyle = 'red'
@@ -60,6 +60,9 @@ export const WorldMap = ({ closeModal, mapHeight, mapWidth, matrix }: Props) => 
                     containerStyle={{
                         width: mapWidth / 10,
                         height: mapWidth / 10,
+                    }}
+                    canvasStyle={{
+                        maxWidth: '100%',
                     }}
                 />
             </aside>
