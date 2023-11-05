@@ -23,8 +23,8 @@ export const Controls = ({ addDirective, paused }: Props) => {
     const sailsTo = (quantity: number) => () => {
         addUnlessPaused({ order: Order.SAILS_TO, quantity })
     }
-    const headingTo = (quantity: number) => () => {
-        addUnlessPaused({ order: Order.HEADING_TO, quantity })
+    const headingTo = (degrees: number) => () => {
+        addUnlessPaused({ order: Order.HEADING_TO, quantity: _DEG * degrees })
     }
     const fireTo = (side: Side) => () => {
         addUnlessPaused({ order: Order.FIRE, side })
@@ -41,10 +41,10 @@ export const Controls = ({ addDirective, paused }: Props) => {
             <button onClick={fireTo(Side.LEFT)}>FIRE</button>
         </div>
         <div>
-            <button onClick={headingTo(0)}>0</button>
-            <button onClick={headingTo(_DEG * 120)}>120</button>
-            <button onClick={headingTo(_DEG * 60)}>240</button>
-            <button onClick={headingTo(_DEG * 360)}>360</button>
+            <button onClick={headingTo(180)}>&uarr;</button>
+            <button onClick={headingTo(90)}>&rarr;</button>
+            <button onClick={headingTo(0)}>&darr;</button>
+            <button onClick={headingTo(270)}>&larr;</button>
         </div>
     </div>
 }
