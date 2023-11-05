@@ -10,12 +10,19 @@ import { initalState } from './game-state/intial'
 import { KeyboardControls } from './components/KeyboardControls'
 import { ShipsLog } from './components/ShipsLog'
 import { ShipDashBoard } from './components/ShipDashboard'
+import { CellMatrix } from './lib/path-finding/types'
+import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
 
+const MAP_WIDTH = 2400
+const MAP_HEIGHT = 1800
+
 function App() {
-  const [game, setGame] = useState<GameState>(initalState)
+  // to do - is state the best way to hold immutable data?
+  const [matrix] = useState<CellMatrix>(buildMatrixFromGameState(MAP_WIDTH, MAP_HEIGHT, initalState))
+  const [gameState, setGameState] = useState<GameState>(initalState)
   const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
   const [paused, setPaused] = useState(false)
   const [directives, setDirectives] = useState<Directive[]>([])
@@ -28,8 +35,13 @@ function App() {
   }
 
   const refresh = () => {
-    const newGame = cycle(game, [{ order: Order.RESET_WHEEL }, ...directives], pushLog)
-    const [player] = newGame.ships
+    const updatedGame = cycle(
+      gameState,
+      [{ order: Order.RESET_WHEEL }, ...directives],
+      matrix,
+      pushLog,
+    )
+    const [player] = updatedGame.ships
     if (player) {
       setViewPort({
         width: viewPort.width,
@@ -40,17 +52,17 @@ function App() {
       })
     }
     setDirectives([])
-    setGame(newGame)
+    setGameState(updatedGame)
   }
 
   useInterval(refresh, paused ? null : 10)
-  const [player] = game.ships
+  const [player] = gameState.ships
   return (
     <div style={{ display: 'flex' }}>
       <main>
         <p>{viewPort.x.toFixed(2)}, {viewPort.y.toFixed(2)}</p>
-        <CanvasScreen draw={drawScene(game, viewPort)} width={viewPort.width} height={viewPort.height} />
-        <Controls {...{ game, addDirective }} paused={paused} />
+        <CanvasScreen draw={drawScene(gameState, viewPort)} width={viewPort.width} height={viewPort.height} />
+        <Controls {...{ game: gameState, addDirective }} paused={paused} />
       </main>
 
       <aside>

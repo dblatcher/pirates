@@ -32,20 +32,21 @@ export function findPath(start: XY, goal: XY, matrix: CellMatrix, cellSize: numb
         }
     }
 
-    // do't think I need to do this - not using inverted Y coords
-    // const invertedMatrix = invertMatrix(matrix)
-    const invertedMatrix = matrix
     const startCell = toCell(start)
     const goalCell = toCell(goal)
 
-    if (isOutOfBounds(startCell, invertedMatrix)) {
+    if (isOutOfBounds(startCell, matrix)) {
         return []
     }
-    if (isOutOfBounds(goalCell, invertedMatrix)) {
+    if (isOutOfBounds(goalCell, matrix)) {
         return []
     }
 
-    const finder = new AStarFinder({ grid: { matrix: invertedMatrix }, includeEndNode: true })
+    const finder = new AStarFinder({
+        grid: { matrix },
+        includeEndNode: true,
+        diagonalAllowed: false,
+    })
     const pathPairs = finder.findPath(startCell, goalCell);
 
     if (pathPairs.length === 0) {
@@ -53,5 +54,5 @@ export function findPath(start: XY, goal: XY, matrix: CellMatrix, cellSize: numb
     }
 
     const pathPoints = (pathPairs as [number, number][]).map(toPoint)
-    return pathPoints
+    return [...pathPoints, goal]
 }

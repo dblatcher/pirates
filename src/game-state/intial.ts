@@ -23,8 +23,8 @@ export const initalState: GameState = {
         },
         {
             name: 'The Flying Goose',
-            x: 250,
-            y: 50,
+            x: 300,
+            y: 0,
             h: Math.PI * .5,
             width: 15,
             length: 60,
@@ -41,10 +41,10 @@ export const initalState: GameState = {
                     },
                     destination: { x: 100, y: 500 },
                     path: [
-                        {x:350,y:40},
-                        {x:300,y:0},
-                        {x:300,y:300},
-                        {x:500,y:300},
+                        // {x:350,y:40},
+                        // {x:300,y:0},
+                        { x: 300, y: 300 },
+                        // {x:500,y:300},
                     ]
                 }, 2),
         },
@@ -78,7 +78,7 @@ export const initalState: GameState = {
         },
         {
             x: 150,
-            y: 400,
+            y: 450,
             shape: [
                 [TerrainType.DESERT, TerrainType.DESERT],
                 [TerrainType.DESERT],

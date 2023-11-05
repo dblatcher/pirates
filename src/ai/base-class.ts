@@ -1,5 +1,6 @@
 import { Directive, GameState, Ship } from "../game-state/types";
 import { XY } from "../lib/geometry";
+import { CellMatrix } from "../lib/path-finding/types";
 import { AIState } from "./types";
 
 
@@ -15,7 +16,7 @@ export abstract class AI {
 
     abstract issueDirectives(ship: Ship, gameState: GameState): Directive[]
 
-    abstract updatePath(ship: Ship, gameState: GameState): void
+    abstract updatePath(ship: Ship, gameState: GameState, matrix: CellMatrix): void
 
     abstract decideOwnMission(gameState: GameState): void
 

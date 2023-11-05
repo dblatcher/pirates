@@ -1,3 +1,4 @@
+import { CellMatrix } from "../lib/path-finding/types";
 import { splitArray } from "../lib/util";
 import { willProjectileHitShip } from "./collisions";
 import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
@@ -50,7 +51,8 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
 
 export const cycle = (
     gameState: GameState,
-    directives: Directive[],
+    playerDirectives: Directive[],
+    matrix:CellMatrix,
     pushLog: { (newLog: string): void }
 ): GameState => {
     const game = { ...gameState }
@@ -58,7 +60,7 @@ export const cycle = (
 
     const [player] = game.ships
     if (player) {
-        followDirectives(player, directives)
+        followDirectives(player, playerDirectives)
     }
 
     game.ships.forEach(ship => {
@@ -76,7 +78,7 @@ export const cycle = (
             if (!ship.ai) {
                 return
             }
-            ship.ai.updatePath(ship, game)
+            ship.ai.updatePath(ship, game, matrix)
         })
     }
 

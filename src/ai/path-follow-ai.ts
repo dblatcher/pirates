@@ -1,6 +1,9 @@
 import { AI, AIState } from ".";
+import { TERRAIN_SQUARE_SIZE } from "../game-state/land";
 import { Directive, GameState, Order, Ship } from "../game-state/types";
 import { XY, _DEG, getDistance, getHeading } from "../lib/geometry";
+import { findPath } from "../lib/path-finding/find-path";
+import { CellMatrix } from "../lib/path-finding/types";
 
 
 export class PathFollowAutoPilot implements AI {
@@ -35,7 +38,7 @@ export class PathFollowAutoPilot implements AI {
                 }
             )
             directives.push(
-                { order: Order.SAILS_TO, quantity: 1 },
+                { order: Order.SAILS_TO, quantity: .5 },
                 { order: Order.HEADING_TO, quantity: heading },
             )
         }
@@ -43,7 +46,7 @@ export class PathFollowAutoPilot implements AI {
         return directives
     }
 
-    updatePath(ship: Ship, gameState: GameState): void {
+    updatePath(ship: Ship, gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
         if (path.length === 0) {
 
@@ -54,16 +57,22 @@ export class PathFollowAutoPilot implements AI {
                 return
             }
 
-            if (getDistance(ship, destination) < 20) {
+            const distance = getDistance(ship, destination)
+            if (distance < 20) {
                 console.log('End of path, reached destination')
                 // run decide own mission to see what next?
                 // or take next objective in current mission (not modelled yet)
                 return
             }
-            console.log('End of path, not reached destination')
+            console.log(`End of path, not reached destination: ${distance} away`)
             // create new path to desintation
             // should only occur if higher logic change the destination 
             // after setting the path? Or using a path to get part way?
+
+            const newPath = findPath(ship, destination, matrix, TERRAIN_SQUARE_SIZE)
+            console.log(newPath)
+            console.log({destination})
+            path.push(...newPath)
             return
         }
 

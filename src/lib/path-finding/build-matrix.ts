@@ -19,6 +19,8 @@ const toCell = (point: XY): XY => {
 }
 
 const landToCells = (landmass: Landmass): XY[] => {
+    // WRONG! need to align/snap landmass to grid
+    // for this to work
     const topLeft = toCell(landmass)
     const cells: XY[] = []
     landmass.shape.forEach((row, rowIndex) => {
