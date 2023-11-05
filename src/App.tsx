@@ -12,6 +12,7 @@ import { ShipsLog } from './components/ShipsLog'
 import { ShipDashBoard } from './components/ShipDashboard'
 import { CellMatrix } from './lib/path-finding/types'
 import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
+import { WorldMap } from './components/WorldMap'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -25,6 +26,7 @@ function App() {
   const [gameState, setGameState] = useState<GameState>(initalState)
   const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
   const [paused, setPaused] = useState(false)
+  const [showMap, setShowMap] = useState(false)
   const [directives, setDirectives] = useState<Directive[]>([])
   const [log, setLog] = useState<string[]>(['Yarrgh!'])
 
@@ -61,12 +63,21 @@ function App() {
     <div style={{ display: 'flex' }}>
       <main>
         <p>{viewPort.x.toFixed(2)}, {viewPort.y.toFixed(2)}</p>
-        <CanvasScreen draw={drawScene(gameState, viewPort)} width={viewPort.width} height={viewPort.height} />
+        <CanvasScreen
+          containerStyle={{
+            border: '1px solid black',
+            display: 'inline-block',
+            backgroundColor: 'skyblue',
+          }}
+          draw={drawScene(gameState, viewPort)} 
+          width={viewPort.width} 
+          height={viewPort.height} />
         <Controls {...{ game: gameState, addDirective }} paused={paused} />
       </main>
 
       <aside>
         <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
+        <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
         {player && (
           <ShipDashBoard ship={player} />
 
@@ -76,6 +87,16 @@ function App() {
       <KeyboardControls
         addDirective={addDirective}
         paused={paused} />
+
+      {showMap && (
+        <WorldMap
+          closeModal={() => { setShowMap(false) }}
+          gameState={gameState}
+          matrix={matrix}
+          mapHeight={MAP_HEIGHT}
+          mapWidth={MAP_WIDTH}
+        />
+      )}
     </div>
   )
 }
