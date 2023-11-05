@@ -1,5 +1,7 @@
+import { TERRAIN_SQUARE_SIZE } from "../game-state/land";
 import { Directive, GameState, Ship } from "../game-state/types";
 import { XY } from "../lib/geometry";
+import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";
 import { AIState } from "./types";
 
@@ -20,5 +22,7 @@ export abstract class AI {
 
     abstract decideOwnMission(gameState: GameState): void
 
-    abstract navigateTo(destination: XY, gameState: GameState): XY[]
+    navigateTo(start:XY, destination: XY, matrix: CellMatrix): XY[] {
+        return findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE)
+    }
 }

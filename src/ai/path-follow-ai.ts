@@ -1,19 +1,10 @@
-import { AI, AIState } from ".";
-import { TERRAIN_SQUARE_SIZE } from "../game-state/land";
+import { AI } from ".";
 import { Directive, GameState, Order, Ship } from "../game-state/types";
-import { XY, _DEG, getDistance, getHeading } from "../lib/geometry";
-import { findPath } from "../lib/path-finding/find-path";
+import { getDistance, getHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 
 
-export class PathFollowAutoPilot implements AI {
-    shipId: number;
-    state: AIState;
-
-    constructor(initalState: AIState, shipId: number) {
-        this.state = { ...initalState }
-        this.shipId = shipId
-    }
+export class PathFollowAutoPilot extends AI {
 
     issueDirectives(ship: Ship, gameState: GameState): Directive[] {
 
@@ -60,19 +51,14 @@ export class PathFollowAutoPilot implements AI {
             const distance = getDistance(ship, destination)
             if (distance < 20) {
                 console.log('End of path, reached destination')
+                this.state.destination = undefined
                 // run decide own mission to see what next?
                 // or take next objective in current mission (not modelled yet)
                 return
             }
             console.log(`End of path, not reached destination: ${distance} away`)
-            // create new path to desintation
-            // should only occur if higher logic change the destination 
-            // after setting the path? Or using a path to get part way?
 
-            const newPath = findPath(ship, destination, matrix, TERRAIN_SQUARE_SIZE)
-            console.log(newPath)
-            console.log({destination})
-            path.push(...newPath)
+            path.push(...this.navigateTo(ship, destination, matrix))
             return
         }
 
@@ -85,10 +71,5 @@ export class PathFollowAutoPilot implements AI {
     decideOwnMission(gameState: GameState): void {
         throw new Error("Method not implemented.");
     }
-    navigateTo(destination: XY, gameState: GameState): XY[] {
-        throw new Error("Method not implemented.");
-    }
-
-
 
 }
