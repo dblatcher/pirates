@@ -1,0 +1,1 @@
+export type CellMatrix = (0 | 1)[][]
