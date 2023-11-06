@@ -27,6 +27,7 @@ export const drawShipBase = (
     const backRight = translate(back, getXYVector(width / 2, r));
 
     ctx.beginPath();
+    ctx.lineWidth = 1;
     ctx.fillStyle = 'brown';
     ctx.strokeStyle = 'goldenrod';
 
@@ -43,6 +44,7 @@ export const drawShipBase = (
     }
 
     ctx.beginPath();
+    ctx.lineWidth = 1;
     arc(...s(back), width / 2, 0, Math.PI * 2);
     ctx.fill();
 
@@ -50,6 +52,7 @@ export const drawShipBase = (
         const collisionCircles = getCollisionCircles(ship);
         collisionCircles.forEach(circle => {
             ctx.beginPath();
+            ctx.lineWidth = 1;
             ctx.fillStyle = 'rgba(255,0,0,.5)';
             arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
             ctx.fill();

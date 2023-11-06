@@ -5,8 +5,9 @@ export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: Of
 
     const { x, y, z } = projectile
     const { arc } = drawingMethods
-    //shadpw
+    //shadow
     ctx.beginPath();
+    ctx.lineWidth = 1;
     ctx.strokeStyle = 'black'
     ctx.fillStyle = 'grey'
     arc(x, y, 3, 0, Math.PI * 2)
@@ -15,6 +16,7 @@ export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: Of
 
     // ball
     ctx.beginPath();
+    ctx.lineWidth = 1;
     ctx.strokeStyle = 'black'
     ctx.fillStyle = 'black'
     arc(x + z / 2, y - z / 2, 3, 0, Math.PI * 2)

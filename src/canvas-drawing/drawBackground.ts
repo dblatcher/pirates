@@ -23,6 +23,7 @@ export const drawBackground = (
     const vericalWaveCount = 2 + viewPort.height / VERTICAL_SPACE
 
     ctx.beginPath()
+    ctx.lineWidth = 1;
     ctx.strokeStyle = 'white'
     for (let top = 0; top < vericalWaveCount; top++) {
         for (let left = 0; left < horizontalWaveCount; left++) {

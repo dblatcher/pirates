@@ -28,6 +28,7 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 const x = landmass.x + squareIndex * TERRAIN_SQUARE_SIZE
                 const y = landmass.y + rowIndex * TERRAIN_SQUARE_SIZE
                 ctx.beginPath()
+                ctx.lineWidth = 1;
                 setLandFill(ctx, square)
                 drawingMethods.rect(x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                 ctx.fill()

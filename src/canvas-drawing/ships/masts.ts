@@ -34,6 +34,7 @@ export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D
     mastsWithPoints.forEach(mast => {
         const { base, top } = mast
         ctx.beginPath()
+        ctx.lineWidth = 4;
         ctx.strokeStyle = 'black'
         moveTo(base.x, base.y)
         lineTo(top.x, top.y)
@@ -57,6 +58,7 @@ export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D
     mastsWithPoints.sort((a, b) => b.position - a.position).forEach((mast, index, array) => {
         const { top } = mast
         ctx.beginPath()
+        ctx.lineWidth = 1;
         ctx.strokeStyle = 'red'
         if (index == 0) {
             moveTo(...s(getProwPosition(ship)))
