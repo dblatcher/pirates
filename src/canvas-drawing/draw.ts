@@ -3,8 +3,8 @@ import { drawBackground } from "./drawBackground";
 import { drawEffect } from "./drawEffect";
 import { drawLand } from "./drawLand";
 import { drawProjectile } from "./drawProjectile";
-import { drawShipBase, drawShipMasts } from "./drawShip";
 import { drawWithOffset } from "./drawWithOffSet";
+import { drawShips } from "./ships";
 
 
 export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLCanvasElement) => {
@@ -15,14 +15,9 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     ctx.clearRect(0, 0, viewPort.width, viewPort.height)
     drawBackground(ctx, drawingMethods, viewPort, game.cycleNumber)
     drawLand(ctx, drawingMethods, viewPort, game.land)
-    ships.forEach(ship => drawShipBase(ctx, drawingMethods, ship))
 
-    ships.forEach(ship => {
-        drawShipMasts([
-            { position: -1 / 5, height: 1.5 },
-            { position: 1 / 4, height: 1 },
-        ], ctx, drawingMethods, ship)
-    })
+    // to do - filter out ships not in view
+    drawShips(ctx, drawingMethods, ships, false)
 
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
