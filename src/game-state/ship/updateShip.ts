@@ -15,7 +15,9 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
 
-    const forward = getXYVector(ship.sailLevel, ship.h)
+    // TO DO - adjust by wind
+    const moveAmount = ship.sailLevel * ship.profile.speed
+    const forward = getXYVector(moveAmount, ship.h)
     const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
     const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
     const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
@@ -28,14 +30,16 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         }
     })
 
-    const runsAgroundFromGoingForward = isLandAt(prowAfterGoForward,game.land)
+    const runsAgroundFromGoingForward = isLandAt(prowAfterGoForward, game.land)
 
     if (!hitAnotherShipFromGoingForward && !runsAgroundFromGoingForward) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
     }
 
-    const newHeading = ship.h + SHIP_TURN_RATE * ship.wheel
+    // TO DO - turn more slowly with full sails
+    const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
+    const newHeading = ship.h + turnAmount
     const shipCirclesAfterTurning = getCollisionCircles({ ...ship, h: newHeading })
     let hitAnotherShipFromTurning = false
     otherShipsNearby.forEach(otherShip => {

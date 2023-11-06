@@ -7,17 +7,27 @@ export type Cannon = {
     side: Side
 }
 
+export type ShipProfile = {
+    maxHp: number,
+    speed: number,
+    maneuver: number,
+}
+
 export type Ship = {
     id: number,
+    name?: string,
+    profile: ShipProfile,
+    width: number,
+    length: number,
+
     x: number,
     y: number,
     h: number,
-    width: number,
-    length: number,
     sailLevel: number,
+    damage: number,
+
     sailLevelTarget: number,
     wheel: number,
-    name?: string,
     // to do - model multiple cannons per side!
     cannons: Cannon[]
     ai?: AI
