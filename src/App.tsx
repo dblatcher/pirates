@@ -62,25 +62,26 @@ function App() {
   return (
     <div style={{ display: 'flex' }}>
       <main>
-        <p>{viewPort.x.toFixed(2)}, {viewPort.y.toFixed(2)}</p>
+        <div>
+          <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
+          <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
+          <span>[{player.x.toFixed(0)}, {player.y.toFixed(0)}]</span>
+        </div>
         <CanvasScreen
           containerStyle={{
             border: '1px solid black',
             display: 'inline-block',
             backgroundColor: 'skyblue',
           }}
-          draw={drawScene(gameState, viewPort)} 
-          width={viewPort.width} 
+          draw={drawScene(gameState, viewPort)}
+          width={viewPort.width}
           height={viewPort.height} />
         <Controls {...{ game: gameState, addDirective }} paused={paused} />
       </main>
 
       <aside>
-        <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
-        <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
         {player && (
           <ShipDashBoard ship={player} />
-
         )}
         <ShipsLog entries={log} />
       </aside>
