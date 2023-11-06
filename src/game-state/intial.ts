@@ -17,7 +17,7 @@ export const initalState: GameState = {
             x: 200,
             y: 200,
             h: Math.PI * .5,
-            damage: 0,
+            damage: 5,
             width: 20,
             length: 80,
             sailLevel: 0,

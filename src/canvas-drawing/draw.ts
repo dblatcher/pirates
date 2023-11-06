@@ -17,7 +17,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     drawLand(ctx, drawingMethods, viewPort, game.land)
 
     // to do - filter out ships not in view
-    drawShips(ctx, drawingMethods, ships, false)
+    drawShips(ctx, drawingMethods, ships, game.cycleNumber, false)
 
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

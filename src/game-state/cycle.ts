@@ -26,6 +26,7 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
                 projectilesThatHitSomething.push(projectile)
                 ship.damage = ship.damage +1
                 pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
+                createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }
         })
