@@ -4,7 +4,7 @@ import { willProjectileHitShip } from "./collisions";
 import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
 import { isLandAt } from "./land";
 import { Projectile, updateProjectile } from "./projectile";
-import { followDirectives, launchFromShip, updateShip } from "./ship";
+import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
 import { Collison, Directive, GameState } from "./types";
 
 
@@ -46,15 +46,21 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
     game.projectiles = projectilesInAir
 }
 
-// const handleShipCollison = (collision:Collison) => {
-//     const {ship,vector, obstacle} = collision
-// } 
+const handleShipCollison = (collision: Collison, game: GameState) => {
+    const { ship, obstacle, speedWhenHit } = collision
+    console.log(`${ship.name} hit ${obstacle.name} at ${speedWhenHit}`)
+    createImpact({
+        ...getProwPosition(ship),
+        timeLeft: 10,
+    }, game)
+    // TO DO - game logic to decide which ships take damage
+}
 
 const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }) => {
     const [shipsSinking, shipsNotSinking] = splitArray(game.ships, (ship => ship.damage >= ship.profile.maxHp))
     game.ships = shipsNotSinking
     shipsSinking.forEach(ship => {
-        pushLog(`${ship.name||'a ship'} sinks!`)
+        pushLog(`${ship.name || 'a ship'} sinks!`)
         createSplash({ ...ship, radius: 30, timeLeft: 100 }, game)
         createSplash({ ...ship, radius: 25, timeLeft: 100 }, game)
         createSplash({ ...ship, radius: 20, timeLeft: 100 }, game)
@@ -106,7 +112,7 @@ export const cycle = (
     })
     game.effects = game.effects.filter(effect => effect.timeLeft > 0)
     // TO DO - handle collisions
-    // collisons.forEach(handleShipCollison)
+    collisons.forEach(collison => handleShipCollison(collison, game))
 
     fireCannons(game)
     handleProjectileHitsAndLandings(game, pushLog)

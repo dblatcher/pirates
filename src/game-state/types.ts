@@ -27,6 +27,7 @@ export type Collison = {
     ship: Ship;
     vector: XY;
     obstacle: Ship
+    speedWhenHit: number
 }
 
 export enum Order {

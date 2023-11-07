@@ -25,6 +25,8 @@ export type Ship = {
     h: number,
     sailLevel: number,
     damage: number,
+    speedLastTurn: number
+    turnsUnimpeded: number
 
     sailLevelTarget: number,
     wheel: number,

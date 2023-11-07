@@ -9,10 +9,22 @@ const defaultProfile: ShipProfile = {
     maneuver: 1
 }
 
+const shipDefaults = {
+    profile: defaultProfile,
+    turnsUnimpeded: 0,
+    speedLastTurn: 0,
+    sailLevel: 0,
+    wheel: 0,
+    sailLevelTarget: 0,
+    damage: 0,
+}
+
+
 export const initalState: GameState = {
     cycleNumber: 0,
     ships: [
         {
+            ...shipDefaults,
             name: 'Player McPlayerFace',
             x: 200,
             y: 200,
@@ -35,6 +47,7 @@ export const initalState: GameState = {
             }
         },
         {
+            ...shipDefaults,
             name: 'The Flying Goose',
             x: 300,
             y: 0,
@@ -67,6 +80,7 @@ export const initalState: GameState = {
                 }, 2),
         },
         {
+            ...shipDefaults,
             name: 'The Dead Duck',
             x: 5,
             y: 300,
@@ -74,12 +88,8 @@ export const initalState: GameState = {
             damage: 10,
             width: 30,
             length: 120,
-            sailLevel: 0,
-            wheel: 0,
-            sailLevelTarget: 0,
             cannons: [],
             id: 3,
-            profile: defaultProfile,
         },
     ],
     projectiles: [],

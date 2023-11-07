@@ -22,17 +22,23 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
     const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
     const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
 
-    let hitAnotherShipFromGoingForward = false
-    otherShipsNearby.forEach(otherShip => {
-        if (willShipHitOtherShip(shipCirclesAfterGoForward, otherShip)) {
-            collisions.push({ ship, obstacle: otherShip, vector: forward })
-            hitAnotherShipFromGoingForward = true
+    // TO DO - can this test be based on the prow position of the moving ship, not the collision circles?
+    // would be cheaper and should still work if ships never go fast enough to go through in a single cycle
+    const otherShipRanInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipCirclesAfterGoForward, otherShip))
+    if (otherShipRanInto) {
+        if (ship.speedLastTurn && ship.turnsUnimpeded >= 10) {
+            collisions.push({
+                ship,
+                obstacle: otherShipRanInto,
+                vector: forward,
+                speedWhenHit: ship.speedLastTurn
+            })
         }
-    })
+    }
 
     const runsAgroundFromGoingForward = isLandAt(prowAfterGoForward, game.land)
 
-    if (!hitAnotherShipFromGoingForward && !runsAgroundFromGoingForward) {
+    if (!otherShipRanInto && !runsAgroundFromGoingForward) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
     }
@@ -41,18 +47,15 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
     const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
     const newHeading = ship.h + turnAmount
     const shipCirclesAfterTurning = getCollisionCircles({ ...ship, h: newHeading })
-    let hitAnotherShipFromTurning = false
-    otherShipsNearby.forEach(otherShip => {
-        if (willShipHitOtherShip(shipCirclesAfterTurning, otherShip)) {
-            // collisions.push({ ship, obstacle: otherShip, vector: forward })
-            hitAnotherShipFromTurning = true
-        }
-    })
 
-
-    if (!hitAnotherShipFromTurning) {
+    const otherShipTurnedInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipCirclesAfterTurning, otherShip))
+    if (!otherShipTurnedInto) {
         ship.h = newHeading
     }
+
+    const wasNotImpeded = !otherShipRanInto && !runsAgroundFromGoingForward && !otherShipTurnedInto
+    ship.speedLastTurn = wasNotImpeded ? moveAmount : 0
+    ship.turnsUnimpeded = wasNotImpeded ? ship.turnsUnimpeded + 1 : 0
 
     if (ship.sailLevel !== ship.sailLevelTarget) {
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
