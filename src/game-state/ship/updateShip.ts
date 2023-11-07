@@ -22,7 +22,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
     const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
     const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
 
-    // TO DO - can this test be based on the prow position of the moving ship, not the collision circles?
+    // TO DO - can this test be based on the front collision circle of the moving ship, not all of them?
     // would be cheaper and should still work if ships never go fast enough to go through in a single cycle
     const otherShipRanInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipCirclesAfterGoForward, otherShip))
     if (otherShipRanInto) {
