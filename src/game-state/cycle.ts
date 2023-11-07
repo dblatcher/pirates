@@ -24,7 +24,7 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
         game.ships.forEach(ship => {
             if (willProjectileHitShip(projectile, ship)) {
                 projectilesThatHitSomething.push(projectile)
-                ship.damage = ship.damage +1
+                ship.damage = ship.damage + 1
                 pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
@@ -50,10 +50,21 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
 //     const {ship,vector, obstacle} = collision
 // } 
 
+const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }) => {
+    const [shipsSinking, shipsNotSinking] = splitArray(game.ships, (ship => ship.damage >= ship.profile.maxHp))
+    game.ships = shipsNotSinking
+    shipsSinking.forEach(ship => {
+        pushLog(`${ship.name||'a ship'} sinks!`)
+        createSplash({ ...ship, radius: 30, timeLeft: 100 }, game)
+        createSplash({ ...ship, radius: 25, timeLeft: 100 }, game)
+        createSplash({ ...ship, radius: 20, timeLeft: 100 }, game)
+    })
+}
+
 export const cycle = (
     gameState: GameState,
     playerDirectives: Directive[],
-    matrix:CellMatrix,
+    matrix: CellMatrix,
     pushLog: { (newLog: string): void }
 ): GameState => {
     const game = { ...gameState }
@@ -94,14 +105,12 @@ export const cycle = (
         updateEffect(effect)
     })
     game.effects = game.effects.filter(effect => effect.timeLeft > 0)
-
-    handleProjectileHitsAndLandings(game, pushLog)
-
     // TO DO - handle collisions
     // collisons.forEach(handleShipCollison)
 
-
     fireCannons(game)
+    handleProjectileHitsAndLandings(game, pushLog)
+    removeSinkingShips(game, pushLog)
 
     return game
 }
