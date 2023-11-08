@@ -25,6 +25,9 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
     landInView.forEach(landmass => {
         landmass.shape.forEach((row, rowIndex) => {
             row.forEach((square, squareIndex) => {
+                if (typeof square === 'undefined') {
+                    return
+                }
                 const x = landmass.x + squareIndex * TERRAIN_SQUARE_SIZE
                 const y = landmass.y + rowIndex * TERRAIN_SQUARE_SIZE
                 ctx.beginPath()

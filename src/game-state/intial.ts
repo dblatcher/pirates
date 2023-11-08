@@ -123,7 +123,7 @@ export const initalState: GameState = {
             shape: [
                 [TerrainType.DESERT, TerrainType.DESERT],
                 [TerrainType.DESERT, TerrainType.DESERT, TerrainType.DESERT],
-                [TerrainType.DESERT],
+                [TerrainType.DESERT, undefined, TerrainType.DESERT],
                 [TerrainType.DESERT, TerrainType.DESERT],
                 [TerrainType.DESERT, TerrainType.DESERT],
             ]

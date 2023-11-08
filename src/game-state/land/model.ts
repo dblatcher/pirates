@@ -12,5 +12,5 @@ export enum TerrainType {
 export type Landmass = {
     x: number,
     y: number,
-    shape: Array<Array<TerrainType>>
+    shape: Array<Array<TerrainType | undefined>>
 }
