@@ -25,6 +25,9 @@ export const ShipDashBoard = ({ ship }: Props) => {
             <p>
                 <span>Sails: {sailLevel.toFixed(2)} ({sailLevelTarget.toFixed(2)})</span>
             </p>
+            <p>
+                speed: {ship.speedLastTurn.toFixed(2)}
+            </p>
             {cannons.map((cannon, index) => (
                 <p key={index}>
                     <span>{sideToDescription(cannon.side)}</span>

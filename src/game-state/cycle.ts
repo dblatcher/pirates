@@ -1,5 +1,6 @@
+import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
-import { splitArray } from "../lib/util";
+import { randomInt, splitArray } from "../lib/util";
 import { willProjectileHitShip } from "./collisions";
 import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
 import { isLandAt } from "./land";
@@ -68,11 +69,15 @@ const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }
 }
 
 const updateWind = (game: GameState) => {
-    game.wind.direction = game.wind.direction + .01
-    game.wind.force = game.wind.force - .05
-    if (game.wind.force < 3) {
-        game.wind.force = MAX_WIND
+    if (game.cycleNumber % 300 > 0 || Math.random() < .8) {
+        return
     }
+    // 2d4 + 2
+    const windForceDice = 2+ randomInt((MAX_WIND-2) / 2) + randomInt((MAX_WIND-2) / 2)
+    const windDirectionChangeDice = (90 -randomInt(180)) * _DEG
+    game.wind.direction = normaliseHeading(game.wind.direction + windDirectionChangeDice)
+    game.wind.force = windForceDice
+
 }
 
 export const cycle = (

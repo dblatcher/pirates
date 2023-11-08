@@ -2,6 +2,7 @@ import { getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, GameState } from "../types"
+import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "./types"
 
@@ -15,8 +16,9 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
 
+        
     // TO DO - adjust by wind
-    const moveAmount = ship.sailLevel * ship.profile.speed
+    const moveAmount = getSpeed(ship,game)
     const forward = getXYVector(moveAmount, ship.h)
     const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
     const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
