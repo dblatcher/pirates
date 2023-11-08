@@ -18,10 +18,19 @@ body {
 }
 
 .modal-frame>button {
-
   position: absolute;
   top: 0;
   right: 0;
   margin: 1rem;
   padding: 1rem;
+}
+
+.panel-frame {
+  border: 3px inset slategray;
+  padding: .5rem;
+  margin: 0 0 .5rem .5rem;
+}
+
+.panel-frame p, .panel-frame ul {
+  margin: 0;
 }

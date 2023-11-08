@@ -22,6 +22,10 @@ const shipDefaults = {
 
 export const initalState: GameState = {
     cycleNumber: 0,
+    wind: {
+        direction: Math.PI,
+        force: 10,
+    },
     ships: [
         {
             ...shipDefaults,

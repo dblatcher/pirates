@@ -8,10 +8,12 @@ export const ShipsLog = ({ entries, numberToShow = 8 }: Props) => {
     const tail = length <= numberToShow ? [...entries] : entries.slice(length - numberToShow)
 
     return (
-        <ul>
-            {tail.map((entry, index) =>
-                <li  key={index}>{entry}</li>
-            )}
-        </ul>
+        <div className="panel-frame">
+            <ul>
+                {tail.map((entry, index) =>
+                    <li key={index}>{entry}</li>
+                )}
+            </ul>
+        </div>
     )
 }

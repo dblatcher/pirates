@@ -18,7 +18,7 @@ export const ShipDashBoard = ({ ship }: Props) => {
     const { sailLevelTarget, sailLevel, wheel, cannons } = ship
 
     return (
-        <div>
+        <div className="panel-frame">
             <p>
                 wheel: {wheel}
             </p>

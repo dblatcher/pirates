@@ -5,7 +5,7 @@ import { createGroundHit, createImpact, createSplash, updateEffect } from "./eff
 import { isLandAt } from "./land";
 import { Projectile, updateProjectile } from "./projectile";
 import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
-import { Collison, Directive, GameState } from "./types";
+import { Collison, Directive, GameState, MAX_WIND } from "./types";
 
 
 const fireCannons = (game: GameState) => {
@@ -67,6 +67,14 @@ const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }
     })
 }
 
+const updateWind = (game: GameState) => {
+    game.wind.direction = game.wind.direction + .01
+    game.wind.force = game.wind.force - .05
+    if (game.wind.force < 3) {
+        game.wind.force = MAX_WIND
+    }
+}
+
 export const cycle = (
     gameState: GameState,
     playerDirectives: Directive[],
@@ -75,6 +83,7 @@ export const cycle = (
 ): GameState => {
     const game = { ...gameState }
     game.cycleNumber = game.cycleNumber + 1
+    updateWind(gameState)
 
     const [player] = game.ships
     if (player) {

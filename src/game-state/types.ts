@@ -7,27 +7,33 @@ import type { Ship } from './ship'
 export type { Ship } from './ship'
 export type { Projectile } from './projectile'
 
+export const MAX_WIND = 10;
+export type Wind = {
+    force: number;
+    direction: number;
+}
 
 export type GameState = {
-    ships: Ship[],
-    projectiles: Projectile[],
-    effects: Effect[],
-    cycleNumber: number
-    land: Landmass[]
+    wind: Wind;
+    ships: Ship[];
+    projectiles: Projectile[];
+    effects: Effect[];
+    cycleNumber: number;
+    land: Landmass[];
 }
 
 export type ViewPort = {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
+    x: number;
+    y: number;
+    width: number;
+    height: number;
 }
 
 export type Collison = {
     ship: Ship;
     vector: XY;
-    obstacle: Ship
-    speedWhenHit: number
+    obstacle: Ship;
+    speedWhenHit: number;
 }
 
 export enum Order {
@@ -45,7 +51,7 @@ export enum Side {
 }
 
 export type Directive = {
-    order: Order,
-    quantity?: number,
-    side?: Side
+    order: Order;
+    quantity?: number;
+    side?: Side;
 }

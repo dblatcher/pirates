@@ -13,6 +13,7 @@ import { Directive, GameState, Order, ViewPort } from './game-state/types'
 import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
 import { CellMatrix } from './lib/path-finding/types'
 import { useInterval } from './lib/useInterval'
+import { WindSock } from './components/WindSock'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -80,6 +81,7 @@ function App() {
       </main>
 
       <aside>
+        <WindSock wind={gameState.wind} />
         {player && (
           <ShipDashBoard ship={player} />
         )}
