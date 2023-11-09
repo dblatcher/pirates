@@ -29,7 +29,10 @@ export const normaliseHeading = (h: number): number => {
     const hr = h % (_360_DEG)
     return hr > 0 ? hr : (_360_DEG) + hr
 }
-
+export const getVectorFrom = (p1: XY, p2: XY): XY => ({
+    x: p2.x - p1.x,
+    y: p2.y - p1.y,
+})
 export const translate = (position: XY, vector: XY): XY => ({
     x: position.x + vector.x,
     y: position.y + vector.y,
@@ -69,3 +72,18 @@ export const doCircleIntersect = (c1: Circle, c2: Circle): boolean => {
     return getDistance(c1, c2) < c1.r + c2.r
 }
 
+export const findClosestAndDistance = <T extends XY,>(list: T[], point: XY): { item?: T, distance: number } => {
+    if (list.length === 0) { return { distance: Infinity } }
+
+    const itemsWithDistances = list.map(item => {
+        return { item, distance: getDistance(point, item) }
+    })
+
+    let [closestSoFar] = itemsWithDistances
+    itemsWithDistances.forEach(nextItem => {
+        if (closestSoFar.distance > nextItem.distance) {
+            closestSoFar = nextItem
+        }
+    })
+    return closestSoFar
+}

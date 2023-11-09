@@ -1,4 +1,6 @@
+import { AttackAutoPilot } from "../ai/attack-ai";
 import { PathFollowAutoPilot } from "../ai/path-follow-ai";
+import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { ShipProfile } from "./ship";
@@ -10,6 +12,11 @@ const defaultProfile: ShipProfile = {
     maneuver: 1
 }
 
+const defaultCannons = () => [
+    { side: Side.LEFT, cooldown: 0 },
+    { side: Side.RIGHT, cooldown: 0 },
+]
+
 const shipDefaults = {
     profile: defaultProfile,
     turnsUnimpeded: 0,
@@ -18,7 +25,11 @@ const shipDefaults = {
     wheel: 0,
     sailLevelTarget: 0,
     damage: 0,
+    width: 20,
+    length: 80,
 }
+
+
 
 
 export const initalState: GameState = {
@@ -31,9 +42,9 @@ export const initalState: GameState = {
         {
             ...shipDefaults,
             name: 'Player McPlayerFace',
-            faction: factions.grance,
-            x: 200,
-            y: 200,
+            faction: factions.spaim,
+            x: 450,
+            y: 400,
             h: Math.PI * .5,
             damage: 5,
             width: 20,
@@ -97,6 +108,30 @@ export const initalState: GameState = {
             length: 120,
             cannons: [],
             id: 3,
+        },
+        {
+            name: 'Spaim 1',
+            id: 4,
+            ...shipDefaults,
+            x: 700,
+            y: 500,
+            h: _DEG * 30,
+            faction: factions.spaim,
+            cannons: defaultCannons(),
+        },
+        {
+            name: 'Grance 1',
+            id: 4,
+            ...shipDefaults,
+            x: 550,
+            y: 500,
+            h: _DEG * 30,
+            faction: factions.grance,
+            cannons: defaultCannons(),
+            ai: new AttackAutoPilot({
+                mission: { type: 'attack' },
+                path: [],
+            }, 4)
         },
     ],
     projectiles: [],
