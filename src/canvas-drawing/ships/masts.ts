@@ -1,10 +1,11 @@
 import { getProwPosition } from "../../game-state/ship";
 import { Ship } from "../../game-state/types";
-import { XY, getXYVector, translate } from "../../lib/geometry";
+import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25
+const SAIL_END_AT_FULL = .2
 
 interface MastConfig {
     position: number,
@@ -12,8 +13,8 @@ interface MastConfig {
 }
 
 type MastWithPoints = MastConfig & {
-    base: XY,
-    top: XY,
+    base: XY;
+    top: XY;
 }
 
 export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D, drawMethods: OffsetDrawMethods, ship: Ship) => {
@@ -38,18 +39,30 @@ export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D
         ctx.strokeStyle = 'black'
         moveTo(base.x, base.y)
         lineTo(top.x, top.y)
+
+        ctx.lineWidth = 2;
+        lineTo(...s(translate(top, getXYVector(12, h + _90_DEG_LEFT))))
+        lineTo(...s(translate(top, getXYVector(12, h + _90_DEG_RIGHT))))
+
         ctx.stroke();
     })
 
     // sails
     mastsWithPoints.forEach(mast => {
         const { height, top } = mast
+
+        const sailHeight = height * sailLevel * BASE_MAST_HEIGHT * (1-SAIL_END_AT_FULL)
+        const topLeft = translate(top, getXYVector(12, h + _90_DEG_LEFT))
+        const topRight = translate(top, getXYVector(12, h + _90_DEG_RIGHT))
+        const bottomLeft = translate(topLeft, { x: -sailHeight, y: sailHeight })
+        const bottomRight = translate(topRight, { x: -sailHeight, y: sailHeight })
+
         ctx.beginPath()
-        ctx.fillStyle = 'white'
-        moveTo(top.x - 15, top.y - (5 * height))
-        lineTo(top.x + 10, top.y + (5 * height))
-        lineTo(top.x + 10, top.y + (30 * sailLevel * height))
-        lineTo(top.x - 15, top.y + (20 * sailLevel * height))
+        ctx.fillStyle = 'rgba(255,255,255,0.8)'
+        moveTo(...s(topLeft))
+        lineTo(...s(topRight))
+        lineTo(...s(bottomRight))
+        lineTo(...s(bottomLeft))
         ctx.closePath()
         ctx.fill()
     })
