@@ -1,5 +1,4 @@
-import { AttackAutoPilot } from "../ai/attack-ai";
-import { PathFollowAutoPilot } from "../ai/path-follow-ai";
+import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
@@ -131,7 +130,7 @@ export const initalState: GameState = {
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
-            }, 4)
+            }, 4, true)
         },
     ],
     projectiles: [],
