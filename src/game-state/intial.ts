@@ -135,5 +135,17 @@ export const initalState: GameState = {
                 [TerrainType.DESERT, TerrainType.DESERT],
             ]
         },
+        {
+            x: 600,
+            y: 1300,
+            shape: [
+                [undefined, undefined, undefined, TerrainType.JUNGLE, TerrainType.JUNGLE],
+                [undefined, undefined, undefined, TerrainType.JUNGLE, TerrainType.JUNGLE],
+                [undefined, undefined, undefined, TerrainType.JUNGLE, TerrainType.JUNGLE],
+                [undefined, undefined, undefined, TerrainType.JUNGLE, TerrainType.JUNGLE, TerrainType.JUNGLE],
+                [undefined, undefined, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.JUNGLE, TerrainType.JUNGLE],
+                [undefined, undefined, undefined, TerrainType.PLAIN, TerrainType.JUNGLE, TerrainType.JUNGLE],
+            ]
+        }
     ]
 }
