@@ -20,3 +20,7 @@ export function clamp(value: number, max = 1, min = 0) {
 export const randomInt = (max: number): number => {
     return Math.ceil(Math.random() * max)
 }
+
+/** convert a timestamp a number going up and down within a range around zero */
+export const timePhase = (t: number, phase: number, step = 1): number =>
+    Math.abs(((t * (step)) % (phase * 2)) - phase) - (phase * .5)

@@ -1,6 +1,7 @@
 import { getProwPosition } from "../../game-state/ship";
 import { Ship } from "../../game-state/types";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, _DEG, getXYVector, translate, translateZ } from "../../lib/geometry";
+import { timePhase } from "../../lib/util";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s, shipColor } from "../helpers";
 
@@ -28,12 +29,14 @@ const drawFlagOn = (
     const { lineTo, moveTo } = drawMethods
     const { top } = mast
     const { h } = ship
-    const phase = Math.abs(((cycleNumber / (WAVE_PHASE * .5)) % (WAVE_PHASE * 2)) - WAVE_PHASE) - (WAVE_PHASE * .5)
+    const phase = timePhase(cycleNumber, WAVE_PHASE, 1 / 4)
+    const waveAngle = phase * _DEG * 2
+
     ctx.beginPath()
     ctx.fillStyle = shipColor(ship)
     moveTo(...s(top))
     lineTo(...s(translateZ(top, 15)))
-    lineTo(...s(translate(top, getXYVector(40, h + phase * _DEG * 4 ))))
+    lineTo(...s(translate(top, getXYVector(40, h + waveAngle))))
     ctx.fill()
 }
 
