@@ -45,12 +45,8 @@ export const initalState: GameState = {
             x: 450,
             y: 400,
             h: Math.PI * .5,
-            damage: 5,
             width: 20,
             length: 80,
-            sailLevel: 0,
-            wheel: 0,
-            sailLevelTarget: 0,
             cannons: [
                 { side: Side.LEFT, cooldown: 0 },
                 { side: Side.RIGHT, cooldown: 0 },
@@ -59,7 +55,7 @@ export const initalState: GameState = {
             profile: {
                 speed: 1.5,
                 maneuver: 1.5,
-                maxHp: 20
+                maxHp: 30
             }
         },
         {
@@ -117,12 +113,16 @@ export const initalState: GameState = {
             h: _DEG * 30,
             faction: factions.spaim,
             cannons: defaultCannons(),
+            ai: new AttackAutoPilot({
+                mission: { type: 'attack' },
+                path: [],
+            }, 4, true)
         },
         {
             name: 'Grance 1',
             id: 4,
             ...shipDefaults,
-            x: 550,
+            x: 650,
             y: 500,
             h: _DEG * 30,
             faction: factions.grance,
