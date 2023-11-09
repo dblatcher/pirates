@@ -1,5 +1,6 @@
 import { XY } from '../lib/geometry'
 import { Effect } from './effect'
+import { Faction } from './faction'
 import { Landmass } from './land'
 import type { Projectile } from './projectile'
 import type { Ship } from './ship'
@@ -12,6 +13,7 @@ export type Wind = {
     force: number;
     direction: number;
 }
+
 
 export type GameState = {
     wind: Wind;

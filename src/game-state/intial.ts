@@ -1,4 +1,5 @@
 import { PathFollowAutoPilot } from "../ai/path-follow-ai";
+import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { ShipProfile } from "./ship";
 import { GameState, Side } from "./types";
@@ -30,6 +31,7 @@ export const initalState: GameState = {
         {
             ...shipDefaults,
             name: 'Player McPlayerFace',
+            faction: factions.grance,
             x: 200,
             y: 200,
             h: Math.PI * .5,
@@ -53,6 +55,7 @@ export const initalState: GameState = {
         {
             ...shipDefaults,
             name: 'The Flying Goose',
+            faction: factions.spaim,
             x: 300,
             y: 0,
             h: Math.PI * .5,

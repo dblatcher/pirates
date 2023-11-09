@@ -1,4 +1,5 @@
 import type { AI } from "../../ai"
+import { Faction } from "../faction"
 import { Side } from "../types"
 
 export type Cannon = {
@@ -15,6 +16,7 @@ export type ShipProfile = {
 
 export type Ship = {
     id: number,
+    faction?: Faction,
     name?: string,
     profile: ShipProfile,
     width: number,

@@ -20,6 +20,6 @@ export const drawShips = (
         drawShipMasts([
             { position: -1 / 5, height: 1.5 },
             { position: 1 / 4, height: 1 },
-        ], ctx, drawingMethods, ship)
+        ], ctx, drawingMethods, ship, cycleNumber)
     })
 }

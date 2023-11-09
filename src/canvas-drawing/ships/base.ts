@@ -2,7 +2,7 @@ import { getCollisionCircles } from "../../game-state/ship";
 import { Ship } from "../../game-state/types";
 import { _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { s } from "../helpers";
+import { s, shipColor } from "../helpers";
 
 
 export const drawShipBase = (
@@ -27,9 +27,9 @@ export const drawShipBase = (
     const backRight = translate(back, getXYVector(width / 2, r));
 
     ctx.beginPath();
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 3;
     ctx.fillStyle = 'brown';
-    ctx.strokeStyle = 'goldenrod';
+    ctx.strokeStyle = shipColor(ship);
 
     moveTo(...s(fore));
     lineTo(...s(foreLeft));
