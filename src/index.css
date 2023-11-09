@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  overflow-y: hidden;
 }
 
 .modal-frame {
@@ -31,6 +32,11 @@ body {
   margin: 0 0 .5rem .5rem;
 }
 
-.panel-frame p, .panel-frame ul {
+.panel-frame p{
   margin: 0;
+}
+
+.panel-frame ul {
+  margin: 0;
+  padding-inline-start: 1em;
 }
