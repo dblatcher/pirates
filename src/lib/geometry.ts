@@ -4,8 +4,8 @@ export type Rect = { top: number, left: number, bottom: number, right: number }
 
 export const _90_DEG_LEFT = Math.PI * .5
 export const _90_DEG_RIGHT = Math.PI * -.5
-export const _360_DEG = Math.PI*2
-export const _DEG = Math.PI/180
+export const _360_DEG = Math.PI * 2
+export const _DEG = Math.PI / 180
 
 function getVectorX(magnitude: number, direction: number) { return magnitude * Math.sin(direction) }
 function getVectorY(magnitude: number, direction: number) { return magnitude * Math.cos(direction) }
@@ -33,6 +33,11 @@ export const normaliseHeading = (h: number): number => {
 export const translate = (position: XY, vector: XY): XY => ({
     x: position.x + vector.x,
     y: position.y + vector.y,
+})
+
+export const translateZ = (position: XY, z: number): XY => ({
+    x: position.x + z,
+    y: position.y - z
 })
 
 export const getDistance = (p1: XY, p2: XY): number => {

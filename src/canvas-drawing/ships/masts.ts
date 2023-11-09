@@ -1,6 +1,6 @@
 import { getProwPosition } from "../../game-state/ship";
 import { Ship } from "../../game-state/types";
-import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry";
+import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s } from "../helpers";
 
@@ -25,7 +25,7 @@ export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D
     const mastsWithPoints: MastWithPoints[] = masts.map(config => {
         const { position, height } = config
         const base = translate(ship, getXYVector(length * position, h));
-        const top = translate(base, { x: height * BASE_MAST_HEIGHT, y: -height * BASE_MAST_HEIGHT })
+        const top = translateZ(base, height * BASE_MAST_HEIGHT)
         return {
             ...config, base, top
         }
@@ -51,11 +51,11 @@ export const drawShipMasts = (masts: MastConfig[], ctx: CanvasRenderingContext2D
     mastsWithPoints.forEach(mast => {
         const { height, top } = mast
 
-        const sailHeight = height * sailLevel * BASE_MAST_HEIGHT * (1-SAIL_END_AT_FULL)
+        const sailHeight = height * sailLevel * BASE_MAST_HEIGHT * (1 - SAIL_END_AT_FULL)
         const topLeft = translate(top, getXYVector(12, h + _90_DEG_LEFT))
         const topRight = translate(top, getXYVector(12, h + _90_DEG_RIGHT))
-        const bottomLeft = translate(topLeft, { x: -sailHeight, y: sailHeight })
-        const bottomRight = translate(topRight, { x: -sailHeight, y: sailHeight })
+        const bottomLeft = translateZ(topLeft, -sailHeight)
+        const bottomRight = translateZ(topRight, -sailHeight)
 
         ctx.beginPath()
         ctx.fillStyle = 'rgba(255,255,255,0.8)'
