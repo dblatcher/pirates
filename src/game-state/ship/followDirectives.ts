@@ -10,6 +10,10 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
         // TO DO - steering can't turn directly - need to set intent,
         // resolve in the update function with collision detection
         switch (directive.order) {
+            case Order.WHEEL_TO:
+                const { quantity = 0 } = directive;
+                ship.wheel = clamp(quantity, 1, -1);
+                break;
             case Order.RESET_WHEEL:
                 ship.wheel = 0
                 break;

@@ -14,6 +14,7 @@ import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
 import { CellMatrix } from './lib/path-finding/types'
 import { useInterval } from './lib/useInterval'
 import { WindSock } from './components/WindSock'
+import { Wheel } from './components/Wheel'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -30,6 +31,7 @@ function App() {
   const [showMap, setShowMap] = useState(false)
   const [directives, setDirectives] = useState<Directive[]>([])
   const [log, setLog] = useState<string[]>(['Yarrgh!'])
+  const [playerWheel, setPlayerWheel] = useState(0)
 
   const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
@@ -40,7 +42,7 @@ function App() {
   const refresh = () => {
     const updatedGame = cycle(
       gameState,
-      [{ order: Order.RESET_WHEEL }, ...directives],
+      [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directives],
       matrix,
       pushLog,
     )
@@ -82,14 +84,13 @@ function App() {
 
       <aside>
         <WindSock wind={gameState.wind} />
-        {player && (
+        {player && (<>
           <ShipDashBoard ship={player} />
+          <Wheel playerWheel={playerWheel} setPlayerWheel={setPlayerWheel} actual={player.wheel} />
+        </>
         )}
         <ShipsLog entries={log} />
       </aside>
-      <KeyboardControls
-        addDirective={addDirective}
-        paused={paused} />
 
       {showMap && (
         <WorldMap
@@ -100,6 +101,10 @@ function App() {
           mapWidth={MAP_WIDTH}
         />
       )}
+
+      <KeyboardControls
+        addDirective={addDirective}
+        paused={paused} />
     </div>
   )
 }
