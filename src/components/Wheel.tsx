@@ -9,39 +9,43 @@ interface Props {
 
 
 
-const wheelFrameStyle = (): CSSProperties => ({
+const wheelFrameStyle = (size: number): CSSProperties => ({
     position: "relative",
     border: '1px solid black',
-    width: 75,
-    height: 75,
+    width: size,
+    height: size,
     margin: 0,
     overflow: "hidden",
 })
-const wheelStyle = (angle: number, color: string): CSSProperties => ({
+const wheelStyle = (angle: number, color: string, size: number): CSSProperties => ({
     position: "absolute",
-    borderLeft: `5px inset ${color}`,
-    borderTop: `5px inset ${color}`,
+    borderTop: `2px dashed ${color}`,
+    borderRadius: '25%',
 
     left: '50%',
     top: '50%',
 
-    width: 60,
-    height: 60,
+    width: size,
+    height: size,
     transform: `translateX(-50%) translateY(-50%) rotate(${angle}deg)`,
     transition: 'transform .2s',
     boxSizing: "border-box",
     display: 'flex',
     justifyContent: 'center',
+
+    color: color,
+    textShadow: '2px 2px black',
     alignItems: 'center',
+    fontSize: size,
+    lineHeight: 0,
 })
 
 
 
-export const Wheel = ({ playerWheel, setPlayerWheel, actual }: Props) => {
+export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
 
     const [locked, setLocked] = useState(false)
-    const wheelAngle = 45 - (playerWheel * 180)
-    const actualWheelAngle = 45 - (actual * 180)
+    const wheelAngle = -(playerWheel * 180)
 
     const revertToCentre = () => {
         if (locked) {
@@ -58,31 +62,15 @@ export const Wheel = ({ playerWheel, setPlayerWheel, actual }: Props) => {
 
     return (
         <div className="panel-frame">
-
-            <figure style={wheelFrameStyle()}>
-                <div style={wheelStyle(actualWheelAngle, 'gray')}>
-                    <span style={{
-                        fontSize: '70px',
-                        lineHeight: 0,
-                        transform: 'rotate(-45deg)'
-                    }}>☸</span>
+            <figure style={wheelFrameStyle(100)}>
+                <div style={wheelStyle(wheelAngle, 'saddlebrown',90)}>
+                    <span>☸</span>
                 </div>
-                <div style={wheelStyle(wheelAngle, 'red')}></div>
             </figure>
-
             <div>
                 {locked ? 'L' : 'N'}
                 <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
                 <span>{playerWheel.toFixed(2)}</span>
-            </div>
-            <div>
-                <button onClick={() => { setPlayerWheel(.5) }}>.5</button>
-                <button onClick={() => { setPlayerWheel(.25) }}>.25</button>
-                <button onClick={() => { setPlayerWheel(.1) }}>.1</button>
-                <button onClick={() => { setPlayerWheel(0) }}>0</button>
-                <button onClick={() => { setPlayerWheel(-.1) }}>-.1</button>
-                <button onClick={() => { setPlayerWheel(-.25) }}>-.25</button>
-                <button onClick={() => { setPlayerWheel(-.5) }}>-.5</button>
             </div>
             <div>
                 <input type="range"
