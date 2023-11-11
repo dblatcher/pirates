@@ -1,4 +1,4 @@
-import { _360_DEG, _DEG, normaliseHeading } from "../../lib/geometry";
+import { _360_DEG, _DEG, findRotationBetweenHeadings, normaliseHeading } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
 import { Directive, Order } from "../types";
 import { Ship } from "./types";
@@ -49,20 +49,21 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                     adjustedTarget = target - _360_DEG
                 }
 
-                const changeRequired = Math.abs(adjustedTarget - current)
-                const wheelAmount = changeRequired > _DEG * 10
-                    ? .5
-                    : changeRequired > _DEG * 5
-                        ? .1
-                        : .025
+                const changeRequired = findRotationBetweenHeadings(h, target)
+                const changeRequiredAbs = Math.abs(changeRequired)
+                const changeRequiredSign = Math.sign(changeRequired)
 
-                if (current === adjustedTarget) {
+                const wheelAmount = changeRequiredAbs > _DEG * 5
+                    ? .5 * changeRequiredSign
+                    : changeRequiredAbs > _DEG * 2.5
+                        ? .25 * changeRequiredSign
+                        : .125 *changeRequiredSign
+
+                if (changeRequired === adjustedTarget) {
                     ship.wheel = 0
-                } else if (current < adjustedTarget) {
+                } else  {
                     ship.wheel = wheelAmount
-                } else if (current > adjustedTarget) {
-                    ship.wheel = -wheelAmount
-                }
+                } 
 
             }
         }

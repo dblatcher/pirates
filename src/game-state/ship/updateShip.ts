@@ -1,4 +1,4 @@
-import { getXYVector, isPointInsideRect } from "../../lib/geometry"
+import { _DEG, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, GameState } from "../types"
@@ -9,16 +9,16 @@ import { Ship } from "./types"
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
 
-const SHIP_TURN_RATE = Math.PI * 0.05
+const SHIP_TURN_RATE = _DEG * 2
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) => {
     const otherShipsNearby = game.ships
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
 
-        
+
     // TO DO - adjust by wind
-    const moveAmount = getSpeed(ship,game)
+    const moveAmount = getSpeed(ship, game)
     const forward = getXYVector(moveAmount, ship.h)
     const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
     const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)

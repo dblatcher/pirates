@@ -15,8 +15,8 @@ const directiveKeys: Record<string, Directive | undefined> = {
 }
 
 const wheelKeys:Record<string, number | undefined> = {
-    'ArrowLeft': .125,
-    'ArrowRight': -.125,
+    'ArrowLeft': .5,
+    'ArrowRight': -.5,
 }
 
 export const KeyboardControls = ({ paused, addDirective, turnWheel }: Props) => {

@@ -95,7 +95,7 @@ export const initalState: GameState = {
         {
             ...shipDefaults,
             name: 'The Dead Duck',
-            x: 5,
+            x: 550,
             y: 300,
             h: Math.PI * 1.4,
             damage: 10,

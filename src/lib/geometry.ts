@@ -87,3 +87,15 @@ export const findClosestAndDistance = <T extends XY,>(list: T[], point: XY): { i
     })
     return closestSoFar
 }
+
+export const findRotationBetweenHeadings = (start: number, end: number): number => {
+    const normalisedStart = normaliseHeading(start)
+    const normalisedTarget = normaliseHeading(end)
+    let adjustedTarget = normalisedTarget
+    if (normalisedStart - normalisedTarget > _360_DEG / 2) {
+        adjustedTarget = normalisedTarget + _360_DEG
+    } else if (normalisedStart - normalisedTarget < -_360_DEG / 2) {
+        adjustedTarget = normalisedTarget - _360_DEG
+    }
+    return (adjustedTarget - normalisedStart)
+}
