@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react"
+import { CSSProperties, useState, useCallback } from "react"
 import { useInterval } from "../lib/useInterval"
 
 interface Props {
@@ -6,7 +6,6 @@ interface Props {
     setPlayerWheel: { (value: number): void }
     actual: number
 }
-
 
 
 const wheelFrameStyle = (size: number): CSSProperties => ({
@@ -45,20 +44,21 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
 
     const [locked, setLocked] = useState(false)
+    const [pointerOnInput, setPointerOnInput] = useState(false)
+
+    // TO DO - getting some slowdown with this - 
+    // changes the parent state on an interval is not good
+    // doesn't work if change the interval 
     const wheelAngle = -(playerWheel * 180)
-
-    const revertToCentre = () => {
-        if (locked) {
+    const revertToCentre = useCallback(() => {
+        if (locked || pointerOnInput || playerWheel === 0) {
             return
         }
-        if (playerWheel === 0) {
-            return
-        }
-        const changeAmount = Math.min(Math.abs(playerWheel), .005)
+        const changeAmount = Math.min(Math.abs(playerWheel), .01)
         setPlayerWheel(playerWheel - changeAmount * Math.sign(playerWheel))
-    }
-
-    useInterval(revertToCentre, 10)
+    }, [locked, pointerOnInput, playerWheel, setPlayerWheel]
+    )
+    useInterval(revertToCentre, 20)
 
     return (
         <div className="panel-frame" style={{ width: 120, position: 'relative' }}>
@@ -69,13 +69,19 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
             </figure>
             <div style={{
                 position: 'absolute',
-                top:0,
-                right:0,
+                top: 0,
+                right: 0,
             }}>
                 <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
             </div>
             <div>
                 <input type="range"
+                    onPointerDown={() => {
+                        setPointerOnInput(true)
+                    }}
+                    onPointerUp={() => {
+                        setPointerOnInput(false)
+                    }}
                     style={{ width: '100%' }}
                     max={50} min={-50} step={'any'}
                     value={playerWheel * -100}
