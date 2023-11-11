@@ -15,16 +15,10 @@ const sideToDescription = (side: Side): string => {
 
 export const ShipDashBoard = ({ ship }: Props) => {
 
-    const { sailLevelTarget, sailLevel, wheel, cannons } = ship
+    const { cannons } = ship
 
     return (
         <div className="panel-frame">
-            <p>
-                wheel: {wheel}
-            </p>
-            <p>
-                <span>Sails: {sailLevel.toFixed(2)} ({sailLevelTarget.toFixed(2)})</span>
-            </p>
             <p>
                 speed: {ship.speedLastTurn.toFixed(2)}
             </p>

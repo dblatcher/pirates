@@ -15,6 +15,7 @@ import { CellMatrix } from './lib/path-finding/types'
 import { useInterval } from './lib/useInterval'
 import { WindSock } from './components/WindSock'
 import { Wheel } from './components/Wheel'
+import { SailsWidget } from './components/SailsWidget'
 
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -86,7 +87,16 @@ function App() {
         <WindSock wind={gameState.wind} />
         {player && (<>
           <ShipDashBoard ship={player} />
-          <Wheel playerWheel={playerWheel} setPlayerWheel={setPlayerWheel} actual={player.wheel} />
+          <Wheel
+            playerWheel={playerWheel}
+            setPlayerWheel={setPlayerWheel}
+            actual={player.wheel} />
+          <SailsWidget
+            setSailLevelTarget={(value) => {
+              addDirective({ order: Order.SAILS_TO, quantity: value })
+            }}
+            ship={player}
+          />
         </>
         )}
         <ShipsLog entries={log} />
