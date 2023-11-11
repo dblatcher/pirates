@@ -66,11 +66,7 @@ function App() {
   return (
     <div style={{ display: 'flex' }}>
       <main>
-        <div>
-          <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
-          <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
-          <span>[{player.x.toFixed(0)}, {player.y.toFixed(0)}]</span>
-        </div>
+
         <CanvasScreen
           containerStyle={{
             border: '1px solid black',
@@ -80,25 +76,33 @@ function App() {
           draw={drawScene(gameState, viewPort)}
           width={viewPort.width}
           height={viewPort.height} />
-        <Controls {...{ game: gameState, addDirective }} paused={paused} />
+
+        <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
+          <Controls {...{ game: gameState, addDirective }} paused={paused} />
+          {player && (<>
+            <Wheel
+              playerWheel={playerWheel}
+              setPlayerWheel={setPlayerWheel}
+              actual={player.wheel} />
+            <SailsWidget
+              setSailLevelTarget={(value) => {
+                addDirective({ order: Order.SAILS_TO, quantity: value })
+              }}
+              ship={player}
+            />
+            <ShipDashBoard ship={player} />
+          </>
+          )}
+        </aside>
       </main>
 
       <aside>
+        <div>
+          <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
+          <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
+          <span>[{player.x.toFixed(0)}, {player.y.toFixed(0)}]</span>
+        </div>
         <WindSock wind={gameState.wind} />
-        {player && (<>
-          <ShipDashBoard ship={player} />
-          <Wheel
-            playerWheel={playerWheel}
-            setPlayerWheel={setPlayerWheel}
-            actual={player.wheel} />
-          <SailsWidget
-            setSailLevelTarget={(value) => {
-              addDirective({ order: Order.SAILS_TO, quantity: value })
-            }}
-            ship={player}
-          />
-        </>
-        )}
         <ShipsLog entries={log} />
       </aside>
 

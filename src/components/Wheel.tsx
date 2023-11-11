@@ -14,7 +14,7 @@ const wheelFrameStyle = (size: number): CSSProperties => ({
     border: '1px solid black',
     width: size,
     height: size,
-    margin: 0,
+    margin: '0px auto',
     overflow: "hidden",
 })
 const wheelStyle = (angle: number, color: string, size: number): CSSProperties => ({
@@ -61,16 +61,18 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
     useInterval(revertToCentre, 10)
 
     return (
-        <div className="panel-frame">
-            <figure style={wheelFrameStyle(100)}>
-                <div style={wheelStyle(wheelAngle, 'saddlebrown',90)}>
+        <div className="panel-frame" style={{ width: 120, position: 'relative' }}>
+            <figure style={wheelFrameStyle(80)}>
+                <div style={wheelStyle(wheelAngle, 'saddlebrown', 70)}>
                     <span>☸</span>
                 </div>
             </figure>
-            <div>
-                {locked ? 'L' : 'N'}
+            <div style={{
+                position: 'absolute',
+                top:0,
+                right:0,
+            }}>
                 <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
-                <span>{playerWheel.toFixed(2)}</span>
             </div>
             <div>
                 <input type="range"
