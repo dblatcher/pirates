@@ -6,6 +6,7 @@ export type OffsetDrawMethods = {
     lineTo: (x: number, y: number) => void;
     arcTo: (x1: number, y1: number, x2: number, y2: number, radius: number) => void;
     rect: (x: number, y: number, w: number, h: number) => void;
+    quadraticCurveTo: (cpx: number, cpy: number, x: number, y: number) => void
 }
 
 export const drawWithOffset = (ctx: CanvasRenderingContext2D, viewPort: ViewPort): OffsetDrawMethods => {
@@ -18,7 +19,11 @@ export const drawWithOffset = (ctx: CanvasRenderingContext2D, viewPort: ViewPort
     const arcTo = (x1: number, y1: number, x2: number, y2: number, radius: number) =>
         ctx.arcTo(x1 - viewPort.x, y1 - viewPort.y, x2 - viewPort.x, y2 - viewPort.y, radius)
 
-    const rect = (x: number, y: number, w: number, h: number) => ctx.rect(x - viewPort.x, y - viewPort.y, w, h)
+    const rect = (x: number, y: number, w: number, h: number) =>
+        ctx.rect(x - viewPort.x, y - viewPort.y, w, h)
 
-    return { arc, moveTo, lineTo, arcTo, rect }
+    const quadraticCurveTo = (cpx: number, cpy: number, x: number, y: number) =>
+        ctx.quadraticCurveTo(cpx - viewPort.x, cpy - viewPort.y, x - viewPort.x, y - viewPort.y)
+
+    return { arc, moveTo, lineTo, arcTo, rect, quadraticCurveTo }
 }

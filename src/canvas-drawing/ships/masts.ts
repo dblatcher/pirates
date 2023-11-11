@@ -103,7 +103,7 @@ export const drawShipMasts = (
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'red'
         if (index == 0) {
-            moveTo(...s(getProwPosition(ship)))
+            moveTo(...s(translateZ(getProwPosition(ship), 4)))
         } else {
             moveTo(...s(array[index - 1].top))
         }
