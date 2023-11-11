@@ -39,7 +39,7 @@ export const translate = (position: XY, vector: XY): XY => ({
 })
 
 export const translateZ = (position: XY, z: number): XY => ({
-    x: position.x + z,
+    x: position.x + z / 2,
     y: position.y - z
 })
 

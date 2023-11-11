@@ -1,5 +1,7 @@
 import { Projectile } from "../game-state/types";
+import { translateZ } from "../lib/geometry";
 import { OffsetDrawMethods } from "./drawWithOffSet";
+import { s } from "./helpers";
 
 export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, projectile: Projectile) => {
 
@@ -8,10 +10,9 @@ export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: Of
     //shadow
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = 'black'
+    ctx.strokeStyle = 'grey'
     ctx.fillStyle = 'grey'
-    arc(x, y, 3, 0, Math.PI * 2)
-    ctx.stroke();
+    arc(x, y, 2 + z / 16, 0, Math.PI * 2)
     ctx.fill();
 
     // ball
@@ -19,7 +20,7 @@ export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: Of
     ctx.lineWidth = 1;
     ctx.strokeStyle = 'black'
     ctx.fillStyle = 'black'
-    arc(x + z / 2, y - z / 2, 3, 0, Math.PI * 2)
+    arc(...s(translateZ({ x, y }, z)), 2, 0, Math.PI * 2)
     ctx.stroke();
     ctx.fill();
 }
