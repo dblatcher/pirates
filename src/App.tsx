@@ -104,6 +104,7 @@ function App() {
 
       <KeyboardControls
         addDirective={addDirective}
+        turnWheel={setPlayerWheel}
         paused={paused} />
     </div>
   )

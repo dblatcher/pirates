@@ -38,8 +38,6 @@ export type Collison = {
 }
 
 export enum Order {
-    LEFT,
-    RIGHT,
     SAILS_TO,
     FIRE,
     SAILS_BY,

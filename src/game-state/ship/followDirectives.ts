@@ -17,12 +17,6 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
             case Order.RESET_WHEEL:
                 ship.wheel = 0
                 break;
-            case Order.LEFT:
-                ship.wheel = .5
-                break;
-            case Order.RIGHT:
-                ship.wheel = -.5
-                break;
             case Order.SAILS_TO: {
                 const { quantity = 0 } = directive;
                 ship.sailLevelTarget = clamp(quantity);

@@ -4,27 +4,35 @@ import { Directive, Order, Side } from "../game-state/types"
 interface Props {
     paused: boolean
     addDirective: { (directive: Directive): void }
+    turnWheel: { (wheel: number): void }
 }
 
-const keyCommands: Record<string, Directive | undefined> = {
-    'ArrowLeft': { order: Order.LEFT },
-    'ArrowRight': { order: Order.RIGHT },
+const directiveKeys: Record<string, Directive | undefined> = {
     'ArrowUp': { order: Order.SAILS_BY, quantity: .1 },
     'ArrowDown': { order: Order.SAILS_BY, quantity: -.1 },
     'KeyA': { order: Order.FIRE, side: Side.LEFT },
     'KeyD': { order: Order.FIRE, side: Side.RIGHT },
 }
 
-export const KeyboardControls = ({ paused, addDirective }: Props) => {
+const wheelKeys:Record<string, number | undefined> = {
+    'ArrowLeft': .125,
+    'ArrowRight': -.125,
+}
+
+export const KeyboardControls = ({ paused, addDirective, turnWheel }: Props) => {
 
     const handleKey = (event: KeyboardEvent) => {
         if (paused) {
             return
         }
         // console.log(event)
-        const directive = keyCommands[event.code]
+        const directive = directiveKeys[event.code]
         if (directive) {
             addDirective(directive)
+        }
+        const wheelTurn = wheelKeys[event.code]
+        if (typeof wheelTurn === 'number') {
+            turnWheel(wheelTurn)
         }
     }
 
