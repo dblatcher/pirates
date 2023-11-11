@@ -13,8 +13,8 @@ export const launchProjectile = (start: { x: number, y: number, h: number }, gam
     game.projectiles.push({
         x: start.x,
         y: start.y,
-        z: 10,
-        dz: 2,
+        z: 5,
+        dz: 1,
         h: start.h
     })
 }
@@ -28,5 +28,5 @@ export const updateProjectile = (projectile: Projectile) => {
     projectile.x = nextPosition.x
     projectile.y = nextPosition.y
     projectile.z = projectile.z += projectile.dz
-    projectile.dz = projectile.dz -= .07
+    projectile.dz = projectile.dz -= .025
 }
