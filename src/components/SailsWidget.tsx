@@ -6,20 +6,21 @@ interface Props {
     setSailLevelTarget: { (level: number): void }
 }
 
-const figureStyle = (height: number): CSSProperties => ({
+const figureStyle = (height: number, width: number): CSSProperties => ({
     position: 'relative',
-    borderTop: '3px solid black',
-    height,
     boxSizing: 'border-box',
-    marginBottom: 10,
-    width:'50%',
+    width,
+    height,
+    borderTop: '3px solid black',
+    margin: 0,
+    marginLeft: 20,
 })
 const mastStyle = (height: number): CSSProperties => ({
-    position:"absolute",
-    left:0,
-    top:0,
+    position: "absolute",
+    left: 0,
+    top: 0,
     height,
-    width:'50%',
+    width: '50%',
     borderRight: '3px solid black',
 })
 
@@ -46,15 +47,31 @@ const targetLineStyle = (level: number): CSSProperties => ({
 export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
 
     return (
-        <div className="panel-frame">
-            <figure style={figureStyle(50)}>
-                <div style={mastStyle(50)}></div>
+        <div className="panel-frame" style={{ position: 'relative' }}>
+            <figure style={figureStyle(80, 80)}>
+                <div style={mastStyle(80)}></div>
                 <div style={sailStyle(ship.sailLevel)}></div>
                 <div style={targetLineStyle(ship.sailLevelTarget)}></div>
             </figure>
-            <button onClick={() => setSailLevelTarget(0)}>none</button>
-            <button onClick={() => setSailLevelTarget(.5)}>half</button>
-            <button onClick={() => setSailLevelTarget(1)}>full</button>
-        </div>
+            <div style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                height: '100%',
+                display: 'flex',
+                width: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}>
+                <input type="range"
+                    style={{ width: 80, transform: 'rotate(90deg)', }}
+                    min={0} max={1} step={.1}
+                    value={ship.sailLevelTarget}
+                    onChange={(e) =>
+                        setSailLevelTarget(Number(e.target.value))
+                    }
+                />
+            </div>
+        </div >
     )
 }
