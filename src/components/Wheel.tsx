@@ -4,7 +4,6 @@ import { useInterval } from "../lib/useInterval"
 interface Props {
     playerWheel: number
     setPlayerWheel: { (value: number): void }
-    actual: number
 }
 
 
@@ -40,9 +39,7 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 })
 
 
-
 export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
-
     const [locked, setLocked] = useState(false)
     const [pointerOnInput, setPointerOnInput] = useState(false)
 
