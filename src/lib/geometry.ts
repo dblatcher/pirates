@@ -99,3 +99,10 @@ export const findRotationBetweenHeadings = (start: number, end: number): number 
     }
     return (adjustedTarget - normalisedStart)
 }
+
+export const expandRect = (rect: Rect, margin: number): Rect => ({
+    top: rect.top - margin,
+    bottom: rect.bottom + margin,
+    left: rect.left - margin,
+    right: rect.right + margin,
+})
