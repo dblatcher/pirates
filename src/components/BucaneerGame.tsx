@@ -89,9 +89,9 @@ export const BuccaneerGame = ({ initial }: Props) => {
                             setSailLevelTarget={(value) => {
                                 addDirective({ order: Order.SAILS_TO, quantity: value })
                             }}
-                            ship={player}
-                        />
-                        <ShipDashBoard ship={player} />
+                            ship={player} />
+                        <ShipDashBoard
+                            ship={player} />
                     </>
                     )}
                 </aside>
