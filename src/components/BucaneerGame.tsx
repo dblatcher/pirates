@@ -31,9 +31,10 @@ export const BuccaneerGame = ({ initial }: Props) => {
     const [gameState, setGameState] = useState<GameState>(initial)
     const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
     const [paused, setPaused] = useState(false)
+    const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
     const [directives, setDirectives] = useState<Directive[]>([])
-    const [log, setLog] = useState<string[]>(['Yarrgh!'])
+    const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
     const [playerWheel, setPlayerWheel] = useState(0)
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
@@ -63,7 +64,7 @@ export const BuccaneerGame = ({ initial }: Props) => {
         setGameState(updatedGame)
     }
 
-    useInterval(refresh, paused ? null : 10)
+    useInterval(refresh, paused ? null : turbo ? 1 : 10)
     const [player] = gameState.ships
     return (
         <div style={{ display: 'flex' }}>
@@ -99,6 +100,7 @@ export const BuccaneerGame = ({ initial }: Props) => {
             <aside>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
+                    <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                     <span>[{player.x.toFixed(0)}, {player.y.toFixed(0)}]</span>
                 </div>
