@@ -1,5 +1,6 @@
 import { CSSProperties, useState, useCallback } from "react"
 import { useInterval } from "../hooks/useInterval"
+import { useDebounce } from "../hooks/useDebounce"
 
 interface Props {
     playerWheel: number
@@ -42,6 +43,7 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
     const [locked, setLocked] = useState(false)
     const [pointerOnInput, setPointerOnInput] = useState(false)
+    const [debouncedSetWheel] = useDebounce(setPlayerWheel, 100)
 
     // TO DO - getting some slowdown with this - 
     // changes the parent state on an interval is not good
@@ -51,7 +53,7 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
         if (locked || pointerOnInput || playerWheel === 0) {
             return
         }
-        const changeAmount = Math.min(Math.abs(playerWheel), .01)
+        const changeAmount = Math.min(Math.abs(playerWheel), .02)
         setPlayerWheel(playerWheel - changeAmount * Math.sign(playerWheel))
     }, [locked, pointerOnInput, playerWheel, setPlayerWheel]
     )
@@ -85,7 +87,7 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
                     onChange={e => {
                         const value = Number(e.target.value)
                         if (isNaN(value)) { return }
-                        setPlayerWheel(value * (-1 / 100))
+                        debouncedSetWheel(value * (-1 / 100))
                     }} />
             </div>
         </div>
