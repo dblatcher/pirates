@@ -1,4 +1,3 @@
-import { isShipInView } from "../game-state/ship";
 import { GameState, ViewPort } from "../game-state/types";
 import { drawBackground } from "./drawBackground";
 import { drawEffect } from "./drawEffect";
