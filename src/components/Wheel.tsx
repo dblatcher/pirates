@@ -45,9 +45,6 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
     const [pointerOnInput, setPointerOnInput] = useState(false)
     const [debouncedSetWheel] = useDebounce(setPlayerWheel, 100)
 
-    // TO DO - getting some slowdown with this - 
-    // changes the parent state on an interval is not good
-    // doesn't work if change the interval 
     const wheelAngle = -(playerWheel * 180)
     const revertToCentre = useCallback(() => {
         if (locked || pointerOnInput || playerWheel === 0) {
