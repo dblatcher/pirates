@@ -20,7 +20,7 @@ export const followCurrentPath = (ai: AI, ship: Ship): Directive[] => {
         y: currentStep.y - ship.y
     })
     const distance = getDistance(ship, currentStep)
-    const close = distance < TERRAIN_SQUARE_SIZE * .75
+    const close = distance < TERRAIN_SQUARE_SIZE * .6
 
     // reduce sails for tight turns
     // TO DO - should take account of ship's profile here
