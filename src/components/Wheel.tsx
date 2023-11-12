@@ -1,5 +1,5 @@
 import { CSSProperties, useState, useCallback } from "react"
-import { useInterval } from "../lib/useInterval"
+import { useInterval } from "../hooks/useInterval"
 
 interface Props {
     playerWheel: number
