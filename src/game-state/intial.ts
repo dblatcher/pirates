@@ -87,10 +87,10 @@ export const initalState: GameState = {
                     path: [
                         // {x:350,y:40},
                         // {x:300,y:0},
-                        { x: 300, y: 300 },
+                        // { x: 300, y: 300 },
                         // {x:500,y:300},
                     ]
-                }, 2),
+                }, 2, true),
         },
         {
             ...shipDefaults,
@@ -116,11 +116,11 @@ export const initalState: GameState = {
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
-            }, 4, true)
+            }, 4, false)
         },
         {
             name: 'Grance 1',
-            id: 4,
+            id: 5,
             ...shipDefaults,
             x: 650,
             y: 500,
@@ -130,7 +130,7 @@ export const initalState: GameState = {
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
-            }, 4, true)
+            }, 5, false)
         },
     ],
     projectiles: [],

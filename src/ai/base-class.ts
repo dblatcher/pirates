@@ -25,12 +25,20 @@ export abstract class AI {
 
     abstract issueDirectives(ship: Ship, gameState: GameState): Directive[]
 
+    shiftPathIfReachedPoint(ship: Ship) {
+        const [currentStep] = this.state.path
+        if (!currentStep) { return }
+        if (getDistance(ship, currentStep) < TERRAIN_SQUARE_SIZE / 2) {
+            this.debugLog('reaching point - shifting from path', currentStep)
+            this.state.path.shift()
+        }
+    }
+
     updatePath(ship: Ship, gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
         if (path.length === 0) {
-
             if (!destination) {
-                this.debugLog('End of path, no destination set')
+                this.debugLog(ship.name, 'End of path, no destination set')
                 // run decide own mission to see what next?
                 // or take next objective in current mission (not modelled yet)
                 return

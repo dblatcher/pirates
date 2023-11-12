@@ -73,11 +73,10 @@ const updateWind = (game: GameState) => {
         return
     }
     // 2d4 + 2
-    const windForceDice = 2+ randomInt((MAX_WIND-2) / 2) + randomInt((MAX_WIND-2) / 2)
-    const windDirectionChangeDice = (90 -randomInt(180)) * _DEG
+    const windForceDice = 2 + randomInt((MAX_WIND - 2) / 2) + randomInt((MAX_WIND - 2) / 2)
+    const windDirectionChangeDice = (90 - randomInt(180)) * _DEG
     game.wind.direction = normaliseHeading(game.wind.direction + windDirectionChangeDice)
     game.wind.force = windForceDice
-
 }
 
 export const cycle = (
@@ -96,9 +95,8 @@ export const cycle = (
     }
 
     game.ships.forEach(ship => {
-        if (!ship.ai) {
-            return
-        }
+        if (!ship.ai) { return }
+        ship.ai.shiftPathIfReachedPoint(ship)
         followDirectives(ship, ship.ai.issueDirectives(ship, game))
     })
 
@@ -107,9 +105,7 @@ export const cycle = (
     // see effect on performance, then decide.
     if (game.cycleNumber % 100 == 0) {
         game.ships.forEach(ship => {
-            if (!ship.ai) {
-                return
-            }
+            if (!ship.ai) { return }
             ship.ai.updatePath(ship, game, matrix)
         })
     }
