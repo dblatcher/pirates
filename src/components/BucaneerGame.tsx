@@ -50,7 +50,7 @@ export const BuccaneerGame = ({ initial }: Props) => {
             matrix,
             pushLog,
         )
-        const [player] = updatedGame.ships
+        const player = updatedGame.ships.find(ship => ship.id === gameState.playerId)
         if (player) {
             setViewPort({
                 width: viewPort.width,
@@ -65,7 +65,7 @@ export const BuccaneerGame = ({ initial }: Props) => {
     }
 
     useInterval(refresh, paused ? null : turbo ? 1 : 10)
-    const [player] = gameState.ships
+    const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     return (
         <div style={{ display: 'flex' }}>
             <main>
@@ -102,7 +102,7 @@ export const BuccaneerGame = ({ initial }: Props) => {
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
-                    <span>[{player.x.toFixed(0)}, {player.y.toFixed(0)}]</span>
+                    <span>[{player?.x.toFixed(0)}, {player?.y.toFixed(0)}]</span>
                 </div>
                 <WindSock wind={gameState.wind} />
                 <ShipsLog entries={log} />

@@ -15,6 +15,7 @@ export type Wind = {
 
 
 export type GameState = {
+    playerId: number,
     wind: Wind;
     ships: Ship[];
     projectiles: Projectile[];

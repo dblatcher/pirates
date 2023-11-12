@@ -89,7 +89,7 @@ export const cycle = (
     game.cycleNumber = game.cycleNumber + 1
     updateWind(gameState)
 
-    const [player] = game.ships
+    const player = game.ships.find(ship => ship.id === game.playerId)
     if (player) {
         followDirectives(player, playerDirectives)
     }

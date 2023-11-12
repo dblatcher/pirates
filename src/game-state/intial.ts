@@ -33,6 +33,7 @@ const shipDefaults = {
 
 export const initalState: GameState = {
     cycleNumber: 0,
+    playerId: 1,
     wind: {
         direction: Math.PI,
         force: 10,
