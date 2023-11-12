@@ -22,7 +22,7 @@ export const launchFromShip = (cannon: Cannon, ship: Ship, game: GameState): boo
         }
     }
 
-    //TO DO - any number
+    //TO DO - set based on number of cannons when part of ship profile
     const startPositions = [
         getStartAt(-1 / 4),
         getStartAt(0),

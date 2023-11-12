@@ -125,7 +125,6 @@ export const cycle = (
         updateEffect(effect)
     })
     game.effects = game.effects.filter(effect => effect.timeLeft > 0)
-    // TO DO - handle collisions
     collisons.forEach(collison => handleShipCollison(collison, game))
 
     fireCannons(game)

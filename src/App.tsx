@@ -82,7 +82,6 @@ function App() {
           {player && (<>
             <Wheel
               playerWheel={playerWheel}
-              // TO DO - debounce state changes to reduce slowdown?
               setPlayerWheel={setPlayerWheel} />
             <SailsWidget
               setSailLevelTarget={(value) => {

@@ -16,8 +16,6 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
 
-
-    // TO DO - adjust by wind
     const moveAmount = getSpeed(ship, game)
     const forward = getXYVector(moveAmount, ship.h)
     const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
