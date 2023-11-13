@@ -2,33 +2,8 @@ import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
-import { ShipProfile } from "./ship";
+import { makeDefaultShip } from "./ship";
 import { GameState, Side } from "./types";
-
-const defaultProfile: ShipProfile = {
-    maxHp: 20,
-    speed: 1,
-    maneuver: 1
-}
-
-const defaultCannons = () => [
-    { side: Side.LEFT, cooldown: 0 },
-    { side: Side.RIGHT, cooldown: 0 },
-]
-
-const shipDefaults = {
-    profile: defaultProfile,
-    turnsUnimpeded: 0,
-    speedLastTurn: 0,
-    sailLevel: 0,
-    wheel: 0,
-    sailLevelTarget: 0,
-    damage: 0,
-    width: 20,
-    length: 80,
-}
-
-
 
 
 export const initalState: GameState = {
@@ -39,8 +14,7 @@ export const initalState: GameState = {
         force: 10,
     },
     ships: [
-        {
-            ...shipDefaults,
+        makeDefaultShip({
             name: 'Player McPlayerFace',
             faction: factions.spaim,
             x: 400,
@@ -58,20 +32,15 @@ export const initalState: GameState = {
                 maneuver: 1.5,
                 maxHp: 30
             }
-        },
-        {
-            ...shipDefaults,
+        }),
+        makeDefaultShip({
             name: 'The Flying Goose',
             faction: factions.spaim,
             x: 300,
             y: 0,
             h: Math.PI * .5,
-            damage: 0,
             width: 15,
             length: 60,
-            sailLevel: 0.5,
-            wheel: 0,
-            sailLevelTarget: 0,
             cannons: [],
             id: 2,
             profile: {
@@ -85,16 +54,11 @@ export const initalState: GameState = {
                         type: 'travel',
                     },
                     destination: { x: 100, y: 500 },
-                    path: [
-                        // {x:350,y:40},
-                        // {x:300,y:0},
-                        // { x: 300, y: 300 },
-                        // {x:500,y:300},
-                    ]
+                    path: []
                 }, 2, true),
-        },
-        {
-            ...shipDefaults,
+        }),
+        makeDefaultShip({
+            id: 3,
             name: 'The Dead Duck',
             x: 550,
             y: 300,
@@ -102,37 +66,31 @@ export const initalState: GameState = {
             damage: 10,
             width: 30,
             length: 120,
-            cannons: [],
-            id: 3,
-        },
-        {
+        }),
+        makeDefaultShip({
             name: 'Spaim 1',
             id: 4,
-            ...shipDefaults,
             x: 700,
             y: 500,
             h: _DEG * 30,
             faction: factions.spaim,
-            cannons: defaultCannons(),
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
             }, 4, false)
-        },
-        {
+        }),
+        makeDefaultShip({
             name: 'Grance 1',
             id: 5,
-            ...shipDefaults,
             x: 650,
             y: 500,
             h: _DEG * 30,
             faction: factions.grance,
-            cannons: defaultCannons(),
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
             }, 5, false)
-        },
+        }),
     ],
     projectiles: [],
     effects: [],
