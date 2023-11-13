@@ -3,7 +3,7 @@ import { drawShipBase } from "./base"
 import { Ship, isShipInView } from "../../game-state/ship"
 import { OffsetDrawMethods } from "../drawWithOffSet"
 import { drawDamage } from "./damage"
-import { ViewPort } from "../../game-state/types"
+import { ViewPort, Wind } from "../../game-state/types"
 
 
 export const drawShips = (
@@ -12,6 +12,7 @@ export const drawShips = (
     ships: Ship[],
     viewPort: ViewPort,
     cycleNumber: number,
+    wind: Wind,
     showCollision = false
 ) => {
 
@@ -20,6 +21,6 @@ export const drawShips = (
 
     shipsInView.forEach(ship => drawDamage(ctx, drawingMethods, ship, cycleNumber))
     shipsInView.forEach(ship => {
-        drawShipMasts(ship.profile.masts, ctx, drawingMethods, ship, cycleNumber)
+        drawShipMasts(ship.profile.masts, ctx, drawingMethods, ship, cycleNumber, wind)
     })
 }

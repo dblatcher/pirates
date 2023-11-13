@@ -3,14 +3,14 @@ import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { makeDefaultShip, makeFrigateShip } from "./ship";
-import { GameState, Side } from "./types";
+import { GameState } from "./types";
 
 
 export const initalState: GameState = {
     cycleNumber: 0,
     playerId: 1,
     wind: {
-        direction: Math.PI,
+        direction: _DEG*90,
         force: 10,
     },
     ships: [

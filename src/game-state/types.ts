@@ -61,3 +61,9 @@ export type Directive = {
     quantity?: number;
     side?: Side;
 }
+
+export type Flag = {
+    shape: 'triangle' | 'rectangle'
+    length: number,
+    height: number,
+}

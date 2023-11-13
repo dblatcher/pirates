@@ -1,6 +1,6 @@
 import type { AI } from "../../ai"
 import { Faction } from "../faction"
-import { Side } from "../types"
+import { Flag, Side } from "../types"
 
 export type Cannon = {
     cooldown: number,
@@ -10,7 +10,8 @@ export type Cannon = {
 
 export interface MastConfig {
     position: number,
-    height: number
+    height: number,
+    flag?: Flag,
 }
 
 export type ShipProfile = {

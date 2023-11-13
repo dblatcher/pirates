@@ -1,13 +1,12 @@
 import { MastConfig, getProwPosition } from "../../game-state/ship";
-import { Ship } from "../../game-state/types";
-import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, _DEG, getXYVector, translate, translateZ } from "../../lib/geometry";
-import { timePhase } from "../../lib/util";
+import { Ship, Wind } from "../../game-state/types";
+import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
+import { drawFlag } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s, shipColor } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25
 const SAIL_END_AT_FULL = .2
-const WAVE_PHASE = 8
 
 
 type MastWithPoints = MastConfig & {
@@ -21,19 +20,9 @@ const drawFlagOn = (
     drawMethods: OffsetDrawMethods,
     ship: Ship,
     cycleNumber: number,
+    wind: Wind,
 ) => {
-    const { lineTo, moveTo } = drawMethods
-    const { top } = mast
-    const { h } = ship
-    const phase = timePhase(cycleNumber, WAVE_PHASE, 1 / 4)
-    const waveAngle = phase * _DEG * 2
-
-    ctx.beginPath()
-    ctx.fillStyle = shipColor(ship)
-    moveTo(...s(top))
-    lineTo(...s(translateZ(top, 15)))
-    lineTo(...s(translate(top, getXYVector(40, h + waveAngle))))
-    ctx.fill()
+    drawFlag(ctx, drawMethods, mast.top, wind.direction, cycleNumber, shipColor(ship), mast.flag)
 }
 
 export const drawShipMasts = (
@@ -41,7 +30,8 @@ export const drawShipMasts = (
     ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
-    cycleNumber: number
+    cycleNumber: number,
+    wind: Wind,
 ) => {
 
     const { sailLevel, length, h } = ship
@@ -108,9 +98,9 @@ export const drawShipMasts = (
     })
 
     // flag
-    const [firstMast] = mastsWithPoints
-    if (firstMast) {
-        drawFlagOn(firstMast, ctx, drawMethods, ship, cycleNumber)
-    }
-
+    mastsWithPoints.forEach(mast => {
+        if (mast.flag) {
+            drawFlagOn(mast, ctx, drawMethods, ship, cycleNumber, wind)
+        }
+    })
 }
