@@ -8,10 +8,16 @@ export type Cannon = {
     side: Side
 }
 
+export interface MastConfig {
+    position: number,
+    height: number
+}
+
 export type ShipProfile = {
     maxHp: number,
     speed: number,
     maneuver: number,
+    masts: MastConfig[],
 }
 
 export type Ship = {

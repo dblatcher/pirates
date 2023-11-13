@@ -1,4 +1,4 @@
-import { getProwPosition } from "../../game-state/ship";
+import { MastConfig, getProwPosition } from "../../game-state/ship";
 import { Ship } from "../../game-state/types";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, _DEG, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { timePhase } from "../../lib/util";
@@ -9,10 +9,6 @@ const BASE_MAST_HEIGHT = 25
 const SAIL_END_AT_FULL = .2
 const WAVE_PHASE = 8
 
-interface MastConfig {
-    position: number,
-    height: number
-}
 
 type MastWithPoints = MastConfig & {
     base: XY;

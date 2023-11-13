@@ -10,7 +10,7 @@ export const drawShips = (
     ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     ships: Ship[],
-    viewPort:ViewPort,
+    viewPort: ViewPort,
     cycleNumber: number,
     showCollision = false
 ) => {
@@ -20,9 +20,6 @@ export const drawShips = (
 
     shipsInView.forEach(ship => drawDamage(ctx, drawingMethods, ship, cycleNumber))
     shipsInView.forEach(ship => {
-        drawShipMasts([
-            { position: -1 / 5, height: 1.5 },
-            { position: 1 / 4, height: 1 },
-        ], ctx, drawingMethods, ship, cycleNumber)
+        drawShipMasts(ship.profile.masts, ctx, drawingMethods, ship, cycleNumber)
     })
 }

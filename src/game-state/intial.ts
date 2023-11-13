@@ -2,7 +2,7 @@ import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
-import { makeDefaultShip } from "./ship";
+import { makeDefaultShip, makeFrigateShip } from "./ship";
 import { GameState, Side } from "./types";
 
 
@@ -14,24 +14,13 @@ export const initalState: GameState = {
         force: 10,
     },
     ships: [
-        makeDefaultShip({
+        makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: factions.spaim,
             x: 400,
             y: 200,
             h: Math.PI * .5,
-            width: 20,
-            length: 80,
-            cannons: [
-                { side: Side.LEFT, cooldown: 0 },
-                { side: Side.RIGHT, cooldown: 0 },
-            ],
             id: 1,
-            profile: {
-                speed: 1.5,
-                maneuver: 1.5,
-                maxHp: 30
-            }
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
@@ -41,13 +30,7 @@ export const initalState: GameState = {
             h: Math.PI * .5,
             width: 15,
             length: 60,
-            cannons: [],
             id: 2,
-            profile: {
-                speed: 2,
-                maneuver: 1,
-                maxHp: 10,
-            },
             ai: new PathFollowAutoPilot(
                 {
                     mission: {
@@ -57,15 +40,13 @@ export const initalState: GameState = {
                     path: []
                 }, 2, true),
         }),
-        makeDefaultShip({
+        makeFrigateShip({
             id: 3,
             name: 'The Dead Duck',
             x: 550,
             y: 300,
             h: Math.PI * 1.4,
             damage: 10,
-            width: 30,
-            length: 120,
         }),
         makeDefaultShip({
             name: 'Spaim 1',
