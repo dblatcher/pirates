@@ -86,8 +86,8 @@ export const drawShipMasts = (
     mastsWithPoints.sort((a, b) => b.position - a.position).forEach((mast, index, array) => {
         const { top } = mast
         ctx.beginPath()
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'red'
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rosybrown'
         if (index == 0) {
             moveTo(...s(translateZ(getProwPosition(ship), 4)))
         } else {
