@@ -1,4 +1,4 @@
-import { Directive, Order, Side } from "../game-state/types";
+import { Directive, FiringPattern, Order, Side } from "../game-state/types";
 import { _DEG } from "../lib/geometry";
 
 interface Props {
@@ -17,7 +17,7 @@ export const Controls = ({ addDirective, paused }: Props) => {
         addUnlessPaused({ order: Order.HEADING_TO, quantity: _DEG * degrees })
     }
     const fireTo = (side: Side) => () => {
-        addUnlessPaused({ order: Order.FIRE, side })
+        addUnlessPaused({ order: Order.FIRE, side, pattern:FiringPattern.BROADSIDE })
     }
 
     return (

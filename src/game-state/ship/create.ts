@@ -11,26 +11,13 @@ const BIG_JACK: Flag = {
     shape: 'rectangle', length: 21, height: 15
 }
 
-const defaultCannons = () => [
-    { side: Side.LEFT, cooldown: 0, position: .25 },
-    { side: Side.LEFT, cooldown: 0, position: .0 },
-    { side: Side.LEFT, cooldown: 0, position: -.25 },
-    { side: Side.RIGHT, cooldown: 0, position: .25 },
-    { side: Side.RIGHT, cooldown: 0, position: .0 },
-    { side: Side.RIGHT, cooldown: 0, position: -.25 },
-]
-const frigateCannons = () => [
-    { side: Side.LEFT, cooldown: 0, position: .3 },
-    { side: Side.LEFT, cooldown: 0, position: .15 },
-    { side: Side.LEFT, cooldown: 0, position: .0 },
-    { side: Side.LEFT, cooldown: 0, position: -.15 },
-    { side: Side.LEFT, cooldown: 0, position: -.3 },
-    { side: Side.RIGHT, cooldown: 0, position: .3 },
-    { side: Side.RIGHT, cooldown: 0, position: .15 },
-    { side: Side.RIGHT, cooldown: 0, position: .0 },
-    { side: Side.RIGHT, cooldown: 0, position: -.15 },
-    { side: Side.RIGHT, cooldown: 0, position: -.3 },
-]
+const positionsToCannons = (positions: number[]) => positions.flatMap(position => [
+    { side: Side.LEFT, cooldown: 0, position },
+    { side: Side.RIGHT, cooldown: 0, position },
+])
+
+const defaultCannons = () => positionsToCannons([.25, 0, -.25])
+const frigateCannons = () => positionsToCannons([.45, .3, .15, 0, -.15, -.3, -.45])
 
 const shipDefaults = () => ({
     turnsUnimpeded: 0,

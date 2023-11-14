@@ -7,6 +7,7 @@ export type Cannon = {
     firing?: boolean,
     side: Side,
     position: number,
+    countdown?: number,
 }
 
 export interface MastConfig {

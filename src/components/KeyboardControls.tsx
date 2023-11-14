@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Directive, Order, Side } from "../game-state/types"
+import { Directive, Order, Side, FiringPattern } from "../game-state/types"
 
 interface Props {
     paused: boolean
@@ -10,11 +10,13 @@ interface Props {
 const directiveKeys: Record<string, Directive | undefined> = {
     'ArrowUp': { order: Order.SAILS_BY, quantity: .1 },
     'ArrowDown': { order: Order.SAILS_BY, quantity: -.1 },
-    'KeyA': { order: Order.FIRE, side: Side.LEFT },
-    'KeyD': { order: Order.FIRE, side: Side.RIGHT },
+    'KeyA': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.BROADSIDE },
+    'KeyD': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.BROADSIDE },
+    'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.CASCADE },
+    'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.CASCADE },
 }
 
-const wheelKeys:Record<string, number | undefined> = {
+const wheelKeys: Record<string, number | undefined> = {
     'ArrowLeft': .5,
     'ArrowRight': -.5,
 }

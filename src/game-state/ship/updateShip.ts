@@ -65,5 +65,11 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[]) 
         if (cannon.cooldown > 0) {
             cannon.cooldown = cannon.cooldown - 1
         }
+        if (cannon.countdown) {
+            cannon.countdown = cannon.countdown - 1
+            if (cannon.countdown === 0) {
+                cannon.firing = true
+            }
+        }
     })
 }

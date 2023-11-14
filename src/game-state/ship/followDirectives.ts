@@ -1,6 +1,6 @@
 import { _360_DEG, _DEG, findRotationBetweenHeadings, normaliseHeading } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
-import { Directive, Order } from "../types";
+import { Directive, FiringPattern, Order } from "../types";
 import { Ship } from "./types";
 
 
@@ -27,10 +27,16 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 break;
             }
             case Order.FIRE: {
-                const { side } = directive;
-                if (typeof side !== undefined) {
-                    const cannons = ship.cannons.filter(cannon => cannon.side === side)
-                    cannons.forEach(cannon => cannon.firing = true)
+                const { side, pattern } = directive;
+                const cannons = ship.cannons.filter(cannon => cannon.side === side)
+
+                switch (pattern) {
+                    case FiringPattern.BROADSIDE:
+                        cannons.forEach((cannon) => cannon.countdown = 1)
+                        break;
+                    case FiringPattern.CASCADE:
+                        cannons.forEach((cannon, index) => cannon.countdown = 1 + (10 * index))
+                        break;
                 }
                 break;
             }
@@ -55,13 +61,13 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                     ? .5 * changeRequiredSign
                     : changeRequiredAbs > _DEG * 2.5
                         ? .25 * changeRequiredSign
-                        : .125 *changeRequiredSign
+                        : .125 * changeRequiredSign
 
                 if (changeRequired === adjustedTarget) {
                     ship.wheel = 0
-                } else  {
+                } else {
                     ship.wheel = wheelAmount
-                } 
+                }
 
             }
         }

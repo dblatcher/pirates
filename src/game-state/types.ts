@@ -51,16 +51,31 @@ export enum Side {
     LEFT, RIGHT
 }
 
+export enum FiringPattern {
+    BROADSIDE, CASCADE
+}
+
 export const anglesBySide: Record<Side, number> = {
     [Side.LEFT]: _90_DEG_LEFT,
     [Side.RIGHT]: _90_DEG_RIGHT,
 }
 
-export type Directive = {
-    order: Order;
+type QuantityDirective = {
+    order: Order.HEADING_TO | Order.SAILS_BY | Order.SAILS_TO | Order.WHEEL_TO
     quantity?: number;
-    side?: Side;
 }
+
+type PlainDirective = {
+    order: Order.RESET_WHEEL
+}
+
+type FireDirective = {
+    order: Order.FIRE
+    side: Side
+    pattern: FiringPattern
+}
+
+export type Directive = QuantityDirective | PlainDirective | FireDirective
 
 export type Flag = {
     shape: 'triangle' | 'rectangle'
