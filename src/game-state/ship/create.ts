@@ -12,8 +12,24 @@ const BIG_JACK: Flag = {
 }
 
 const defaultCannons = () => [
-    { side: Side.LEFT, cooldown: 0 },
-    { side: Side.RIGHT, cooldown: 0 },
+    { side: Side.LEFT, cooldown: 0, position: .25 },
+    { side: Side.LEFT, cooldown: 0, position: .0 },
+    { side: Side.LEFT, cooldown: 0, position: -.25 },
+    { side: Side.RIGHT, cooldown: 0, position: .25 },
+    { side: Side.RIGHT, cooldown: 0, position: .0 },
+    { side: Side.RIGHT, cooldown: 0, position: -.25 },
+]
+const frigateCannons = () => [
+    { side: Side.LEFT, cooldown: 0, position: .3 },
+    { side: Side.LEFT, cooldown: 0, position: .15 },
+    { side: Side.LEFT, cooldown: 0, position: .0 },
+    { side: Side.LEFT, cooldown: 0, position: -.15 },
+    { side: Side.LEFT, cooldown: 0, position: -.3 },
+    { side: Side.RIGHT, cooldown: 0, position: .3 },
+    { side: Side.RIGHT, cooldown: 0, position: .15 },
+    { side: Side.RIGHT, cooldown: 0, position: .0 },
+    { side: Side.RIGHT, cooldown: 0, position: -.15 },
+    { side: Side.RIGHT, cooldown: 0, position: -.3 },
 ]
 
 const shipDefaults = () => ({
@@ -53,7 +69,7 @@ const frigateAttributes = () => ({
             { position: .25, height: .8, flag: SMALL_PENNANT },
         ]
     },
-    cannons: defaultCannons(),
+    cannons: frigateCannons(),
 })
 
 export const makeFrigateShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({

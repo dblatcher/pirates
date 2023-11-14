@@ -5,7 +5,8 @@ import { Flag, Side } from "../types"
 export type Cannon = {
     cooldown: number,
     firing?: boolean,
-    side: Side
+    side: Side,
+    position: number,
 }
 
 export interface MastConfig {
@@ -39,7 +40,6 @@ export type Ship = {
 
     sailLevelTarget: number,
     wheel: number,
-    // to do - model multiple cannons per side!
     cannons: Cannon[]
     ai?: AI
 }

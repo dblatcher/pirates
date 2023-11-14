@@ -29,8 +29,8 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
             case Order.FIRE: {
                 const { side } = directive;
                 if (typeof side !== undefined) {
-                    const cannon = ship.cannons.find(cannon => cannon.side === side)
-                    if (cannon) { cannon.firing = true }
+                    const cannons = ship.cannons.filter(cannon => cannon.side === side)
+                    cannons.forEach(cannon => cannon.firing = true)
                 }
                 break;
             }
