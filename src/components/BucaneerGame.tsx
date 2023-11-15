@@ -1,19 +1,18 @@
 import { useState } from 'react'
-import { drawScene } from '../canvas-drawing/draw'
-import { CanvasScreen } from './CanvasScreen'
-import { KeyboardControls } from './KeyboardControls'
-import { ShipDashBoard } from './ShipDashboard'
-import { ShipsLog } from './ShipsLog'
-import { WorldMap } from './WorldMap'
 import { cycle } from '../game-state/cycle'
 import { Directive, GameState, Order, ViewPort } from '../game-state/types'
+import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
 import { CellMatrix } from '../lib/path-finding/types'
-import { useInterval } from '../hooks/useInterval'
-import { WindSock } from './WindSock'
-import { Wheel } from './Wheel'
-import { SailsWidget } from './SailsWidget'
+import { GameScreen } from './GameScreen'
 import { GunneryWidget } from './GunneryWidget'
+import { KeyboardControls } from './KeyboardControls'
+import { SailsWidget } from './SailsWidget'
+import { ShipDashBoard } from './ShipDashboard'
+import { ShipsLog } from './ShipsLog'
+import { Wheel } from './Wheel'
+import { WindSock } from './WindSock'
+import { WorldMap } from './WorldMap'
 
 interface Props {
     initial: GameState;
@@ -21,14 +20,20 @@ interface Props {
     mapWidth: number;
 }
 
-const SCREEN_WIDTH = 600*2
-const SCREEN_HEIGHT = 450*2
+const magnify = 1/2
+const SCREEN_WIDTH = 600
+const SCREEN_HEIGHT = 450
 
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     // to do - is state the best way to hold immutable data?
     const [matrix] = useState<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
     const [gameState, setGameState] = useState<GameState>(initial)
-    const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
+    const [viewPort, setViewPort] = useState<ViewPort>({
+        x: 100,
+        y: 10,
+        width: SCREEN_WIDTH / magnify,
+        height: SCREEN_HEIGHT / magnify,
+    })
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
@@ -52,8 +57,8 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
         const player = updatedGame.ships.find(ship => ship.id === gameState.playerId)
         if (player) {
             setViewPort({
-                width: viewPort.width,
-                height: viewPort.height,
+                width: SCREEN_WIDTH / magnify,
+                height: SCREEN_HEIGHT / magnify,
                 x: player.x - viewPort.width / 2,
                 y: player.y - viewPort.height / 2,
 
@@ -68,19 +73,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     return (
         <div style={{ display: 'flex' }}>
             <main>
-                <CanvasScreen
-                    containerStyle={{
-                        border: '1px solid black',
-                        display: 'inline-block',
-                        backgroundColor: 'skyblue',
-                    }}
-                    canvasStyle={{
-                        width:viewPort.width/2,
-                        height:viewPort.height/2
-                    }}
-                    draw={drawScene(gameState, viewPort)}
-                    width={viewPort.width}
-                    height={viewPort.height} />
+                <GameScreen viewPort={viewPort} gameState={gameState} magnify={magnify} />
 
                 <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
                     {player && (<>
