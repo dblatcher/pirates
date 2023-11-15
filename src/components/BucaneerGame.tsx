@@ -4,13 +4,9 @@ import { Directive, GameState, Order, ViewPort } from '../game-state/types'
 import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
 import { CellMatrix } from '../lib/path-finding/types'
+import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
-import { GunneryWidget } from './GunneryWidget'
-import { KeyboardControls } from './KeyboardControls'
-import { SailsWidget } from './SailsWidget'
-import { ShipDashBoard } from './ShipDashboard'
 import { ShipsLog } from './ShipsLog'
-import { Wheel } from './Wheel'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 
@@ -20,7 +16,7 @@ interface Props {
     mapWidth: number;
 }
 
-const magnify = 1/2
+const magnify = 2 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
 
@@ -73,31 +69,17 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     return (
         <div style={{ display: 'flex' }}>
             <main>
-                <GameScreen viewPort={viewPort} gameState={gameState} magnify={magnify} />
+                <GameScreen 
+                    viewPort={viewPort} 
+                    gameState={gameState} 
+                    magnify={magnify} />
 
-                <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    {player && (<>
-                        <GunneryWidget
-                            ship={player}
-                            addDirective={addDirective}
-                            paused={paused} />
-                        <Wheel
-                            playerWheel={playerWheel}
-                            setPlayerWheel={setPlayerWheel} />
-                        <SailsWidget
-                            setSailLevelTarget={(value) => {
-                                addDirective({ order: Order.SAILS_TO, quantity: value })
-                            }}
-                            ship={player} />
-                        <ShipDashBoard
-                            ship={player} />
-                        <KeyboardControls
-                            addDirective={addDirective}
-                            turnWheel={setPlayerWheel}
-                            paused={paused} />
-                    </>
-                    )}
-                </aside>
+                <GameControls
+                    player={player}
+                    addDirective={addDirective}
+                    paused={paused}
+                    playerWheel={playerWheel}
+                    setPlayerWheel={setPlayerWheel} />
             </main>
 
             <aside>
