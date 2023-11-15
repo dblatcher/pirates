@@ -16,18 +16,17 @@ import { SailsWidget } from './SailsWidget'
 import { GunneryWidget } from './GunneryWidget'
 
 interface Props {
-    initial: GameState
+    initial: GameState;
+    mapHeight: number;
+    mapWidth: number;
 }
 
-const SCREEN_WIDTH = 600
-const SCREEN_HEIGHT = 450
+const SCREEN_WIDTH = 600*2
+const SCREEN_HEIGHT = 450*2
 
-const MAP_WIDTH = 2400
-const MAP_HEIGHT = 1800
-
-export const BuccaneerGame = ({ initial }: Props) => {
+export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     // to do - is state the best way to hold immutable data?
-    const [matrix] = useState<CellMatrix>(buildMatrixFromGameState(MAP_WIDTH, MAP_HEIGHT, initial))
+    const [matrix] = useState<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
     const [gameState, setGameState] = useState<GameState>(initial)
     const [viewPort, setViewPort] = useState<ViewPort>({ x: 100, y: 10, width: SCREEN_WIDTH, height: SCREEN_HEIGHT })
     const [paused, setPaused] = useState(false)
@@ -75,6 +74,10 @@ export const BuccaneerGame = ({ initial }: Props) => {
                         display: 'inline-block',
                         backgroundColor: 'skyblue',
                     }}
+                    canvasStyle={{
+                        width:viewPort.width/2,
+                        height:viewPort.height/2
+                    }}
                     draw={drawScene(gameState, viewPort)}
                     width={viewPort.width}
                     height={viewPort.height} />
@@ -120,8 +123,8 @@ export const BuccaneerGame = ({ initial }: Props) => {
                     closeModal={() => { setShowMap(false) }}
                     gameState={gameState}
                     matrix={matrix}
-                    mapHeight={MAP_HEIGHT}
-                    mapWidth={MAP_WIDTH}
+                    mapWidth={mapWidth}
+                    mapHeight={mapHeight}
                 />
             )}
         </div>
