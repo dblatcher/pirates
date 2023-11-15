@@ -95,6 +95,10 @@ export const BuccaneerGame = ({ initial }: Props) => {
                             ship={player} />
                         <ShipDashBoard
                             ship={player} />
+                        <KeyboardControls
+                            addDirective={addDirective}
+                            turnWheel={setPlayerWheel}
+                            paused={paused} />
                     </>
                     )}
                 </aside>
@@ -120,11 +124,6 @@ export const BuccaneerGame = ({ initial }: Props) => {
                     mapWidth={MAP_WIDTH}
                 />
             )}
-
-            <KeyboardControls
-                addDirective={addDirective}
-                turnWheel={setPlayerWheel}
-                paused={paused} />
         </div>
     )
 }

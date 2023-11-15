@@ -8,17 +8,15 @@ interface Props {
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
-    'ArrowUp': { order: Order.SAILS_BY, quantity: .1 },
-    'ArrowDown': { order: Order.SAILS_BY, quantity: -.1 },
-    'KeyA': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.BROADSIDE },
-    'KeyD': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.BROADSIDE },
-    'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.CASCADE },
-    'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.CASCADE },
+    'KeyW': { order: Order.SAILS_BY, quantity: .1 },
+    'KeyS': { order: Order.SAILS_BY, quantity: -.1 },
+    'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.ALTERNATE },
+    'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.ALTERNATE },
 }
 
 const wheelKeys: Record<string, number | undefined> = {
-    'ArrowLeft': .5,
-    'ArrowRight': -.5,
+    'KeyA': .5,
+    'KeyD': -.5,
 }
 
 export const KeyboardControls = ({ paused, addDirective, turnWheel }: Props) => {
