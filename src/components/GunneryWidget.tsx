@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { Fragment, useId, useState } from "react";
 import { Ship, Cannon } from "../game-state/ship";
 import { Directive, FiringPattern, Order, Side } from "../game-state/types";
 import { splitArray } from "../lib/util";
@@ -17,7 +17,7 @@ const sideToDescription = (side: Side): string => {
     }
 }
 
-const patternToDescription = (pattern:FiringPattern):string => {
+const patternToDescription = (pattern: FiringPattern): string => {
     switch (pattern) {
         case FiringPattern.BROADSIDE: return 'B'
         case FiringPattern.CASCADE: return 'C'
@@ -75,19 +75,16 @@ export const GunneryWidget = ({ ship, paused, addDirective }: Props) => {
             </div>
 
             {[FiringPattern.BROADSIDE, FiringPattern.CASCADE, FiringPattern.ALTERNATE].map((pattern, index) => (
-                <>
+                <Fragment key={index}>
                     <label htmlFor={`${radioId}-${pattern.toString()}`}>{patternToDescription(pattern)}</label>
-                    <input key={index} type="radio"
+                    <input type="radio"
                         name="pattern"
                         id={`${radioId}-${pattern.toString()}`}
                         value={pattern} checked={firingPattern === pattern}
                         onChange={() => { setFiringPattern(pattern) }}
                     />
-                </>
-
+                </Fragment>
             ))}
-
         </div>
     )
-
 }
