@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { drawScene } from '../canvas-drawing/draw'
 import { CanvasScreen } from './CanvasScreen'
-import { Controls } from './Controls'
 import { KeyboardControls } from './KeyboardControls'
 import { ShipDashBoard } from './ShipDashboard'
 import { ShipsLog } from './ShipsLog'
@@ -14,6 +13,7 @@ import { useInterval } from '../hooks/useInterval'
 import { WindSock } from './WindSock'
 import { Wheel } from './Wheel'
 import { SailsWidget } from './SailsWidget'
+import { GunneryWidget } from './GunneryWidget'
 
 interface Props {
     initial: GameState
@@ -80,8 +80,11 @@ export const BuccaneerGame = ({ initial }: Props) => {
                     height={viewPort.height} />
 
                 <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <Controls {...{ game: gameState, addDirective }} paused={paused} />
                     {player && (<>
+                        <GunneryWidget
+                            ship={player}
+                            addDirective={addDirective}
+                            paused={paused} />
                         <Wheel
                             playerWheel={playerWheel}
                             setPlayerWheel={setPlayerWheel} />

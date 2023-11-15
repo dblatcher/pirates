@@ -52,7 +52,7 @@ export enum Side {
 }
 
 export enum FiringPattern {
-    BROADSIDE, CASCADE
+    BROADSIDE, CASCADE, ALTERNATE
 }
 
 export const anglesBySide: Record<Side, number> = {

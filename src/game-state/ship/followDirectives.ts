@@ -1,5 +1,5 @@
 import { _360_DEG, _DEG, findRotationBetweenHeadings, normaliseHeading } from "../../lib/geometry";
-import { clamp } from "../../lib/util";
+import { clamp, isEven } from "../../lib/util";
 import { Directive, FiringPattern, Order } from "../types";
 import { Ship } from "./types";
 
@@ -36,6 +36,19 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                         break;
                     case FiringPattern.CASCADE:
                         cannons.forEach((cannon, index) => cannon.countdown = 1 + (10 * index))
+                        break;
+                    case FiringPattern.ALTERNATE:
+                        const readyOddNumberedCannons = cannons.filter((cannon, index) =>
+                            !isEven(index) && cannon.cooldown === 0
+                        )
+                        const readyEvenNumberedCannons = cannons.filter((cannon, index) =>
+                            isEven(index) && cannon.cooldown === 0
+                        )
+                        if (readyEvenNumberedCannons.length > readyOddNumberedCannons.length) {
+                            readyEvenNumberedCannons.forEach((cannon) => { cannon.countdown = 1 })
+                        } else {
+                            readyOddNumberedCannons.forEach((cannon) => { cannon.countdown = 1 })
+                        }
                         break;
                 }
                 break;
