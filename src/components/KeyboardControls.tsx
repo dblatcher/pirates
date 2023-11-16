@@ -5,6 +5,8 @@ interface Props {
     paused: boolean
     addDirective: { (directive: Directive): void }
     turnWheel: { (wheel: number): void }
+    firingPattern: FiringPattern,
+    setFiringPattern: { (firingPattern: FiringPattern): void }
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
@@ -19,20 +21,33 @@ const wheelKeys: Record<string, number | undefined> = {
     'KeyD': -.5,
 }
 
-export const KeyboardControls = ({ paused, addDirective, turnWheel }: Props) => {
+const patternKeys: Record<string, FiringPattern | undefined> = {
+    'Digit1': FiringPattern.BROADSIDE,
+    'Digit2': FiringPattern.CASCADE,
+    'Digit3': FiringPattern.ALTERNATE,
+}
+
+export const KeyboardControls = ({ paused, addDirective, turnWheel, firingPattern, setFiringPattern }: Props) => {
 
     const handleKey = (event: KeyboardEvent) => {
         if (paused) {
             return
         }
-        // console.log(event)
         const directive = directiveKeys[event.code]
         if (directive) {
-            addDirective(directive)
+            if (directive.order === Order.FIRE) {
+                addDirective({ ...directive, pattern: firingPattern })
+            } else {
+                addDirective(directive)
+            }
         }
         const wheelTurn = wheelKeys[event.code]
         if (typeof wheelTurn === 'number') {
             turnWheel(wheelTurn)
+        }
+        const patternChange = patternKeys[event.code]
+        if (typeof patternChange === 'number') {
+            setFiringPattern(patternChange)
         }
     }
 

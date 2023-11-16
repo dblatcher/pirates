@@ -1,4 +1,5 @@
-import { Directive, Order, Ship } from "../game-state/types"
+import { useState } from "react"
+import { Directive, FiringPattern, Order, Ship } from "../game-state/types"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "./KeyboardControls"
 import { SailsWidget } from "./SailsWidget"
@@ -15,13 +16,18 @@ interface Props {
 
 export const GameControls = ({ player, addDirective, paused, playerWheel, setPlayerWheel }: Props) => {
 
+    const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
+
     return (
         <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
             {player && (<>
                 <GunneryWidget
                     ship={player}
                     addDirective={addDirective}
-                    paused={paused} />
+                    paused={paused}
+                    firingPattern={firingPattern}
+                    setFiringPattern={setFiringPattern}
+                />
                 <Wheel
                     playerWheel={playerWheel}
                     setPlayerWheel={setPlayerWheel} />
@@ -35,6 +41,8 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, setPla
                 <KeyboardControls
                     addDirective={addDirective}
                     turnWheel={setPlayerWheel}
+                    firingPattern={firingPattern} 
+                    setFiringPattern={setFiringPattern}
                     paused={paused} />
             </>
             )}

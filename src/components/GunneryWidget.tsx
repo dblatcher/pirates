@@ -1,4 +1,4 @@
-import { Fragment, useId, useState } from "react";
+import { Fragment, useId } from "react";
 import { Ship, Cannon } from "../game-state/ship";
 import { Directive, FiringPattern, Order, Side } from "../game-state/types";
 import { splitArray } from "../lib/util";
@@ -7,6 +7,8 @@ interface Props {
     ship: Ship
     addDirective: { (directive: Directive): void }
     paused: boolean
+    firingPattern: FiringPattern,
+    setFiringPattern: { (firingPattern: FiringPattern): void }
 }
 
 const sideToDescription = (side: Side): string => {
@@ -46,10 +48,9 @@ const CannonIndicator = ({ cannons, side }: { cannons: Cannon[], side: Side }) =
     </div>
 )
 
-export const GunneryWidget = ({ ship, paused, addDirective }: Props) => {
+export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFiringPattern }: Props) => {
 
     const radioId = useId()
-    const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
 
     const addUnlessPaused = (directive: Directive) => {
         if (paused) { return }
