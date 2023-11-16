@@ -19,15 +19,8 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, setPla
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
 
     return (
-        <aside style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <aside style={{ display: 'flex' }}>
             {player && (<>
-                <GunneryWidget
-                    ship={player}
-                    addDirective={addDirective}
-                    paused={paused}
-                    firingPattern={firingPattern}
-                    setFiringPattern={setFiringPattern}
-                />
                 <Wheel
                     playerWheel={playerWheel}
                     setPlayerWheel={setPlayerWheel} />
@@ -36,12 +29,19 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, setPla
                         addDirective({ order: Order.SAILS_TO, quantity: value })
                     }}
                     ship={player} />
+                <GunneryWidget
+                    ship={player}
+                    addDirective={addDirective}
+                    paused={paused}
+                    firingPattern={firingPattern}
+                    setFiringPattern={setFiringPattern}
+                />
                 <ShipDashBoard
                     ship={player} />
                 <KeyboardControls
                     addDirective={addDirective}
                     turnWheel={setPlayerWheel}
-                    firingPattern={firingPattern} 
+                    firingPattern={firingPattern}
                     setFiringPattern={setFiringPattern}
                     paused={paused} />
             </>
