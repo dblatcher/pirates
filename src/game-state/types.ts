@@ -86,8 +86,13 @@ export type Flag = {
 }
 
 export const TOWN_SIZE = 100
+export type TownProfile = {
+    maxDefences: number
+}
 export type Town = XY & {
     faction?: Faction
     name: string,
     id: number,
+    defences: number,
+    profile: TownProfile,
 }

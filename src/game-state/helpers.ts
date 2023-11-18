@@ -1,5 +1,5 @@
 import { Rect } from "../lib/geometry";
-import { ViewPort } from "./types";
+import { GameState, ViewPort } from "./types";
 
 export const viewPortToRect = (viewPort :ViewPort):Rect =>({
     left: viewPort.x,
@@ -7,3 +7,5 @@ export const viewPortToRect = (viewPort :ViewPort):Rect =>({
     right: viewPort.x + viewPort.width,
     bottom: viewPort.y + viewPort.height
 })
+
+export const getNextShipId = (gameState: GameState) => Math.max(...gameState.ships.map(ship => ship.id)) + 1

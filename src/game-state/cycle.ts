@@ -4,6 +4,7 @@ import { randomInt, splitArray } from "../lib/util";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { handleProjectileHitsAndLandings, updateProjectile } from "./projectile";
 import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
+import { updateTown } from "./towns";
 import { Collison, Directive, GameState, MAX_WIND } from "./types";
 
 
@@ -87,6 +88,9 @@ export const cycle = (
     })
     game.projectiles.forEach(projectile => {
         updateProjectile(projectile)
+    })
+    game.towns.forEach(town => {
+        updateTown(town, gameState)
     })
     game.effects.forEach(effect => {
         updateEffect(effect)

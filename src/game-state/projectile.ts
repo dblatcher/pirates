@@ -49,9 +49,10 @@ export const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (new
             }
         })
         game.towns.forEach(town => {
-            if (willProjectileHitTown(projectile,town)) {
+            if (willProjectileHitTown(projectile, town)) {
                 projectilesThatHitSomething.push(projectile)
-                pushLog(`Hit ${town.name}`)
+                town.defences = Math.max(0, town.defences - 5)
+                pushLog(`Hit ${town.name}: ${town.defences}/${town.profile.maxDefences}`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }

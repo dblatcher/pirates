@@ -128,14 +128,22 @@ export const initalState: GameState = {
             x: 150,
             y: 150,
             id: 1,
-            name: 'La Groupelle'
+            name: 'La Groupelle',
+            defences: 50,
+            profile: {
+                maxDefences: 100
+            },
         },
         {
             faction: factions.spaim,
             x: 600,
             y: 800,
             id: 1,
-            name: 'Villa della Canto'
+            name: 'Villa della Canto',
+            defences: 50,
+            profile: {
+                maxDefences: 100
+            },
         },
     ]
 }
