@@ -85,6 +85,7 @@ export type Flag = {
     height: number,
 }
 
+export const TOWN_SIZE = 100
 export type Town = XY & {
     faction?: Faction
     name: string,

@@ -1,7 +1,7 @@
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
-import { willProjectileHitShip } from "./collisions";
+import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
 import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
 import { isLandAt } from "./land";
 import { Projectile, updateProjectile } from "./projectile";
@@ -27,6 +27,14 @@ const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: st
                 projectilesThatHitSomething.push(projectile)
                 ship.damage = ship.damage + 1
                 pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
+                createGroundHit({ ...projectile, timeLeft: 80 }, game)
+                createImpact({ ...projectile, timeLeft: 50 }, game)
+            }
+        })
+        game.towns.forEach(town => {
+            if (willProjectileHitTown(projectile,town)) {
+                projectilesThatHitSomething.push(projectile)
+                pushLog(`Hit ${town.name}`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }

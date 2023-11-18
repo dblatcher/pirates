@@ -1,13 +1,11 @@
-import { Circle, doCircleIntersect, getDistance, isPointInsideRect, translate, XY } from "../lib/geometry";
+import { Circle, doCircleIntersect, getDistance, isPointInsideRect } from "../lib/geometry";
 import { getBoundingRect, getCollisionCircles, Ship } from "./ship";
-import { Projectile } from "./types";
+import { Projectile, TOWN_SIZE, Town } from "./types";
 
 export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boolean => {
-
     if (!isPointInsideRect(projectile, getBoundingRect(ship))) {
         return false
     }
-
     const circles = getCollisionCircles(ship)
     if (circles.some(circle => getDistance(projectile, circle) < circle.r)) {
         return true
@@ -17,7 +15,11 @@ export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boole
     return false
 }
 
-export const willShipHitOtherShip = ( shipCirclesAfterMove: Circle[], otherShip: Ship): boolean => {
+export const willProjectileHitTown = (projectile: Projectile, town: Town): boolean => {
+    return getDistance(projectile, { ...town }) < TOWN_SIZE / 2
+}
+
+export const willShipHitOtherShip = (shipCirclesAfterMove: Circle[], otherShip: Ship): boolean => {
     const otherShipCircles = getCollisionCircles(otherShip)
     return shipCirclesAfterMove.some(
         shipCircle => otherShipCircles.some(

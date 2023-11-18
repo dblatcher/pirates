@@ -1,6 +1,6 @@
 import { viewPortToRect } from "../../game-state/helpers";
-import { Flag, Town, ViewPort, Wind } from "../../game-state/types";
-import { rgb, rgba } from "../../lib/Color";
+import { Flag, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state/types";
+import { rgb } from "../../lib/Color";
 import { expandRect, isPointInsideRect, translateZ } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
@@ -10,7 +10,6 @@ const TOWN_FLAG: Flag = {
     shape: 'rectangle', length: 42, height: 30
 }
 
-const TOWN_SIZE = 100
 const isTownInView = (town: Town, viewPort: ViewPort): boolean => {
     const rect = expandRect(viewPortToRect(viewPort), TOWN_SIZE)
     return isPointInsideRect(town, rect)
