@@ -14,8 +14,7 @@ export type OffsetDrawMethods = {
     ) => void
 }
 
-export const drawWithOffset = (ctx: CanvasRenderingContext2D, viewPort: ViewPort): OffsetDrawMethods => {
-
+export const makeDrawingMethods = (ctx: CanvasRenderingContext2D, viewPort: ViewPort): OffsetDrawMethods => {
     const arc = (x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean | undefined) => ctx.arc(
         x - viewPort.x, y - viewPort.y, radius, startAngle, endAngle, counterclockwise
     )
