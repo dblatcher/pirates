@@ -6,6 +6,20 @@ import { s } from "./helpers"
 
 const WAVE_PHASE = 8
 
+export const drawFlagPole = (
+    ctx: CanvasRenderingContext2D,
+    drawMethods: OffsetDrawMethods,
+    position: XY,
+    z: number,
+) => {
+    ctx.beginPath()
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 4
+    drawMethods.moveTo(...s(position))
+    drawMethods.lineTo(...s(translateZ(position, z)))
+    ctx.stroke()
+}
+
 export const drawFlag = (
     ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,

@@ -1,5 +1,6 @@
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT } from '../lib/geometry'
 import { Effect } from './effect'
+import { Faction } from './faction'
 import { Landmass } from './land'
 import type { Projectile } from './projectile'
 import type { Ship } from './ship'
@@ -22,6 +23,7 @@ export type GameState = {
     effects: Effect[];
     cycleNumber: number;
     land: Landmass[];
+    towns: Town[];
 }
 
 export type ViewPort = {
@@ -81,4 +83,10 @@ export type Flag = {
     shape: 'triangle' | 'rectangle'
     length: number,
     height: number,
+}
+
+export type Town = XY & {
+    faction?: Faction
+    name: string,
+    id: number,
 }

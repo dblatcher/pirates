@@ -10,7 +10,7 @@ export const initalState: GameState = {
     cycleNumber: 0,
     playerId: 1,
     wind: {
-        direction: _DEG*90,
+        direction: _DEG * 90,
         force: 10,
     },
     ships: [
@@ -120,6 +120,15 @@ export const initalState: GameState = {
                 [undefined, undefined, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.JUNGLE, TerrainType.JUNGLE],
                 [undefined, undefined, undefined, TerrainType.PLAIN, TerrainType.JUNGLE, TerrainType.JUNGLE],
             ]
+        }
+    ],
+    towns: [
+        {
+            faction: factions.grance,
+            x: 150,
+            y: 150,
+            id: 1,
+            name: 'Test town'
         }
     ]
 }
