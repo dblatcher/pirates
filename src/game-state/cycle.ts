@@ -1,10 +1,8 @@
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
-import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
-import { createGroundHit, createImpact, createSplash, updateEffect } from "./effect";
-import { isLandAt } from "./land";
-import { Projectile, updateProjectile } from "./projectile";
+import { createImpact, createSplash, updateEffect } from "./effect";
+import { handleProjectileHitsAndLandings, updateProjectile } from "./projectile";
 import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
 import { Collison, Directive, GameState, MAX_WIND } from "./types";
 
@@ -19,41 +17,6 @@ const fireCannons = (game: GameState) => {
     })
 }
 
-const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: string): void }) => {
-    const projectilesThatHitSomething: Projectile[] = []
-    game.projectiles.forEach(projectile => {
-        game.ships.forEach(ship => {
-            if (willProjectileHitShip(projectile, ship)) {
-                projectilesThatHitSomething.push(projectile)
-                ship.damage = ship.damage + 1
-                pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
-                createGroundHit({ ...projectile, timeLeft: 80 }, game)
-                createImpact({ ...projectile, timeLeft: 50 }, game)
-            }
-        })
-        game.towns.forEach(town => {
-            if (willProjectileHitTown(projectile,town)) {
-                projectilesThatHitSomething.push(projectile)
-                pushLog(`Hit ${town.name}`)
-                createGroundHit({ ...projectile, timeLeft: 80 }, game)
-                createImpact({ ...projectile, timeLeft: 50 }, game)
-            }
-        })
-    })
-
-    const projectilesThatDidNotHitAnyThing = game.projectiles.filter(projectile => !projectilesThatHitSomething.includes(projectile))
-    const [projectilesInAir, projectilesLanded] = splitArray(projectilesThatDidNotHitAnyThing, projectile => projectile.z > 0)
-
-    // TO DO - if they land offscreen, don't bother with the effect
-    projectilesLanded.forEach(projectile => {
-        if (isLandAt(projectile, game.land)) {
-            createGroundHit({ x: projectile.x, y: projectile.y, timeLeft: 60, }, game)
-        } else {
-            createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
-        }
-    })
-    game.projectiles = projectilesInAir
-}
 
 const handleShipCollison = (collision: Collison, game: GameState) => {
     const { ship, obstacle, speedWhenHit } = collision

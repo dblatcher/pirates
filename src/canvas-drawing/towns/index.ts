@@ -36,12 +36,7 @@ export const drawTowns = (
         arc(town.x, town.y, TOWN_SIZE / 2, 0, Math.PI * 2);
         ctx.stroke();
         ctx.fill();
-
         drawFlagPole(ctx, drawingMethods, town, 80)
         drawFlag(ctx, drawingMethods, translateZ(town, 50), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
-
     })
-
-
-
 }
