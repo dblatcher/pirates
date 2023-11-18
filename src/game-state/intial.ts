@@ -128,7 +128,14 @@ export const initalState: GameState = {
             x: 150,
             y: 150,
             id: 1,
-            name: 'Test town'
-        }
+            name: 'La Groupelle'
+        },
+        {
+            faction: factions.spaim,
+            x: 600,
+            y: 800,
+            id: 1,
+            name: 'Villa della Canto'
+        },
     ]
 }
