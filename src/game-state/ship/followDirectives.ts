@@ -81,7 +81,12 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 } else {
                     ship.wheel = wheelAmount
                 }
-
+                break
+            }
+            case Order.INVADE_TOWN: {
+                console.log('assualt', ship)
+                ship.launchingInvasion = true
+                break
             }
         }
     });

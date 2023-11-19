@@ -84,7 +84,7 @@ export const cycle = (
 
     const collisons: Collison[] = []
     game.ships.forEach(ship => {
-        updateShip(ship, gameState, collisons)
+        updateShip(ship, gameState, collisons, pushLog)
     })
     game.projectiles.forEach(projectile => {
         updateProjectile(projectile)

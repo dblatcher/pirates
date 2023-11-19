@@ -36,14 +36,14 @@ export const updateProjectile = (projectile: Projectile) => {
 }
 
 
-export const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (newLog: string): void }) => {
+export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (newLog: string): void }) => {
     const projectilesThatHitSomething: Projectile[] = []
     game.projectiles.forEach(projectile => {
         game.ships.forEach(ship => {
             if (willProjectileHitShip(projectile, ship)) {
                 projectilesThatHitSomething.push(projectile)
                 ship.damage = ship.damage + 1
-                pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
+                // pushLog(`Hit ${ship.name ?? 'a ship'} - ${ship.damage} / ${ship.profile.maxHp} damage`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }
@@ -52,7 +52,7 @@ export const handleProjectileHitsAndLandings = (game: GameState, pushLog: { (new
             if (willProjectileHitTown(projectile, town)) {
                 projectilesThatHitSomething.push(projectile)
                 town.defences = Math.max(0, town.defences - 5)
-                pushLog(`Hit ${town.name}: ${town.defences}/${town.profile.maxDefences}`)
+                // pushLog(`Hit ${town.name}: ${town.defences}/${town.profile.maxDefences}`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             }

@@ -14,6 +14,7 @@ const directiveKeys: Record<string, Directive | undefined> = {
     'KeyS': { order: Order.SAILS_BY, quantity: -.1 },
     'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.ALTERNATE },
     'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.ALTERNATE },
+    'Space': { order: Order.INVADE_TOWN },
 }
 
 const wheelKeys: Record<string, number | undefined> = {

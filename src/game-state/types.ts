@@ -47,6 +47,7 @@ export enum Order {
     HEADING_TO,
     RESET_WHEEL,
     WHEEL_TO,
+    INVADE_TOWN,
 }
 
 export enum Side {
@@ -68,7 +69,7 @@ type QuantityDirective = {
 }
 
 type PlainDirective = {
-    order: Order.RESET_WHEEL
+    order: Order.RESET_WHEEL | Order.INVADE_TOWN
 }
 
 type FireDirective = {
@@ -86,6 +87,7 @@ export type Flag = {
 }
 
 export const TOWN_SIZE = 100
+export const DEFENCES_TO_REPEL_INVADERS = 20
 export type TownProfile = {
     maxDefences: number
 }
@@ -95,4 +97,15 @@ export type Town = XY & {
     id: number,
     defences: number,
     profile: TownProfile,
+}
+
+export type InvasionByShip = {
+    townId: number
+    /** 
+     *  A track of progress towards conquering the town.  
+     *  0 = just started
+     *  100 = won
+     *  -100 = repealed?
+     * */
+    victory: number
 }
