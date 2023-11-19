@@ -5,6 +5,7 @@ import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
+import { getTownShipIsInvading } from "../towns/town-functions"
 
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
@@ -77,16 +78,11 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
         tryToLauchInvasion(ship, game, pushLog)
     }
 
-    if (ship.invasionInProgress) {
-        // TO DO - resolve the invasion over time
-        // Call it off if the ship moves out of range
-        // at some point, may want to model crew / marine levels
-    }
 }
 
 function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: string) => void) {
     ship.launchingInvasion = false
-    if (ship.invasionInProgress) {
+    if (getTownShipIsInvading(ship, game.towns)) {
         pushLog(`${ship.name} is already invading a town`)
         return
     }
@@ -102,9 +98,9 @@ function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: stri
         return
     }
     pushLog(`${ship.name} invading ${town.name}`)
-    ship.invasionInProgress = {
-        townId: town.id,
+    town.invasions.push({
+        shipId: ship.id,
         victory: 0,
-    }
+    })
 }
 

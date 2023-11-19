@@ -1,6 +1,6 @@
 import type { AI } from "../../ai"
 import { Faction } from "../faction"
-import { InvasionByShip, Flag, Side } from "./game-types"
+import { Flag, Side } from "./game-types"
 
 export type Cannon = {
     cooldown: number,
@@ -30,7 +30,6 @@ export type Ship = {
     profile: ShipProfile,
     width: number,
     length: number,
-    invasionInProgress?: InvasionByShip,
     launchingInvasion?: boolean,
 
     x: number,

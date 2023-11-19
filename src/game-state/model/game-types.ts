@@ -101,10 +101,11 @@ export type Town = XY & {
     id: number,
     defences: number,
     profile: TownProfile,
+    invasions: InvasionByShip[],
 }
 
 export type InvasionByShip = {
-    townId: number
+    shipId: number
     /** 
      *  A track of progress towards conquering the town.  
      *  0 = just started

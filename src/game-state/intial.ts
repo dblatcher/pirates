@@ -133,6 +133,7 @@ export const initalState: GameState = {
             profile: {
                 maxDefences: 100
             },
+            invasions:[],
         },
         {
             faction: factions.spaim,
@@ -144,6 +145,7 @@ export const initalState: GameState = {
             profile: {
                 maxDefences: 100
             },
+            invasions:[],
         },
     ]
 }
