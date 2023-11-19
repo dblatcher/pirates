@@ -3,7 +3,7 @@ import { drawShipBase } from "./base"
 import { Ship, isShipInView } from "../../game-state/ship"
 import { OffsetDrawMethods } from "../drawWithOffSet"
 import { drawDamage } from "./damage"
-import { ViewPort, Wind } from "../../game-state/types"
+import { ViewPort, Wind } from "../../game-state"
 
 
 export const drawShips = (

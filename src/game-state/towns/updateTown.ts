@@ -1,5 +1,5 @@
 import { _DEG } from "../../lib/geometry";
-import { GameState, Town } from "../types";
+import { GameState, Town } from "../model/types";
 import { getInvadingShips } from "./town-functions";
 
 const REPAIR_PERIOD = 25

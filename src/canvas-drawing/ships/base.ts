@@ -1,5 +1,5 @@
 import { getCollisionCircles } from "../../game-state/ship";
-import { Ship } from "../../game-state/types";
+import { Ship } from "../../game-state";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s, shipColor } from "../helpers";

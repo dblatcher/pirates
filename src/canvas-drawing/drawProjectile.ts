@@ -1,4 +1,4 @@
-import { Projectile } from "../game-state/types";
+import { Projectile } from "../game-state";
 import { translateZ } from "../lib/geometry";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";

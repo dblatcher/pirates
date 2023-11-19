@@ -1,4 +1,4 @@
-import { Flag, Side } from "../types";
+import { Flag, Side } from "../model/types";
 import { Ship } from "./types";
 
 const SMALL_PENNANT: Flag = {

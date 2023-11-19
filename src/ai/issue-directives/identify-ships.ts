@@ -1,5 +1,5 @@
 import { Ship } from "../../game-state/ship"
-import { GameState } from "../../game-state/types"
+import { GameState } from "../../game-state"
 import { Rect, isPointInsideRect } from "../../lib/geometry"
 import { splitArray } from "../../lib/util"
 

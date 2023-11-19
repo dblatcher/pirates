@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Directive, Order, Side, FiringPattern } from "../game-state/types"
+import { Directive, Order, Side, FiringPattern } from "../game-state"
 
 interface Props {
     paused: boolean

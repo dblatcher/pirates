@@ -1,4 +1,4 @@
-import { GameState, Town, ViewPort, Wind } from "../game-state/types";
+import { GameState, Town, ViewPort, Wind } from "../game-state";
 import { drawBackground } from "./drawBackground";
 import { drawEffect } from "./drawEffect";
 import { drawLand } from "./drawLand";

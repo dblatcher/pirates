@@ -3,7 +3,7 @@ import { splitArray } from "../lib/util";
 import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
 import { createGroundHit, createImpact, createSplash } from "./effect";
 import { isLandAt } from "./land";
-import { GameState } from "./types";
+import { GameState } from "./model/types";
 
 export type Projectile = {
     x: number

@@ -1,5 +1,5 @@
 import { MastConfig, getProwPosition } from "../../game-state/ship";
-import { Ship, Wind } from "../../game-state/types";
+import { Ship, Wind } from "../../game-state";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { drawFlag } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";

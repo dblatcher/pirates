@@ -1,6 +1,6 @@
 import { TERRAIN_SQUARE_SIZE } from "../../game-state/land"
 import { Ship } from "../../game-state/ship"
-import { Directive, Order } from "../../game-state/types"
+import { Directive, Order } from "../../game-state"
 import { _DEG, findRotationBetweenHeadings, getDistance, getHeading } from "../../lib/geometry"
 import { AI } from "../base-class"
 

@@ -1,6 +1,6 @@
 import { viewPortToRect } from "../../game-state/helpers";
 import { getInvadingShips } from "../../game-state/towns/town-functions";
-import { Flag, Ship, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state/types";
+import { Flag, Ship, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { expandRect, isPointInsideRect, translateZ } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";

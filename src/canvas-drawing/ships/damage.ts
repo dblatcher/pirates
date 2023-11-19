@@ -1,4 +1,4 @@
-import { Ship } from "../../game-state/types";
+import { Ship } from "../../game-state";
 import { XY, _DEG, getXYVector, translate } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { s } from "../helpers";

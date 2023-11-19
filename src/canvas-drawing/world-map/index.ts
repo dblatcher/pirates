@@ -1,5 +1,5 @@
 import { TERRAIN_SQUARE_SIZE } from "../../game-state/land"
-import { GameState, Ship, Town } from "../../game-state/types"
+import { GameState, Ship, Town } from "../../game-state"
 import { rgb } from "../../lib/Color"
 import { CellMatrix } from "../../lib/path-finding/types"
 import { getTownColor, s } from "../helpers"

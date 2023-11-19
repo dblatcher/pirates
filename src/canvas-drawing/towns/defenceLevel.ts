@@ -1,4 +1,4 @@
-import { DEFENCES_TO_REPEL_INVADERS, Town, ViewPort } from "../../game-state/types";
+import { DEFENCES_TO_REPEL_INVADERS, Town, ViewPort } from "../../game-state";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 
 export const showDefenceLevel = (

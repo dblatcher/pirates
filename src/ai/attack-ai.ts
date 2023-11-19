@@ -1,5 +1,5 @@
 import { AI } from ".";
-import { Directive, GameState, Order, Ship, Side } from "../game-state/types";
+import { Directive, GameState, Order, Ship, Side } from "../game-state";
 import { findClosestAndDistance } from "../lib/geometry";
 import { approach } from "./issue-directives/approach";
 import { identifyShips } from "./issue-directives/identify-ships";

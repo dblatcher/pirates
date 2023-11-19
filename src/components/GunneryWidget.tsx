@@ -1,6 +1,6 @@
 import { Fragment, useId } from "react";
 import { Ship, Cannon } from "../game-state/ship";
-import { Directive, FiringPattern, Order, Side } from "../game-state/types";
+import { Directive, FiringPattern, Order, Side } from "../game-state";
 import { splitArray } from "../lib/util";
 
 interface Props {

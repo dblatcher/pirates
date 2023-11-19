@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Directive, FiringPattern, Order, Ship } from "../game-state/types"
+import { Directive, FiringPattern, Order, Ship } from "../game-state"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "./KeyboardControls"
 import { SailsWidget } from "./SailsWidget"

@@ -1,4 +1,4 @@
-import { Ship, Town } from "../game-state/types";
+import { Ship, Town } from "../game-state";
 import { colors, rgb } from "../lib/Color";
 import { XY } from "../lib/geometry";
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { cycle } from '../game-state/cycle'
-import { Directive, GameState, Order, ViewPort } from '../game-state/types'
+import { Directive, GameState, Order, ViewPort } from '../game-state'
 import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
 import { CellMatrix } from '../lib/path-finding/types'

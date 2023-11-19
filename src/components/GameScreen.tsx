@@ -1,5 +1,5 @@
 import { drawScene } from "../canvas-drawing/draw"
-import { GameState, ViewPort } from "../game-state/types"
+import { GameState, ViewPort } from "../game-state"
 import { CanvasScreen } from "./CanvasScreen"
 
 interface Props {

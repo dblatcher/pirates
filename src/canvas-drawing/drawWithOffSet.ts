@@ -1,4 +1,4 @@
-import { ViewPort } from "../game-state/types";
+import { ViewPort } from "../game-state";
 
 export type OffsetDrawMethods = {
     arc: (x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean | undefined) => void;

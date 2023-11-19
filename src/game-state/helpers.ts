@@ -1,5 +1,5 @@
 import { Rect } from "../lib/geometry";
-import { GameState, ViewPort } from "./types";
+import { GameState, ViewPort } from "./model/types";
 
 export const viewPortToRect = (viewPort :ViewPort):Rect =>({
     left: viewPort.x,

@@ -1,5 +1,5 @@
 import { XY } from "../lib/geometry";
-import { GameState } from "./types";
+import { GameState } from "./model/types";
 
 export enum EffectType {
     SPLASH, IMPACT, GROUNDHIT

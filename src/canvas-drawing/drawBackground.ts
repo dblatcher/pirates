@@ -1,4 +1,4 @@
-import { ViewPort } from "../game-state/types";
+import { ViewPort } from "../game-state";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 const HORIZONTAL_SPACE = 60

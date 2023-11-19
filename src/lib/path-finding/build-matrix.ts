@@ -1,5 +1,5 @@
 import { Landmass, TERRAIN_SQUARE_SIZE } from "../../game-state/land";
-import { GameState } from "../../game-state/types";
+import { GameState } from "../../game-state";
 import { XY } from "../geometry";
 import { CellMatrix } from "./types";
 

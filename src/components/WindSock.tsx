@@ -1,4 +1,4 @@
-import { MAX_WIND, Wind } from "../game-state/types"
+import { MAX_WIND, Wind } from "../game-state"
 import { _360_DEG, _DEG, getXYVector } from "../lib/geometry"
 import { CanvasScreen } from "./CanvasScreen"
 

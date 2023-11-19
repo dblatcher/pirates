@@ -1,5 +1,5 @@
 import { findRotationBetweenHeadings } from "../../lib/geometry";
-import { GameState, MAX_WIND } from "../types";
+import { GameState, MAX_WIND } from "../model/types";
 import { Ship } from "./types";
 
 

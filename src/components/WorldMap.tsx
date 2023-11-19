@@ -1,5 +1,5 @@
 import { buildDrawMapFnc } from "../canvas-drawing/world-map"
-import { GameState } from "../game-state/types"
+import { GameState } from "../game-state"
 import { CellMatrix } from "../lib/path-finding/types"
 import { CanvasScreen } from "./CanvasScreen"
 

@@ -3,7 +3,7 @@ import { _DEG } from "../lib/geometry";
 import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { makeDefaultShip, makeFrigateShip } from "./ship";
-import { GameState } from "./types";
+import { GameState } from "./model/types";
 
 
 export const initalState: GameState = {

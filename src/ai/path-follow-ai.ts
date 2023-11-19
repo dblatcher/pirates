@@ -1,5 +1,5 @@
 import { AI } from ".";
-import { Directive, GameState, Ship } from "../game-state/types";
+import { Directive, GameState, Ship } from "../game-state";
 import { followCurrentPath } from "./issue-directives/follow-path";
 
 export class PathFollowAutoPilot extends AI {

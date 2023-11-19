@@ -1,6 +1,6 @@
 import { getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "../projectile"
-import { GameState, anglesBySide } from "../types"
+import { GameState, anglesBySide } from "../model/types"
 import { Cannon, Ship } from "./types"
 
 

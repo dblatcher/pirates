@@ -1,4 +1,4 @@
-import { Flag } from "../game-state/types"
+import { Flag } from "../game-state"
 import { XY, _DEG, getXYVector, translate, translateZ } from "../lib/geometry"
 import { timePhase } from "../lib/util"
 import { OffsetDrawMethods } from "./drawWithOffSet"

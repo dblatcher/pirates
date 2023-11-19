@@ -1,7 +1,7 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../types"
+import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../model/types"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "./types"
@@ -85,32 +85,26 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
 }
 
 function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: string) => void) {
-
     ship.launchingInvasion = false
-
     if (ship.invasionInProgress) {
         pushLog(`${ship.name} is already invading a town`)
         return
     }
-
+    // TO DO - what if multiple ships invade?
     const { towns } = game
     const town = towns.find(town => town.faction !== ship.faction && getDistance(ship, town) < 200)
-
     if (!town) {
         pushLog(`${ship.name} has no towns to invade`)
         return
     }
-
     if (town.defences > DEFENCES_TO_REPEL_INVADERS) {
         pushLog(`${ship.name} wants to invade ${town.name}, but its defenses are still up`)
         return
     }
-
     pushLog(`${ship.name} invading ${town.name}`)
     ship.invasionInProgress = {
         townId: town.id,
         victory: 0,
     }
-
 }
 
