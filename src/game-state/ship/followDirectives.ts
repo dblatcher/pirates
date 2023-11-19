@@ -84,7 +84,6 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 break
             }
             case Order.INVADE_TOWN: {
-                console.log('assualt', ship)
                 ship.launchingInvasion = true
                 break
             }
