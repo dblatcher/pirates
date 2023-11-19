@@ -5,7 +5,7 @@ import { createImpact, createSplash, updateEffect } from "./effect";
 import { handleProjectileHitsAndLandings, updateProjectile } from "./projectile";
 import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
 import { updateTown } from "./towns";
-import { Collison, Directive, GameState, MAX_WIND } from "./model/types";
+import { Collison, Directive, GameState, MAX_WIND } from "./model";
 
 
 const fireCannons = (game: GameState) => {

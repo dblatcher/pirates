@@ -1,5 +1,5 @@
-import { Flag, Side } from "../model/types";
-import { Ship } from "./types";
+import { Flag, Side } from "../model";
+import { Ship } from "../model";
 
 const SMALL_PENNANT: Flag = {
     shape: 'triangle', length: 30, height: 10

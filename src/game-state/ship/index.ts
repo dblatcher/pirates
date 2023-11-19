@@ -1,4 +1,4 @@
-export * from "./types"
+export * from "../model"
 export * from './collision-shapes'
 export * from './followDirectives'
 export * from './launchFromShip'

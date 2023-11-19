@@ -1,5 +1,5 @@
 import { getXYVector, Rect, translate, Circle } from "../../lib/geometry";
-import { Ship } from "./types";
+import { Ship } from "../model";
 
 export const getCollisionCircles = (ship: Ship): Circle[] => {
     const { x, y, width, h, length } = ship;

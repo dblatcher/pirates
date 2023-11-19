@@ -1,6 +1,6 @@
 import { Circle, doCircleIntersect, getDistance, isPointInsideRect } from "../lib/geometry";
-import { getBoundingRect, getCollisionCircles, Ship } from "./ship";
-import { Projectile, TOWN_SIZE, Town } from "./model/types";
+import { getBoundingRect, getCollisionCircles } from "./ship";
+import { Projectile, TOWN_SIZE, Town, Ship } from "./model";
 
 export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boolean => {
     if (!isPointInsideRect(projectile, getBoundingRect(ship))) {

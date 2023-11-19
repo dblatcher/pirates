@@ -1,7 +1,7 @@
 import { getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "../projectile"
-import { GameState, anglesBySide } from "../model/types"
-import { Cannon, Ship } from "./types"
+import { GameState, anglesBySide } from "../model"
+import { Cannon, Ship } from "../model"
 
 
 export const launchFromShip = (cannon: Cannon, ship: Ship, game: GameState): boolean => {

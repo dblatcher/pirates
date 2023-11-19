@@ -1,10 +1,10 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../model/types"
+import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
-import { Ship } from "./types"
+import { Ship } from "../model"
 
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01

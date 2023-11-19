@@ -3,15 +3,7 @@ import { splitArray } from "../lib/util";
 import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
 import { createGroundHit, createImpact, createSplash } from "./effect";
 import { isLandAt } from "./land";
-import { GameState } from "./model/types";
-
-export type Projectile = {
-    x: number
-    y: number
-    z: number
-    h: number
-    dz: number
-}
+import { GameState, Projectile } from "./model";
 
 export const launchProjectile = (start: { x: number, y: number, h: number }, game: GameState) => {
     game.projectiles.push({
