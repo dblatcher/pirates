@@ -1,7 +1,7 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState } from "../model"
+import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
@@ -88,7 +88,7 @@ function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: stri
     }
     // TO DO - what if multiple ships invade?
     const { towns } = game
-    const town = towns.find(town => town.faction !== ship.faction && getDistance(ship, town) < 200)
+    const town = towns.find(town => town.faction !== ship.faction && getDistance(ship, town) < (INVASION_RANGE + TOWN_SIZE))
     if (!town) {
         pushLog(`${ship.name} has no towns to invade`)
         return
@@ -100,7 +100,6 @@ function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: stri
     pushLog(`${ship.name} invading ${town.name}`)
     town.invasions.push({
         shipId: ship.id,
-        victory: 0,
     })
 }
 

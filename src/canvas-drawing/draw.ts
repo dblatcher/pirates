@@ -1,4 +1,4 @@
-import { GameState, Town, ViewPort, Wind } from "../game-state";
+import { GameState, ViewPort } from "../game-state";
 import { drawBackground } from "./drawBackground";
 import { drawEffect } from "./drawEffect";
 import { drawLand } from "./drawLand";
@@ -17,7 +17,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     drawBackground(ctx, drawingMethods, viewPort, game.cycleNumber)
     drawLand(ctx, drawingMethods, viewPort, game.land)
     drawShips(ctx, drawingMethods, ships, viewPort, game.cycleNumber, game.wind, false)
-    drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.ships)
+    drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind)
 
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

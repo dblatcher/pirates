@@ -1,6 +1,5 @@
+import { Flag, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
 import { viewPortToRect } from "../../game-state/helpers";
-import { getInvadingShips } from "../../game-state/towns/town-functions";
-import { Flag, Ship, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { expandRect, isPointInsideRect, translateZ } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
@@ -25,14 +24,14 @@ export const drawTowns = (
     viewPort: ViewPort,
     cycleNumber: number,
     wind: Wind,
-    ships: Ship[]
 ) => {
     const townsInView = towns.filter(town => isTownInView(town, viewPort))
     const { arc } = drawingMethods
 
     townsInView.forEach(town => {
-        const beingInvaded = getInvadingShips(town, ships).length > 0
+        const beingInvaded = town.invasions.length > 0
         const color = getTownColor(town)
+        const flagHeight = Math.min(50, town.garrison * 2)
         ctx.beginPath();
         ctx.lineWidth = 3;
         ctx.strokeStyle = (beingInvaded && cycleNumber % 30 > 15) ? 'red' : 'black'
@@ -41,7 +40,7 @@ export const drawTowns = (
         ctx.stroke();
         ctx.fill();
         drawFlagPole(ctx, drawingMethods, town, 80)
-        drawFlag(ctx, drawingMethods, translateZ(town, 50), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
+        drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
         showDefenceLevel(ctx, drawingMethods, viewPort, town, cycleNumber)
     })
 }

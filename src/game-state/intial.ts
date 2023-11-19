@@ -38,7 +38,7 @@ export const initalState: GameState = {
                     },
                     destination: { x: 100, y: 500 },
                     path: []
-                }, 2, true),
+                }, 2, false),
         }),
         makeFrigateShip({
             id: 3,
@@ -129,11 +129,13 @@ export const initalState: GameState = {
             y: 150,
             id: 1,
             name: 'La Groupelle',
-            defences: 50,
+            defences: 0,
             profile: {
-                maxDefences: 100
+                maxDefences: 100,
+                maxGarrison: 25,
             },
-            invasions:[],
+            invasions: [],
+            garrison: 25,
         },
         {
             faction: factions.spaim,
@@ -143,9 +145,11 @@ export const initalState: GameState = {
             name: 'Villa della Canto',
             defences: 50,
             profile: {
-                maxDefences: 100
+                maxDefences: 100,
+                maxGarrison: 25,
             },
-            invasions:[],
+            invasions: [],
+            garrison: 25,
         },
     ]
 }

@@ -90,10 +90,10 @@ export type Flag = {
     height: number,
 }
 
-export const TOWN_SIZE = 100
-export const DEFENCES_TO_REPEL_INVADERS = 20
+
 export type TownProfile = {
     maxDefences: number
+    maxGarrison: number
 }
 export type Town = XY & {
     faction?: Faction
@@ -102,15 +102,9 @@ export type Town = XY & {
     defences: number,
     profile: TownProfile,
     invasions: InvasionByShip[],
+    garrison: number,
 }
 
 export type InvasionByShip = {
     shipId: number
-    /** 
-     *  A track of progress towards conquering the town.  
-     *  0 = just started
-     *  100 = won
-     *  -100 = repealed?
-     * */
-    victory: number
 }
