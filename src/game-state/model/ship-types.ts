@@ -1,14 +1,7 @@
 import type { AI } from "../../ai"
 import { Faction } from "../faction"
-import { Flag, Side } from "./game-types"
-
-export type Cannon = {
-    cooldown: number,
-    firing?: boolean,
-    side: Side,
-    position: number,
-    countdown?: number,
-}
+import { ShipCannon } from "./cannon-types"
+import { Flag } from "./game-types"
 
 export interface MastConfig {
     position: number,
@@ -42,6 +35,6 @@ export type Ship = {
 
     sailLevelTarget: number,
     wheel: number,
-    cannons: Cannon[]
+    cannons: ShipCannon[]
     ai?: AI
 }

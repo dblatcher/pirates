@@ -2,17 +2,10 @@ import { XY, _90_DEG_LEFT, _90_DEG_RIGHT } from '../../lib/geometry'
 import { Effect } from '../effect'
 import { Faction } from '../faction'
 import { Landmass } from '../land'
-import type { Ship } from '../ship'
+import type { FortCannon, Ship } from '../ship'
+import { Projectile } from './cannon-types'
 
-export type Projectile = {
-    x: number
-    y: number
-    z: number
-    h: number
-    dz: number
-}
 
-export const MAX_WIND = 10;
 export type Wind = {
     force: number;
     direction: number;
@@ -90,6 +83,10 @@ export type Flag = {
     height: number,
 }
 
+export type Fort = {
+    distanceFromTown: XY
+    cannons: FortCannon[]
+}
 
 export type TownProfile = {
     maxDefences: number
@@ -103,6 +100,7 @@ export type Town = XY & {
     profile: TownProfile,
     invasions: InvasionByShip[],
     garrison: number,
+    forts: Fort[],
 }
 
 export type InvasionByShip = {

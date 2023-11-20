@@ -1,10 +1,10 @@
 import { getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "../projectile"
 import { GameState, anglesBySide } from "../model"
-import { Cannon, Ship } from "../model"
+import { ShipCannon, Ship } from "../model"
 
 
-export const launchFromShip = (cannon: Cannon, ship: Ship, game: GameState): boolean => {
+export const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState): boolean => {
     if (cannon.cooldown > 0) {
         cannon.firing = false
         return false

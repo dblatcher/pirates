@@ -3,7 +3,7 @@ import { splitArray } from "../lib/util";
 import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
 import { createGroundHit, createImpact, createSplash } from "./effect";
 import { isLandAt } from "./land";
-import { GameState, Projectile } from "./model";
+import { Cannon, GameState, Projectile } from "./model";
 
 export const launchProjectile = (start: { x: number, y: number, h: number }, game: GameState) => {
     game.projectiles.push({
@@ -27,6 +27,17 @@ export const updateProjectile = (projectile: Projectile) => {
     projectile.dz = projectile.dz -= .025
 }
 
+export const updateCannon = (cannon:Cannon) => {
+    if (cannon.cooldown > 0) {
+        cannon.cooldown = cannon.cooldown - 1
+    }
+    if (cannon.countdown) {
+        cannon.countdown = cannon.countdown - 1
+        if (cannon.countdown === 0) {
+            cannon.firing = true
+        }
+    }
+}
 
 export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (newLog: string): void }) => {
     const projectilesThatHitSomething: Projectile[] = []

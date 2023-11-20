@@ -6,6 +6,7 @@ import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
 import { getTownShipIsInvading } from "../towns/town-functions"
+import { updateCannon } from "../projectile"
 
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01
@@ -62,17 +63,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
         ship.sailLevel = ship.sailLevel + change
     }
-    ship.cannons.forEach(cannon => {
-        if (cannon.cooldown > 0) {
-            cannon.cooldown = cannon.cooldown - 1
-        }
-        if (cannon.countdown) {
-            cannon.countdown = cannon.countdown - 1
-            if (cannon.countdown === 0) {
-                cannon.firing = true
-            }
-        }
-    })
+    ship.cannons.forEach(updateCannon)
 
     if (ship.launchingInvasion) {
         tryToLauchInvasion(ship, game, pushLog)

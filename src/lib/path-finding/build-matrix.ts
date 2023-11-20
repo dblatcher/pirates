@@ -18,6 +18,8 @@ const toCell = (point: XY): XY => {
     }
 }
 
+// TO DO discourage sailing too close to the coast
+// can cells have vaules other than 0|1 - check pacakage readme
 const landToCells = (landmass: Landmass): XY[] => {
     // WRONG! need to align/snap landmass to grid
     // for this to work
@@ -34,6 +36,7 @@ const landToCells = (landmass: Landmass): XY[] => {
     return cells
 }
 
+// TO DO - account for positions of forts
 export const buildMatrixFromGameState = (width: number, height: number, gameState: GameState): CellMatrix => {
     const widthInCells = Math.ceil(width / TERRAIN_SQUARE_SIZE)
     const heightInCells = Math.ceil(height / TERRAIN_SQUARE_SIZE)

@@ -136,6 +136,30 @@ export const initalState: GameState = {
             },
             invasions: [],
             garrison: 25,
+            forts: [
+                {
+                    distanceFromTown: { x: 0, y: 100 },
+                    cannons: [
+                        {
+                            cooldown: 0,
+                            countdown: 0,
+                            firing: false,
+                            position: 0
+                        }
+                    ]
+                },
+                {
+                    distanceFromTown: { x: -50, y: -50 },
+                    cannons: [
+                        {
+                            cooldown: 0,
+                            countdown: 0,
+                            firing: false,
+                            position: 0
+                        }
+                    ]
+                },
+            ]
         },
         {
             faction: factions.spaim,
@@ -150,6 +174,7 @@ export const initalState: GameState = {
             },
             invasions: [],
             garrison: 25,
+            forts: []
         },
     ]
 }

@@ -1,5 +1,5 @@
 import { Fragment, useId } from "react";
-import { Ship, Cannon } from "../game-state/ship";
+import { Ship, ShipCannon } from "../game-state/ship";
 import { Directive, FiringPattern, Order, Side } from "../game-state";
 import { splitArray } from "../lib/util";
 
@@ -31,7 +31,7 @@ const patternToDescription = (pattern: FiringPattern): string => {
 const cooldownToSymbol = (cooldown: number): string =>
     cooldown === 0 ? '◆' : '◇'
 
-const CannonIndicator = ({ cannons, side }: { cannons: Cannon[], side: Side }) => (
+const CannonIndicator = ({ cannons, side }: { cannons: ShipCannon[], side: Side }) => (
     <div title={sideToDescription(side)}>
         <div style={{
             display: "flex",

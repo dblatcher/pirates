@@ -2,6 +2,7 @@ import { _DEG, getDistance } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
 import { Faction } from "../faction";
 import { GameState, INVASION_RANGE, TOWN_SIZE, Town } from "../model";
+import { updateCannon } from "../projectile";
 import { getInvasionsAndShips } from "./town-functions";
 
 const REPAIR_PERIOD = 25
@@ -17,8 +18,8 @@ const conquerTown = (town: Town, faction?: Faction) => {
 export const updateTown = (town: Town, gameState: GameState) => {
     if (town.invasions.length === 0) {
         if (gameState.cycleNumber % REPAIR_PERIOD === 0) {
-                town.defences = Math.min(town.defences + 1, town.profile.maxDefences)
-                town.garrison = Math.min(town.garrison + 1, town.profile.maxGarrison)
+            town.defences = Math.min(town.defences + 1, town.profile.maxDefences)
+            town.garrison = Math.min(town.garrison + 1, town.profile.maxGarrison)
         }
     } else {
         // will filter out invasions by dead ships as no longer in gameState.
@@ -49,4 +50,8 @@ export const updateTown = (town: Town, gameState: GameState) => {
             }
         }
     }
+
+    town.forts.forEach(fort => {
+        fort.cannons.forEach(updateCannon)
+    })
 }
