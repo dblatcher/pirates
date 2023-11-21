@@ -2,8 +2,8 @@ import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
 import { createImpact, createSplash, updateEffect } from "./effect";
-import { handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
-import { followDirectives, getProwPosition, launchFromShip, updateShip } from "./ship";
+import { handleProjectileHitsAndLandings, updateProjectile, launchFromShip } from "./cannons";
+import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { updateTown } from "./towns";
 import { Collison, Directive, GameState, MAX_WIND } from "./model";
 
