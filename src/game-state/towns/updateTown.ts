@@ -2,7 +2,7 @@ import { _DEG, getDistance } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
 import { Faction } from "../faction";
 import { GameState, INVASION_RANGE, TOWN_SIZE, Town } from "../model";
-import { updateCannon } from "../projectile";
+import { updateCannon } from "../cannons";
 import { getInvasionsAndShips } from "./town-functions";
 
 const REPAIR_PERIOD = 25

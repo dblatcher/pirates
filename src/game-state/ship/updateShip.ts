@@ -6,7 +6,7 @@ import { getSpeed } from "./calculate-speed"
 import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
 import { getTownShipIsInvading } from "../towns/town-functions"
-import { updateCannon } from "../projectile"
+import { updateCannon } from "../cannons"
 
 // TO DO - vary by ship and crew
 const SAIL_CHANGE_RATE = .01

@@ -1,9 +1,9 @@
-import { getXYVector, translate } from "../lib/geometry";
-import { splitArray } from "../lib/util";
-import { willProjectileHitShip, willProjectileHitTown } from "./collisions";
-import { createGroundHit, createImpact, createSplash } from "./effect";
-import { isLandAt } from "./land";
-import { Cannon, GameState, Projectile } from "./model";
+import { getXYVector, translate } from "../../lib/geometry";
+import { splitArray } from "../../lib/util";
+import { willProjectileHitShip, willProjectileHitTown } from "../collisions";
+import { createGroundHit, createImpact, createSplash } from "../effect";
+import { isLandAt } from "../land";
+import { Cannon, GameState, Projectile } from "../model";
 
 export const launchProjectile = (start: { x: number, y: number, h: number }, game: GameState) => {
     game.projectiles.push({
