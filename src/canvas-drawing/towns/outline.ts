@@ -1,6 +1,7 @@
 import { FORT_SIZE, Fort, TOWN_SIZE, Town } from "../../game-state";
-import { translate } from "../../lib/geometry";
+import { getXYVector, translate } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
+import { s } from "../helpers";
 
 export const drawTownOutline = (
     ctx: CanvasRenderingContext2D,
@@ -33,4 +34,9 @@ export const drawFortOutline = (
     drawingMethods.arc(position.x, position.y, FORT_SIZE / 2, 0, Math.PI * 2);
     ctx.stroke();
     ctx.fill();
+
+    ctx.beginPath()
+    drawingMethods.moveTo(...s(position))
+    drawingMethods.lineTo(...s(translate(position, getXYVector(FORT_SIZE * (3 / 8), fort.aimDirection || 0))))
+    ctx.stroke()
 }

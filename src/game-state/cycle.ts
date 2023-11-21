@@ -1,11 +1,11 @@
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
+import { handleProjectileHitsAndLandings, launchFromFort, launchFromShip, updateProjectile } from "./cannons";
 import { createImpact, createSplash, updateEffect } from "./effect";
-import { handleProjectileHitsAndLandings, updateProjectile, launchFromShip } from "./cannons";
+import { Collison, Directive, GameState, MAX_WIND } from "./model";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { updateTown } from "./towns";
-import { Collison, Directive, GameState, MAX_WIND } from "./model";
 
 
 const fireCannons = (game: GameState) => {
@@ -14,6 +14,16 @@ const fireCannons = (game: GameState) => {
             if (cannon.firing) {
                 launchFromShip(cannon, ship, game)
             }
+        })
+    })
+
+    game.towns.forEach(town => {
+        town.forts.forEach(fort => {
+            fort.cannons.forEach(cannon => {
+                if (cannon.firing) {
+                    launchFromFort(cannon, fort, town, game)
+                }
+            })
         })
     })
 }
@@ -104,5 +114,4 @@ export const cycle = (
 
     return game
 }
-
 

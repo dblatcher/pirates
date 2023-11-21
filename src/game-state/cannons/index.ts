@@ -1,2 +1,2 @@
 export * from './projectile'
-export * from './launchFromShip'
+export * from './launch'

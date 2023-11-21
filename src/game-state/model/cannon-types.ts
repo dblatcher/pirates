@@ -12,7 +12,6 @@ export type ShipCannon = Cannon & {
 }
 
 export type FortCannon = Cannon & {
-    angle?: number
 }
 
 export type Projectile = {
