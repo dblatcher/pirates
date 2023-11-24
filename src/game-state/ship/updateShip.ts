@@ -1,17 +1,13 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipOverlapWithOtherShip, willShipRunIntoOtherShip } from "../collisions"
 import { isLandAt } from "../land"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
+import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, SAIL_CHANGE_RATE, SHIP_TURN_RATE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { geLeadingCollisionCircle, getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
 import { getTownShipIsInvading } from "../towns/town-functions"
 import { updateCannon } from "../cannons"
 
-// TO DO - vary by ship and crew
-const SAIL_CHANGE_RATE = .01
-
-const SHIP_TURN_RATE = _DEG * 2
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], pushLog: { (message: string): void }) => {
     const otherShipsNearby = game.ships
@@ -57,6 +53,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     ship.speedLastTurn = wasNotImpeded ? moveAmount : 0
     ship.turnsUnimpeded = wasNotImpeded ? ship.turnsUnimpeded + 1 : 0
 
+    // TO DO - vary by ship and crew
     if (ship.sailLevel !== ship.sailLevelTarget) {
         const change = Math.min(Math.abs(ship.sailLevel - ship.sailLevelTarget), SAIL_CHANGE_RATE) * -Math.sign(ship.sailLevel - ship.sailLevelTarget)
         ship.sailLevel = ship.sailLevel + change

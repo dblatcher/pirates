@@ -1,5 +1,5 @@
-import { Landmass, TERRAIN_SQUARE_SIZE, TerrainType, getLandInView } from "../game-state/land";
-import { ViewPort } from "../game-state";
+import { Landmass, TerrainType, getLandInView } from "../game-state/land";
+import { ViewPort, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 // TO DO - replace asset - coastlines are too thin  

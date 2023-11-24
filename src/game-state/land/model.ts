@@ -1,7 +1,3 @@
-
-
-export const TERRAIN_SQUARE_SIZE = 50
-
 export enum TerrainType {
     PLAIN,
     JUNGLE,

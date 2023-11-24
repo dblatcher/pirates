@@ -1,6 +1,6 @@
-import { Landmass, TERRAIN_SQUARE_SIZE } from "./model";
+import { Landmass } from "./model";
 import { Rect, XY, doRectsIntersect, isPointInsideRect } from "../../lib/geometry";
-import { ViewPort } from "../model";
+import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
 import { viewPortToRect } from "../helpers";
 
 

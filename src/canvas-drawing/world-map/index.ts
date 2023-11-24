@@ -1,5 +1,4 @@
-import { TERRAIN_SQUARE_SIZE } from "../../game-state/land"
-import { GameState, Ship, Town } from "../../game-state"
+import { GameState, Ship, Town, TERRAIN_SQUARE_SIZE } from "../../game-state"
 import { rgb } from "../../lib/Color"
 import { CellMatrix } from "../../lib/path-finding/types"
 import { getTownColor, s } from "../helpers"
@@ -40,14 +39,14 @@ const plotTowns = (ctx: CanvasRenderingContext2D, towns: Town[]) => {
         ctx.fillStyle = rgb(getTownColor(town))
         ctx.strokeStyle = 'black'
         ctx.lineWidth = 5
-        ctx.arc(...s(town), 50, 0, Math.PI*2)
+        ctx.arc(...s(town), 50, 0, Math.PI * 2)
         ctx.fill()
         ctx.stroke()
-        
+
         ctx.beginPath()
-        ctx.fillStyle='white'
+        ctx.fillStyle = 'white'
         ctx.font = "90px arial";
-        ctx.fillText(town.name, town.x-50, town.y+100)
+        ctx.fillText(town.name, town.x - 50, town.y + 100)
     })
 }
 

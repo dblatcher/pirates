@@ -1,5 +1,4 @@
-import { TERRAIN_SQUARE_SIZE } from "../game-state/land";
-import { Directive, GameState, Ship } from "../game-state";
+import { Directive, GameState, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { XY, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";

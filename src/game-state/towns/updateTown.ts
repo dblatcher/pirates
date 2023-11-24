@@ -2,12 +2,9 @@ import { getDistance } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
 import { updateCannon } from "../cannons";
 import { Faction } from "../faction";
-import { GameState, INVASION_RANGE, TOWN_SIZE, Town } from "../model";
+import { BATTLE_PERIOD, GameState, INVASION_RANGE, REPAIR_PERIOD, TOWN_SIZE, Town } from "../model";
 import { doRepairs } from "./town-ai";
 import { getInvasionsAndShips } from "./town-functions";
-
-const REPAIR_PERIOD = 25
-const BATTLE_PERIOD = 25
 
 const conquerTown = (town: Town, faction?: Faction) => {
     town.faction = faction
