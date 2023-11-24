@@ -15,10 +15,7 @@ export const ShipDashBoard = ({ ship, townInvading }: Props) => {
                 damage: {ship.damage} / {ship.profile.maxHp}
             </p>
             <p>
-                launching invasion: {ship.launchingInvasion && 'Y'}
-            </p>
-            <p>
-                invasion in progress: {townInvading?.name}
+                invading: {townInvading?.name}
             </p>
         </div>
     )
