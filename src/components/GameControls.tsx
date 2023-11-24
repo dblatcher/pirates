@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Directive, FiringPattern, Order, Ship } from "../game-state"
+import { Directive, FiringPattern, Order, Ship, Town } from "../game-state"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "./KeyboardControls"
 import { SailsWidget } from "./SailsWidget"
@@ -8,13 +8,14 @@ import { Wheel } from "./Wheel"
 
 interface Props {
     player?: Ship
+    townInvading?: Town
     addDirective: { (directive: Directive): void }
     paused: boolean
     playerWheel: number
     setPlayerWheel: { (value: number): void }
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, setPlayerWheel }: Props) => {
+export const GameControls = ({ player, addDirective, paused, playerWheel, setPlayerWheel, townInvading }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
 
@@ -37,7 +38,9 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, setPla
                     setFiringPattern={setFiringPattern}
                 />
                 <ShipDashBoard
-                    ship={player} />
+                    ship={player} 
+                    townInvading={townInvading}
+                />
                 <KeyboardControls
                     addDirective={addDirective}
                     turnWheel={setPlayerWheel}

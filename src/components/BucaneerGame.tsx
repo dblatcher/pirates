@@ -9,6 +9,7 @@ import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { getTownShipIsInvading } from '../game-state/towns/town-functions'
 
 interface Props {
     initial: GameState;
@@ -81,6 +82,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
 
                 <GameControls
                     player={player}
+                    townInvading = { player && getTownShipIsInvading(player,gameState.towns)}
                     addDirective={addDirective}
                     paused={paused}
                     playerWheel={playerWheel}

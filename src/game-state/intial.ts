@@ -129,7 +129,7 @@ export const initalState: GameState = {
             y: 150,
             id: 1,
             name: 'La Groupelle',
-            defences: 98,
+            defences: 1,
             profile: {
                 maxDefences: 100,
                 maxGarrison: 25,
