@@ -1,5 +1,6 @@
 import { DEFENCES_TO_REPEL_INVADERS, TOWN_SIZE, Town, ViewPort } from "../../game-state";
 import { OffsetDrawMethods } from "../drawWithOffSet";
+import { flash } from "../helpers";
 
 export const showDefenceLevel = (
     ctx: CanvasRenderingContext2D,
@@ -12,7 +13,7 @@ export const showDefenceLevel = (
     ctx.beginPath()
     const defenceString = `${town.defences}/${town.profile.maxDefences}`
     ctx.font = '20px arial'
-    ctx.fillStyle = (town.defences < DEFENCES_TO_REPEL_INVADERS && cycleNumber % 30 > 15) ? 'red' : 'white'
+    ctx.fillStyle = town.defences < DEFENCES_TO_REPEL_INVADERS ? flash(cycleNumber, ['red', 'white']) : 'white'
     ctx.fillText(defenceString, town.x - viewPort.x - TOWN_SIZE / 2, town.y - viewPort.y)
 
     ctx.beginPath()

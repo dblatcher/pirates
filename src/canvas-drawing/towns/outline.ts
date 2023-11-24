@@ -1,7 +1,7 @@
 import { FORT_SIZE, Fort, TOWN_SIZE, Town } from "../../game-state";
 import { getXYVector, translate } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { s } from "../helpers";
+import { flash, s } from "../helpers";
 
 export const drawTownOutline = (
     ctx: CanvasRenderingContext2D,
@@ -12,8 +12,8 @@ export const drawTownOutline = (
 ) => {
 
     ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = (beingInvaded && cycleNumber % 30 > 15) ? 'red' : 'black'
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = beingInvaded ? flash(cycleNumber, ['red', 'black'], 15) : 'black'
     ctx.fillStyle = 'gray'
     drawingMethods.arc(town.x, town.y, TOWN_SIZE / 2, 0, Math.PI * 2);
     ctx.stroke();
