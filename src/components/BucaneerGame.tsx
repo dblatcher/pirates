@@ -36,6 +36,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const [directives, setDirectives] = useState<Directive[]>([])
     const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
     const [playerWheel, setPlayerWheel] = useState(0)
+    const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
@@ -44,6 +45,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     }
 
     const refresh = () => {
+        const refreshStart = Date.now()
         const updatedGame = cycle(
             gameState,
             [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directives],
@@ -62,16 +64,19 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
         }
         setDirectives([])
         setGameState(updatedGame)
+        const timeTaken = Date.now() - refreshStart
+        const newSetOfFive = [timeTaken, ...recentRefeshTimes].slice(0, 10)
+        setRecentRefreshTimes(newSetOfFive)
     }
 
     useInterval(refresh, paused ? null : turbo ? 1 : 10)
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     return (
         <div style={{ display: 'flex' }}>
-            <main>
-                <GameScreen 
-                    viewPort={viewPort} 
-                    gameState={gameState} 
+            <main>            
+                <GameScreen
+                    viewPort={viewPort}
+                    gameState={gameState}
                     magnify={magnify} />
 
                 <GameControls
@@ -83,6 +88,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
             </main>
 
             <aside>
+            <span>T: {Math.max(...recentRefeshTimes)}</span>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>

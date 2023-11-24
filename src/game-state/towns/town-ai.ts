@@ -1,6 +1,7 @@
 import { identifyShips } from "../../ai/identify-ships";
+import { doesLineSegmentCrossCircleEdge } from "../../lib/expensive-geometry";
 import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../../lib/geometry";
-import { GameState, Town } from "../model";
+import { GameState, TOWN_SIZE, Town } from "../model";
 
 export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => {
 
@@ -23,11 +24,12 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
             fort.aimDirection = targetHeading
 
             if (targetDistance < 250) {
-                // const projectPathEnd = translate(position, getXYVector(targetDistance, targetHeading))
-                //TODO - this works but was too expensive - find more efficient solution based on angles
-                // const mightHitTown = doesLineSegmentCrossCircleEdge([position, projectPathEnd], { ...town, r: TOWN_SIZE / 2 })
+                const projectPathEnd = translate(position, getXYVector(targetDistance, targetHeading))
+                //TODO - this works but is too expensive - find more efficient solution based on angles
+                // can figure out the town angle once and store on an optional proprty of the fort
+                const mightHitTown = doesLineSegmentCrossCircleEdge([position, projectPathEnd], { ...town, r: TOWN_SIZE / 2 })
                 
-                if (!false) {
+                if (!mightHitTown) {
                     fort.cannons.forEach(cannon => {
                         if (cannon.cooldown <= 0) {
                             cannon.countdown = 1
