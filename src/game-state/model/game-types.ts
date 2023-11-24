@@ -85,8 +85,9 @@ export type Flag = {
 
 export type Fort = {
     distanceFromTown: XY,
-    aimDirection?: number,
-    cannons: FortCannon[]
+    aimDirection: number,
+    cannons: FortCannon[],
+    damage: number,
 }
 
 export type TownProfile = {

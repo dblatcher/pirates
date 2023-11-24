@@ -139,6 +139,8 @@ export const initalState: GameState = {
             forts: [
                 {
                     distanceFromTown: { x: 0, y: 100 },
+                    damage: 0,
+                    aimDirection: 0,
                     cannons: [
                         {
                             cooldown: 0,
@@ -154,6 +156,8 @@ export const initalState: GameState = {
                 },
                 {
                     distanceFromTown: { x: -50, y: -50 },
+                    damage: 0,
+                    aimDirection: 0,
                     cannons: [
                         {
                             cooldown: 0,

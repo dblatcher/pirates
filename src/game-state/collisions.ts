@@ -1,6 +1,7 @@
 import { Circle, doCircleIntersect, getDistance, isPointInsideRect } from "../lib/geometry";
 import { getBoundingRect, getCollisionCircles } from "./ship";
-import { Projectile, TOWN_SIZE, Town, Ship } from "./model";
+import { Projectile, TOWN_SIZE, Town, Ship, Fort, FORT_SIZE } from "./model";
+import { getFortPosition } from "./towns/town-functions";
 
 export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boolean => {
     if (!isPointInsideRect(projectile, getBoundingRect(ship))) {
@@ -17,6 +18,10 @@ export const willProjectileHitShip = (projectile: Projectile, ship: Ship): boole
 
 export const willProjectileHitTown = (projectile: Projectile, town: Town): boolean => {
     return getDistance(projectile, { ...town }) < TOWN_SIZE / 2
+}
+
+export const willProjectileHitFort = (projectile: Projectile, fort: Fort, town: Town): boolean => {
+    return getDistance(projectile, getFortPosition(fort, town)) < FORT_SIZE / 2
 }
 
 export const willShipHitOtherShip = (leadingCircleAfterMove: Circle, otherShip: Ship): boolean => {

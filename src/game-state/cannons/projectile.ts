@@ -1,9 +1,9 @@
 import { getXYVector, translate } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
-import { willProjectileHitShip, willProjectileHitTown } from "../collisions";
+import { willProjectileHitFort, willProjectileHitShip, willProjectileHitTown } from "../collisions";
 import { createGroundHit, createImpact, createSplash } from "../effect";
 import { isLandAt } from "../land";
-import { Cannon, GameState, Projectile } from "../model";
+import { Cannon, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, Projectile } from "../model";
 
 export const launchProjectile = (start: { x: number, y: number, h: number }, game: GameState) => {
     game.projectiles.push({
@@ -27,7 +27,7 @@ export const updateProjectile = (projectile: Projectile) => {
     projectile.dz = projectile.dz -= .025
 }
 
-export const updateCannon = (cannon:Cannon) => {
+export const updateCannon = (cannon: Cannon) => {
     if (cannon.cooldown > 0) {
         cannon.cooldown = cannon.cooldown - 1
     }
@@ -58,6 +58,14 @@ export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (ne
                 // pushLog(`Hit ${town.name}: ${town.defences}/${town.profile.maxDefences}`)
                 createGroundHit({ ...projectile, timeLeft: 80 }, game)
                 createImpact({ ...projectile, timeLeft: 50 }, game)
+            } else {
+                town.forts.forEach(fort => {
+                    if (willProjectileHitFort(projectile, fort, town)) {
+                        projectilesThatHitSomething.push(projectile)
+                        fort.damage = Math.min(fort.damage + 1, MAXIMUM_DAMAGE_A_FORT_TAKES)
+                        createGroundHit({ ...projectile, timeLeft: 80 }, game)
+                    }
+                })
             }
         })
     })

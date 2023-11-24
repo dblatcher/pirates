@@ -1,6 +1,6 @@
 import { _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "."
-import { FORT_SIZE, Fort, FortCannon, GameState, Town, anglesBySide } from "../model"
+import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, FortCannon, GameState, Town, anglesBySide } from "../model"
 import { ShipCannon, Ship } from "../model"
 
 
@@ -29,7 +29,7 @@ export const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState):
 }
 
 export const launchFromFort = (cannon: FortCannon, fort: Fort, town: Town, game: GameState): boolean => {
-    if (cannon.cooldown > 0) {
+    if (cannon.cooldown > 0 || fort.damage >= DAMAGE_THAT_STOPS_FORTS_FIRING) {
         cannon.firing = false
         return false
     }
