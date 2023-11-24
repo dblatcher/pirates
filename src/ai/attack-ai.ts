@@ -2,7 +2,7 @@ import { AI } from ".";
 import { Directive, GameState, Order, Ship, Side } from "../game-state";
 import { findClosestAndDistance } from "../lib/geometry";
 import { approach } from "./issue-directives/approach";
-import { identifyShips } from "./issue-directives/identify-ships";
+import { identifyShips } from "./identify-ships";
 import { turnToAndFire } from "./issue-directives/target-and-fire";
 
 

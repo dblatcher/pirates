@@ -142,13 +142,11 @@ export const initalState: GameState = {
                     cannons: [
                         {
                             cooldown: 0,
-                            countdown: 20,
                             firing: false,
                             position: -0.25
                         },
                         {
                             cooldown: 0,
-                            countdown: 20,
                             firing: false,
                             position: 0.25
                         },
@@ -159,7 +157,6 @@ export const initalState: GameState = {
                     cannons: [
                         {
                             cooldown: 0,
-                            countdown: 30,
                             firing: false,
                             position: 0
                         }

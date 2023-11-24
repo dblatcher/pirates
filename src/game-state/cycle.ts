@@ -6,6 +6,7 @@ import { createImpact, createSplash, updateEffect } from "./effect";
 import { Collison, Directive, GameState, MAX_WIND } from "./model";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { updateTown } from "./towns";
+import { aimAndFireCannonsFromForts } from "./towns/town-ai";
 
 
 const fireCannons = (game: GameState) => {
@@ -91,6 +92,10 @@ export const cycle = (
             ship.ai.updatePath(ship, game, matrix)
         })
     }
+
+    game.towns.forEach(town => {
+        aimAndFireCannonsFromForts(town, gameState)
+    })
 
     const collisons: Collison[] = []
     game.ships.forEach(ship => {
