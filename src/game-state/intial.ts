@@ -129,13 +129,13 @@ export const initalState: GameState = {
             y: 150,
             id: 1,
             name: 'La Groupelle',
-            defences: 0,
+            defences: 98,
             profile: {
                 maxDefences: 100,
                 maxGarrison: 25,
             },
             invasions: [],
-            garrison: 25,
+            garrison: 20,
             forts: [
                 {
                     distanceFromTown: { x: 0, y: 100 },

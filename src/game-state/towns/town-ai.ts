@@ -1,7 +1,28 @@
 import { identifyShips } from "../../ai/identify-ships";
 import { doesLineSegmentCrossCircleEdge } from "../../lib/expensive-geometry";
 import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../../lib/geometry";
-import { GameState, TOWN_SIZE, Town } from "../model";
+import { clamp } from "../../lib/util";
+import { DAMAGE_THAT_STOPS_FORTS_FIRING, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, TOWN_SIZE, Town } from "../model";
+
+
+export const doRepairs = (town: Town) => {
+    if (town.defences < town.profile.maxDefences) {
+        town.defences = Math.min(town.defences + 1, town.profile.maxDefences)
+        return
+    }
+    if (town.forts.some(fort => fort.damage >= DAMAGE_THAT_STOPS_FORTS_FIRING)) {
+        const [mostDamaged] = town.forts.sort((a, b) => b.damage - a.damage)
+        mostDamaged.damage = clamp(mostDamaged.damage - 1, MAXIMUM_DAMAGE_A_FORT_TAKES)
+    }
+    if (town.garrison < town.profile.maxGarrison) {
+        town.garrison = Math.min(town.garrison + 1, town.profile.maxGarrison)
+        return
+    }
+    const [mostDamaged] = town.forts.sort((a, b) => b.damage - a.damage)
+    if (mostDamaged) { // town may have zero forts
+        mostDamaged.damage = clamp(mostDamaged.damage - 1, MAXIMUM_DAMAGE_A_FORT_TAKES)
+    }
+}
 
 export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => {
 
