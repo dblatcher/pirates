@@ -1,14 +1,17 @@
-import { getXYVector, Rect, translate, Circle } from "../../lib/geometry";
+import { Circle, Rect, getXYVector, translate } from "../../lib/geometry";
 import { Ship } from "../model";
 
-export const getCollisionCircles = (ship: Ship): Circle[] => {
-    const { x, y, width, h, length } = ship;
-    const r = width / 2;
-    const pointAlongMiddleAt = (distanceFromCentre: number) => translate(getXYVector((length - width) * distanceFromCentre, h), { x, y });
+const pointAlongMiddleAtOf = ({ length, width, x, y, h }: Ship) => (distanceFromCentre: number) => translate(getXYVector((length - width) * distanceFromCentre, h), { x, y });
 
+export const getCollisionCircles = (ship: Ship): Circle[] => {
+    const pointAlongMiddleAt = pointAlongMiddleAtOf(ship)
     //TO DO - calculate the number of circles needed based on width & length 
-    return [0.5, 0.25, 0, -0.25, -0.5].map(pointAlongMiddleAt).map(point => ({ ...point, r }));
+    return [0.5, 0.25, 0, -0.25, -0.5].map(pointAlongMiddleAt).map(point => ({ ...point, r: ship.width / 2 }));
 };
+
+export const geLeadingCollisionCircle = (ship: Ship): Circle => {
+    return { ...pointAlongMiddleAtOf(ship)(.5), r: ship.width / 2 }
+}
 
 export const getBoundingRect = (ship: Ship, margin = 6): Rect => {
     const zoneSize = margin + ship.length / 2;

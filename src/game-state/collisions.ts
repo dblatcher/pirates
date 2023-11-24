@@ -19,11 +19,10 @@ export const willProjectileHitTown = (projectile: Projectile, town: Town): boole
     return getDistance(projectile, { ...town }) < TOWN_SIZE / 2
 }
 
-export const willShipHitOtherShip = (shipCirclesAfterMove: Circle[], otherShip: Ship): boolean => {
+export const willShipHitOtherShip = (leadingCircleAfterMove: Circle, otherShip: Ship): boolean => {
     const otherShipCircles = getCollisionCircles(otherShip)
-    return shipCirclesAfterMove.some(
-        shipCircle => otherShipCircles.some(
-            otherShipCircle => doCircleIntersect(shipCircle, otherShipCircle)
-        )
+    return otherShipCircles.some(
+        otherShipCircle => doCircleIntersect(leadingCircleAfterMove, otherShipCircle)
     )
+
 }

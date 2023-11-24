@@ -3,7 +3,7 @@ import { willShipHitOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
-import { getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
+import { geLeadingCollisionCircle, getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
 import { getTownShipIsInvading } from "../towns/town-functions"
 import { updateCannon } from "../cannons"
@@ -21,12 +21,10 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     const moveAmount = getSpeed(ship, game)
     const forward = getXYVector(moveAmount, ship.h)
     const shipCopyAfterGoForward = { ...ship, x: ship.x + forward.x, y: ship.y + forward.y }
-    const shipCirclesAfterGoForward = getCollisionCircles(shipCopyAfterGoForward)
+    const shipLeadingCircleAfterGoForward = geLeadingCollisionCircle(shipCopyAfterGoForward)
     const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
 
-    // TO DO - can this test be based on the front collision circle of the moving ship, not all of them?
-    // would be cheaper and should still work if ships never go fast enough to go through in a single cycle
-    const otherShipRanInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipCirclesAfterGoForward, otherShip))
+    const otherShipRanInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipLeadingCircleAfterGoForward, otherShip))
     if (otherShipRanInto) {
         if (ship.speedLastTurn && ship.turnsUnimpeded >= 10) {
             collisions.push({
