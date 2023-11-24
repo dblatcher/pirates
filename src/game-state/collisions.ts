@@ -24,10 +24,17 @@ export const willProjectileHitFort = (projectile: Projectile, fort: Fort, town: 
     return getDistance(projectile, getFortPosition(fort, town)) < FORT_SIZE / 2
 }
 
-export const willShipHitOtherShip = (leadingCircleAfterMove: Circle, otherShip: Ship): boolean => {
+export const willShipRunIntoOtherShip = (leadingCircleAfterMove: Circle, otherShip: Ship): boolean => {
     const otherShipCircles = getCollisionCircles(otherShip)
     return otherShipCircles.some(
         otherShipCircle => doCircleIntersect(leadingCircleAfterMove, otherShipCircle)
     )
-
+}
+export const willShipOverlapWithOtherShip = (shipCircles: Circle[], otherShip: Ship): boolean => {
+    const otherShipCircles = getCollisionCircles(otherShip)
+    return shipCircles.some(circle => {
+        return otherShipCircles.some(
+            otherShipCircle => doCircleIntersect(circle, otherShipCircle)
+        )
+    })
 }

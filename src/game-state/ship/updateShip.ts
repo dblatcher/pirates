@@ -1,5 +1,5 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
-import { willShipHitOtherShip } from "../collisions"
+import { willShipOverlapWithOtherShip, willShipRunIntoOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
@@ -24,7 +24,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     const shipLeadingCircleAfterGoForward = geLeadingCollisionCircle(shipCopyAfterGoForward)
     const prowAfterGoForward = getProwPosition(shipCopyAfterGoForward)
 
-    const otherShipRanInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipLeadingCircleAfterGoForward, otherShip))
+    const otherShipRanInto = otherShipsNearby.find(otherShip => willShipRunIntoOtherShip(shipLeadingCircleAfterGoForward, otherShip))
     if (otherShipRanInto) {
         if (ship.speedLastTurn && ship.turnsUnimpeded >= 10) {
             collisions.push({
@@ -46,9 +46,9 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     // TO DO - turn more slowly with full sails
     const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
     const newHeading = ship.h + turnAmount
-    const shipCirclesAfterTurning = getCollisionCircles({ ...ship, h: newHeading })
 
-    const otherShipTurnedInto = otherShipsNearby.find(otherShip => willShipHitOtherShip(shipCirclesAfterTurning, otherShip))
+    const otherShipTurnedInto = turnAmount !== 0 && otherShipsNearby.find(otherShip => 
+        willShipOverlapWithOtherShip(getCollisionCircles({ ...ship, h: newHeading }), otherShip))
     if (!otherShipTurnedInto) {
         ship.h = newHeading
     }
