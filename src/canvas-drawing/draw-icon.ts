@@ -3,17 +3,20 @@ import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";
 
 
-const redCutlassImage = new Image(100, 100)
-redCutlassImage.src = '/red-cutlass.png'
-const blackCutlassImage = new Image(100, 100)
-blackCutlassImage.src = '/black-cutlass.png'
-const jollyRodgerImage = new Image(100, 100)
-jollyRodgerImage.src = '/jolly-rodger.png'
+const RED_CUTLASS = new Image(100, 100)
+RED_CUTLASS.src = '/red-cutlass.png'
+const BLACK_CUTLASS = new Image(100, 100)
+BLACK_CUTLASS.src = '/black-cutlass.png'
+const JOLLY_RODGER = new Image(100, 100)
+JOLLY_RODGER.src = '/jolly-rodger.png'
+const REPAIR = new Image(100, 100)
+REPAIR.src = '/repair.png'
 
 const ICONS = {
-    RED_CUTLASS: redCutlassImage,
-    BLACK_CUTLASS: blackCutlassImage,
-    JOLLY_RODGER: jollyRodgerImage,
+    RED_CUTLASS,
+    BLACK_CUTLASS,
+    JOLLY_RODGER,
+    REPAIR,
 }
 
 export enum ImagePlacement {
