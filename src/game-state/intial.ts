@@ -4,6 +4,7 @@ import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { makeDefaultShip, makeFrigateShip } from "./ship";
 import { GameState } from "./model";
+import { makeFort, makeTown } from "./towns";
 
 
 export const initalState: GameState = {
@@ -137,51 +138,21 @@ export const initalState: GameState = {
             invasions: [],
             garrison: 20,
             forts: [
-                {
-                    distanceFromTown: { x: 0, y: 100 },
-                    damage: 0,
-                    aimDirection: 0,
-                    cannons: [
-                        {
-                            cooldown: 0,
-                            firing: false,
-                            position: -0.25
-                        },
-                        {
-                            cooldown: 0,
-                            firing: false,
-                            position: 0.25
-                        },
-                    ]
-                },
-                {
-                    distanceFromTown: { x: -50, y: -50 },
-                    damage: 0,
-                    aimDirection: 0,
-                    cannons: [
-                        {
-                            cooldown: 0,
-                            firing: false,
-                            position: 0
-                        }
-                    ]
-                },
+                makeFort({ x: 0, y: 100 }),
+                makeFort({ x: -50, y: -50 }),
             ]
         },
-        {
+        makeTown( {
             faction: factions.spaim,
             x: 600,
             y: 800,
-            id: 1,
+            id: 2,
             name: 'Villa della Canto',
-            defences: 50,
-            profile: {
-                maxDefences: 100,
-                maxGarrison: 25,
-            },
-            invasions: [],
-            garrison: 25,
-            forts: []
-        },
+            forts: [
+                makeFort({ x: -25, y: -100 }),
+                makeFort({ x: -125, y: 0 }),
+                makeFort({ x: 125, y: 0 }),
+            ]
+        }),
     ]
 }

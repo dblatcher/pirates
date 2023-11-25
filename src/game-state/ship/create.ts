@@ -1,4 +1,4 @@
-import { Flag, Side } from "../model";
+import { Flag, ShipCannon, Side } from "../model";
 import { Ship } from "../model";
 
 const SMALL_PENNANT: Flag = {
@@ -11,9 +11,9 @@ const BIG_JACK: Flag = {
     shape: 'rectangle', length: 21, height: 15
 }
 
-const positionsToCannons = (positions: number[]) => positions.flatMap(position => [
-    { side: Side.LEFT, cooldown: 0, position },
-    { side: Side.RIGHT, cooldown: 0, position },
+const positionsToCannons = (positions: number[]) => positions.flatMap((position): ShipCannon[] => [
+    { side: Side.LEFT, cooldown: 0, position, firing: false },
+    { side: Side.RIGHT, cooldown: 0, position, firing: false },
 ])
 
 const defaultCannons = () => positionsToCannons([.25, 0, -.25])
