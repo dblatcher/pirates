@@ -1,7 +1,8 @@
-import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Flag, MAXIMUM_DAMAGE_A_FORT_TAKES, Town, ViewPort, Wind } from "../../game-state";
+import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Flag, MAXIMUM_DAMAGE_A_FORT_TAKES, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
 import { getFortPosition } from "../../game-state/towns/town-functions";
 import { rgb } from "../../lib/Color";
 import { translate, translateZ } from "../../lib/geometry";
+import { drawIcon } from "../draw-icon";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "../drawWithOffSet";
@@ -12,7 +13,6 @@ import { drawFortOutline, drawTownOutline } from "./outline";
 const TOWN_FLAG: Flag = {
     shape: 'rectangle', length: 42, height: 30
 }
-
 
 
 export const drawTowns = (
@@ -35,7 +35,7 @@ export const drawTowns = (
         )
         drawFlagPole(ctx, drawingMethods, town, 80)
         drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
-        showDefenceLevel(ctx, drawingMethods, viewPort, town, cycleNumber)
+        
 
         town.forts.forEach(fort => {
             drawFortOutline(ctx, drawingMethods, fort, town, cycleNumber)
@@ -48,5 +48,10 @@ export const drawTowns = (
                 drawFlame(ctx, drawingMethods, fortPosition, cycleNumber, fort.damage >= DAMAGE_THAT_STOPS_FORTS_FIRING ? 2 : 1)
             }
         })
+
+        if (beingInvaded) {
+            drawIcon(ctx, drawingMethods, town,{icon:'JOLLY_RODGER', width:TOWN_SIZE, height:TOWN_SIZE})
+        }
+        showDefenceLevel(ctx, drawingMethods, viewPort, town, cycleNumber)
     })
 }
