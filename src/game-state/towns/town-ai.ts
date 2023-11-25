@@ -13,6 +13,7 @@ export const doRepairs = (town: Town) => {
     if (town.forts.some(fort => fort.damage >= DAMAGE_THAT_STOPS_FORTS_FIRING)) {
         const [mostDamaged] = town.forts.sort((a, b) => b.damage - a.damage)
         mostDamaged.damage = clamp(mostDamaged.damage - 1, MAXIMUM_DAMAGE_A_FORT_TAKES)
+        return
     }
     if (town.garrison < town.profile.maxGarrison) {
         town.garrison = Math.min(town.garrison + 1, town.profile.maxGarrison)

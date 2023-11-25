@@ -1,12 +1,14 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
 import { willShipOverlapWithOtherShip, willShipRunIntoOtherShip } from "../collisions"
 import { isLandAt } from "../land"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, SAIL_CHANGE_RATE, SHIP_TURN_RATE, TOWN_SIZE } from "../model"
+import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { geLeadingCollisionCircle, getBoundingRect, getCollisionCircles, getProwPosition } from "./collision-shapes"
 import { Ship } from "../model"
 import { getTownShipIsInvading } from "../towns/town-functions"
 import { updateCannon } from "../cannons"
+import { shipIsAtPort } from "./repairAtPort"
+import { clamp } from "../../lib/util"
 
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], pushLog: { (message: string): void }) => {
@@ -43,7 +45,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
     const newHeading = ship.h + turnAmount
 
-    const otherShipTurnedInto = turnAmount !== 0 && otherShipsNearby.find(otherShip => 
+    const otherShipTurnedInto = turnAmount !== 0 && otherShipsNearby.find(otherShip =>
         willShipOverlapWithOtherShip(getCollisionCircles({ ...ship, h: newHeading }), otherShip))
     if (!otherShipTurnedInto) {
         ship.h = newHeading
@@ -64,6 +66,10 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
         tryToLauchInvasion(ship, game, pushLog)
     }
 
+    ship.underRepair = ship.damage > 0 && shipIsAtPort(ship, game)
+    if (ship.underRepair && game.cycleNumber % REPAIR_PERIOD === 0) {
+        ship.damage = clamp(ship.damage - 1, ship.profile.maxHp, 0)
+    }
 }
 
 function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: string) => void) {

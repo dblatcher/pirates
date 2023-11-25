@@ -25,10 +25,8 @@ export const updateTown = (town: Town, gameState: GameState) => {
         if (gameState.cycleNumber % BATTLE_PERIOD === 0) {
             const invasionsAndShips = getInvasionsAndShips(town, gameState.ships)
 
-            const [outOfRange, inRange] = splitArray(invasionsAndShips, invasion => getDistance(invasion.ship, town) > TOWN_SIZE + INVASION_RANGE)
-            if (outOfRange.length) {
-                console.log(outOfRange.map(_ => _.ship.name).join(), 'out of range')
-            }
+            const [_outOfRange, inRange] = splitArray(invasionsAndShips, invasion => 
+                getDistance(invasion.ship, town) > TOWN_SIZE + INVASION_RANGE)
 
             town.invasions = inRange.map(_ => _.invasion)
             // TO DO - handle simulanteous invasions from rival factions!

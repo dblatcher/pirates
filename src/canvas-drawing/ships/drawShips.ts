@@ -30,5 +30,9 @@ export const drawShips = (
             const phase = timePhase(cycleNumber, 30, 1)
             drawIcon(ctx, drawingMethods, ship, { icon: 'BLACK_CUTLASS', width: 100 + phase, height: 100 + phase })
         }
+        if (ship.underRepair) {
+            const phase = timePhase(cycleNumber, 30, 1)
+            drawIcon(ctx, drawingMethods, ship, { icon: 'REPAIR', width: 100 + phase, height: 100 + phase })
+        }
     })
 }

@@ -6,6 +6,7 @@ export const FORT_SIZE = TERRAIN_SQUARE_SIZE
 
 export const DEFENCES_TO_REPEL_INVADERS = 20
 export const INVASION_RANGE = 100
+export const REPAIR_RANGE = 200
 export const DAMAGE_THAT_STOPS_FORTS_FIRING = 5
 export const MAXIMUM_DAMAGE_A_FORT_TAKES = 15
 

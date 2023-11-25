@@ -17,11 +17,12 @@ export const initalState: GameState = {
     ships: [
         makeFrigateShip({
             name: 'Player McPlayerFace',
-            faction: factions.spaim,
+            faction: factions.grance,
             x: 130,
             y: 30,
             h: Math.PI * .5,
             id: 1,
+            damage: 20,
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
