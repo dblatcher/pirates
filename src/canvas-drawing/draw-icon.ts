@@ -37,15 +37,13 @@ const getPlotPoint = (position: XY, placement: ImagePlacement, width: number, he
 }
 
 export const drawIcon = (
-    ctx: CanvasRenderingContext2D,
+    _ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     position: XY,
     params: IconParams,
 ): void => {
     const { placement = ImagePlacement.CENTER, width = 100, height = 100 } = params
     const plotPoint = getPlotPoint(position, placement, width, height)
-    ctx.beginPath()
-
 
     drawingMethods.drawImage(
         ICONS[params.icon],
