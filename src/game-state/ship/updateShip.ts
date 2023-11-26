@@ -1,36 +1,13 @@
-import { getDistance, getXYVector, isPointInsideRect, normaliseHeading } from "../../lib/geometry"
+import { getXYVector, isPointInsideRect, normaliseHeading } from "../../lib/geometry"
 import { clamp } from "../../lib/util"
 import { updateCannon } from "../cannons"
-import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, Ship, TOWN_SIZE } from "../model"
-import { getTownShipIsInvading } from "../towns/town-functions"
+import { Collison, GameState, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, Ship } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect } from "./collision-shapes"
 import { detectForwardCollisions, detectTurningCollisons } from "./collison-detection"
+import { tryToLauchInvasion } from "./invade"
 import { shipIsAtPort } from "./repairAtPort"
 
-
-function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: string) => void) {
-    ship.launchingInvasion = false
-    if (getTownShipIsInvading(ship, game.towns)) {
-        pushLog(`${ship.name} is already invading a town`)
-        return
-    }
-    // TO DO - what if multiple ships invade?
-    const { towns } = game
-    const town = towns.find(town => town.faction !== ship.faction && getDistance(ship, town) < (INVASION_RANGE + TOWN_SIZE))
-    if (!town) {
-        pushLog(`${ship.name} has no towns to invade`)
-        return
-    }
-    if (town.defences > DEFENCES_TO_REPEL_INVADERS) {
-        pushLog(`${ship.name} wants to invade ${town.name}, but its defenses are still up`)
-        return
-    }
-    pushLog(`${ship.name} invading ${town.name}`)
-    town.invasions.push({
-        shipId: ship.id,
-    })
-}
 
 export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], pushLog: { (message: string): void }) => {
     const otherShipsNearby = game.ships
