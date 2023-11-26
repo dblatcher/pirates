@@ -2,10 +2,8 @@ import { _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "."
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, FortCannon, GameState, Town, anglesBySide } from "../model"
 import { ShipCannon, Ship } from "../model"
-import { calculateOrGetFortPosition } from "../towns"
 
-
-export const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState): boolean => {
+const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState): boolean => {
     if (cannon.cooldown > 0) {
         cannon.firing = false
         return false
@@ -29,17 +27,16 @@ export const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState):
     return true
 }
 
-export const launchFromFort = (cannon: FortCannon, fort: Fort, town: Town, game: GameState): boolean => {
+const launchFromFort = (cannon: FortCannon, fort: Fort, game: GameState): boolean => {
     if (cannon.cooldown > 0 || fort.damage >= DAMAGE_THAT_STOPS_FORTS_FIRING) {
         cannon.firing = false
         return false
     }
     const { aimDirection = 0 } = fort
-    const fortCenter = calculateOrGetFortPosition(fort, town)
 
     const getStartAt = (distanceFromFortCenter: number) => {
         const d = (FORT_SIZE / 2) * distanceFromFortCenter
-        const placeAlongDiameter = translate(fortCenter, getXYVector(d, _90_DEG_RIGHT + aimDirection))
+        const placeAlongDiameter = translate(fort, getXYVector(d, _90_DEG_RIGHT + aimDirection))
         const placeOutsideRadius = translate(placeAlongDiameter, getXYVector(1 + FORT_SIZE / 2, aimDirection))
         return {
             ...placeOutsideRadius,
@@ -68,7 +65,7 @@ export const fireCannons = (game: GameState) => {
         town.forts.forEach(fort => {
             fort.cannons.forEach(cannon => {
                 if (cannon.firing) {
-                    launchFromFort(cannon, fort, town, game)
+                    launchFromFort(cannon, fort, game)
                 }
             })
         })

@@ -1,8 +1,7 @@
 import { Fort, Town } from "../model";
-import { XY } from "../../lib/geometry";
+import { XY, translate } from "../../lib/geometry";
 
-export const makeFort = (distanceFromTown: XY): Fort => ({
-    distanceFromTown,
+export const makeFort = (distanceFromTown: XY, townPosition: XY): Fort => ({
     aimDirection: 0,
     damage: 0,
     cannons: [
@@ -16,7 +15,8 @@ export const makeFort = (distanceFromTown: XY): Fort => ({
             firing: false,
             position: 0.25
         },
-    ]
+    ],
+    ...translate(distanceFromTown, townPosition)
 })
 
 export const makeTown = (input: Partial<Town> & Pick<Town, 'name' | 'id' | 'x' | 'y' | 'forts'>): Town => ({

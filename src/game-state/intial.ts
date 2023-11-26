@@ -125,7 +125,7 @@ export const initalState: GameState = {
         }
     ],
     towns: [
-        {
+        makeTown({
             faction: factions.grance,
             x: 150,
             y: 150,
@@ -139,20 +139,20 @@ export const initalState: GameState = {
             invasions: [],
             garrison: 20,
             forts: [
-                makeFort({ x: 0, y: 100 }),
-                makeFort({ x: -50, y: -50 }),
+                makeFort({ x: 0, y: 100 }, { x: 150, y: 150 }),
+                makeFort({ x: -50, y: -50 }, { x: 150, y: 150 }),
             ]
-        },
-        makeTown( {
+        }),
+        makeTown({
             faction: factions.spaim,
             x: 600,
             y: 800,
             id: 2,
             name: 'Villa della Canto',
             forts: [
-                makeFort({ x: -25, y: -100 }),
-                makeFort({ x: -125, y: 0 }),
-                makeFort({ x: 125, y: 0 }),
+                makeFort({ x: -25, y: -100 }, { x: 600, y: 800 }),
+                makeFort({ x: -125, y: 0 }, { x: 600, y: 800 }),
+                makeFort({ x: 125, y: 0 }, { x: 600, y: 800 }),
             ]
         }),
     ]

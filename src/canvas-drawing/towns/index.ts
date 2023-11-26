@@ -36,7 +36,7 @@ export const drawTowns = (
         drawFlagPole(ctx, drawingMethods, town, 80)
         drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
         town.forts.forEach(fort => {
-            drawFort(ctx, drawingMethods, fort, town, cycleNumber)
+            drawFort(ctx, drawingMethods, fort, cycleNumber)
         })
 
         if (beingInvaded) {

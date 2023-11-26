@@ -60,7 +60,7 @@ export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (ne
                 createImpact({ ...projectile, timeLeft: 50 }, game)
             } else {
                 town.forts.forEach(fort => {
-                    if (willProjectileHitFort(projectile, fort, town)) {
+                    if (willProjectileHitFort(projectile, fort)) {
                         projectilesThatHitSomething.push(projectile)
                         fort.damage = Math.min(fort.damage + 1, MAXIMUM_DAMAGE_A_FORT_TAKES)
                         createGroundHit({ ...projectile, timeLeft: 80 }, game)
