@@ -4,7 +4,7 @@ import { factions } from "./faction";
 import { TerrainType } from "./land";
 import { makeDefaultShip, makeFrigateShip } from "./ship";
 import { GameState } from "./model";
-import { makeFort, makeTown } from "./towns";
+import { makeTownWithForts } from "./towns";
 
 
 export const initalState: GameState = {
@@ -125,7 +125,7 @@ export const initalState: GameState = {
         }
     ],
     towns: [
-        makeTown({
+        makeTownWithForts({
             faction: factions.grance,
             x: 150,
             y: 150,
@@ -138,22 +138,20 @@ export const initalState: GameState = {
             },
             invasions: [],
             garrison: 20,
-            forts: [
-                makeFort({ x: 0, y: 100 }, { x: 150, y: 150 }),
-                makeFort({ x: -50, y: -50 }, { x: 150, y: 150 }),
-            ]
-        }),
-        makeTown({
+        }, [
+            { x: 0, y: 100 },
+            { x: -50, y: -50 },
+        ]),
+        makeTownWithForts({
             faction: factions.spaim,
             x: 600,
             y: 800,
             id: 2,
             name: 'Villa della Canto',
-            forts: [
-                makeFort({ x: -25, y: -100 }, { x: 600, y: 800 }),
-                makeFort({ x: -125, y: 0 }, { x: 600, y: 800 }),
-                makeFort({ x: 125, y: 0 }, { x: 600, y: 800 }),
-            ]
-        }),
+        }, [
+            { x: -25, y: -100 },
+            { x: -125, y: 0 },
+            { x: 125, y: 0 }
+        ]),
     ]
 }

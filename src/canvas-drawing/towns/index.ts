@@ -35,14 +35,18 @@ export const drawTowns = (
         )
         drawFlagPole(ctx, drawingMethods, town, 80)
         drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
-        town.forts.forEach(fort => {
-            drawFort(ctx, drawingMethods, fort, cycleNumber)
-        })
 
         if (beingInvaded) {
             const phase = timePhase(cycleNumber, 30, 1)
             drawIcon(ctx, drawingMethods, town, { icon: 'JOLLY_RODGER', width: TOWN_SIZE + phase, height: TOWN_SIZE + phase })
         }
         showDefenceLevel(ctx, drawingMethods, viewPort, town, cycleNumber)
+    })
+
+    // TO DO - check separately if the fort is in view
+    townsInView.forEach(town => {
+        town.forts.forEach(fort => {
+            drawFort(ctx, drawingMethods, fort, cycleNumber)
+        })
     })
 }

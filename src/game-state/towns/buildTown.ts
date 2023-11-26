@@ -19,7 +19,8 @@ export const makeFort = (distanceFromTown: XY, townPosition: XY): Fort => ({
     ...translate(distanceFromTown, townPosition)
 })
 
-export const makeTown = (input: Partial<Town> & Pick<Town, 'name' | 'id' | 'x' | 'y' | 'forts'>): Town => ({
+type TownInput = Partial<Town> & Pick<Town, 'name' | 'id' | 'x' | 'y'>
+export const makeTown = (input: TownInput): Town => ({
     defences: input.profile?.maxDefences || 50,
     garrison: input.profile?.maxGarrison || 25,
     profile: {
@@ -27,5 +28,11 @@ export const makeTown = (input: Partial<Town> & Pick<Town, 'name' | 'id' | 'x' |
         maxGarrison: 25
     },
     invasions: [],
+    forts: input.forts || [],
     ...input
+})
+
+export const makeTownWithForts = (townInput: TownInput, fortDistances: XY[]) => ({
+    ...makeTown(townInput),
+    forts: fortDistances.map(distance => makeFort(distance, townInput))
 })
