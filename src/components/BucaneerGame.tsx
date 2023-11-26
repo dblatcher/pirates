@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { cycle } from '../game-state/cycle'
-import { Directive, GameState, Order, ViewPort } from '../game-state'
+import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
 import { CellMatrix } from '../lib/path-finding/types'
@@ -9,7 +8,7 @@ import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { getTownShipIsInvading } from '../game-state/towns/town-functions'
+import { getTownShipIsInvading } from '../game-state/towns'
 
 interface Props {
     initial: GameState;

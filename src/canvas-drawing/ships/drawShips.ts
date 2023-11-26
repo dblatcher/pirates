@@ -1,6 +1,6 @@
 import { GameState, ViewPort } from "../../game-state"
 import { isShipInView } from "../../game-state/ship"
-import { getTownShipIsInvading } from "../../game-state/towns/town-functions"
+import { getTownShipIsInvading } from "../../game-state/towns"
 import { timePhase } from "../../lib/util"
 import { drawIcon } from "../draw-icon"
 import { OffsetDrawMethods } from "../drawWithOffSet"

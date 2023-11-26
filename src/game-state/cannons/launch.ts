@@ -53,3 +53,24 @@ export const launchFromFort = (cannon: FortCannon, fort: Fort, town: Town, game:
     cannon.firing = false
     return true
 }
+
+
+export const fireCannons = (game: GameState) => {
+    game.ships.forEach(ship => {
+        ship.cannons.forEach(cannon => {
+            if (cannon.firing) {
+                launchFromShip(cannon, ship, game)
+            }
+        })
+    })
+
+    game.towns.forEach(town => {
+        town.forts.forEach(fort => {
+            fort.cannons.forEach(cannon => {
+                if (cannon.firing) {
+                    launchFromFort(cannon, fort, town, game)
+                }
+            })
+        })
+    })
+}

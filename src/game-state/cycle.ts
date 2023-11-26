@@ -1,33 +1,12 @@
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
-import { handleProjectileHitsAndLandings, launchFromFort, launchFromShip, updateProjectile } from "./cannons";
+import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
 import { createImpact, createSplash, updateEffect } from "./effect";
 import { Collison, Directive, GameState, MAX_WIND } from "./model";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
-import { updateTown } from "./towns";
-import { aimAndFireCannonsFromForts } from "./towns/town-ai";
+import { updateTown, aimAndFireCannonsFromForts } from "./towns";
 
-
-const fireCannons = (game: GameState) => {
-    game.ships.forEach(ship => {
-        ship.cannons.forEach(cannon => {
-            if (cannon.firing) {
-                launchFromShip(cannon, ship, game)
-            }
-        })
-    })
-
-    game.towns.forEach(town => {
-        town.forts.forEach(fort => {
-            fort.cannons.forEach(cannon => {
-                if (cannon.firing) {
-                    launchFromFort(cannon, fort, town, game)
-                }
-            })
-        })
-    })
-}
 
 
 const handleShipCollison = (collision: Collison, game: GameState) => {
