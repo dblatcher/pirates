@@ -1,5 +1,5 @@
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, MAXIMUM_DAMAGE_A_FORT_TAKES, Town } from "../../game-state";
-import { getFortPosition } from "../../game-state/towns";
+import { calculateOrGetFortPosition } from "../../game-state/towns";
 import { XY, getXYVector, translate } from "../../lib/geometry";
 import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "../drawWithOffSet";
@@ -12,7 +12,7 @@ export const drawFort = (
     cycleNumber: number,
 ) => {
 
-    const position = getFortPosition(fort, town)
+    const position = calculateOrGetFortPosition(fort, town)
     ctx.beginPath();
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'black'

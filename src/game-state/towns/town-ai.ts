@@ -1,3 +1,4 @@
+import { calculateOrGetFortPosition } from ".";
 import { identifyShips } from "../../ai/identify-ships";
 import { doesLineSegmentCrossCircleEdge } from "../../lib/expensive-geometry";
 import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../../lib/geometry";
@@ -40,7 +41,7 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
                 return
             }
 
-            const position = translate(town, fort.distanceFromTown)
+            const position = calculateOrGetFortPosition(fort, town)
             const targetHeading = getHeading(getVectorFrom(position, closestEnemy))
             const targetDistance = getDistance(position, closestEnemy)
             fort.aimDirection = targetHeading
@@ -50,7 +51,7 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
                 //TODO - this works but is too expensive - find more efficient solution based on angles
                 // can figure out the town angle once and store on an optional proprty of the fort
                 const mightHitTown = doesLineSegmentCrossCircleEdge([position, projectPathEnd], { ...town, r: TOWN_SIZE / 2 })
-                
+
                 if (!mightHitTown) {
                     fort.cannons.forEach(cannon => {
                         if (cannon.cooldown <= 0) {

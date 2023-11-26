@@ -7,6 +7,8 @@ export type Fort = {
     aimDirection: number,
     cannons: FortCannon[],
     damage: number,
+    /**can be undefined when fort created - calculated and stored on the first cycle */
+    position?: XY,
 }
 
 export type TownProfile = {

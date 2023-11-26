@@ -1,4 +1,4 @@
-import { translate } from "../../lib/geometry";
+import { XY, translate } from "../../lib/geometry";
 import { Fort, InvasionByShip, Ship, Town } from "../model";
 
 export const getInvasionsAndShips = (town: Town, ships: Ship[]): { invasion: InvasionByShip, ship: Ship }[] =>
@@ -10,5 +10,10 @@ export const getInvasionsAndShips = (town: Town, ships: Ship[]): { invasion: Inv
 export const getTownShipIsInvading = (ship: Ship, towns: Town[]): Town | undefined =>
     towns.find(town => town.invasions.some(invasion => invasion.shipId === ship.id))
 
-export const getFortPosition = (fort: Fort, town: Town) =>
-    translate(town, fort.distanceFromTown)
+export const calculateOrGetFortPosition = (fort: Fort, town: Town) => {
+    if (fort.position) {
+        return fort.position
+    }
+    fort.position = translate(town, fort.distanceFromTown)
+    return fort.position as XY
+}

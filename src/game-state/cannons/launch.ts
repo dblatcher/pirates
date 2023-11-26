@@ -2,6 +2,7 @@ import { _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry"
 import { launchProjectile } from "."
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, FortCannon, GameState, Town, anglesBySide } from "../model"
 import { ShipCannon, Ship } from "../model"
+import { calculateOrGetFortPosition } from "../towns"
 
 
 export const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState): boolean => {
@@ -33,9 +34,8 @@ export const launchFromFort = (cannon: FortCannon, fort: Fort, town: Town, game:
         cannon.firing = false
         return false
     }
-    const { aimDirection = 0, distanceFromTown } = fort
-
-    const fortCenter = translate(town, distanceFromTown)
+    const { aimDirection = 0 } = fort
+    const fortCenter = calculateOrGetFortPosition(fort, town)
 
     const getStartAt = (distanceFromFortCenter: number) => {
         const d = (FORT_SIZE / 2) * distanceFromFortCenter
