@@ -18,9 +18,9 @@ export const initalState: GameState = {
         makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: factions.grance,
-            x: 130,
-            y: 30,
-            h: Math.PI * .5,
+            x: 120,
+            y: 0,
+            h: _DEG * -10,
             id: 1,
             damage: 20,
         }),

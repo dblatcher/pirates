@@ -37,3 +37,12 @@ export const willShipOverlapWithOtherShip = (shipCircles: Circle[], otherShip: S
         )
     })
 }
+
+export const willShipRunIntoFort = (leadingCircleAfterMove: Circle, fort: Fort): boolean => {
+    return doCircleIntersect(leadingCircleAfterMove, { ...fort, r: FORT_SIZE / 2 })
+}
+export const willShipOverlapWithFort = (shipCircles: Circle[], fort: Fort): boolean => {
+    return shipCircles.some(circle => {
+        return doCircleIntersect(circle, { ...fort, r: FORT_SIZE / 2 })
+    })
+}

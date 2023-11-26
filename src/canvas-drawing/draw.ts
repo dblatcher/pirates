@@ -16,8 +16,8 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     ctx.clearRect(0, 0, viewPort.width, viewPort.height)
     drawBackground(ctx, drawingMethods, viewPort, game.cycleNumber)
     drawLand(ctx, drawingMethods, viewPort, game.land)
-    drawShips(ctx, drawingMethods, viewPort, game, false)
     drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind)
+    drawShips(ctx, drawingMethods, viewPort, game, false)
 
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

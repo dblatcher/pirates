@@ -1,5 +1,5 @@
 import { _DEG, getDistance, getXYVector, isPointInsideRect } from "../../lib/geometry"
-import { willShipOverlapWithOtherShip, willShipRunIntoOtherShip } from "../collisions"
+import { willShipOverlapWithFort, willShipOverlapWithOtherShip, willShipRunIntoFort, willShipRunIntoOtherShip } from "../collisions"
 import { isLandAt } from "../land"
 import { Collison, DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, TOWN_SIZE } from "../model"
 import { getSpeed } from "./calculate-speed"
@@ -15,6 +15,9 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     const otherShipsNearby = game.ships
         .filter(shipInList => shipInList !== ship)
         .filter(shipInList => isPointInsideRect(ship, getBoundingRect(shipInList, ship.length + 2)))
+
+    //TO DO filter out distant forts
+    const forts = game.towns.flatMap(town => town.forts)
 
     const moveAmount = getSpeed(ship, game)
     const forward = getXYVector(moveAmount, ship.h)
@@ -36,7 +39,11 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
 
     const runsAgroundFromGoingForward = isLandAt(prowAfterGoForward, game.land)
 
-    if (!otherShipRanInto && !runsAgroundFromGoingForward) {
+    const fortRunInto = forts.find(fort => {
+        return willShipRunIntoFort(shipLeadingCircleAfterGoForward, fort)
+    })
+
+    if (!otherShipRanInto && !runsAgroundFromGoingForward && !fortRunInto) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
     }
@@ -44,14 +51,18 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     // TO DO - turn more slowly with full sails
     const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
     const newHeading = ship.h + turnAmount
+    const collisionCirclesAfterTurn = getCollisionCircles({ ...ship, h: newHeading })
 
     const otherShipTurnedInto = turnAmount !== 0 && otherShipsNearby.find(otherShip =>
-        willShipOverlapWithOtherShip(getCollisionCircles({ ...ship, h: newHeading }), otherShip))
-    if (!otherShipTurnedInto) {
+        willShipOverlapWithOtherShip(collisionCirclesAfterTurn, otherShip))
+    const fortTurnedInto = forts.find(fort => {
+        return willShipOverlapWithFort(collisionCirclesAfterTurn, fort)
+    })
+    if (!otherShipTurnedInto && !fortTurnedInto) {
         ship.h = newHeading
     }
 
-    const wasNotImpeded = !otherShipRanInto && !runsAgroundFromGoingForward && !otherShipTurnedInto
+    const wasNotImpeded = !otherShipRanInto && !runsAgroundFromGoingForward && !otherShipTurnedInto && !fortRunInto && !fortTurnedInto
     ship.speedLastTurn = wasNotImpeded ? moveAmount : 0
     ship.turnsUnimpeded = wasNotImpeded ? ship.turnsUnimpeded + 1 : 0
 
