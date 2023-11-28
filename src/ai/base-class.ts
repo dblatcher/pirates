@@ -33,7 +33,7 @@ export abstract class AI {
         }
     }
 
-    updatePath(ship: Ship, gameState: GameState, matrix: CellMatrix): void {
+    updatePath(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
         if (path.length === 0) {
             if (!destination) {

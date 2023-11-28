@@ -4,13 +4,13 @@ import { followCurrentPath } from "./issue-directives/follow-path";
 
 export class PathFollowAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, gameState: GameState): Directive[] {
+    issueDirectives(ship: Ship, _gameState: GameState): Directive[] {
         const directives: Directive[] = []
         directives.push(...followCurrentPath(this, ship))
         return directives
     }
 
-    decideOwnMission(gameState: GameState): void {
+    decideOwnMission(_gameState: GameState): void {
         throw new Error("Method not implemented.");
     }
 

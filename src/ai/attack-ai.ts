@@ -25,7 +25,7 @@ export class AttackAutoPilot extends AI {
         return directives
     }
 
-    decideOwnMission(gameState: GameState): void {
+    decideOwnMission(_gameState: GameState): void {
         throw new Error("Method not implemented.");
     }
 }

@@ -1,5 +1,5 @@
-import { Directive, Order, Ship, Side, anglesBySide } from "../../game-state"
-import { getVectorFrom, getHeading, _90_DEG_LEFT, normaliseHeading, _DEG, XY, getDistance } from "../../lib/geometry"
+import { Directive, Order, Ship } from "../../game-state"
+import { XY, _DEG, getHeading, getVectorFrom, normaliseHeading } from "../../lib/geometry"
 
 export const approach = (
     target: XY,
