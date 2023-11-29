@@ -1,9 +1,7 @@
 import { findRotationBetweenHeadings } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
-import { GameState, MAX_WIND, REPAIR_PERIOD, SHIP_DAMAGE_LEVEL_THAT_SLOWS } from "../model";
+import { GameState, MAX_WIND, SHIP_DAMAGE_LEVEL_THAT_SLOWS } from "../model";
 import { Ship } from "../model";
-
-
 
 export const getSpeed = (ship: Ship, gameState: GameState): number => {
     const { wind } = gameState
