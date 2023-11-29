@@ -20,9 +20,11 @@ export const initalState: GameState = {
             faction: factions.grance,
             x: 120,
             y: 0,
-            h: _DEG * -10,
+            h: _DEG * 50,
             id: 1,
-            damage: 20,
+            damage: 39,
+            sailLevelTarget: 0,
+            sailLevel: 0
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
