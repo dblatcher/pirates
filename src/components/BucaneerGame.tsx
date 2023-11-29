@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
@@ -19,8 +19,38 @@ interface Props {
 const magnify = 2 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
-
 let lastCycleStartedAt = Date.now()
+
+
+const makeRefresh = (
+    gameStateRef: React.MutableRefObject<GameState>,
+    viewPortRef: React.MutableRefObject<ViewPort>,
+    matrix: CellMatrix,
+    getAndClearDirectives: { (): Directive[] },
+    updateTimeTracking: { (refreshStart: number): void },
+    pushLog: { (message: string): void },
+) => () => {
+    const refreshStart = Date.now()
+
+    const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+    if (player) {
+        Object.assign(viewPortRef.current, {
+            width: SCREEN_WIDTH / magnify,
+            height: SCREEN_HEIGHT / magnify,
+            x: player.x - viewPortRef.current.width / 2,
+            y: player.y - viewPortRef.current.height / 2,
+        })
+    }
+    const updatedGame = cycle(
+        gameStateRef.current,
+        getAndClearDirectives(),
+        matrix,
+        pushLog,
+    )
+    Object.assign(gameStateRef.current, updatedGame)
+
+    updateTimeTracking(refreshStart)
+}
 
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const matrixRef = useRef<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
@@ -31,10 +61,11 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
         width: SCREEN_WIDTH / magnify,
         height: SCREEN_HEIGHT / magnify,
     })
+    const directivesRef = useRef<Directive[]>([])
+
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
-    const [directives, setDirectives] = useState<Directive[]>([])
     const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
     const [playerWheel, setPlayerWheel] = useState(0)
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
@@ -42,33 +73,30 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
     const addDirective = (directive: Directive) => {
-        setDirectives([...directives, directive])
+        directivesRef.current.push(directive)
     }
 
-    const refresh = () => {
-        const refreshStart = Date.now()
-        const updatedGame = cycle(
-            gameStateRef.current,
-            [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directives],
-            matrixRef.current,
-            pushLog,
-        )
-        const player = updatedGame.ships.find(ship => ship.id === gameStateRef.current.playerId)
-        if (player) {
-            Object.assign(viewPortRef.current, {
-                width: SCREEN_WIDTH / magnify,
-                height: SCREEN_HEIGHT / magnify,
-                x: player.x - viewPortRef.current.width / 2,
-                y: player.y - viewPortRef.current.height / 2,
-            })
-        }
-        setDirectives([])
-        Object.assign(gameStateRef.current, updatedGame)
+    const updateTimeTracking = useCallback((refreshStart: number) => {
         const timeTaken = Date.now() - lastCycleStartedAt
-        const newSetOfFive = [timeTaken, ...recentRefeshTimes].slice(0, 10)
-        setRecentRefreshTimes(newSetOfFive)
+        setRecentRefreshTimes([timeTaken, ...recentRefeshTimes].slice(0, 15))
         lastCycleStartedAt = refreshStart
-    }
+    }, [setRecentRefreshTimes, recentRefeshTimes])
+
+
+    const getAndClearDirectives = useCallback(
+        (): Directive[] => {
+            const directives: Directive[] = [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directivesRef.current]
+            directivesRef.current = []
+            return directives
+        },
+        [playerWheel]
+    )
+
+    const refresh = useCallback(
+        makeRefresh(gameStateRef, viewPortRef, matrixRef.current, getAndClearDirectives, updateTimeTracking, pushLog,),
+        [getAndClearDirectives]
+    )
+
 
     useInterval(refresh, paused ? null : turbo ? 1 : 10)
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
