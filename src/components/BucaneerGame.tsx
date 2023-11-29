@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { useInterval } from '../hooks/useInterval'
 import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
@@ -20,11 +20,12 @@ const magnify = 2 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
 
+let lastCycleStartedAt = Date.now()
+
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
-    // to do - is state the best way to hold immutable data?
-    const [matrix] = useState<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
-    const [gameState, setGameState] = useState<GameState>(initial)
-    const [viewPort, setViewPort] = useState<ViewPort>({
+    const matrixRef = useRef<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
+    const gameStateRef = useRef<GameState>(initial)
+    const viewPortRef = useRef<ViewPort>({
         x: 100,
         y: 10,
         width: SCREEN_WIDTH / magnify,
@@ -47,41 +48,41 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const refresh = () => {
         const refreshStart = Date.now()
         const updatedGame = cycle(
-            gameState,
+            gameStateRef.current,
             [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directives],
-            matrix,
+            matrixRef.current,
             pushLog,
         )
-        const player = updatedGame.ships.find(ship => ship.id === gameState.playerId)
+        const player = updatedGame.ships.find(ship => ship.id === gameStateRef.current.playerId)
         if (player) {
-            setViewPort({
+            Object.assign(viewPortRef.current, {
                 width: SCREEN_WIDTH / magnify,
                 height: SCREEN_HEIGHT / magnify,
-                x: player.x - viewPort.width / 2,
-                y: player.y - viewPort.height / 2,
-
+                x: player.x - viewPortRef.current.width / 2,
+                y: player.y - viewPortRef.current.height / 2,
             })
         }
         setDirectives([])
-        setGameState(updatedGame)
-        const timeTaken = Date.now() - refreshStart
+        Object.assign(gameStateRef.current, updatedGame)
+        const timeTaken = Date.now() - lastCycleStartedAt
         const newSetOfFive = [timeTaken, ...recentRefeshTimes].slice(0, 10)
         setRecentRefreshTimes(newSetOfFive)
+        lastCycleStartedAt = refreshStart
     }
 
     useInterval(refresh, paused ? null : turbo ? 1 : 10)
-    const player = gameState.ships.find(ship => ship.id === gameState.playerId)
+    const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>
-            <main>            
+            <main>
                 <GameScreen
-                    viewPort={viewPort}
-                    gameState={gameState}
+                    viewPort={viewPortRef.current}
+                    gameState={gameStateRef.current}
                     magnify={magnify} />
 
                 <GameControls
                     player={player}
-                    townInvading = { player && getTownShipIsInvading(player,gameState.towns)}
+                    townInvading={player && getTownShipIsInvading(player, gameStateRef.current.towns)}
                     addDirective={addDirective}
                     paused={paused}
                     playerWheel={playerWheel}
@@ -89,22 +90,22 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
             </main>
 
             <aside>
-            <span>T: {Math.max(...recentRefeshTimes)}</span>
+                <span>T: {Math.max(...recentRefeshTimes)}</span>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                     <span>[{player?.x.toFixed(0)}, {player?.y.toFixed(0)}]</span>
                 </div>
-                <WindSock wind={gameState.wind} />
+                <WindSock wind={gameStateRef.current.wind} />
                 <ShipsLog entries={log} />
             </aside>
 
             {showMap && (
                 <WorldMap
                     closeModal={() => { setShowMap(false) }}
-                    gameState={gameState}
-                    matrix={matrix}
+                    gameState={gameStateRef.current}
+                    matrix={matrixRef.current}
                     mapWidth={mapWidth}
                     mapHeight={mapHeight}
                 />
