@@ -1,12 +1,13 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Directive, Order, Side, FiringPattern } from "../game-state"
+import { useInterval } from "../hooks/useInterval"
 
 interface Props {
     paused: boolean
     addDirective: { (directive: Directive): void }
-    turnWheel: { (wheel: number): void }
     firingPattern: FiringPattern,
     setFiringPattern: { (firingPattern: FiringPattern): void }
+    setWheelTo: { (value: number): void }
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
@@ -17,20 +18,17 @@ const directiveKeys: Record<string, Directive | undefined> = {
     'Space': { order: Order.INVADE_TOWN },
 }
 
-const wheelKeys: Record<string, number | undefined> = {
-    'KeyA': .5,
-    'KeyD': -.5,
-}
-
 const patternKeys: Record<string, FiringPattern | undefined> = {
     'Digit1': FiringPattern.BROADSIDE,
     'Digit2': FiringPattern.CASCADE,
     'Digit3': FiringPattern.ALTERNATE,
 }
 
-export const KeyboardControls = ({ paused, addDirective, turnWheel, firingPattern, setFiringPattern }: Props) => {
+export const KeyboardControls = ({ paused, addDirective, firingPattern, setFiringPattern, setWheelTo }: Props) => {
+    const [keyMap, setKeyMap] = useState<Record<string, boolean>>({})
 
-    const handleKey = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+        setKeyMap({ ...keyMap, [event.code]: true })
         if (paused) {
             return
         }
@@ -42,22 +40,37 @@ export const KeyboardControls = ({ paused, addDirective, turnWheel, firingPatter
                 addDirective(directive)
             }
         }
-        const wheelTurn = wheelKeys[event.code]
-        if (typeof wheelTurn === 'number') {
-            turnWheel(wheelTurn)
-        }
         const patternChange = patternKeys[event.code]
         if (typeof patternChange === 'number') {
             setFiringPattern(patternChange)
         }
     }
 
+    const handleKeyUp = (event: KeyboardEvent) => {
+        setKeyMap({ ...keyMap, [event.code]: false })
+    }
+
     useEffect(() => {
-        window.addEventListener('keydown', handleKey)
+        window.addEventListener('keydown', handleKeyDown)
+        window.addEventListener('keyup', handleKeyUp)
         return () => {
-            window.removeEventListener('keydown', handleKey)
+            window.removeEventListener('keydown', handleKeyDown)
+            window.removeEventListener('keyup', handleKeyUp)
         }
     })
+
+
+    useInterval(() => {
+        const turn = keyMap['KeyA']
+            ? .5
+            : keyMap['KeyD']
+                ? -.5
+                : undefined
+
+        if (turn) {
+            setWheelTo(turn)
+        }
+    }, 0)
 
     return <></>
 }

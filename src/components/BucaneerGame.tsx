@@ -9,6 +9,7 @@ import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { getTownShipIsInvading } from '../game-state/towns'
+import { average } from '../lib/util'
 
 interface Props {
     initial: GameState;
@@ -55,6 +56,7 @@ const makeRefresh = (
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const matrixRef = useRef<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
     const gameStateRef = useRef<GameState>(initial)
+    const wheelRef = useRef<number | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
         x: 100,
         y: 10,
@@ -67,7 +69,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
     const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
-    const [playerWheel, setPlayerWheel] = useState(0)
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
@@ -78,23 +79,27 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
 
     const updateTimeTracking = useCallback((refreshStart: number) => {
         const timeTaken = Date.now() - lastCycleStartedAt
-        setRecentRefreshTimes([timeTaken, ...recentRefeshTimes].slice(0, 15))
+        setRecentRefreshTimes([timeTaken, ...recentRefeshTimes].slice(0, 10))
         lastCycleStartedAt = refreshStart
     }, [setRecentRefreshTimes, recentRefeshTimes])
 
 
     const getAndClearDirectives = useCallback(
         (): Directive[] => {
-            const directives: Directive[] = [{ order: Order.WHEEL_TO, quantity: playerWheel }, ...directivesRef.current]
+            const directives: Directive[] = [...directivesRef.current]
+            if (typeof wheelRef.current === 'number') {
+                directives.push({ order: Order.WHEEL_TO, quantity: wheelRef.current })
+            }
+            wheelRef.current = undefined
             directivesRef.current = []
             return directives
         },
-        [playerWheel]
+        []
     )
 
     const refresh = useCallback(
         makeRefresh(gameStateRef, viewPortRef, matrixRef.current, getAndClearDirectives, updateTimeTracking, pushLog,),
-        [getAndClearDirectives]
+        [getAndClearDirectives, updateTimeTracking]
     )
 
 
@@ -113,12 +118,18 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
                     townInvading={player && getTownShipIsInvading(player, gameStateRef.current.towns)}
                     addDirective={addDirective}
                     paused={paused}
-                    playerWheel={playerWheel}
-                    setPlayerWheel={setPlayerWheel} />
+                    playerWheel={player?.wheel ?? 0}
+                    wheelRef={wheelRef}
+                />
             </main>
 
             <aside>
-                <span>T: {Math.max(...recentRefeshTimes)}</span>
+                <div>
+                    <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
+                </div>
+                <div style={{ fontFamily: 'monospace' }}>
+                    {'|'}{recentRefeshTimes.slice(0, 10).map(_ => _.toFixed(0).padStart(3, " ")).join(',')}
+                </div>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>

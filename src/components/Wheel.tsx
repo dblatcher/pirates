@@ -1,10 +1,11 @@
-import { CSSProperties, useState, useCallback } from "react"
+import { CSSProperties, useState, } from "react"
+import { Directive, Order } from "../game-state"
 import { useInterval } from "../hooks/useInterval"
-import { useDebounce } from "../hooks/useDebounce"
 
 interface Props {
+    addDirective: { (directive: Directive): void }
     playerWheel: number
-    setPlayerWheel: { (value: number): void }
+    setWheelTo: { (value: number): void }
 }
 
 
@@ -40,22 +41,25 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 })
 
 
-export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
+export const Wheel = ({ addDirective, playerWheel: actualWheel, setWheelTo }: Props) => {
     const [locked, setLocked] = useState(false)
     const [pointerOnInput, setPointerOnInput] = useState(false)
-    const [debouncedSetWheel] = useDebounce(setPlayerWheel, 100)
 
-    const wheelAngle = -(playerWheel * 180)
-    const revertToCentre = useCallback(() => {
-        if (locked || pointerOnInput || playerWheel === 0) {
+    const addWheelDirective = (value: number) => {
+        addDirective({ order: Order.WHEEL_TO, quantity: value })
+    }
+
+    const revertToCentre = () => {
+        if (locked || pointerOnInput || actualWheel === 0) {
             return
         }
-        const changeAmount = Math.min(Math.abs(playerWheel), .02)
-        setPlayerWheel(playerWheel - changeAmount * Math.sign(playerWheel))
-    }, [locked, pointerOnInput, playerWheel, setPlayerWheel]
-    )
-    useInterval(revertToCentre, 20)
+        const changeAmount = Math.min(Math.abs(actualWheel), .01)
+        addWheelDirective(actualWheel - changeAmount * Math.sign(actualWheel))
+    }
 
+    useInterval(revertToCentre, 10)
+
+    const wheelAngle = -(actualWheel * 180)
     return (
         <div className="panel-frame" style={{ width: 120, position: 'relative' }}>
             <figure style={wheelFrameStyle(80)}>
@@ -80,11 +84,11 @@ export const Wheel = ({ playerWheel, setPlayerWheel }: Props) => {
                     }}
                     style={{ width: '100%' }}
                     max={50} min={-50} step={'any'}
-                    value={playerWheel * -100}
+                    value={actualWheel * -100}
                     onChange={e => {
                         const value = Number(e.target.value)
                         if (isNaN(value)) { return }
-                        debouncedSetWheel(value * (-1 / 100))
+                        setWheelTo(value * (-1 / 100))
                     }} />
             </div>
         </div>

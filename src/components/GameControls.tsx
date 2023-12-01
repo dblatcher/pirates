@@ -12,19 +12,22 @@ interface Props {
     addDirective: { (directive: Directive): void }
     paused: boolean
     playerWheel: number
-    setPlayerWheel: { (value: number): void }
+    wheelRef: React.MutableRefObject<number | undefined>
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, setPlayerWheel, townInvading }: Props) => {
+export const GameControls = ({ player, addDirective, paused, playerWheel, townInvading, wheelRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
+    const setWheelTo = (value: number) => { wheelRef.current = value }
 
     return (
         <aside style={{ display: 'flex' }}>
             {player && (<>
                 <Wheel
+                    addDirective={addDirective}
                     playerWheel={playerWheel}
-                    setPlayerWheel={setPlayerWheel} />
+                    setWheelTo={setWheelTo}
+                />
                 <SailsWidget
                     setSailLevelTarget={(value) => {
                         addDirective({ order: Order.SAILS_TO, quantity: value })
@@ -38,14 +41,14 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, setPla
                     setFiringPattern={setFiringPattern}
                 />
                 <ShipDashBoard
-                    ship={player} 
+                    ship={player}
                     townInvading={townInvading}
                 />
                 <KeyboardControls
                     addDirective={addDirective}
-                    turnWheel={setPlayerWheel}
                     firingPattern={firingPattern}
                     setFiringPattern={setFiringPattern}
+                    setWheelTo={setWheelTo}
                     paused={paused} />
             </>
             )}
