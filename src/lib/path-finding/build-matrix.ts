@@ -1,6 +1,6 @@
+import { FORT_SIZE, Fort, GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { Landmass } from "../../game-state/land";
-import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
-import { XY } from "../geometry";
+import { XY, translate, xy } from "../geometry";
 import { CellMatrix } from "./types";
 
 
@@ -11,12 +11,25 @@ const makeEmptyRow = (widthInCells: number): (0 | 1)[] => {
     return row
 }
 
+const makeEmptyGrid = (widthInCells: number, heightInCells: number): CellMatrix => {
+    const matrix: CellMatrix = []
+    for (let i = 0; i < heightInCells; i++) {
+        matrix.push(makeEmptyRow(widthInCells))
+    }
+    return matrix
+}
+
 const toCell = (point: XY): XY => {
     return {
         x: Math.floor(point.x / TERRAIN_SQUARE_SIZE),
         y: Math.floor(point.y / TERRAIN_SQUARE_SIZE)
     }
 }
+
+const toCellContaining = (point: XY): XY => ({
+    x: Math.round(point.x / TERRAIN_SQUARE_SIZE),
+    y: Math.round(point.y / TERRAIN_SQUARE_SIZE)
+})
 
 // TO DO discourage sailing too close to the coast
 // add forts to the matrix
@@ -37,23 +50,53 @@ const landToCells = (landmass: Landmass): XY[] => {
     return cells
 }
 
+const fortToCells = (fort: Fort): XY[] => {
+    const right = toCellContaining(translate(fort, xy(FORT_SIZE / 2, 0))).x + 1
+    const left = toCellContaining(translate(fort, xy(-FORT_SIZE / 2, 0))).x - 1
+    const top = toCellContaining(translate(fort, xy(0, -FORT_SIZE / 2))).y - 1
+    const bottom = toCellContaining(translate(fort, xy(0, FORT_SIZE / 2))).y + 1
+    const cells: XY[] = []
+    for (let x = left; x <= right; x++) {
+        for (let y = top; y <= bottom; y++) {
+            cells.push({ x, y })
+        }
+    }
+    return cells
+}
+
+
+
+
 // TO DO - account for positions of forts
-export const buildMatrixFromGameState = (width: number, height: number, gameState: GameState): CellMatrix => {
+export const buildMatrixFromGameState = (width: number, height: number, gameState: GameState): { landAndForts: CellMatrix, land: CellMatrix } => {
+    console.log('building matrix')
     const widthInCells = Math.ceil(width / TERRAIN_SQUARE_SIZE)
     const heightInCells = Math.ceil(height / TERRAIN_SQUARE_SIZE)
-    const matrix: CellMatrix = []
-    for (let i = 0; i < heightInCells; i++) {
-        matrix.push(makeEmptyRow(widthInCells))
-    }
+    const landAndFortsMatrix = makeEmptyGrid(widthInCells, heightInCells)
+    const landMatrix = makeEmptyGrid(widthInCells, heightInCells)
 
-    const cellsWithLand = gameState.land.flatMap(landToCells)
+    const cellsWithLand = gameState.land.flatMap(landToCells);
+    const cellsWithForts = gameState.towns.flatMap(town => town.forts).flatMap(fortToCells);
+
+
+
     cellsWithLand.forEach(cell => {
         try {
-            matrix[cell.y][cell.x] = 1
+            landMatrix[cell.y][cell.x] = 1
+            landAndFortsMatrix[cell.y][cell.x] = 1
+        } catch (err) {
+            console.warn(err)
+        }
+    });
+
+    cellsWithForts.forEach(cell => {
+        try {
+            landAndFortsMatrix[cell.y][cell.x] = 1
         } catch (err) {
             console.warn(err)
         }
     })
 
-    return matrix
+
+    return { landAndForts: landAndFortsMatrix, land: landMatrix }
 }

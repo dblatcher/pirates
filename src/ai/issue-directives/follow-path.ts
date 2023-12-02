@@ -6,8 +6,8 @@ import { AI } from "../base-class"
 export const followCurrentPath = (ai: AI, ship: Ship): Directive[] => {
     const [currentStep] = ai.state.path
 
-    // PATH IS FINISHED, ALL STOP
     if (!currentStep) {
+        ai.debugLog('PATH IS FINISHED, ALL STOP')
         return [
             { order: Order.SAILS_TO, quantity: 0 },
             { order: Order.RESET_WHEEL },
@@ -26,10 +26,10 @@ export const followCurrentPath = (ai: AI, ship: Ship): Directive[] => {
     const changeNeeded = findRotationBetweenHeadings(ship.h, heading)
     const sailLevelTarget = close
         ? Math.abs(changeNeeded) > _DEG * 30
-            ? 0
+            ? 0.1
             : .25
         : Math.abs(changeNeeded) > _DEG * 30
-            ? 0
+            ? 0.25
             : Math.abs(changeNeeded) > _DEG * 15
                 ? .5
                 : 1

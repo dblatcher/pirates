@@ -30,30 +30,33 @@ export abstract class AI {
         if (!currentStep) { return }
         if (getDistance(ship, currentStep) < TERRAIN_SQUARE_SIZE / 2) {
             this.state.path.shift()
+            if (this.state.path.length === 0) {
+                this.debugLog('shifted last step', currentStep)
+            }
         }
     }
 
     updatePath(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
-        if (path.length === 0) {
-            if (!destination) {
-                this.debugLog(ship.name, 'End of path, no destination set')
-                // run decide own mission to see what next?
-                // or take next objective in current mission (not modelled yet)
-                return
-            }
-
+        if (destination && path.length === 0) {
             const distance = getDistance(ship, destination)
-            if (distance < 20) {
+            if (distance < TERRAIN_SQUARE_SIZE / 2) {
                 this.debugLog('End of path, reached destination')
                 this.state.destination = undefined
                 // run decide own mission to see what next?
                 // or take next objective in current mission (not modelled yet)
                 return
             }
-            this.debugLog(`End of path, not reached destination: ${distance} away`)
+            this.debugLog(`End of path, not reached destination: ${distance.toFixed(0)} away`, path)
 
-            path.push(...this.navigateTo(ship, destination, matrix))
+            const route = this.navigateTo(ship, destination, matrix)
+            if (route.length === 0) {
+                this.debugLog('CANNOT REACH', destination)
+                // TO DO - choose another destination
+                return
+            }
+            this.debugLog(`new route to destination: ${route.length} steps`, destination)
+            path.push(...route)
             return
         }
 

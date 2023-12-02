@@ -47,7 +47,7 @@ export const initalState: GameState = {
         makeFrigateShip({
             id: 3,
             name: 'The Dead Duck',
-            x: 550,
+            x: 1550,
             y: 300,
             h: Math.PI * 1.4,
             damage: 10,
@@ -63,8 +63,7 @@ export const initalState: GameState = {
                 mission: {
                     type: 'patrol', patrolPath: [
                         { x: 700, y: 1100 },
-                        { x: 800, y: 800 },
-                        { x: 800, y: 600 },
+                        { x: 700, y: 650 },
                         { x: 400, y: 600 },
                         { x: 400, y: 1000 },
                     ]
@@ -174,7 +173,9 @@ export const initalState: GameState = {
         }, [
             { x: -25, y: -100 },
             { x: -125, y: 0 },
-            { x: 125, y: 0 }
+            { x: 125, y: 0 },
+            { x: 175, y: 0 },
+            { x: 225, y: 0 },
         ]),
     ]
 }

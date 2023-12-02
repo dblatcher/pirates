@@ -10,6 +10,7 @@ export const _DEG = Math.PI / 180
 function getVectorX(magnitude: number, direction: number) { return magnitude * Math.sin(direction) }
 function getVectorY(magnitude: number, direction: number) { return magnitude * Math.cos(direction) }
 
+export const xy = (x: number, y: number): XY => ({ x, y })
 export function getXYVector(magnitude: number, direction: number): XY { return { x: getVectorX(magnitude, direction), y: getVectorY(magnitude, direction) } }
 
 export const getHeading = (vector: XY): number => {

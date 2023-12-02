@@ -1,20 +1,21 @@
-import { useState, useRef, useCallback } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
+import { getTownShipIsInvading } from '../game-state/towns'
 import { useInterval } from '../hooks/useInterval'
-import { buildMatrixFromGameState } from '../lib/path-finding/build-matrix'
 import { CellMatrix } from '../lib/path-finding/types'
+import { average } from '../lib/util'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { getTownShipIsInvading } from '../game-state/towns'
-import { average } from '../lib/util'
 
 interface Props {
     initial: GameState;
     mapHeight: number;
     mapWidth: number;
+    obstacleMatrix: CellMatrix;
+    landMatrix: CellMatrix;
 }
 
 const magnify = 2 / 3
@@ -26,7 +27,7 @@ let lastCycleStartedAt = Date.now()
 const makeRefresh = (
     gameStateRef: React.MutableRefObject<GameState>,
     viewPortRef: React.MutableRefObject<ViewPort>,
-    matrix: CellMatrix,
+    obstacleMatrix: CellMatrix,
     getAndClearDirectives: { (): Directive[] },
     updateTimeTracking: { (refreshStart: number): void },
     pushLog: { (message: string): void },
@@ -45,7 +46,7 @@ const makeRefresh = (
     const updatedGame = cycle(
         gameStateRef.current,
         getAndClearDirectives(),
-        matrix,
+        obstacleMatrix,
         pushLog,
     )
     Object.assign(gameStateRef.current, updatedGame)
@@ -53,8 +54,7 @@ const makeRefresh = (
     updateTimeTracking(refreshStart)
 }
 
-export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
-    const matrixRef = useRef<CellMatrix>(buildMatrixFromGameState(mapWidth, mapHeight, initial))
+export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix }: Props) => {
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
@@ -98,7 +98,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
     )
 
     const refresh = useCallback(
-        makeRefresh(gameStateRef, viewPortRef, matrixRef.current, getAndClearDirectives, updateTimeTracking, pushLog,),
+        makeRefresh(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog,),
         [getAndClearDirectives, updateTimeTracking]
     )
 
@@ -144,7 +144,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth }: Props) => {
                 <WorldMap
                     closeModal={() => { setShowMap(false) }}
                     gameState={gameStateRef.current}
-                    matrix={matrixRef.current}
+                    matrix={landMatrix}
                     mapWidth={mapWidth}
                     mapHeight={mapHeight}
                 />
