@@ -1,7 +1,8 @@
 import { XY } from "../lib/geometry";
 
 export type Mission = {
-    type: string
+    type: string,
+    targetShipId?: number,
 }
 
 export type AIState = {

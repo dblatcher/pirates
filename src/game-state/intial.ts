@@ -18,11 +18,11 @@ export const initalState: GameState = {
         makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: factions.grance,
-            x: 120,
-            y: 0,
+            x: 620,
+            y: 250,
             h: _DEG * 50,
             id: 1,
-            damage: 39,
+            damage: 0,
             sailLevelTarget: 0,
             sailLevel: 0
         }),
@@ -62,7 +62,7 @@ export const initalState: GameState = {
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
-            }, 4, false)
+            }, 4, true)
         }),
         makeDefaultShip({
             name: 'Grance 1',
@@ -70,6 +70,7 @@ export const initalState: GameState = {
             x: 650,
             y: 500,
             h: _DEG * 30,
+            damage: 10,
             faction: factions.grance,
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },

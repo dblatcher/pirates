@@ -1,8 +1,7 @@
 import { AI } from ".";
 import { Directive, GameState, Order, Ship, Side } from "../game-state";
-import { findClosestAndDistance } from "../lib/geometry";
-import { approach } from "./issue-directives/approach";
 import { identifyShips } from "./identify-ships";
+import { approach } from "./issue-directives/approach";
 import { turnToAndFire } from "./issue-directives/target-and-fire";
 
 
@@ -11,14 +10,15 @@ export class AttackAutoPilot extends AI {
     issueDirectives(ship: Ship, gameState: GameState): Directive[] {
         const directives: Directive[] = []
         const { enemies } = identifyShips(ship, gameState)
-        const { item: closestEnemy, distance: range } = findClosestAndDistance(enemies, ship)
-        if (closestEnemy) {
+
+        const { ship: targetShip, distance: range } = this.getCurrentTargetOrChooseClosest(ship, enemies)
+        if (targetShip) {
             if (range > 150) {
-                directives.push(...approach(closestEnemy, ship))
+                directives.push(...approach(targetShip, ship))
             } else {
                 directives.push(
                     { order: Order.SAILS_TO, quantity: .5 },
-                    ...turnToAndFire({ target: closestEnemy, range, side: Side.LEFT }, ship)
+                    ...turnToAndFire({ target: targetShip, range, side: Side.LEFT }, ship)
                 )
             }
         }

@@ -1,5 +1,5 @@
 import { Directive, GameState, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
-import { XY, getDistance } from "../lib/geometry";
+import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";
 import { AIState } from "./types";
@@ -61,6 +61,27 @@ export abstract class AI {
         // check if still on course - recalculate path if not
         // ie if line to next step is blocked,
         // or more than some distance from it?
+    }
+
+    getCurrentTargetOrChooseClosest(thisShip: Ship, enemiesInSight: Ship[]): { ship?: Ship, distance: number } {
+        const { targetShipId } = this.state.mission
+        if (targetShipId) {
+            const ship = enemiesInSight.find(ship => ship.id === targetShipId)
+            if (ship) {
+                return { ship, distance: getDistance(thisShip, ship) }
+            }
+            this.debugLog(`current target ship#${targetShipId} no longer in sight`)
+            this.state.mission.targetShipId = undefined
+        }
+
+        const { item: ship, distance } = findClosestAndDistance(enemiesInSight, thisShip)
+        if (ship) {
+            this.debugLog(`closest target is ship#${ship.id} ${distance.toFixed(0)} away. Setting as target`)
+            this.state.mission.targetShipId = ship.id
+            return { ship, distance }
+        }
+
+        return { distance: Infinity }
     }
 
     abstract decideOwnMission(gameState: GameState): void
