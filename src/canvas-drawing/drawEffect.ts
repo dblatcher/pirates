@@ -1,4 +1,5 @@
 import { Effect, EffectType } from "../game-state/effect";
+import { colors, rgba } from "../lib/Color";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, effect: Effect) {
@@ -30,14 +31,14 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
             const opacity = effect.timeLeft >= 20 ? 1 : effect.timeLeft / 20
             ctx.beginPath();
             ctx.lineWidth = 1;
-            ctx.fillStyle = `rgba(0,0,0,${opacity})`
+            ctx.fillStyle = rgba(colors.BLACK, opacity)
             arc(x, y, 3, 0, Math.PI * 2)
             ctx.fill();
 
             effect.particles.forEach(particle => {
                 ctx.beginPath();
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = `rgba(120,120,120,${opacity})`
+                ctx.strokeStyle = rgba(colors.GRAY, opacity)
                 arc(x + particle.x, y + particle.y, opacity, 0, Math.PI * 2)
                 ctx.stroke();
             })

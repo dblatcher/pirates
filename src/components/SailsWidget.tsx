@@ -1,5 +1,6 @@
 import { CSSProperties } from "react"
 import { Ship } from "../game-state/ship"
+import { SAIL_COLOR_CSS } from "../lib/Color"
 
 interface Props {
     ship: Ship
@@ -33,7 +34,7 @@ const sailStyle = (level: number): CSSProperties => ({
     top: 0,
     height: `${level * 100}%`,
     left: '5%',
-    background: 'rgba(255,255,255,0.8)',
+    background: SAIL_COLOR_CSS,
 })
 const targetLineStyle = (level: number): CSSProperties => ({
     width: '100%',

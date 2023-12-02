@@ -1,10 +1,10 @@
-import { MastConfig, getProwPosition } from "../../game-state/ship";
 import { Ship, Wind } from "../../game-state";
+import { MastConfig, getProwPosition } from "../../game-state/ship";
+import { SAIL_COLOR_CSS, rgb } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { drawFlag } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { s, getFactionColor } from "../helpers";
-import { rgb } from "../../lib/Color";
+import { getFactionColor, s } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25
 const SAIL_END_AT_FULL = .2
@@ -74,7 +74,7 @@ export const drawShipMasts = (
         const bottomRight = translateZ(topRight, -sailHeight)
 
         ctx.beginPath()
-        ctx.fillStyle = 'rgba(255,255,255,0.8)'
+        ctx.fillStyle = SAIL_COLOR_CSS
         moveTo(...s(topLeft))
         lineTo(...s(topRight))
         lineTo(...s(bottomRight))
