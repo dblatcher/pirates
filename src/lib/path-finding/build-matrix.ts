@@ -19,7 +19,8 @@ const toCell = (point: XY): XY => {
 }
 
 // TO DO discourage sailing too close to the coast
-// can cells have vaules other than 0|1 - check pacakage readme
+// add forts to the matrix
+// can cells have vaules other than 0|1? - check pacakage readme
 const landToCells = (landmass: Landmass): XY[] => {
     // WRONG! need to align/snap landmass to grid
     // for this to work

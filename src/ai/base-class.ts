@@ -29,7 +29,6 @@ export abstract class AI {
         const [currentStep] = this.state.path
         if (!currentStep) { return }
         if (getDistance(ship, currentStep) < TERRAIN_SQUARE_SIZE / 2) {
-            this.debugLog('reaching point - shifting from path', currentStep)
             this.state.path.shift()
         }
     }
@@ -58,7 +57,7 @@ export abstract class AI {
             return
         }
 
-        this.debugLog(`${path.length} steps left in path`)
+        // this.debugLog(`${path.length} steps left in path`)
         // check if still on course - recalculate path if not
         // ie if line to next step is blocked,
         // or more than some distance from it?

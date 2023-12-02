@@ -17,9 +17,9 @@ export const initalState: GameState = {
     ships: [
         makeFrigateShip({
             name: 'Player McPlayerFace',
-            faction: factions.grance,
-            x: 620,
-            y: 250,
+            faction: factions.spaim,
+            x: 600,
+            y: 1200,
             h: _DEG * 50,
             id: 1,
             damage: 0,
@@ -53,6 +53,26 @@ export const initalState: GameState = {
             damage: 10,
         }),
         makeDefaultShip({
+            name: 'Spaimish Patrol',
+            id: 14,
+            x: 600,
+            y: 1100,
+            h: _DEG * 30,
+            faction: factions.spaim,
+            ai: new AttackAutoPilot({
+                mission: {
+                    type: 'patrol', patrolPath: [
+                        { x: 700, y: 1100 },
+                        { x: 800, y: 800 },
+                        { x: 800, y: 600 },
+                        { x: 400, y: 600 },
+                        { x: 400, y: 1000 },
+                    ]
+                },
+                path: [],
+            }, 14, true)
+        }),
+        makeDefaultShip({
             name: 'Spaim 1',
             id: 4,
             x: 700,
@@ -62,7 +82,7 @@ export const initalState: GameState = {
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
-            }, 4, true)
+            }, 4, false)
         }),
         makeDefaultShip({
             name: 'Grance 1',

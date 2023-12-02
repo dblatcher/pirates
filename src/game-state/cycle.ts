@@ -65,7 +65,7 @@ export const cycle = (
     // logic may be quite expensive - don't need to run every cycle
     // would be better to shard the ships and run some % each cycle
     // see effect on performance, then decide.
-    if (game.cycleNumber % 100 == 0) {
+    if (game.cycleNumber % 50 == 0) {
         game.ships.forEach(ship => {
             if (!ship.ai) { return }
             ship.ai.updatePath(ship, game, matrix)
