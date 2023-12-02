@@ -1,6 +1,6 @@
 import { FortCannon } from "./cannon-types"
 import { XY } from "../../lib/geometry"
-import { Faction } from "../faction"
+import { FactionId } from "../faction"
 
 export type Fort = XY & {
     aimDirection: number,
@@ -14,7 +14,7 @@ export type TownProfile = {
 }
 
 export type Town = XY & {
-    faction?: Faction
+    faction?: FactionId
     name: string,
     id: number,
     defences: number,

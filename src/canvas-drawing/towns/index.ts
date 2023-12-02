@@ -5,7 +5,7 @@ import { timePhase } from "../../lib/util";
 import { drawIcon } from "../draw-icon";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { getTownColor, isTownInView } from "../helpers";
+import { getFactionColor, isTownInView } from "../helpers";
 import { showDefenceLevel } from "./defenceLevel";
 import { drawFort } from "./forts";
 import { drawTownOutline } from "./outline";
@@ -27,7 +27,7 @@ export const drawTowns = (
 
     townsInView.forEach(town => {
         const beingInvaded = town.invasions.length > 0
-        const color = getTownColor(town)
+        const color = getFactionColor(town)
         const flagHeight = Math.min(50, town.garrison * 2)
 
         drawTownOutline(

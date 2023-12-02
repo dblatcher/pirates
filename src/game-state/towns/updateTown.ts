@@ -1,12 +1,12 @@
 import { getDistance } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
 import { updateCannon } from "../cannons";
-import { Faction } from "../faction";
+import { FactionId } from "../faction";
 import { BATTLE_PERIOD, GameState, INVASION_RANGE, REPAIR_PERIOD, TOWN_SIZE, Town } from "../model";
 import { doRepairs } from "./town-ai";
 import { getInvasionsAndShips } from "./town-functions";
 
-const conquerTown = (town: Town, faction?: Faction) => {
+const conquerTown = (town: Town, faction?: FactionId) => {
     town.faction = faction
     town.garrison = 1
     town.invasions = []
@@ -25,7 +25,7 @@ export const updateTown = (town: Town, gameState: GameState) => {
         if (gameState.cycleNumber % BATTLE_PERIOD === 0) {
             const invasionsAndShips = getInvasionsAndShips(town, gameState.ships)
 
-            const [_outOfRange, inRange] = splitArray(invasionsAndShips, invasion => 
+            const [_outOfRange, inRange] = splitArray(invasionsAndShips, invasion =>
                 getDistance(invasion.ship, town) > TOWN_SIZE + INVASION_RANGE)
 
             town.invasions = inRange.map(_ => _.invasion)

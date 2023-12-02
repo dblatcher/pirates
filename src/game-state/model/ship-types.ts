@@ -1,5 +1,5 @@
 import type { AI } from "../../ai"
-import { Faction } from "../faction"
+import { FactionId } from "../faction"
 import { ShipCannon } from "./cannon-types"
 import { Flag } from "./game-types"
 
@@ -18,7 +18,7 @@ export type ShipProfile = {
 
 export type Ship = {
     id: number,
-    faction?: Faction,
+    faction?: FactionId,
     name?: string,
     profile: ShipProfile,
     width: number,

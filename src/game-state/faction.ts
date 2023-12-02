@@ -19,3 +19,5 @@ export const factions = {
     grance,
     spaim,
 };
+
+export type FactionId = keyof typeof factions;

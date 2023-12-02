@@ -1,7 +1,7 @@
 import { GameState, Ship, Town, TERRAIN_SQUARE_SIZE } from "../../game-state"
 import { rgb } from "../../lib/Color"
 import { CellMatrix } from "../../lib/path-finding/types"
-import { getTownColor, s } from "../helpers"
+import { getFactionColor, s } from "../helpers"
 
 const plotMatrix = (ctx: CanvasRenderingContext2D, matrix: CellMatrix) => {
     for (let y = 0; y < matrix.length; y++) {
@@ -36,7 +36,7 @@ const plotShips = (ctx: CanvasRenderingContext2D, ships: Ship[]) => {
 const plotTowns = (ctx: CanvasRenderingContext2D, towns: Town[]) => {
     towns.forEach(town => {
         ctx.beginPath()
-        ctx.fillStyle = rgb(getTownColor(town))
+        ctx.fillStyle = rgb(getFactionColor(town))
         ctx.strokeStyle = 'black'
         ctx.lineWidth = 5
         ctx.arc(...s(town), 50, 0, Math.PI * 2)

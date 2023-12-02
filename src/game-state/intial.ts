@@ -1,9 +1,8 @@
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { _DEG } from "../lib/geometry";
-import { factions } from "./faction";
 import { TerrainType } from "./land";
-import { makeDefaultShip, makeFrigateShip } from "./ship";
 import { GameState } from "./model";
+import { makeDefaultShip, makeFrigateShip } from "./ship";
 import { makeTownWithForts } from "./towns";
 
 
@@ -17,7 +16,7 @@ export const initalState: GameState = {
     ships: [
         makeFrigateShip({
             name: 'Player McPlayerFace',
-            faction: factions.spaim,
+            faction: 'spaim',
             x: 600,
             y: 1200,
             h: _DEG * 50,
@@ -28,7 +27,7 @@ export const initalState: GameState = {
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
-            faction: factions.spaim,
+            faction: 'spaim',
             x: 300,
             y: 0,
             h: Math.PI * .5,
@@ -58,7 +57,7 @@ export const initalState: GameState = {
             x: 600,
             y: 1100,
             h: _DEG * 30,
-            faction: factions.spaim,
+            faction: 'spaim',
             ai: new AttackAutoPilot({
                 mission: {
                     type: 'patrol', patrolPath: [
@@ -77,7 +76,7 @@ export const initalState: GameState = {
             x: 700,
             y: 500,
             h: _DEG * 30,
-            faction: factions.spaim,
+            faction: 'spaim',
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
@@ -90,7 +89,7 @@ export const initalState: GameState = {
             y: 500,
             h: _DEG * 30,
             damage: 10,
-            faction: factions.grance,
+            faction: 'grance',
             ai: new AttackAutoPilot({
                 mission: { type: 'attack' },
                 path: [],
@@ -148,7 +147,7 @@ export const initalState: GameState = {
     ],
     towns: [
         makeTownWithForts({
-            faction: factions.grance,
+            faction: 'grance',
             x: 150,
             y: 150,
             id: 1,
@@ -165,7 +164,7 @@ export const initalState: GameState = {
             { x: -50, y: -50 },
         ]),
         makeTownWithForts({
-            faction: factions.spaim,
+            faction: 'spaim',
             x: 600,
             y: 800,
             id: 2,

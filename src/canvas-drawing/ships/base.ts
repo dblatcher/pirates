@@ -2,7 +2,8 @@ import { getCollisionCircles } from "../../game-state/ship";
 import { Ship } from "../../game-state";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { s, shipColor } from "../helpers";
+import { s, getFactionColor } from "../helpers";
+import { rgb } from "../../lib/Color";
 
 
 type HullPoints = {
@@ -91,7 +92,7 @@ export const drawShipBase = (
         fore, foreLeft, foreRight, backCurveControlPoint, backLeft, backRight
     }
 
-    const factionColor = shipColor(ship)
+    const factionColor = rgb(getFactionColor(ship))
 
     drawHullPath(ctx, drawMethods,
         { stroke: factionColor, fill: factionColor, width: 1 },
