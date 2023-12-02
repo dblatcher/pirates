@@ -18,7 +18,7 @@ export class AttackAutoPilot extends AI {
             } else {
                 directives.push(
                     { order: Order.SAILS_TO, quantity: .5 },
-                    ...turnToAndFire({ target: targetShip, range, side: Side.LEFT }, ship)
+                    ...turnToAndFire({ target: targetShip, range }, ship)
                 )
             }
         }
