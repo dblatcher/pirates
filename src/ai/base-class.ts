@@ -1,4 +1,5 @@
 import { Directive, GameState, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
+import { describeShipWithId } from "../game-state/ship";
 import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";
@@ -76,7 +77,7 @@ export abstract class AI {
 
         const { item: ship, distance } = findClosestAndDistance(enemiesInSight, thisShip)
         if (ship) {
-            this.debugLog(`closest target is ship#${ship.id} ${distance.toFixed(0)} away. Setting as target`)
+            this.debugLog(`closest target is ${describeShipWithId(ship)} ${distance.toFixed(0)} away. Setting as target`)
             this.state.mission.targetShipId = ship.id
             return { ship, distance }
         }
