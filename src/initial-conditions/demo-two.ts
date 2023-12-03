@@ -14,6 +14,7 @@ const addAttackShip = (x: number, y: number, h = 0, faction: FactionId = 'grance
         id: nextId,
         x,
         y,
+        sailLevel:.5,
         h:h*_DEG,
         ai: new AttackAutoPilot({ mission: { type: 'attack' }, path: [], }, nextId, false)
     })
@@ -43,6 +44,10 @@ const initalState: GameState = {
         addAttackShip(1300,300),
         addAttackShip(1400,350),
         addAttackShip(1600,310),
+        addAttackShip(1200,200),
+        addAttackShip(1300,200),
+        addAttackShip(1400,250),
+        addAttackShip(1600,210),
         
         addAttackShip(1200,500,180, 'spaim'),
         addAttackShip(1000,600,180, 'spaim'),
@@ -50,6 +55,12 @@ const initalState: GameState = {
         addAttackShip(1400,600,180, 'spaim'),
         addAttackShip(1600,600,180, 'spaim'),
         addAttackShip(1800,600,180, 'spaim'),
+        addAttackShip(1300,750,180, 'spaim'),
+        addAttackShip(1000,800,180, 'spaim'),
+        addAttackShip(1200,800,180, 'spaim'),
+        addAttackShip(1400,800,180, 'spaim'),
+        addAttackShip(1600,800,180, 'spaim'),
+        addAttackShip(1800,800,180, 'spaim'),
         addAttackShip(1300,750,180, 'spaim'),
         addAttackShip(1650,750,180, 'spaim'),
  
