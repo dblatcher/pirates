@@ -1,13 +1,13 @@
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { EscortAutoPilot } from "../ai/escort-ai";
 import { _DEG } from "../lib/geometry";
-import { TerrainType } from "./land";
-import { GameState } from "./model";
-import { makeDefaultShip, makeFrigateShip } from "./ship";
-import { makeTownWithForts } from "./towns";
+import { TerrainType } from "../game-state/land";
+import { GameState } from "../game-state/model";
+import { InitialConditions, makeDefaultShip, makeFrigateShip } from "../game-state/ship";
+import { makeTownWithForts } from "../game-state/towns";
 
 
-export const initalState: GameState = {
+const initalState: GameState = {
     cycleNumber: 0,
     playerId: 1,
     wind: {
@@ -194,4 +194,10 @@ export const initalState: GameState = {
             { x: 225, y: 0 },
         ]),
     ]
+}
+
+export const demoOne: InitialConditions = {
+    gameState: initalState,
+    mapHeight: 1800,
+    mapWidth: 2400,
 }
