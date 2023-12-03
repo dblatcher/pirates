@@ -3,7 +3,8 @@ import { XY, _DEG, getHeading, getVectorFrom, normaliseHeading } from "../../lib
 
 export const approach = (
     target: XY,
-    ship: Ship
+    ship: Ship,
+    sailLevel?: number,
 ): Directive[] => {
 
     const directives: Directive[] = []
@@ -17,7 +18,7 @@ export const approach = (
     const differenceInAngle = Math.abs(normaliseHeading(heading) - normaliseHeading(ship.h))
 
     if (differenceInAngle < _DEG * 10) {
-        directives.push({ order: Order.SAILS_TO, quantity: 1 })
+        directives.push({ order: Order.SAILS_TO, quantity: typeof sailLevel === 'number' ? sailLevel : 1 })
     }
 
     return directives

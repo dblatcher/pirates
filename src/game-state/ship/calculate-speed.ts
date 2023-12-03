@@ -24,3 +24,13 @@ export const getSpeed = (ship: Ship, gameState: GameState): number => {
 
     return ship.sailLevel * ship.profile.speed * windFactor * damageFactor
 }
+
+const getSpeedAtFullSail = (ship: Ship, gameState: GameState): number => {
+    return getSpeed({ ...ship, sailLevel: 1 }, gameState)
+}
+
+export const calculateRequiredSailLevel = (targetSpeed: number, ship: Ship, gameState: GameState): number => {
+    if (targetSpeed <= 0) { return 0 }
+    const speedAtFullSail = getSpeedAtFullSail(ship, gameState)
+    return targetSpeed > speedAtFullSail ? 1 : targetSpeed / speedAtFullSail
+}

@@ -34,6 +34,9 @@ export const getVectorFrom = (p1: XY, p2: XY): XY => ({
     x: p2.x - p1.x,
     y: p2.y - p1.y,
 })
+
+export const getHeadingFrom = (p1: XY, p2: XY): number => getHeading(getVectorFrom(p1, p2))
+
 export const translate = (position: XY, vector: XY): XY => ({
     x: position.x + vector.x,
     y: position.y + vector.y,

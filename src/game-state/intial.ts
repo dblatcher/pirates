@@ -1,4 +1,5 @@
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
+import { EscortAutoPilot } from "../ai/escort-ai";
 import { _DEG } from "../lib/geometry";
 import { TerrainType } from "./land";
 import { GameState } from "./model";
@@ -16,14 +17,30 @@ export const initalState: GameState = {
     ships: [
         makeFrigateShip({
             name: 'Player McPlayerFace',
-            faction: 'spaim',
-            x: 600,
+            faction: 'grance',
+            x: 1600,
             y: 1200,
             h: _DEG * 50,
             id: 1,
             damage: 0,
             sailLevelTarget: 0,
             sailLevel: 0
+        }),
+        makeDefaultShip({
+            name: 'Wingman',
+            faction: 'grance',
+            id: 15,
+            x: 1600,
+            y: 1300,
+            h: 0,
+            // damage:15,
+            ai: new EscortAutoPilot({
+                mission: {
+                    type: 'follow',
+                    targetShipId: 1
+                },
+                path: [],
+            }, 15, true)
         }),
         makeDefaultShip({
             name: 'The Flying Goose',

@@ -66,18 +66,29 @@ export abstract class AI {
         // or more than some distance from it?
     }
 
-    getCurrentTargetOrChooseClosest(thisShip: Ship, enemiesInSight: Ship[]): { ship?: Ship, distance: number } {
+    getCurrentTarget(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
         const { targetShipId } = this.state.mission
         if (targetShipId) {
-            const ship = enemiesInSight.find(ship => ship.id === targetShipId)
+            const ship = relevantShipsInRange.find(ship => ship.id === targetShipId)
             if (ship) {
                 return { ship, distance: getDistance(thisShip, ship) }
             }
-            this.debugLog(`current target ship#${targetShipId} no longer in sight`)
+        }
+        return { distance: Infinity }
+    }
+
+    getCurrentTargetOrChooseClosest(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
+        const { targetShipId } = this.state.mission
+        if (targetShipId) {
+            const ship = relevantShipsInRange.find(ship => ship.id === targetShipId)
+            if (ship) {
+                return { ship, distance: getDistance(thisShip, ship) }
+            }
+            this.debugLog(`current target ship#${targetShipId} no longer in range`)
             this.state.mission.targetShipId = undefined
         }
 
-        const { item: ship, distance } = findClosestAndDistance(enemiesInSight, thisShip)
+        const { item: ship, distance } = findClosestAndDistance(relevantShipsInRange, thisShip)
         if (ship) {
             this.debugLog(`closest target is ${describeShipWithId(ship)} ${distance.toFixed(0)} away. Setting as target`)
             this.state.mission.targetShipId = ship.id
