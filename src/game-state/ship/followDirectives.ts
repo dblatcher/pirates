@@ -87,6 +87,12 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 ship.launchingInvasion = true
                 break
             }
+            case Order.SET_AI_DESTINATION: {
+                const {ai} = ship
+                if (!ai) {return}
+                ai.state.destination = directive.target
+                break
+            }
         }
     });
 };

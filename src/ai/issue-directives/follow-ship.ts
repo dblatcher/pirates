@@ -1,8 +1,9 @@
 import { AI } from "..";
-import { Directive, GameState, Order, Ship } from "../../game-state";
-import { getSpeed, calculateRequiredSailLevel } from "../../game-state/ship/calculate-speed";
-import { _DEG, translate, getXYVector, getDistance, getHeadingFrom } from "../../lib/geometry";
-import { approach } from "./approach";
+import { Directive, GameState, Ship } from "../../game-state";
+import { calculateRequiredSailLevel, getSpeed } from "../../game-state/ship/calculate-speed";
+import { _DEG, getDistance, getHeadingFrom, getXYVector, translate } from "../../lib/geometry";
+import { approach, approachUnlessBlocked } from "./approach";
+import { stopAndTurnTowards } from "./stop-and-turn";
 
 enum FollowPlan {
     CatchUp, MatchSpeed, ReachTargetPoint, Stop
@@ -38,16 +39,13 @@ export const followShip = (_ai: AI, ship: Ship, shipToFollow: Ship, distanceToOt
 
     switch (plan) {
         case FollowPlan.CatchUp:
-            return approach(targetPoint, ship, 1)
+            return approachUnlessBlocked(gameState, targetPoint, ship, 1)
         case FollowPlan.MatchSpeed:
-            return approach(targetPoint, ship, calculateRequiredSailLevel(targetSpeed, ship, gameState))
+            return approachUnlessBlocked(gameState, targetPoint, ship, calculateRequiredSailLevel(targetSpeed, ship, gameState))
         case FollowPlan.ReachTargetPoint:
             return approach(targetPoint, ship, calculateRequiredSailLevel(.75, ship, gameState))
         case FollowPlan.Stop:
-            return [
-                { order: Order.SAILS_TO, quantity: 0 },
-                { order: Order.HEADING_TO, quantity: getHeadingFrom(ship, shipToFollow) }
-            ]
+            return stopAndTurnTowards(getHeadingFrom(ship, shipToFollow))
     }
 
 }

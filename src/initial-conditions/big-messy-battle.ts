@@ -72,7 +72,7 @@ const initalState: GameState = {
     towns: []
 }
 
-export const demoTwo: InitialConditions = {
+export const bigMesseyBattle: InitialConditions = {
     gameState: initalState,
     mapHeight: 1800,
     mapWidth: 2400,

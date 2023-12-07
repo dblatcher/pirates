@@ -51,6 +51,7 @@ export enum Order {
     RESET_WHEEL,
     WHEEL_TO,
     INVADE_TOWN,
+    SET_AI_DESTINATION,
 }
 
 export enum Side {
@@ -81,7 +82,11 @@ type FireDirective = {
     pattern: FiringPattern
 }
 
-export type Directive = QuantityDirective | PlainDirective | FireDirective
+type TargetDirective = {
+    target: XY,
+    order: Order.SET_AI_DESTINATION,
+}
+export type Directive = QuantityDirective | PlainDirective | FireDirective | TargetDirective
 
 export type Flag = {
     shape: 'triangle' | 'rectangle'

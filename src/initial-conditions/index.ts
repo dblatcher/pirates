@@ -1,2 +1,3 @@
 export * from './demo-one'
-export * from './demo-two'
+export * from './big-messy-battle'
+export * from './ai-trial'

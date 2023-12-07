@@ -1,5 +1,6 @@
 import { AI } from ".";
 import { Directive, GameState, Order, Ship } from "../game-state";
+import { followCurrentPath } from "./issue-directives/follow-path";
 import { followShip } from "./issue-directives/follow-ship";
 
 
@@ -17,6 +18,10 @@ export class EscortAutoPilot extends AI {
                 { order: Order.SAILS_TO, quantity: 0 },
                 { order: Order.RESET_WHEEL }
             ]
+        }
+
+        if (this.state.destination) {
+            return followCurrentPath(this, ship)
         }
 
         // TO DO - attack enemies near shipToFollow

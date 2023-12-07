@@ -1,6 +1,6 @@
 import './App.css'
 import { BuccaneerGame } from './components/BucaneerGame'
-import { demoTwo as initialConditions } from './initial-conditions'
+import { aiTrial as initialConditions } from './initial-conditions'
 import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
 
 const { gameState, mapHeight, mapWidth } = initialConditions
