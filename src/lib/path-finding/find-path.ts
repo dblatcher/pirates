@@ -17,7 +17,12 @@ const isOutOfBounds = (cell: XY, matrix: CellMatrix): boolean => {
         cell.y < 0
 }
 
-export function findPath(start: XY, goal: XY, matrix: CellMatrix, cellSize: number): XY[] {
+export function findPath(
+    start: XY, goal: XY, matrix: CellMatrix, cellSize: number,
+    options: {
+        diagonalAllowed: boolean
+    }
+): XY[] {
 
     const toCell = (point: XY): XY => {
         return {
@@ -45,7 +50,7 @@ export function findPath(start: XY, goal: XY, matrix: CellMatrix, cellSize: numb
     const finder = new AStarFinder({
         grid: { matrix },
         includeEndNode: true,
-        diagonalAllowed: false,
+        diagonalAllowed: options.diagonalAllowed,
     })
     const pathPairs = finder.findPath(startCell, goalCell);
 

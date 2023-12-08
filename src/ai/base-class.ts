@@ -23,7 +23,7 @@ export abstract class AI {
         console.log(`[SHIP:${this.shipId}]`, ...messages)
     }
 
-    abstract issueDirectives(ship: Ship, gameState: GameState): Directive[]
+    abstract issueDirectives(ship: Ship, gameState: GameState, grid: CellMatrix): Directive[]
 
     shiftPathIfReachedPoint(ship: Ship) {
         const [currentStep] = this.state.path
@@ -101,6 +101,6 @@ export abstract class AI {
     abstract decideOwnMission(gameState: GameState): void
 
     navigateTo(start: XY, destination: XY, matrix: CellMatrix): XY[] {
-        return findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE)
+        return findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
     }
 }

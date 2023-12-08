@@ -1,5 +1,6 @@
 import { AI } from ".";
 import { Directive, GameState, Order, Ship } from "../game-state";
+import { CellMatrix } from "../lib/path-finding/types";
 import { followCurrentPath } from "./issue-directives/follow-path";
 import { followShip } from "./issue-directives/follow-ship";
 
@@ -7,7 +8,7 @@ import { followShip } from "./issue-directives/follow-ship";
 
 export class EscortAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, gameState: GameState): Directive[] {
+    issueDirectives(ship: Ship, gameState: GameState, matrix: CellMatrix): Directive[] {
 
         // NOTE - assumes the escort know where the target is regardless of distance
         const { ship: shipToFollow, distance: distanceToOtherShip } = this.getCurrentTarget(ship, gameState.ships)
@@ -25,7 +26,7 @@ export class EscortAutoPilot extends AI {
         }
 
         // TO DO - attack enemies near shipToFollow
-        return followShip(this, ship, shipToFollow, distanceToOtherShip, gameState)
+        return followShip(this, ship, shipToFollow, distanceToOtherShip, gameState, matrix)
 
     }
 

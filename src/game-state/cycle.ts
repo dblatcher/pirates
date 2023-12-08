@@ -59,7 +59,7 @@ export const cycle = (
     game.ships.forEach(ship => {
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
-        followDirectives(ship, ship.ai.issueDirectives(ship, game))
+        followDirectives(ship, ship.ai.issueDirectives(ship, game, matrix))
     })
 
     // logic may be quite expensive - don't need to run every cycle

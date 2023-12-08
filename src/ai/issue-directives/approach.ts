@@ -1,6 +1,8 @@
 import { Directive, GameState, Order, Ship } from "../../game-state"
 import { isLandAt } from "../../game-state/land"
 import { XY, _DEG, getHeading, getHeadingFrom, getVectorFrom, normaliseHeading } from "../../lib/geometry"
+import { isDirectPathTo } from "../../lib/path-finding/direct-route"
+import { CellMatrix } from "../../lib/path-finding/types"
 import { stopAndTurnTowards } from "./stop-and-turn"
 
 
@@ -21,26 +23,26 @@ export const approach = (
     if (differenceInAngle < _DEG * 10) {
         directives.push({ order: Order.SAILS_TO, quantity: typeof sailLevel === 'number' ? sailLevel : 1 })
     }
-
     return directives
 }
 
 export const approachUnlessBlocked = (
     gameState: GameState,
+    cellMatrix: CellMatrix,
     target: XY,
     ship: Ship,
     sailLevel?: number,
 ): Directive[] => {
 
     const blocked = isLandAt(target, gameState.land) // TO DO - check forts!
-    const isDirectPath = true // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
-
     if (blocked) {
         return stopAndTurnTowards(getHeadingFrom(ship, target))
     }
+
+    const isDirectPath = isDirectPathTo(target, ship, gameState, cellMatrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
     if (!isDirectPath) {
         return [
-            { order: Order.SET_AI_DESTINATION, target }, 
+            { order: Order.SET_AI_DESTINATION, target },
             ...stopAndTurnTowards(getHeadingFrom(ship, target))
         ]
     }

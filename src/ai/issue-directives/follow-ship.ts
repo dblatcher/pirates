@@ -2,6 +2,7 @@ import { AI } from "..";
 import { Directive, GameState, Ship } from "../../game-state";
 import { calculateRequiredSailLevel, getSpeed } from "../../game-state/ship/calculate-speed";
 import { _DEG, getDistance, getHeadingFrom, getXYVector, translate } from "../../lib/geometry";
+import { CellMatrix } from "../../lib/path-finding/types";
 import { approach, approachUnlessBlocked } from "./approach";
 import { stopAndTurnTowards } from "./stop-and-turn";
 
@@ -10,7 +11,7 @@ enum FollowPlan {
 }
 
 
-export const followShip = (_ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState): Directive[] => {
+export const followShip = (_ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState, matrix: CellMatrix): Directive[] => {
 
     let plan: FollowPlan = FollowPlan.Stop;
 
@@ -39,9 +40,9 @@ export const followShip = (_ai: AI, ship: Ship, shipToFollow: Ship, distanceToOt
 
     switch (plan) {
         case FollowPlan.CatchUp:
-            return approachUnlessBlocked(gameState, targetPoint, ship, 1)
+            return approachUnlessBlocked(gameState, matrix, targetPoint, ship, 1)
         case FollowPlan.MatchSpeed:
-            return approachUnlessBlocked(gameState, targetPoint, ship, calculateRequiredSailLevel(targetSpeed, ship, gameState))
+            return approachUnlessBlocked(gameState, matrix, targetPoint, ship, calculateRequiredSailLevel(targetSpeed, ship, gameState))
         case FollowPlan.ReachTargetPoint:
             return approach(targetPoint, ship, calculateRequiredSailLevel(.75, ship, gameState))
         case FollowPlan.Stop:

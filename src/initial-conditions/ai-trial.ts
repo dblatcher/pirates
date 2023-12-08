@@ -26,7 +26,7 @@ const initalState: GameState = {
             sailLevel: 0
         }),
         makeDefaultShip({
-            name: 'Wingman',
+            name: 'follower one',
             faction: 'grance',
             id: 15,
             x: 1050,
@@ -41,6 +41,23 @@ const initalState: GameState = {
                 destination: undefined,
                 path: [],
             }, 15, true)
+        }),
+        makeDefaultShip({
+            name: 'follower two',
+            faction: 'grance',
+            id: 16,
+            x: 1350,
+            y: 800,
+            h: 0 * _DEG,
+            // damage:15,
+            ai: new EscortAutoPilot({
+                mission: {
+                    type: 'follow',
+                    targetShipId: 1
+                },
+                destination: undefined,
+                path: [],
+            }, 16, true)
         }),
         makeDefaultShip({
             name: 'The Flying Goose',

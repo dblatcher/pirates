@@ -1,5 +1,6 @@
 import { AI } from ".";
 import { Directive, GameState, Order, Ship } from "../game-state";
+import { CellMatrix } from "../lib/path-finding/types";
 import { identifyShips } from "./identify-ships";
 import { approach } from "./issue-directives/approach";
 import { followCurrentPath } from "./issue-directives/follow-path";
@@ -8,7 +9,7 @@ import { turnToAndFire } from "./issue-directives/target-and-fire";
 
 export class AttackAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, gameState: GameState): Directive[] {
+    issueDirectives(ship: Ship, gameState: GameState, _matrix: CellMatrix): Directive[] {
         const { enemies } = identifyShips(ship, gameState)
 
 

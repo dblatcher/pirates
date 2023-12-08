@@ -2,6 +2,7 @@ import { FORT_SIZE, Fort, GameState, TERRAIN_SQUARE_SIZE } from "../../game-stat
 import { Landmass } from "../../game-state/land";
 import { XY, translate, xy } from "../geometry";
 import { CellMatrix } from "./types";
+import { toCell, toCellContaining } from "./util";
 
 
 const makeEmptyRow = (widthInCells: number): (0 | 1)[] => {
@@ -19,17 +20,6 @@ const makeEmptyGrid = (widthInCells: number, heightInCells: number): CellMatrix 
     return matrix
 }
 
-const toCell = (point: XY): XY => {
-    return {
-        x: Math.floor(point.x / TERRAIN_SQUARE_SIZE),
-        y: Math.floor(point.y / TERRAIN_SQUARE_SIZE)
-    }
-}
-
-const toCellContaining = (point: XY): XY => ({
-    x: Math.round(point.x / TERRAIN_SQUARE_SIZE),
-    y: Math.round(point.y / TERRAIN_SQUARE_SIZE)
-})
 
 // TO DO discourage sailing too close to the coast
 // add forts to the matrix
