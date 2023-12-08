@@ -18,7 +18,7 @@ interface Props {
     landMatrix: CellMatrix;
 }
 
-const magnify = 2 / 3
+const magnify = 1 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
 let lastCycleStartedAt = Date.now()

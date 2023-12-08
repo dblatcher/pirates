@@ -42,23 +42,23 @@ const initalState: GameState = {
                 path: [],
             }, 15, true)
         }),
-        makeDefaultShip({
-            name: 'follower two',
-            faction: 'grance',
-            id: 16,
-            x: 1350,
-            y: 800,
-            h: 0 * _DEG,
-            // damage:15,
-            ai: new EscortAutoPilot({
-                mission: {
-                    type: 'follow',
-                    targetShipId: 1
-                },
-                destination: undefined,
-                path: [],
-            }, 16, true)
-        }),
+        // makeDefaultShip({
+        //     name: 'follower two',
+        //     faction: 'grance',
+        //     id: 16,
+        //     x: 1350,
+        //     y: 800,
+        //     h: 0 * _DEG,
+        //     damage:18,
+        //     ai: new EscortAutoPilot({
+        //         mission: {
+        //             type: 'follow',
+        //             targetShipId: 1
+        //         },
+        //         destination: undefined,
+        //         path: [],
+        //     }, 16, true)
+        // }),
         makeDefaultShip({
             name: 'The Flying Goose',
             faction: 'grance',
@@ -95,7 +95,11 @@ const initalState: GameState = {
             y: 1000,
             shape: [
                 [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
-                [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
+                [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
                 [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
                 [TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
             ]
