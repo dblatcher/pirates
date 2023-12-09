@@ -1,4 +1,4 @@
-import { Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
+import { DEFAULT_FIRE_DISTANCE, Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
 import { getVectorFrom, getHeading, _90_DEG_LEFT, normaliseHeading, _DEG, XY, getDistance } from "../../lib/geometry"
 
 const pickSideToUse = (firingShip: Ship, headingToTarget: number): Side => {
@@ -26,7 +26,7 @@ export const turnToAndFire = (
         target,
         range = getDistance(ship, target),
         side,
-        maxRange = 150,
+        maxRange = DEFAULT_FIRE_DISTANCE,
         maxAngle = 20 * _DEG,
     } = firingOrders
 

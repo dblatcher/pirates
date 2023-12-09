@@ -17,8 +17,8 @@ const initalState: GameState = {
         makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: 'grance',
-            x: 600,
-            y: 300,
+            x: 1000,
+            y: 900,
             h: _DEG * -90,
             id: 1,
             damage: 0,
@@ -40,7 +40,7 @@ const initalState: GameState = {
                 },
                 destination: undefined,
                 path: [],
-            }, 15, false)
+            }, 15, true)
         }),
         makeDefaultShip({
             name: 'follower two',
@@ -75,7 +75,7 @@ const initalState: GameState = {
                     ]
                 }, path: [
                 ],
-            }, 2, true)
+            }, 2, false)
         }),
         makeFrigateShip({
             id: 3,

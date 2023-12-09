@@ -26,7 +26,7 @@ export const approach = (
     return directives
 }
 
-export const approachUnlessBlocked = (
+export const approachOrFindIndirectPathUnlessBlocked = (
     gameState: GameState,
     cellMatrix: CellMatrix,
     target: XY,

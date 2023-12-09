@@ -17,6 +17,10 @@ export const SHIP_TURN_RATE = _DEG * 2.5
 /**The level of damage that starts to slow a ship */
 export const SHIP_DAMAGE_LEVEL_THAT_SLOWS = .5
 export const DEFAULT_ATTACK_RANGE = 600
+/** How close a pursuing ship will get to its target before trying to turn and fire */
+export const DEFAULT_FIRE_DISTANCE = 150
+/**How far a ship's actual target can get from the ship's current destination before the ship should set a new path */
+export const DISTANCE_TO_REEVAULATE_PATH = 300
 
 export const REPAIR_PERIOD = 25
 export const BATTLE_PERIOD = 25

@@ -88,10 +88,9 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 break
             }
             case Order.SET_AI_DESTINATION: {
-                const {ai} = ship
-                if (!ai) {return}
-                ai.state.destination = directive.target
-                ai.state.path = []
+                const { ai } = ship
+                if (!ai) { return }
+                ai.setDestination(directive.target)
                 break
             }
         }

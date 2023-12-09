@@ -36,6 +36,11 @@ export abstract class AI {
         }
     }
 
+    setDestination(point: XY | undefined): void {
+        this.state.destination = point
+        this.state.path = []
+    }
+
     setPathToDestination(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
 
