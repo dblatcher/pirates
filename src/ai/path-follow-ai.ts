@@ -10,9 +10,4 @@ export class PathFollowAutoPilot extends AI {
         directives.push(...followCurrentPath(this, ship))
         return directives
     }
-
-    decideOwnMission(_gameState: GameState): void {
-        throw new Error("Method not implemented.");
-    }
-
 }

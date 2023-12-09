@@ -46,8 +46,4 @@ export class AttackAutoPilot extends AI {
 
         return []
     }
-
-    decideOwnMission(_gameState: GameState): void {
-        throw new Error("Method not implemented.");
-    }
 }

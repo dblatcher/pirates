@@ -96,8 +96,6 @@ export abstract class AI {
         return { distance: Infinity }
     }
 
-    abstract decideOwnMission(gameState: GameState): void
-
     navigateTo(start: XY, destination: XY, matrix: CellMatrix): XY[] {
         return findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
     }

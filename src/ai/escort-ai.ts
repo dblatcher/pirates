@@ -29,9 +29,5 @@ export class EscortAutoPilot extends AI {
         return followShip(this, ship, shipToFollow, distanceToOtherShip, gameState, matrix)
 
     }
-
-    decideOwnMission(_gameState: GameState): void {
-        throw new Error("Method not implemented.");
-    }
 }
 
