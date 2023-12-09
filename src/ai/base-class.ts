@@ -41,29 +41,29 @@ export abstract class AI {
         this.state.path = []
     }
 
+    haveReachedDestination(ship: Ship): boolean | undefined {
+        const { destination } = this.state
+        return destination
+            ? getDistance(ship, destination) < TERRAIN_SQUARE_SIZE / 2
+            : undefined
+    }
+
     setPathToDestination(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
 
         if (!destination || path.length > 0) {
-            // check if still on course - recalculate path if not ?
-            // ie if line to next step is blocked,
-            // or more than some distance from it?
             return
         }
 
-        const distance = getDistance(ship, destination)
-        const haveReached = distance < TERRAIN_SQUARE_SIZE / 2
-        this.debugLog(`${distance.toFixed(0)} away from destination.`, { haveReached, destination })
-        if (haveReached) {
-            this.state.destination = undefined
-            return
+        if (this.haveReachedDestination(ship)) {
+            this.debugLog(`Already close to destination.`, destination)
+            return this.setDestination(undefined)
         }
 
         const route = this.navigateTo(ship, destination, matrix)
         if (route.length === 0) {
             this.debugLog('CANNOT REACH', destination)
-            this.state.destination = undefined
-            return
+            return this.setDestination(undefined)
         }
         this.debugLog(`new route to destination: ${route.length} steps`, destination)
         path.push(...route)
@@ -99,6 +99,32 @@ export abstract class AI {
         }
 
         return { distance: Infinity }
+    }
+
+    private useWaypoint(newWaypointIndex: number) {
+        const { waypoints } = this.state.mission
+        if (!waypoints || waypoints.length === 0) {
+            this.debugLog(`cannot set destination - mission has no waypoints`)
+            return
+        }
+
+        const waypoint = waypoints[newWaypointIndex]
+        if (!waypoint) {
+            this.debugLog(`There is no waypoint #${newWaypointIndex} - length is ${waypoints.length}`)
+        }
+        this.setDestination(waypoint)
+        this.state.mission.waypointIndex = newWaypointIndex
+        this.debugLog(`Waypoint #${newWaypointIndex} is destination`, waypoint)
+    }
+
+    setDestinationToNextWaypoint() {
+        const { waypointIndex = 0, waypoints = [] } = this.state.mission
+        this.useWaypoint(waypointIndex + 1 >= waypoints.length ? 0 : waypointIndex + 1)
+    }
+
+    setDestinationToCurrentWaypoint() {
+        const { waypointIndex = 0, } = this.state.mission
+        this.useWaypoint(waypointIndex)
     }
 
     navigateTo(start: XY, destination: XY, matrix: CellMatrix): XY[] {

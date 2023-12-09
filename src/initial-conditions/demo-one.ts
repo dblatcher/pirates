@@ -77,7 +77,7 @@ const initalState: GameState = {
             faction: 'spaim',
             ai: new AttackAutoPilot({
                 mission: {
-                    type: 'patrol', patrolPath: [
+                    type: 'patrol', waypoints: [
                         { x: 700, y: 1100 },
                         { x: 700, y: 650 },
                         { x: 400, y: 600 },

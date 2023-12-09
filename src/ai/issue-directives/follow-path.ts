@@ -7,7 +7,6 @@ export const followCurrentPath = (ai: AI, ship: Ship): Directive[] => {
     const [currentStep] = ai.state.path
 
     if (!currentStep) {
-        ai.debugLog('Path empty, ALL STOP')
         return [
             { order: Order.SAILS_TO, quantity: 0 },
             { order: Order.RESET_WHEEL },

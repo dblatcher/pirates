@@ -18,7 +18,7 @@ const initalState: GameState = {
             name: 'Player McPlayerFace',
             faction: 'grance',
             x: 1000,
-            y: 900,
+            y: 400,
             h: _DEG * -90,
             id: 1,
             damage: 0,
@@ -40,7 +40,7 @@ const initalState: GameState = {
                 },
                 destination: undefined,
                 path: [],
-            }, 15, true)
+            }, 15, false)
         }),
         makeDefaultShip({
             name: 'follower two',
@@ -70,12 +70,12 @@ const initalState: GameState = {
             id: 2,
             ai: new AttackAutoPilot({
                 mission: {
-                    type: 'attack', patrolPath: [
+                    type: 'patrol', waypoints: [
                         xy(800, 200), xy(600, 210)
                     ]
                 }, path: [
                 ],
-            }, 2, false)
+            }, 2, true)
         }),
         makeFrigateShip({
             id: 3,

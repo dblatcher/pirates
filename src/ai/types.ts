@@ -5,8 +5,8 @@ type MissionType = 'attack' | 'patrol' | 'follow'
 export type Mission = {
     type: MissionType,
     targetShipId?: number,
-    patrolPath?: XY[],
-    patrolPointIndex?: number,
+    waypoints?: XY[],
+    waypointIndex?: number,
 }
 
 export type AIState = {
