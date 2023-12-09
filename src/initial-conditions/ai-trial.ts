@@ -42,23 +42,23 @@ const initalState: GameState = {
                 path: [],
             }, 15, true)
         }),
-        // makeDefaultShip({
-        //     name: 'follower two',
-        //     faction: 'grance',
-        //     id: 16,
-        //     x: 1350,
-        //     y: 800,
-        //     h: 0 * _DEG,
-        //     damage:18,
-        //     ai: new EscortAutoPilot({
-        //         mission: {
-        //             type: 'follow',
-        //             targetShipId: 1
-        //         },
-        //         destination: undefined,
-        //         path: [],
-        //     }, 16, true)
-        // }),
+        makeDefaultShip({
+            name: 'follower two',
+            faction: 'grance',
+            id: 16,
+            x: 1350,
+            y: 1500,
+            h: 0 * _DEG,
+            damage:18,
+            ai: new EscortAutoPilot({
+                mission: {
+                    type: 'follow',
+                    targetShipId: 15
+                },
+                destination: undefined,
+                path: [],
+            }, 16, true)
+        }),
         makeDefaultShip({
             name: 'The Flying Goose',
             faction: 'grance',

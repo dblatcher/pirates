@@ -39,7 +39,7 @@ export const approachUnlessBlocked = (
         return stopAndTurnTowards(getHeadingFrom(ship, target))
     }
 
-    const isDirectPath = isDirectPathTo(target, ship, gameState, cellMatrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
+    const isDirectPath = isDirectPathTo(target, ship, cellMatrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
     if (!isDirectPath) {
         console.log('no direct path, will plot route')
         return [
