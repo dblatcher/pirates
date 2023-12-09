@@ -1,4 +1,4 @@
-import { PathFollowAutoPilot } from "../ai";
+import { AttackAutoPilot } from "../ai";
 import { EscortAutoPilot } from "../ai/escort-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
@@ -17,8 +17,8 @@ const initalState: GameState = {
         makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: 'grance',
-            x: 1060,
-            y: 920,
+            x: 600,
+            y: 300,
             h: _DEG * -90,
             id: 1,
             damage: 0,
@@ -40,7 +40,7 @@ const initalState: GameState = {
                 },
                 destination: undefined,
                 path: [],
-            }, 15, true)
+            }, 15, false)
         }),
         makeDefaultShip({
             name: 'follower two',
@@ -49,7 +49,7 @@ const initalState: GameState = {
             x: 1350,
             y: 1500,
             h: 0 * _DEG,
-            damage:18,
+            damage: 18,
             ai: new EscortAutoPilot({
                 mission: {
                     type: 'follow',
@@ -57,25 +57,25 @@ const initalState: GameState = {
                 },
                 destination: undefined,
                 path: [],
-            }, 16, true)
+            }, 16, false)
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
             faction: 'grance',
-            x: 300,
-            y: 0,
+            x: 600,
+            y: 200,
             h: Math.PI * .5,
             width: 15,
             length: 60,
             id: 2,
-            ai: new PathFollowAutoPilot(
-                {
-                    mission: {
-                        type: 'travel',
-                    },
-                    destination: { x: 100, y: 500 },
-                    path: []
-                }, 2, false),
+            ai: new AttackAutoPilot({
+                mission: {
+                    type: 'attack', patrolPath: [
+                        xy(800, 200), xy(600, 210)
+                    ]
+                }, path: [
+                ],
+            }, 2, true)
         }),
         makeFrigateShip({
             id: 3,
@@ -104,7 +104,18 @@ const initalState: GameState = {
                 [TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
             ]
         },
-
+        {
+            x: 550, y: 150,
+            shape: [
+                [TerrainType.PLAIN]
+            ]
+        },
+        {
+            x: 850, y: 250,
+            shape: [
+                [TerrainType.PLAIN]
+            ]
+        }
     ],
     towns: [
     ]
