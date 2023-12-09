@@ -91,6 +91,7 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 const {ai} = ship
                 if (!ai) {return}
                 ai.state.destination = directive.target
+                ai.state.path = []
                 break
             }
         }

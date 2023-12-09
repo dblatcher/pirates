@@ -60,17 +60,10 @@ export const cycle = (
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
         followDirectives(ship, ship.ai.issueDirectives(ship, game, matrix))
-    })
+        ship.ai.setPathToDestination(ship, game, matrix)
 
-    // logic may be quite expensive - don't need to run every cycle
-    // would be better to shard the ships and run some % each cycle
-    // see effect on performance, then decide.
-    if (game.cycleNumber % 2 == 0) {
-        game.ships.forEach(ship => {
-            if (!ship.ai) { return }
-            ship.ai.updatePath(ship, game, matrix)
-        })
-    }
+        // TO DO periodically check if the path needs re-evaluating?
+    })
 
     game.towns.forEach(town => {
         aimAndFireCannonsFromForts(town, gameState)

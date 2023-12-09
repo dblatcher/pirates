@@ -36,34 +36,32 @@ export abstract class AI {
         }
     }
 
-    updatePath(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
+    setPathToDestination(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
         const { destination, path } = this.state
-        if (destination && path.length === 0) {
-            const distance = getDistance(ship, destination)
-            if (distance < TERRAIN_SQUARE_SIZE / 2) {
-                this.debugLog('End of path, reached destination')
-                this.state.destination = undefined
-                // run decide own mission to see what next?
-                // or take next objective in current mission (not modelled yet)
-                return
-            }
-            this.debugLog(`End of path, not reached destination: ${distance.toFixed(0)} away`, path)
 
-            const route = this.navigateTo(ship, destination, matrix)
-            if (route.length === 0) {
-                this.debugLog('CANNOT REACH', destination)
-                // TO DO - choose another destination
-                return
-            }
-            this.debugLog(`new route to destination: ${route.length} steps`, destination)
-            path.push(...route)
+        if (!destination || path.length > 0) {
+            // check if still on course - recalculate path if not ?
+            // ie if line to next step is blocked,
+            // or more than some distance from it?
             return
         }
 
-        // this.debugLog(`${path.length} steps left in path`)
-        // check if still on course - recalculate path if not
-        // ie if line to next step is blocked,
-        // or more than some distance from it?
+        const distance = getDistance(ship, destination)
+        const haveReached = distance < TERRAIN_SQUARE_SIZE / 2
+        this.debugLog(`${distance.toFixed(0)} away from destination.`, { haveReached, destination })
+        if (haveReached) {
+            this.state.destination = undefined
+            return
+        }
+
+        const route = this.navigateTo(ship, destination, matrix)
+        if (route.length === 0) {
+            this.debugLog('CANNOT REACH', destination)
+            this.state.destination = undefined
+            return
+        }
+        this.debugLog(`new route to destination: ${route.length} steps`, destination)
+        path.push(...route)
     }
 
     getCurrentTarget(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {

@@ -41,7 +41,7 @@ export const approachUnlessBlocked = (
 
     const isDirectPath = isDirectPathTo(target, ship, cellMatrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
     if (!isDirectPath) {
-        console.log('no direct path, will plot route')
+        // console.log('no direct path, will plot route')
         return [
             { order: Order.SET_AI_DESTINATION, target },
             ...stopAndTurnTowards(getHeadingFrom(ship, target))

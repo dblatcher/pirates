@@ -14,7 +14,6 @@ enum FollowPlan {
 export const followShip = (_ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState, matrix: CellMatrix): Directive[] => {
 
     let plan: FollowPlan = FollowPlan.Stop;
-
     const targetSpeed = getSpeed(shipToFollow, gameState)
 
     // TO DO - determine at what angle to follow the ship
