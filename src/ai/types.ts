@@ -1,7 +1,9 @@
 import { XY } from "../lib/geometry";
 
+type MissionType = 'attack' | 'patrol' | 'follow'
+
 export type Mission = {
-    type: string,
+    type: MissionType,
     targetShipId?: number,
     patrolPath?: XY[],
     patrolPointIndex?: number,
