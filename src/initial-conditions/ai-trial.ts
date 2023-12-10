@@ -1,3 +1,4 @@
+import { EscortAutoPilot } from "../ai/escort-ai";
 import { MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
@@ -32,14 +33,7 @@ const initalState: GameState = {
             y: 1250,
             h: 180 * _DEG,
             // damage:15,
-            ai: new MissonAi({
-                mission: {
-                    type: 'follow',
-                    targetShipId: 1
-                },
-                destination: undefined,
-                path: [],
-            }, 15, false)
+            ai: new EscortAutoPilot(1, 16, false)
         }),
         makeDefaultShip({
             name: 'follower two',
@@ -49,14 +43,7 @@ const initalState: GameState = {
             y: 1500,
             h: 0 * _DEG,
             damage: 12,
-            ai: new MissonAi({
-                mission: {
-                    type: 'follow',
-                    targetShipId: 15
-                },
-                destination: undefined,
-                path: [],
-            }, 16, false)
+            ai: new EscortAutoPilot(15, 16, false)
         }),
         makeDefaultShip({
             name: 'The Flying Goose',

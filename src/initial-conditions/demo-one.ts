@@ -34,13 +34,7 @@ const initalState: GameState = {
             y: 1300,
             h: 0,
             // damage:15,
-            ai: new EscortAutoPilot({
-                mission: {
-                    type: 'follow',
-                    targetShipId: 1
-                },
-                path: [],
-            }, 15, true)
+            ai: new EscortAutoPilot(1, 15, true)
         }),
         makeDefaultShip({
             name: 'The Flying Goose',
