@@ -1,3 +1,4 @@
+import { DescisonContext } from "../types"
 import { DEFAULT_FIRE_DISTANCE, Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
 import { getVectorFrom, getHeading, _90_DEG_LEFT, normaliseHeading, _DEG, XY, getDistance } from "../../lib/geometry"
 
@@ -10,6 +11,7 @@ const pickSideToUse = (firingShip: Ship, headingToTarget: number): Side => {
 }
 
 export const turnToAndFire = (
+    { ship }: DescisonContext,
     firingOrders: {
         target: XY;
         range?: number;
@@ -17,7 +19,6 @@ export const turnToAndFire = (
         maxRange?: number;
         maxAngle?: number;
     },
-    ship: Ship
 ): Directive[] => {
 
     const directives: Directive[] = []

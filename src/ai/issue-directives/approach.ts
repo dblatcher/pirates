@@ -1,15 +1,15 @@
-import { Directive, GameState, Order, Ship } from "../../game-state"
+import { Directive, Order } from "../../game-state"
 import { isLandAt } from "../../game-state/land"
 import { XY, _DEG, getHeading, getHeadingFrom, getVectorFrom, normaliseHeading } from "../../lib/geometry"
 import { isDirectPathTo } from "../../lib/path-finding/direct-route"
-import { CellMatrix } from "../../lib/path-finding/types"
+import { DescisonContext } from "../types"
 import { stopAndTurnTowards } from "./stop-and-turn"
 
 
 
 export const approach = (
+    { ship }: DescisonContext,
     target: XY,
-    ship: Ship,
     sailLevel?: number,
 ): Directive[] => {
     const directives: Directive[] = []
@@ -27,19 +27,17 @@ export const approach = (
 }
 
 export const approachOrFindIndirectPathUnlessBlocked = (
-    gameState: GameState,
-    cellMatrix: CellMatrix,
+    context: DescisonContext,
     target: XY,
-    ship: Ship,
     sailLevel?: number,
 ): Directive[] => {
-
+    const { ship, gameState, matrix } = context
     const blocked = isLandAt(target, gameState.land) // TO DO - check forts!
     if (blocked) {
         return stopAndTurnTowards(getHeadingFrom(ship, target))
     }
 
-    const isDirectPath = isDirectPathTo(target, ship, cellMatrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
+    const isDirectPath = isDirectPathTo(target, ship, matrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
     if (!isDirectPath) {
         // console.log('no direct path, will plot route')
         return [
@@ -47,5 +45,5 @@ export const approachOrFindIndirectPathUnlessBlocked = (
             ...stopAndTurnTowards(getHeadingFrom(ship, target))
         ]
     }
-    return approach(target, ship, sailLevel)
+    return approach(context, target, sailLevel)
 }

@@ -51,10 +51,10 @@ const determinePlan = (
 
 export const followShip = (
     ai: AI,
-    { gameState, matrix, ship }: DescisonContext,
+    context: DescisonContext,
     shipToFollow: Ship, distanceToOtherShip: number,
 ): Directive[] => {
-
+    const { gameState, ship } = context
     const distanceBetweenTargetAndDestination = ai.state.destination ? getDistance(ai.state.destination, shipToFollow) : 0
     if (distanceBetweenTargetAndDestination > DISTANCE_TO_REEVAULATE_PATH) {
         ai.debugLog(`target is ${distanceBetweenTargetAndDestination.toFixed(0)} from current destination - clearing`)
@@ -65,13 +65,13 @@ export const followShip = (
 
     switch (plan) {
         case FollowPlan.CatchUp:
-            return approachOrFindIndirectPathUnlessBlocked(gameState, matrix, targetPoint, ship, 1)
+            return approachOrFindIndirectPathUnlessBlocked(context, targetPoint, 1)
         case FollowPlan.MatchSpeed:
-            return approachOrFindIndirectPathUnlessBlocked(gameState, matrix, targetPoint, ship, calculateRequiredSailLevel(targetSpeed, ship, gameState))
+            return approachOrFindIndirectPathUnlessBlocked(context, targetPoint, calculateRequiredSailLevel(targetSpeed, ship, gameState))
         case FollowPlan.ReachTargetPoint:
-            return approach(targetPoint, ship, calculateRequiredSailLevel(.75, ship, gameState))
+            return approach(context, targetPoint, calculateRequiredSailLevel(.75, ship, gameState))
         case FollowPlan.UseCurrentPath:
-            return followCurrentPath(ai, ship)
+            return followCurrentPath(ai, context)
         case FollowPlan.Stop:
             return stopAndTurnTowards(getHeadingFrom(ship, shipToFollow))
     }

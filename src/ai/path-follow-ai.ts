@@ -6,7 +6,7 @@ export class PathFollowAutoPilot extends AI {
 
     issueDirectives(context: DescisonContext): Directive[] {
         const directives: Directive[] = []
-        directives.push(...followCurrentPath(this, context.ship))
+        directives.push(...followCurrentPath(this, context))
         return directives
     }
 }

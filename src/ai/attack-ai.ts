@@ -23,16 +23,16 @@ export class AttackAutoPilot extends AI {
         const { ship: targetShip, distance: range } = this.getCurrentTargetOrChooseClosest(ship, enemies)
         if (targetShip) {
             if (range > DEFAULT_FIRE_DISTANCE) {
-                return approach(targetShip, ship)
+                return approach(context, targetShip)
             }
             return [
                 { order: Order.SAILS_TO, quantity: .5 },
-                ...turnToAndFire({ target: targetShip, range }, ship)
+                ...turnToAndFire(context, { target: targetShip, range })
             ]
         }
 
         if (!targetShip) {
-            return followCurrentPath(this, ship)
+            return followCurrentPath(this, context)
         }
 
         return []
