@@ -1,13 +1,12 @@
-import { AI } from ".";
-import { Directive, GameState, Ship } from "../game-state";
-import { CellMatrix } from "../lib/path-finding/types";
+import { AI, DescisonContext } from ".";
+import { Directive } from "../game-state";
 import { followCurrentPath } from "./issue-directives/follow-path";
 
 export class PathFollowAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, _gameState: GameState, _matrix: CellMatrix): Directive[] {
+    issueDirectives(context: DescisonContext): Directive[] {
         const directives: Directive[] = []
-        directives.push(...followCurrentPath(this, ship))
+        directives.push(...followCurrentPath(this, context.ship))
         return directives
     }
 }

@@ -3,7 +3,7 @@ import { describeShipWithId } from "../game-state/ship";
 import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";
-import { AIState } from "./types";
+import { AIState, DescisonContext } from "./types";
 
 
 
@@ -23,7 +23,7 @@ export abstract class AI {
         console.log(`[SHIP:${this.shipId}]`, ...messages)
     }
 
-    abstract issueDirectives(ship: Ship, gameState: GameState, grid: CellMatrix): Directive[]
+    abstract issueDirectives(context: DescisonContext): Directive[]
 
     shiftPathIfReachedPoint(ship: Ship) {
         const [currentStep] = this.state.path

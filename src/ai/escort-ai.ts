@@ -1,15 +1,14 @@
-import { AI } from ".";
-import { Directive, GameState, Order, Ship } from "../game-state";
-import { CellMatrix } from "../lib/path-finding/types";
+import { AI, DescisonContext } from ".";
+import { Directive, Order } from "../game-state";
 import { followShip } from "./issue-directives/follow-ship";
 
 
 export class EscortAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, gameState: GameState, matrix: CellMatrix): Directive[] {
+    issueDirectives(context: DescisonContext): Directive[] {
 
         // NOTE - assumes the escort know where the target is regardless of distance
-        const { ship: shipToFollow, distance: distanceToOtherShip } = this.getCurrentTarget(ship, gameState.ships)
+        const { ship: shipToFollow, distance: distanceToOtherShip } = this.getCurrentTarget(context.ship, context.gameState.ships)
 
         if (!shipToFollow) {
             this.debugLog(`Escort Target ship#${this.state.mission.targetShipId} is gone.`)
@@ -20,7 +19,7 @@ export class EscortAutoPilot extends AI {
         }
 
         // TO DO - attack enemies near shipToFollow
-        return followShip(this, ship, shipToFollow, distanceToOtherShip, gameState, matrix)
+        return followShip(this, context, shipToFollow, distanceToOtherShip)
 
     }
 }

@@ -1,7 +1,6 @@
-import { AI } from ".";
-import { DEFAULT_FIRE_DISTANCE, Directive, GameState, Order, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
+import { AI, DescisonContext } from ".";
+import { DEFAULT_FIRE_DISTANCE, Directive, Order, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { getDistance } from "../lib/geometry";
-import { CellMatrix } from "../lib/path-finding/types";
 import { identifyShips } from "./identify-ships";
 import { approach } from "./issue-directives/approach";
 import { followCurrentPath } from "./issue-directives/follow-path";
@@ -10,7 +9,8 @@ import { turnToAndFire } from "./issue-directives/target-and-fire";
 
 export class AttackAutoPilot extends AI {
 
-    issueDirectives(ship: Ship, gameState: GameState, _matrix: CellMatrix): Directive[] {
+    issueDirectives(context: DescisonContext): Directive[] {
+        const { ship, gameState } = context
         const { enemies } = identifyShips(ship, gameState)
 
         if (!this.state.destination) {

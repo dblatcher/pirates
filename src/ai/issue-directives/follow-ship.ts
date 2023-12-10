@@ -1,8 +1,7 @@
-import { AI } from "..";
+import { AI, DescisonContext } from "..";
 import { DISTANCE_TO_REEVAULATE_PATH, Directive, GameState, Ship } from "../../game-state";
 import { calculateRequiredSailLevel, getSpeed } from "../../game-state/ship/calculate-speed";
 import { XY, _DEG, getDistance, getHeadingFrom, getXYVector, translate } from "../../lib/geometry";
-import { CellMatrix } from "../../lib/path-finding/types";
 import { approach, approachOrFindIndirectPathUnlessBlocked } from "./approach";
 import { followCurrentPath } from "./follow-path";
 import { stopAndTurnTowards } from "./stop-and-turn";
@@ -51,7 +50,9 @@ const determinePlan = (
 }
 
 export const followShip = (
-    ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState, matrix: CellMatrix
+    ai: AI,
+    { gameState, matrix, ship }: DescisonContext,
+    shipToFollow: Ship, distanceToOtherShip: number,
 ): Directive[] => {
 
     const distanceBetweenTargetAndDestination = ai.state.destination ? getDistance(ai.state.destination, shipToFollow) : 0

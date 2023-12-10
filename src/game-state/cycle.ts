@@ -42,53 +42,53 @@ const updateWind = (game: GameState) => {
 }
 
 export const cycle = (
-    gameState: GameState,
+    oldGameState: GameState,
     playerDirectives: Directive[],
     matrix: CellMatrix,
     pushLog: { (newLog: string): void }
 ): GameState => {
-    const game = { ...gameState }
-    game.cycleNumber = game.cycleNumber + 1
-    updateWind(gameState)
+    const gameState = { ...oldGameState }
+    gameState.cycleNumber = gameState.cycleNumber + 1
+    updateWind(oldGameState)
 
-    const player = game.ships.find(ship => ship.id === game.playerId)
+    const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
         followDirectives(player, playerDirectives)
     }
 
-    game.ships.forEach(ship => {
+    gameState.ships.forEach(ship => {
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
-        followDirectives(ship, ship.ai.issueDirectives(ship, game, matrix))
-        ship.ai.setPathToDestination(ship, game, matrix)
+        followDirectives(ship, ship.ai.issueDirectives({ship, gameState, matrix}))
+        ship.ai.setPathToDestination(ship, gameState, matrix)
 
         // TO DO periodically check if the path needs re-evaluating?
     })
 
-    game.towns.forEach(town => {
-        aimAndFireCannonsFromForts(town, gameState)
+    gameState.towns.forEach(town => {
+        aimAndFireCannonsFromForts(town, oldGameState)
     })
 
     const collisons: Collison[] = []
-    game.ships.forEach(ship => {
-        updateShip(ship, gameState, collisons, pushLog)
+    gameState.ships.forEach(ship => {
+        updateShip(ship, oldGameState, collisons, pushLog)
     })
-    game.projectiles.forEach(projectile => {
+    gameState.projectiles.forEach(projectile => {
         updateProjectile(projectile)
     })
-    game.towns.forEach(town => {
-        updateTown(town, gameState)
+    gameState.towns.forEach(town => {
+        updateTown(town, oldGameState)
     })
-    game.effects.forEach(effect => {
+    gameState.effects.forEach(effect => {
         updateEffect(effect)
     })
-    game.effects = game.effects.filter(effect => effect.timeLeft > 0)
-    collisons.forEach(collison => handleShipCollison(collison, game))
+    gameState.effects = gameState.effects.filter(effect => effect.timeLeft > 0)
+    collisons.forEach(collison => handleShipCollison(collison, gameState))
 
-    fireCannons(game)
-    handleProjectileHitsAndLandings(game, pushLog)
-    removeSinkingShips(game, pushLog)
+    fireCannons(gameState)
+    handleProjectileHitsAndLandings(gameState, pushLog)
+    removeSinkingShips(gameState, pushLog)
 
-    return game
+    return gameState
 }
 
