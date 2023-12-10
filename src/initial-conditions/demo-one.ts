@@ -95,7 +95,7 @@ const initalState: GameState = {
             h: _DEG * 30,
             faction: 'spaim',
             ai: new AttackAutoPilot({
-                mission: { type: 'attack' },
+                mission: { type: 'patrol' },
                 path: [],
             }, 4, false)
         }),
@@ -108,7 +108,7 @@ const initalState: GameState = {
             damage: 10,
             faction: 'grance',
             ai: new AttackAutoPilot({
-                mission: { type: 'attack' },
+                mission: { type: 'patrol' },
                 path: [],
             }, 5, false)
         }),

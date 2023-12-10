@@ -1,5 +1,4 @@
-import { AttackAutoPilot } from "../ai";
-import { EscortAutoPilot } from "../ai/escort-ai";
+import { MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { InitialConditions, makeDefaultShip, makeFrigateShip } from "../game-state/ship";
@@ -33,7 +32,7 @@ const initalState: GameState = {
             y: 1250,
             h: 180 * _DEG,
             // damage:15,
-            ai: new EscortAutoPilot({
+            ai: new MissonAi({
                 mission: {
                     type: 'follow',
                     targetShipId: 1
@@ -49,8 +48,8 @@ const initalState: GameState = {
             x: 1350,
             y: 1500,
             h: 0 * _DEG,
-            damage: 18,
-            ai: new EscortAutoPilot({
+            damage: 12,
+            ai: new MissonAi({
                 mission: {
                     type: 'follow',
                     targetShipId: 15
@@ -68,7 +67,7 @@ const initalState: GameState = {
             width: 15,
             length: 60,
             id: 2,
-            ai: new AttackAutoPilot({
+            ai: new MissonAi({
                 mission: {
                     type: 'patrol', waypoints: [
                         xy(800, 200), xy(600, 210)

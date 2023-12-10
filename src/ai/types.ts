@@ -2,7 +2,7 @@ import { GameState, Ship } from "../game-state";
 import { XY } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 
-type MissionType = 'attack' | 'patrol' | 'follow'
+type MissionType = 'patrol' | 'follow' | 'travel'
 
 export type Mission = {
     type: MissionType,
