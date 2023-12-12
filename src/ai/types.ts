@@ -15,6 +15,7 @@ export type AIState = {
     mission: Mission;
     destination?: XY;
     path: XY[];
+    lastCycleWithPathfinding?: number;
 }
 
 export type DescisonContext = {

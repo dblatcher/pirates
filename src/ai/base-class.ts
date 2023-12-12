@@ -1,5 +1,5 @@
 import { Directive, GameState, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
-import { describeShipWithId } from "../game-state/ship";
+import { MIN_CYCLES_BETWEEN_PATH_FINDING, describeShipWithId } from "../game-state/ship";
 import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";
@@ -48,10 +48,15 @@ export abstract class AI {
             : undefined
     }
 
-    setPathToDestination(ship: Ship, _gameState: GameState, matrix: CellMatrix): void {
-        const { destination, path } = this.state
+    setPathToDestination(ship: Ship, gameState: GameState, matrix: CellMatrix): void {
+        const { destination, path, lastCycleWithPathfinding = -MIN_CYCLES_BETWEEN_PATH_FINDING } = this.state
 
         if (!destination || path.length > 0) {
+            return
+        }
+
+        if (gameState.cycleNumber - lastCycleWithPathfinding < MIN_CYCLES_BETWEEN_PATH_FINDING) {
+            this.debugLog('cannot pathfind again so soon!', gameState.cycleNumber - lastCycleWithPathfinding)
             return
         }
 
@@ -60,13 +65,7 @@ export abstract class AI {
             return this.setDestination(undefined)
         }
 
-        const route = this.navigateTo(ship, destination, matrix)
-        if (route.length === 0) {
-            this.debugLog('CANNOT REACH', destination)
-            return this.setDestination(undefined)
-        }
-        this.debugLog(`new route to destination: ${route.length} steps`, destination)
-        path.push(...route)
+        this.navigateTo(ship, destination, matrix, gameState.cycleNumber)
     }
 
     getCurrentTarget(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
@@ -127,7 +126,14 @@ export abstract class AI {
         this.useWaypoint(waypointIndex)
     }
 
-    navigateTo(start: XY, destination: XY, matrix: CellMatrix): XY[] {
-        return findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
+    navigateTo(start: XY, destination: XY, matrix: CellMatrix, cycleNumber: number) {
+        const route = findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
+        this.state.lastCycleWithPathfinding = cycleNumber
+        if (route.length === 0) {
+            this.debugLog('CANNOT REACH', destination)
+            this.setDestination(undefined)
+        }
+        this.debugLog(`new route to destination: ${route.length} steps`, destination)
+        this.state.path.push(...route)
     }
 }

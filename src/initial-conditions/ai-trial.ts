@@ -29,10 +29,10 @@ const initalState: GameState = {
             name: 'follower one',
             faction: 'spaim',
             id: 15,
-            x: 850,
-            y: 950,
+            x: 1250,
+            y: 1200,
             h: 180 * _DEG,
-            // damage:15,
+            damage: 19,
             ai: new HunterAi(1, 16, true)
         }),
         makeDefaultShip({
@@ -66,10 +66,10 @@ const initalState: GameState = {
         makeFrigateShip({
             id: 3,
             name: 'The Dead Duck',
-            x: 1550,
-            y: 300,
-            h: Math.PI * 1.4,
-            damage: 10,
+            x: 550,
+            y: 700,
+            h: _DEG * 0,
+            damage: 0,
         }),
 
     ],
@@ -88,6 +88,19 @@ const initalState: GameState = {
                 [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
                 [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
                 [TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
+            ]
+        },
+        {
+            x: 400,
+            y: 500,
+            shape: [
+                [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, undefined, undefined, undefined, undefined, undefined, undefined, TerrainType.PLAIN],
+                [TerrainType.PLAIN, TerrainType.SWAMP, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN, TerrainType.PLAIN],
             ]
         },
         {
