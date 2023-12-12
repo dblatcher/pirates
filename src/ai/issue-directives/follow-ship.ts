@@ -86,9 +86,9 @@ export const followShip = (
 
     switch (plan) {
         case FollowPlan.CatchUp:
-            return approachOrFindIndirectPathUnlessBlocked(context, targetPoint, 1)
+            return approachOrFindIndirectPathUnlessBlocked(ai, context, targetPoint, 1)
         case FollowPlan.MatchSpeed:
-            return approachOrFindIndirectPathUnlessBlocked(context, targetPoint, calculateRequiredSailLevel(targetSpeed, ship, gameState))
+            return approachOrFindIndirectPathUnlessBlocked(ai, context, targetPoint, calculateRequiredSailLevel(targetSpeed, ship, gameState))
         case FollowPlan.ReachTargetPoint:
             return approach(context, targetPoint, calculateRequiredSailLevel(.75, ship, gameState))
         case FollowPlan.UseCurrentPath:

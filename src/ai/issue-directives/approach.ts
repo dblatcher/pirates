@@ -2,6 +2,7 @@ import { Directive, Order } from "../../game-state"
 import { isLandAt } from "../../game-state/land"
 import { XY, _DEG, getHeading, getHeadingFrom, getVectorFrom, normaliseHeading } from "../../lib/geometry"
 import { isDirectPathTo } from "../../lib/path-finding/direct-route"
+import { AI } from "../base-class"
 import { DescisonContext } from "../types"
 import { stopAndTurnTowards } from "./stop-and-turn"
 
@@ -27,6 +28,7 @@ export const approach = (
 }
 
 export const approachOrFindIndirectPathUnlessBlocked = (
+    ai: AI,
     context: DescisonContext,
     target: XY,
     sailLevel?: number,
@@ -37,13 +39,10 @@ export const approachOrFindIndirectPathUnlessBlocked = (
         return stopAndTurnTowards(getHeadingFrom(ship, target))
     }
 
-    const isDirectPath = isDirectPathTo(target, ship, matrix) // TODO - check if no land is in the way - need to be very efficient, not check every cycle or store the result somehow
+    const isDirectPath = isDirectPathTo(target, ship, matrix)
     if (!isDirectPath) {
-        // console.log('no direct path, will plot route')
-        return [
-            { order: Order.SET_AI_DESTINATION, target },
-            ...stopAndTurnTowards(getHeadingFrom(ship, target))
-        ]
+        ai.setDestination(target)
+        stopAndTurnTowards(getHeadingFrom(ship, target))
     }
     return approach(context, target, sailLevel)
 }
