@@ -1,7 +1,7 @@
 import { AI, DescisonContext } from "..";
 import { DISTANCE_TO_REEVAULATE_PATH, Directive, GameState, Ship } from "../../game-state";
 import { calculateRequiredSailLevel, getSpeed } from "../../game-state/ship/calculate-speed";
-import { XY, _DEG, getDistance, getHeadingFrom, getXYVector, translate } from "../../lib/geometry";
+import { XY, _DEG, getDistance, getHeadingFrom, getXYVector, translate, xy } from "../../lib/geometry";
 import { approach, approachOrFindIndirectPathUnlessBlocked } from "./approach";
 import { followCurrentPath } from "./follow-path";
 import { stopAndTurnTowards } from "./stop-and-turn";
@@ -11,7 +11,7 @@ enum FollowPlan {
 }
 
 
-const determinePlan = (
+const determinePlanToEscort = (
     ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState,
 ): { plan: FollowPlan, targetPoint: XY, targetSpeed: number } => {
 
@@ -49,6 +49,24 @@ const determinePlan = (
     return { plan: FollowPlan.Stop, targetPoint, targetSpeed }
 }
 
+export const determinePlanToHunt = (
+    ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState,
+): { plan: FollowPlan, targetPoint: XY, targetSpeed: number } => {
+
+    const targetPoint = xy(shipToFollow.x, shipToFollow.y)
+    const targetSpeed = 1
+
+    if (ai.state.destination) {
+        return {
+            plan: FollowPlan.UseCurrentPath,
+            targetSpeed,
+            targetPoint: ai.state.destination,
+        }
+    }
+
+    return { plan: FollowPlan.CatchUp, targetPoint, targetSpeed }
+}
+
 export const followShip = (
     ai: AI,
     context: DescisonContext,
@@ -61,7 +79,10 @@ export const followShip = (
         ai.setDestination(undefined)
     }
 
-    const { plan, targetPoint, targetSpeed } = determinePlan(ai, ship, shipToFollow, distanceToOtherShip, gameState)
+    // TO DO - do we want to use the mission tyep this way?
+    const { plan, targetPoint, targetSpeed } = ai.state.mission.type === 'hunt'
+        ? determinePlanToHunt(ai, ship, shipToFollow, distanceToOtherShip, gameState)
+        : determinePlanToEscort(ai, ship, shipToFollow, distanceToOtherShip, gameState)
 
     switch (plan) {
         case FollowPlan.CatchUp:

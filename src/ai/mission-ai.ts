@@ -1,6 +1,7 @@
-import { AI, DescisonContext } from ".";
+import { AI, AIState, DescisonContext } from ".";
 import { Directive } from "../game-state";
 import { performEscortMission } from "./high-level-logic/escort-mission";
+import { performHuntMission } from "./high-level-logic/hunt-misson";
 import { performPatrolMission } from "./high-level-logic/patrol-misson";
 import { followCurrentPath } from "./issue-directives/follow-path";
 
@@ -15,7 +16,22 @@ export class MissonAi extends AI {
                 return performEscortMission(this, context)
             case "travel":
                 return followCurrentPath(this, context) // to do - write mission function using waypoints
+            case 'hunt':
+                return performHuntMission(this, context)
             default: return []
         }
+    }
+}
+
+export class HunterAi extends MissonAi {
+    constructor(idOfShipToEscort: number, shipId: number, debugToConsole = false) {
+        const initalState: AIState = {
+            mission: {
+                type: 'hunt',
+                targetShipId: idOfShipToEscort
+            },
+            path: [],
+        }
+        super(initalState, shipId, debugToConsole)
     }
 }

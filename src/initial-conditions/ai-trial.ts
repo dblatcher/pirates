@@ -1,5 +1,5 @@
 import { EscortAutoPilot } from "../ai/escort-ai";
-import { MissonAi } from "../ai/mission-ai";
+import { HunterAi, MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { InitialConditions, makeDefaultShip, makeFrigateShip } from "../game-state/ship";
@@ -27,13 +27,13 @@ const initalState: GameState = {
         }),
         makeDefaultShip({
             name: 'follower one',
-            faction: 'grance',
+            faction: 'spaim',
             id: 15,
-            x: 1050,
-            y: 1250,
+            x: 850,
+            y: 950,
             h: 180 * _DEG,
             // damage:15,
-            ai: new EscortAutoPilot(1, 16, false)
+            ai: new HunterAi(1, 16, true)
         }),
         makeDefaultShip({
             name: 'follower two',
@@ -61,7 +61,7 @@ const initalState: GameState = {
                     ]
                 }, path: [
                 ],
-            }, 2, true)
+            }, 2, false)
         }),
         makeFrigateShip({
             id: 3,
