@@ -103,7 +103,7 @@ export abstract class AI {
     private useWaypoint(newWaypointIndex: number) {
         const { waypoints } = this.state.mission
         if (!waypoints || waypoints.length === 0) {
-            this.debugLog(`cannot set destination - mission has no waypoints`)
+            // this.debugLog(`cannot set destination - mission has no waypoints`)
             return
         }
 

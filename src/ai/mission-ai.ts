@@ -3,7 +3,7 @@ import { Directive } from "../game-state";
 import { performEscortMission } from "./high-level-logic/escort-mission";
 import { performHuntMission } from "./high-level-logic/hunt-misson";
 import { performPatrolMission } from "./high-level-logic/patrol-misson";
-import { followCurrentPath } from "./issue-directives/follow-path";
+import { performTravelMission } from "./high-level-logic/travel-mission";
 
 
 export class MissonAi extends AI {
@@ -15,7 +15,7 @@ export class MissonAi extends AI {
             case "follow":
                 return performEscortMission(this, context)
             case "travel":
-                return followCurrentPath(this, context) // to do - write mission function using waypoints
+                return performTravelMission(this, context)
             case 'hunt':
                 return performHuntMission(this, context)
             default: return []

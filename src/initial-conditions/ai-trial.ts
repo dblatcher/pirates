@@ -63,11 +63,28 @@ const initalState: GameState = {
                 ],
             }, 2, false)
         }),
+        makeDefaultShip({
+            id: 27,
+            faction: 'grance',
+            name: 'patrol with no path',
+            x: 650,
+            y: 750,
+            h: _DEG * 184,
+            ai: new MissonAi({
+                mission: {
+                    type: 'travel', waypoints: [
+                        xy(650, 650),
+                        xy(650, 750),
+                    ]
+                }, path: [
+                ],
+            }, 27, true)
+        }),
         makeFrigateShip({
             id: 3,
             name: 'The Dead Duck',
             x: 550,
-            y: 700,
+            y: 650,
             h: _DEG * 0,
             damage: 0,
         }),

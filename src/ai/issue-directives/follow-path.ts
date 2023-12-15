@@ -5,7 +5,6 @@ import { AI } from "../base-class"
 
 export const followCurrentPath = (ai: AI, { ship }: DescisonContext): Directive[] => {
     const [currentStep] = ai.state.path
-
     if (!currentStep) {
         return [
             { order: Order.SAILS_TO, quantity: 0 },
