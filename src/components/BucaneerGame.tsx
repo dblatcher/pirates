@@ -9,6 +9,10 @@ import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { SoundDeck } from 'sound-deck'
+import { SoundEffectRequest, soundEffects } from '../game-state/model/sound'
+import { isPointInsideRect } from '../lib/geometry'
+import { viewPortToRect } from '../game-state/helpers'
 
 interface Props {
     initial: GameState;
@@ -16,6 +20,7 @@ interface Props {
     mapWidth: number;
     obstacleMatrix: CellMatrix;
     landMatrix: CellMatrix;
+    soundDeck: SoundDeck;
 }
 
 const magnify = 2 / 3
@@ -31,8 +36,10 @@ const makeRefresh = (
     getAndClearDirectives: { (): Directive[] },
     updateTimeTracking: { (refreshStart: number): void },
     pushLog: { (message: string): void },
+    soundDeck: SoundDeck,
 ) => () => {
     const refreshStart = Date.now()
+    const soundEffectRequests: SoundEffectRequest[] = []
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     if (player) {
@@ -48,13 +55,21 @@ const makeRefresh = (
         getAndClearDirectives(),
         obstacleMatrix,
         pushLog,
+        soundEffectRequests,
     )
     Object.assign(gameStateRef.current, updatedGame)
+
+    const viewRect = viewPortToRect(viewPortRef.current)
+    const soundsInView = soundEffectRequests.filter(request => isPointInsideRect(request.position, viewRect))
+    soundsInView
+        .forEach(sound => {
+            soundDeck.playTone(soundEffects[sound.sfx].tone)
+        })
 
     updateTimeTracking(refreshStart)
 }
 
-export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix }: Props) => {
+export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix, soundDeck }: Props) => {
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
@@ -98,7 +113,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     )
 
     const refresh = useCallback(
-        makeRefresh(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog,),
+        makeRefresh(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
         [getAndClearDirectives, updateTimeTracking]
     )
 

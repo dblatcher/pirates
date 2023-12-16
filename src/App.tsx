@@ -21,7 +21,9 @@ function App() {
       obstacleMatrix={landAndForts}
       landMatrix={land}
       mapHeight={mapHeight}
-      mapWidth={mapWidth} />
+      mapWidth={mapWidth}
+      soundDeck={soundDeck}
+    />
   </>
 }
 

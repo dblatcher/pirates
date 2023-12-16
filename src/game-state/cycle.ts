@@ -1,3 +1,4 @@
+import { SoundDeck } from "sound-deck";
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
@@ -6,6 +7,7 @@ import { createImpact, createSplash, updateEffect } from "./effect";
 import { Collison, Directive, GameState, MAX_WIND } from "./model";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { updateTown, aimAndFireCannonsFromForts } from "./towns";
+import { SoundEffectRequest } from "./model/sound";
 
 
 
@@ -19,10 +21,11 @@ const handleShipCollison = (collision: Collison, game: GameState) => {
     // TO DO - game logic to decide which ships take damage
 }
 
-const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }) => {
+const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }, soundEffectRequests: SoundEffectRequest[],) => {
     const [shipsSinking, shipsNotSinking] = splitArray(game.ships, (ship => ship.damage >= ship.profile.maxHp))
     game.ships = shipsNotSinking
     shipsSinking.forEach(ship => {
+        soundEffectRequests.push({ position: ship, sfx: 'shipSink' })
         pushLog(`${ship.name || 'a ship'} sinks!`)
         createSplash({ ...ship, radius: 30, timeLeft: 100 }, game)
         createSplash({ ...ship, radius: 25, timeLeft: 100 }, game)
@@ -45,7 +48,8 @@ export const cycle = (
     oldGameState: GameState,
     playerDirectives: Directive[],
     matrix: CellMatrix,
-    pushLog: { (newLog: string): void }
+    pushLog: { (newLog: string): void },
+    soundEffectRequests: SoundEffectRequest[],
 ): GameState => {
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
@@ -59,7 +63,7 @@ export const cycle = (
     gameState.ships.forEach(ship => {
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
-        followDirectives(ship, ship.ai.issueDirectives({ship, gameState, matrix}))
+        followDirectives(ship, ship.ai.issueDirectives({ ship, gameState, matrix }))
         ship.ai.setPathToDestination(ship, gameState, matrix)
 
         // TO DO periodically check if the path needs re-evaluating?
@@ -85,9 +89,9 @@ export const cycle = (
     gameState.effects = gameState.effects.filter(effect => effect.timeLeft > 0)
     collisons.forEach(collison => handleShipCollison(collison, gameState))
 
-    fireCannons(gameState)
-    handleProjectileHitsAndLandings(gameState, pushLog)
-    removeSinkingShips(gameState, pushLog)
+    fireCannons(gameState, soundEffectRequests)
+    handleProjectileHitsAndLandings(gameState, pushLog, soundEffectRequests)
+    removeSinkingShips(gameState, pushLog, soundEffectRequests)
 
     return gameState
 }
