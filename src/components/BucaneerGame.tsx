@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { getTownShipIsInvading } from '../game-state/towns'
-import { useInterval } from '../hooks/useInterval'
+import { useSchedule } from '../hooks/useSchedule'
 import { CellMatrix } from '../lib/path-finding/types'
 import { average } from '../lib/util'
 import { GameControls } from './GameControls'
@@ -18,7 +18,7 @@ interface Props {
     landMatrix: CellMatrix;
 }
 
-const magnify = 1 / 3
+const magnify = 2 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
 let lastCycleStartedAt = Date.now()
@@ -103,7 +103,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     )
 
 
-    useInterval(refresh, paused ? null : turbo ? 1 : 10)
+    useSchedule(refresh, paused ? null : turbo ? 1 : 10)
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>

@@ -63,7 +63,12 @@ const initalState: GameState = {
         addAttackShip(1800, 800, 180, 'spaim'),
         addAttackShip(1300, 750, 180, 'spaim'),
         addAttackShip(1650, 750, 180, 'spaim'),
-
+        addAttackShip(1000, 900, 180, 'spaim'),
+        addAttackShip(1200, 900, 180, 'spaim'),
+        addAttackShip(1400, 900, 180, 'spaim'),
+        addAttackShip(1600, 900, 180, 'spaim'),
+        addAttackShip(1800, 900, 180, 'spaim'),
+        
 
     ],
     projectiles: [],

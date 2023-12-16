@@ -1,9 +1,9 @@
 import './App.css'
 import { BuccaneerGame } from './components/BucaneerGame'
-import { aiTrial as initialConditions } from './initial-conditions'
+import  * as scenarios from './initial-conditions'
 import { buildMatrixFromGameState } from './lib/path-finding/build-matrix'
 
-const { gameState, mapHeight, mapWidth } = initialConditions
+const { gameState, mapHeight, mapWidth } = scenarios.demoOne
 const { landAndForts, land } = buildMatrixFromGameState(mapWidth, mapHeight, gameState)
 
 function App() {
