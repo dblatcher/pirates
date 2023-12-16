@@ -20,7 +20,6 @@ const launchFromShip = (cannon: ShipCannon, ship: Ship, game: GameState): boolea
         }
     }
 
-
     launchProjectile(getStartAt(cannon.position), game)
     cannon.cooldown = 200
     cannon.firing = false
@@ -66,15 +65,16 @@ export const fireCannons = (game: GameState, soundEffectRequests: SoundEffectReq
 
     game.towns.forEach(town => {
         town.forts.forEach(fort => {
-            fort.cannons.forEach(cannon => {
-                if (fort.cannons.some(cannon => cannon.firing && cannon.cooldown === 0)) {
-                    soundEffectRequests.push({ position: fort, sfx: 'cannonFire' })
-                }
-                if (cannon.firing) {
-                    launchFromFort(cannon, fort, game)
-                    soundEffectRequests.push({ position: fort, sfx: 'cannonFire' })
-                }
-            })
+            if (fort.damage < DAMAGE_THAT_STOPS_FORTS_FIRING) {
+                fort.cannons.forEach(cannon => {
+                    if (fort.cannons.some(cannon => cannon.firing && cannon.cooldown === 0)) {
+                        soundEffectRequests.push({ position: fort, sfx: 'cannonFire' })
+                    }
+                    if (cannon.firing) {
+                        launchFromFort(cannon, fort, game)
+                    }
+                })
+            }
         })
     })
 }
