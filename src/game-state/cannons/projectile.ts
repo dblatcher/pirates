@@ -81,6 +81,7 @@ export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (ne
             createGroundHit({ x: projectile.x, y: projectile.y, timeLeft: 60, }, game)
         } else {
             createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
+            soundEffectRequests.push({ position: projectile, sfx: 'splash' })
         }
     })
     game.projectiles = projectilesInAir

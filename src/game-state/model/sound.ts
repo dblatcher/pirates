@@ -1,9 +1,10 @@
-import { ToneParams } from "sound-deck";
+import { NoiseParams, ToneParams } from "sound-deck";
 import { XY } from "../../lib/geometry";
 
 
 export type SoundEffect = {
-    tone: ToneParams
+    tone?: ToneParams
+    noise?: NoiseParams
 }
 
 const cannonFire: SoundEffect = {
@@ -18,10 +19,15 @@ const shipSink: SoundEffect = {
     tone: { duration: 1.5, frequency: 500, endFrequency: 200 }
 }
 
+const splash: SoundEffect = {
+    noise: { duration: .3, frequency: 2000 }
+}
+
 export const soundEffects = {
     cannonFire,
     shipHit,
     shipSink,
+    splash,
 }
 
 type SfxId = keyof typeof soundEffects

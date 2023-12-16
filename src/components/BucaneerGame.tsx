@@ -1,18 +1,17 @@
 import { useCallback, useRef, useState } from 'react'
+import { SoundDeck } from 'sound-deck'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
+import { SoundEffectRequest } from '../game-state/model/sound'
 import { getTownShipIsInvading } from '../game-state/towns'
 import { useSchedule } from '../hooks/useSchedule'
 import { CellMatrix } from '../lib/path-finding/types'
+import { playSoundEffectsInView } from '../lib/play-sound-effects'
 import { average } from '../lib/util'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { SoundDeck } from 'sound-deck'
-import { SoundEffectRequest, soundEffects } from '../game-state/model/sound'
-import { isPointInsideRect } from '../lib/geometry'
-import { viewPortToRect } from '../game-state/helpers'
 
 interface Props {
     initial: GameState;
@@ -59,13 +58,7 @@ const makeRefresh = (
     )
     Object.assign(gameStateRef.current, updatedGame)
 
-    const viewRect = viewPortToRect(viewPortRef.current)
-    const soundsInView = soundEffectRequests.filter(request => isPointInsideRect(request.position, viewRect))
-    soundsInView
-        .forEach(sound => {
-            soundDeck.playTone(soundEffects[sound.sfx].tone)
-        })
-
+    playSoundEffectsInView(soundEffectRequests, soundDeck, viewPortRef.current)
     updateTimeTracking(refreshStart)
 }
 
