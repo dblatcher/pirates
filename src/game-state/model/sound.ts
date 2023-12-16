@@ -8,15 +8,16 @@ export type SoundEffect = {
 }
 
 const cannonFire: SoundEffect = {
-    tone: { duration: .05, frequency: 400, endFrequency: 500, type: 'square' }
+    tone: { duration: .025, frequency: 60, endFrequency: 400, type: 'square' }
 }
 
 const shipHit: SoundEffect = {
-    tone: { duration: .05, frequency: 400 }
+    tone: { duration: .03, frequency: 400 },
+    noise: { duration: .6, frequency: 400 },
 }
 
 const shipSink: SoundEffect = {
-    tone: { duration: 1.5, frequency: 500, endFrequency: 200 }
+    tone: { duration: 1.5, frequency: 500, endFrequency: 100 }
 }
 
 const splash: SoundEffect = {
