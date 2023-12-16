@@ -40,3 +40,15 @@ body {
   margin: 0;
   padding-inline-start: 1em;
 }
+
+.sound-icon {
+  display: inline-flex;
+  background-color: black;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.sound-icon i {
+  font-size: large;
+  font-style: normal;
+}
