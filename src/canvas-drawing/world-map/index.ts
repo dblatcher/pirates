@@ -1,5 +1,6 @@
-import { GameState, Ship, Town, TERRAIN_SQUARE_SIZE } from "../../game-state"
-import { rgb } from "../../lib/Color"
+import { GameState, Ship, TERRAIN_SQUARE_SIZE, Town } from "../../game-state"
+import { colors, rgb } from "../../lib/Color"
+import { getXYVector, translate } from "../../lib/geometry"
 import { CellMatrix } from "../../lib/path-finding/types"
 import { getFactionColor, s } from "../helpers"
 
@@ -19,17 +20,39 @@ const plotMatrix = (ctx: CanvasRenderingContext2D, matrix: CellMatrix) => {
     }
 }
 
-const crossSize = 20
-const plotShips = (ctx: CanvasRenderingContext2D, ships: Ship[]) => {
+const arrowSize = 22
+const circleRadius = 25
+const plotShips = (ctx: CanvasRenderingContext2D, ships: Ship[], playerId?: number) => {
     ships.forEach(ship => {
+        const { x, y, h } = ship
+        if (ship.id === playerId) {
+            ctx.beginPath()
+            ctx.arc(x, y, circleRadius + 5, 0, Math.PI * 2)
+            ctx.lineWidth = 5
+            ctx.strokeStyle = 'white'
+            ctx.stroke()
+        }
+
         ctx.beginPath()
-        ctx.strokeStyle = 'white'
+        ctx.arc(x, y, circleRadius, 0, Math.PI * 2)
         ctx.lineWidth = 5
-        ctx.moveTo(ship.x - crossSize, ship.y - crossSize)
-        ctx.lineTo(ship.x + crossSize, ship.y + crossSize)
-        ctx.moveTo(ship.x + crossSize, ship.y - crossSize)
-        ctx.lineTo(ship.x - crossSize, ship.y + crossSize)
+        ctx.strokeStyle = rgb(getFactionColor(ship))
+        ctx.fillStyle = 'white'
+        ctx.fill()
         ctx.stroke()
+
+        ctx.beginPath()
+        ctx.fillStyle = rgb(getFactionColor(ship))
+
+        const front = translate(ship, getXYVector(arrowSize, h))
+        const backLeft = translate(ship, getXYVector(arrowSize, h - Math.PI * .75))
+        const backRight = translate(ship, getXYVector(arrowSize, h + Math.PI * .75))
+
+        ctx.moveTo(...s(front))
+        ctx.lineTo(...s(backLeft))
+        ctx.lineTo(...s(backRight))
+        ctx.lineTo(...s(front))
+        ctx.fill()
     })
 }
 
@@ -59,9 +82,9 @@ export const buildDrawMapFnc = (
         return
     }
     ctx.beginPath()
-    ctx.fillStyle = 'blue'
+    ctx.fillStyle = rgb(colors.BLACK)
     ctx.fillRect(0, 0, mapWidth, mapHeight)
     plotMatrix(ctx, matrix)
-    plotShips(ctx, gameState.ships)
+    plotShips(ctx, gameState.ships, gameState.playerId)
     plotTowns(ctx, gameState.towns)
 }
