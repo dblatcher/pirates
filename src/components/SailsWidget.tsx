@@ -13,8 +13,7 @@ const figureStyle = (height: number, width: number): CSSProperties => ({
     width,
     height,
     borderTop: '3px solid black',
-    margin: 0,
-    marginLeft: 20,
+    margin: '0 auto',
 })
 const mastStyle = (height: number): CSSProperties => ({
     position: "absolute",
@@ -38,7 +37,7 @@ const sailStyle = (level: number): CSSProperties => ({
 })
 const targetLineStyle = (level: number): CSSProperties => ({
     width: '100%',
-    borderTop: '3px dashed gray',
+    borderBottom: '3px dashed gray',
     position: 'absolute',
     top: `${level * 100}%`,
     left: 0,
@@ -49,30 +48,41 @@ export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
 
     return (
         <div className="panel-frame" style={{ position: 'relative' }}>
-            <figure style={figureStyle(80, 80)}>
-                <div style={mastStyle(80)}></div>
-                <div style={sailStyle(ship.sailLevel)}></div>
-                <div style={targetLineStyle(ship.sailLevelTarget)}></div>
-            </figure>
+
             <div style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: '100%',
                 display: 'flex',
-                width: 20,
-                justifyContent: 'center',
-                alignItems: 'center',
+                height: 80,
             }}>
-                <input type="range"
-                    style={{ width: 80, transform: 'rotate(90deg)', }}
-                    min={0} max={1} step={.1}
-                    value={ship.sailLevelTarget}
-                    onChange={(e) =>
-                        setSailLevelTarget(Number(e.target.value))
-                    }
-                />
+                <div style={{
+                    flexBasis: '20px',
+                    maxWidth: '20px',
+                    flexGrow: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <input type="range"
+                        style={{
+                            width: 80,
+                            transform: 'rotate(90deg)',
+                        }}
+                        min={0} max={1} step={.1}
+                        value={ship.sailLevelTarget}
+                        onChange={(e) =>
+                            setSailLevelTarget(Number(e.target.value))
+                        } />
+                </div>
+                <div style={{
+                    flexGrow: 1,
+                }}>
+                    <figure style={figureStyle(80, 80)}>
+                        <div style={mastStyle(80)}></div>
+                        <div style={sailStyle(ship.sailLevel)}></div>
+                        <div style={targetLineStyle(ship.sailLevelTarget)}></div>
+                    </figure>
+                </div>
             </div>
+            <p>Speed: {ship.speedLastTurn.toFixed(2)}</p>
         </div >
     )
 }
