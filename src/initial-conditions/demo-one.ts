@@ -18,7 +18,7 @@ const initalState: GameState = {
         makeFrigateShip({
             name: 'Player McPlayerFace',
             faction: 'grance',
-            x: 1600,
+            x: 1000,
             y: 1200,
             h: _DEG * 50,
             id: 1,
@@ -109,6 +109,7 @@ const initalState: GameState = {
     ],
     projectiles: [],
     effects: [],
+    surfaceEffects: [],
     land: [
         {
             x: 100,

@@ -1,8 +1,9 @@
-import { XY } from "../lib/geometry";
-import { GameState } from "./model";
+import { XY } from "../../lib/geometry";
+import { GameState } from "../model";
 
+// TO DO - move to model
 export enum EffectType {
-    SPLASH, IMPACT, GROUNDHIT
+    SPLASH, IMPACT, GROUNDHIT, WAVE,
 }
 type BaseEffect = {
     x: number;
@@ -10,21 +11,25 @@ type BaseEffect = {
     timeLeft: number;
 }
 
-export type Splash = BaseEffect & {
+type Splash = BaseEffect & {
     type: EffectType.SPLASH;
     radius: number;
 }
 
-export type Impact = BaseEffect & {
+type Impact = BaseEffect & {
     type: EffectType.IMPACT
 }
 
-export type GroundHit = BaseEffect & {
+type GroundHit = BaseEffect & {
     type: EffectType.GROUNDHIT
     particles: Array<XY & { v: XY }>
 }
 
-export type Effect = Splash | Impact | GroundHit
+type WAVE = BaseEffect & {
+    type: EffectType.WAVE
+}
+
+export type Effect = Splash | Impact | GroundHit | WAVE
 
 export const updateEffect = (effect: Effect) => {
     effect.timeLeft = effect.timeLeft - 1
@@ -42,7 +47,7 @@ export const updateEffect = (effect: Effect) => {
 }
 
 export const createSplash = (start: Omit<Splash, 'type'>, game: GameState) => {
-    game.effects.push({
+    game.surfaceEffects.push({
         ...start,
         type: EffectType.SPLASH
     })

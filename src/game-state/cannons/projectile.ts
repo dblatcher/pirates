@@ -1,7 +1,7 @@
 import { getXYVector, translate } from "../../lib/geometry";
 import { splitArray } from "../../lib/util";
 import { willProjectileHitFort, willProjectileHitShip, willProjectileHitTown } from "../collisions";
-import { createGroundHit, createImpact, createSplash } from "../effect";
+import { createGroundHit, createImpact, createSplash } from "../effects/effect";
 import { isLandAt } from "../land";
 import { Cannon, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, Projectile } from "../model";
 import { SoundEffectRequest } from "../model/sound";

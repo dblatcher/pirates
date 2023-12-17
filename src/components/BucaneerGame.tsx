@@ -55,6 +55,7 @@ const makeRefresh = (
         obstacleMatrix,
         pushLog,
         soundEffectRequests,
+        viewPortRef.current,
     )
     Object.assign(gameStateRef.current, updatedGame)
 

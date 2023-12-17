@@ -92,6 +92,7 @@ const initalState: GameState = {
     ],
     projectiles: [],
     effects: [],
+    surfaceEffects: [],
     land: [
         {
             x: 1000,

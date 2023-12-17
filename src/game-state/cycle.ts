@@ -1,13 +1,13 @@
-import { SoundDeck } from "sound-deck";
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
 import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
-import { createImpact, createSplash, updateEffect } from "./effect";
+import { addWaves } from "./effects/background";
+import { createImpact, createSplash, updateEffect } from "./effects/effect";
 import { Collison, Directive, GameState, MAX_WIND } from "./model";
-import { followDirectives, getProwPosition, updateShip } from "./ship";
-import { updateTown, aimAndFireCannonsFromForts } from "./towns";
 import { SoundEffectRequest } from "./model/sound";
+import { ViewPort, followDirectives, getProwPosition, updateShip } from "./ship";
+import { aimAndFireCannonsFromForts, updateTown } from "./towns";
 
 
 
@@ -50,6 +50,7 @@ export const cycle = (
     matrix: CellMatrix,
     pushLog: { (newLog: string): void },
     soundEffectRequests: SoundEffectRequest[],
+    viewPort: ViewPort,
 ): GameState => {
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
@@ -87,11 +88,16 @@ export const cycle = (
         updateEffect(effect)
     })
     gameState.effects = gameState.effects.filter(effect => effect.timeLeft > 0)
+    gameState.surfaceEffects.forEach(effect => {
+        updateEffect(effect)
+    })
+    gameState.surfaceEffects = gameState.surfaceEffects.filter(effect => effect.timeLeft > 0)
     collisons.forEach(collison => handleShipCollison(collison, gameState))
 
     fireCannons(gameState, soundEffectRequests)
     handleProjectileHitsAndLandings(gameState, pushLog, soundEffectRequests)
     removeSinkingShips(gameState, pushLog, soundEffectRequests)
+    addWaves(gameState, viewPort)
 
     return gameState
 }

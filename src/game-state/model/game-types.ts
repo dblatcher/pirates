@@ -1,5 +1,5 @@
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT } from '../../lib/geometry'
-import { Effect } from '../effect'
+import { Effect } from '../effects/effect'
 import { Landmass } from '../land'
 import type { Ship } from '../ship'
 import { Projectile } from './cannon-types'
@@ -18,6 +18,7 @@ export type GameState = {
     ships: Ship[];
     projectiles: Projectile[];
     effects: Effect[];
+    surfaceEffects: Effect[];
     cycleNumber: number;
     land: Landmass[];
     towns: Town[];

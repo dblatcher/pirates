@@ -1,10 +1,13 @@
-import { Effect, EffectType } from "../game-state/effect";
+import { Effect, EffectType } from "../game-state/effects/effect";
 import { colors, rgba } from "../lib/Color";
+import { translate, xy } from "../lib/geometry";
+import { clamp } from "../lib/util";
 import { OffsetDrawMethods } from "./drawWithOffSet";
+import { s } from "./helpers";
 
 export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, effect: Effect) {
     const { x, y } = effect
-    const { arc } = drawingMethods
+    const { arc, lineTo, moveTo } = drawingMethods
 
     switch (effect.type) {
         case EffectType.SPLASH: {
@@ -43,6 +46,16 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
                 ctx.stroke();
             })
             break;
+        }
+
+        case EffectType.WAVE: {
+            ctx.beginPath()
+            ctx.strokeStyle = rgba(colors.WHITE, 1)
+            ctx.lineWidth = 2;
+            const spread = 3 + clamp(10 - effect.timeLeft, 5, 0)
+            moveTo(...s(translate(effect, xy(-spread, 0))))
+            lineTo(...s(translate(effect, xy(spread, 0))))
+            ctx.stroke();
         }
     }
 }
