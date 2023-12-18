@@ -128,6 +128,13 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     }}>
                         <WindSock wind={gameStateRef.current.wind} />
                     </div>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                    }}>
+                        <span>{player?.x.toFixed(0)}, {player?.y.toFixed(0)}</span>
+                    </div>
                 </div>
 
                 <GameControls
@@ -144,14 +151,10 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 <div>
                     <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
                 </div>
-                <div style={{ fontFamily: 'monospace' }}>
-                    {'|'}{recentRefeshTimes.slice(0, 10).map(_ => _.toFixed(0).padStart(3, " ")).join(',')}
-                </div>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
-                    <span>[{player?.x.toFixed(0)}, {player?.y.toFixed(0)}]</span>
                 </div>
                 <ShipsLog entries={log} />
             </aside>
