@@ -1,6 +1,7 @@
 import { CSSProperties } from "react"
 import { Ship } from "../game-state/ship"
 import { SAIL_COLOR_CSS } from "../lib/Color"
+import { VerticalRange } from "./VerticalRange"
 
 interface Props {
     ship: Ship
@@ -48,30 +49,17 @@ export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
 
     return (
         <div className="panel-frame" style={{ position: 'relative' }}>
-
             <div style={{
                 display: 'flex',
                 height: 80,
             }}>
-                <div style={{
-                    flexBasis: '20px',
-                    maxWidth: '20px',
-                    flexGrow: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <input type="range"
-                        style={{
-                            width: 80,
-                            transform: 'rotate(90deg)',
-                        }}
-                        min={0} max={1} step={.1}
-                        value={ship.sailLevelTarget}
-                        onChange={(e) =>
-                            setSailLevelTarget(Number(e.target.value))
-                        } />
-                </div>
+                <VerticalRange
+                    value={ship.sailLevelTarget}
+                    height={80}
+                    width={20}
+                    onChange={setSailLevelTarget}
+                    min={0} max={1} step={.1}
+                />
                 <div style={{
                     flexGrow: 1,
                 }}>
