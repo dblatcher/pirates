@@ -117,10 +117,19 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     return (
         <div style={{ display: 'flex' }}>
             <main>
-                <GameScreen
-                    viewPort={viewPortRef.current}
-                    gameState={gameStateRef.current}
-                    magnify={magnify} />
+                <div style={{ position: 'relative' }}>
+                    <GameScreen
+                        viewPort={viewPortRef.current}
+                        gameState={gameStateRef.current}
+                        magnify={magnify} />
+                    <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                    }}>
+                        <WindSock wind={gameStateRef.current.wind} />
+                    </div>
+                </div>
 
                 <GameControls
                     player={player}
@@ -130,9 +139,10 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
                 />
+
             </main>
 
-            <aside> 
+            <aside>
                 <div>
                     <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
                 </div>
@@ -145,7 +155,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                     <span>[{player?.x.toFixed(0)}, {player?.y.toFixed(0)}]</span>
                 </div>
-                <WindSock wind={gameStateRef.current.wind} />
                 <ShipsLog entries={log} />
             </aside>
 
