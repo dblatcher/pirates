@@ -132,7 +132,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 />
             </main>
 
-            <aside>
+            <aside> 
                 <div>
                     <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
                 </div>

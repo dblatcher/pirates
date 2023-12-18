@@ -13,7 +13,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
     return <CanvasScreen
         containerStyle={{
             border: '1px solid black',
-            display: 'inline-block',
+            display: 'flex',
         }}
         canvasStyle={{
             width: viewPort.width * magnify,
