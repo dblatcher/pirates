@@ -41,7 +41,7 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 })
 
 
-export const Wheel = ({ addDirective, playerWheel: actualWheel, setWheelTo }: Props) => {
+export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo }: Props) => {
     const [locked, setLocked] = useState(false)
     const [pointerOnInput, setPointerOnInput] = useState(false)
 

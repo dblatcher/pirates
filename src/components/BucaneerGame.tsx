@@ -2,7 +2,6 @@ import { useCallback, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
-import { getTownShipIsInvading } from '../game-state/towns'
 import { useSchedule } from '../hooks/useSchedule'
 import { CellMatrix } from '../lib/path-finding/types'
 import { playSoundEffectsInView } from '../lib/play-sound-effects'
@@ -133,7 +132,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
                 <GameControls
                     player={player}
-                    townInvading={player && getTownShipIsInvading(player, gameStateRef.current.towns)}
                     addDirective={addDirective}
                     paused={paused}
                     playerWheel={player?.wheel ?? 0}

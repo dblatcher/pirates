@@ -1,21 +1,20 @@
 import { useState } from "react"
-import { Directive, FiringPattern, Order, Ship, Town } from "../game-state"
+import { Directive, FiringPattern, Order, Ship } from "../game-state"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "./KeyboardControls"
 import { SailsWidget } from "./SailsWidget"
 import { ShipDashBoard } from "./ShipDashboard"
-import { Wheel } from "./Wheel"
+import { WheelWidget } from "./WheelWidget"
 
 interface Props {
     player?: Ship
-    townInvading?: Town
     addDirective: { (directive: Directive): void }
     paused: boolean
     playerWheel: number
     wheelRef: React.MutableRefObject<number | undefined>
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, townInvading, wheelRef }: Props) => {
+export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = (value: number) => { wheelRef.current = value }
@@ -23,7 +22,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, townIn
     return (
         <aside style={{ display: 'flex' }}>
             {player && (<>
-                <Wheel
+                <WheelWidget
                     addDirective={addDirective}
                     playerWheel={playerWheel}
                     setWheelTo={setWheelTo}
@@ -42,7 +41,6 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, townIn
                 />
                 <ShipDashBoard
                     ship={player}
-                    townInvading={townInvading}
                 />
                 <KeyboardControls
                     addDirective={addDirective}
