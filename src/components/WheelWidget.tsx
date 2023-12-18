@@ -11,20 +11,17 @@ interface Props {
 
 const wheelFrameStyle = (size: number): CSSProperties => ({
     position: "relative",
-    border: '1px solid black',
-    width: size,
+    width: size + 20,
     height: size,
     margin: '0px auto',
-    overflow: "hidden",
+    overflow: "visible",
 })
 const wheelStyle = (angle: number, color: string, size: number): CSSProperties => ({
     position: "absolute",
-    borderTop: `2px dashed ${color}`,
-    borderRadius: '25%',
-
+    borderTop: `2px dotted ${color}`,
+    borderRadius: '20%',
     left: '50%',
     top: '50%',
-
     width: size,
     height: size,
     transform: `translateX(-50%) translateY(-50%) rotate(${angle}deg)`,
@@ -32,7 +29,6 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
     boxSizing: "border-box",
     display: 'flex',
     justifyContent: 'center',
-
     color: color,
     textShadow: '2px 2px black',
     alignItems: 'center',
@@ -61,20 +57,26 @@ export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo
 
     const wheelAngle = -(actualWheel * 180)
     return (
-        <div className="panel-frame" style={{ width: 120, position: 'relative' }}>
+        <div className="panel-frame" style={{
+            position: 'relative',
+            overflow: 'hidden',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
             <figure style={wheelFrameStyle(80)}>
-                <div style={wheelStyle(wheelAngle, 'saddlebrown', 70)}>
-                    <span>☸</span>
+                <div style={wheelStyle(wheelAngle, 'saddlebrown', 100)}>
+                    <span className="no-select-highlight">☸</span>
                 </div>
             </figure>
             <div style={{
                 position: 'absolute',
-                top: 0,
-                right: 0,
+                bottom: '50%',
+                opacity:.2,
+                transform:'scaleY(10)',
+                left: 0,
+                right: 0
             }}>
-                <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
-            </div>
-            <div>
                 <input type="range"
                     onPointerDown={() => {
                         setPointerOnInput(true)
@@ -82,14 +84,21 @@ export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo
                     onPointerUp={() => {
                         setPointerOnInput(false)
                     }}
-                    style={{ width: '100%' }}
-                    max={50} min={-50} step={'any'}
+                    style={{ width: 100, margin: '0 auto', display: 'block' }}
+                    max={50} min={-50} step={5}
                     value={actualWheel * -100}
                     onChange={e => {
                         const value = Number(e.target.value)
                         if (isNaN(value)) { return }
                         setWheelTo(value * (-1 / 100))
                     }} />
+            </div>
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+            }}>
+                <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
             </div>
         </div>
     )
