@@ -1,5 +1,5 @@
-import { Directive, GameState, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
-import { MIN_CYCLES_BETWEEN_PATH_FINDING, describeShipWithId } from "../game-state/ship";
+import { Directive, GameState, MIN_CYCLES_BETWEEN_PATH_FINDING, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
+import { describeShipWithId } from "../game-state/ship";
 import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { CellMatrix } from "../lib/path-finding/types";

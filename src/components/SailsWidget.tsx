@@ -1,5 +1,5 @@
 import { CSSProperties } from "react"
-import { Ship } from "../game-state/ship"
+import { Ship } from "../game-state/"
 import { SAIL_COLOR_CSS } from "../lib/Color"
 import { VerticalRange } from "./VerticalRange"
 

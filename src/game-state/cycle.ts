@@ -4,9 +4,9 @@ import { randomInt, splitArray } from "../lib/util";
 import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
 import { addWaves } from "./effects/background";
 import { createImpact, createSplash, updateEffect } from "./effects/effect";
-import { Collison, Directive, GameState, MAX_WIND } from "./model";
+import { Collison, Directive, GameState, MAX_WIND, ViewPort } from "./model";
 import { SoundEffectRequest } from "./model/sound";
-import { ViewPort, followDirectives, getProwPosition, updateShip } from "./ship";
+import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { aimAndFireCannonsFromForts, updateTown } from "./towns";
 
 

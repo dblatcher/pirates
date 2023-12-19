@@ -1,4 +1,4 @@
-import { DEFAULT_ATTACK_RANGE, Ship } from "../game-state/ship"
+import { DEFAULT_ATTACK_RANGE, Ship } from "../game-state/model"
 import { GameState, Town } from "../game-state"
 import { Rect, isPointInsideRect } from "../lib/geometry"
 import { splitArray } from "../lib/util"

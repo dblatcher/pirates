@@ -1,7 +1,7 @@
 import { AttackAutoPilot } from "../ai";
 import { FactionId } from "../game-state/faction";
-import { GameState } from "../game-state/model";
-import { InitialConditions, Ship, makeDefaultShip, makeFrigateShip } from "../game-state/ship";
+import { GameState, InitialConditions, Ship } from "../game-state/model";
+import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { _DEG } from "../lib/geometry";
 
 
@@ -68,7 +68,7 @@ const initalState: GameState = {
         addAttackShip(1400, 900, 180, 'spaim'),
         addAttackShip(1600, 900, 180, 'spaim'),
         addAttackShip(1800, 900, 180, 'spaim'),
-        
+
 
     ],
     projectiles: [],

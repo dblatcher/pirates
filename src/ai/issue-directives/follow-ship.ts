@@ -50,7 +50,7 @@ const determinePlanToEscort = (
 }
 
 export const determinePlanToHunt = (
-    ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState,
+    ai: AI, _ship: Ship, shipToFollow: Ship, _distanceToOtherShip: number, _gameState: GameState,
 ): { plan: FollowPlan, targetPoint: XY, targetSpeed: number } => {
 
     const targetPoint = xy(shipToFollow.x, shipToFollow.y)

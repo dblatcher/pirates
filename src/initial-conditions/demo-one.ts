@@ -2,8 +2,8 @@ import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { EscortAutoPilot } from "../ai/escort-ai";
 import { _DEG } from "../lib/geometry";
 import { TerrainType } from "../game-state/land";
-import { GameState } from "../game-state/model";
-import { InitialConditions, makeDefaultShip, makeFrigateShip } from "../game-state/ship";
+import { GameState, InitialConditions } from "../game-state/model";
+import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTownWithForts } from "../game-state/towns";
 
 

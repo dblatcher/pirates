@@ -3,8 +3,7 @@ import { Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../..
 import { _DEG, findRotationBetweenHeadings, getHeadingFrom } from "../../lib/geometry"
 
 
-
-export const opportunisticFire = (ai: AI, { ship }: DescisonContext, enemies: Ship[]): Directive[] => {
+export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: Ship[]): Directive[] => {
 
     const directives: Directive[] = []
 
