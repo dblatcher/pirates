@@ -5,3 +5,5 @@ export type InitialConditions = {
     mapWidth: number,
     mapHeight: number,
 }
+
+export type Scenario = { (): InitialConditions }

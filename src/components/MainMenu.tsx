@@ -41,13 +41,13 @@ export const MainMenu = ({ }: Props) => {
             <>
                 <h1>Title screen</h1>
                 <button onClick={() => {
-                    setScenario(scenarios.aiTrial)
+                    setScenario(scenarios.aiTrial())
                 }}>aiTrial</button>
                 <button onClick={() => {
-                    setScenario(scenarios.demoOne)
+                    setScenario(scenarios.demoOne())
                 }}>demoOne</button>
                 <button onClick={() => {
-                    setScenario(scenarios.bigMesseyBattle)
+                    setScenario(scenarios.bigMesseyBattle())
                 }}>bigMesseyBattle</button>
             </>
         )}
