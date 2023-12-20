@@ -1,6 +1,6 @@
 import { useState } from "react"
 import * as scenarios from '../initial-conditions'
-import { InitialConditions } from "../game-state"
+import { InitialConditions } from "../initial-conditions"
 import { buildMatrixFromGameState } from "../lib/path-finding/build-matrix"
 import { BuccaneerGame } from "./BucaneerGame"
 import { SoundDeck } from "sound-deck"

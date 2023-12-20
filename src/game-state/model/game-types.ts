@@ -24,12 +24,6 @@ export type GameState = {
     towns: Town[];
 }
 
-export type InitialConditions = {
-    gameState: GameState,
-    mapWidth: number,
-    mapHeight: number,
-}
-
 export type ViewPort = {
     x: number;
     y: number;

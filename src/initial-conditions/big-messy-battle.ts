@@ -1,7 +1,8 @@
 import { AttackAutoPilot } from "../ai";
+import { GameState, Ship } from "../game-state";
 import { FactionId } from "../game-state/faction";
-import { GameState, InitialConditions, Ship } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
+import { InitialConditions } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 
 

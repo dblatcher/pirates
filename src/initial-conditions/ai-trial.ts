@@ -3,7 +3,7 @@ import { HunterAi, MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { InitialConditions } from "../game-state/model"
+import { InitialConditions } from "../initial-conditions"
 import { _DEG, xy } from "../lib/geometry";
 
 

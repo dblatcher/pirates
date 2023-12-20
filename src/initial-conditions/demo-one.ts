@@ -1,10 +1,11 @@
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { EscortAutoPilot } from "../ai/escort-ai";
-import { _DEG } from "../lib/geometry";
+import { GameState } from "../game-state";
 import { TerrainType } from "../game-state/land";
-import { GameState, InitialConditions } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTownWithForts } from "../game-state/towns";
+import { InitialConditions } from "../initial-conditions";
+import { _DEG } from "../lib/geometry";
 
 
 const initalState: GameState = {
