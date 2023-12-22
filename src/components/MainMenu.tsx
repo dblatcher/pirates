@@ -5,6 +5,8 @@ import { Scenario } from "../initial-conditions"
 import { buildMatrixFromGameState } from "../lib/path-finding/build-matrix"
 import { BuccaneerGame } from "./BucaneerGame"
 import { SoundToggle } from "./SoundToggle"
+import { KeyboardControls } from "./KeyboardControls"
+import { toggleSoundDeck } from "../lib/sounds"
 
 type Props = {
 
@@ -32,6 +34,14 @@ export const MainMenu = ({ }: Props) => {
 
     return <div>
         <SoundToggle soundDeck={soundDeck} />
+        <KeyboardControls keyDownFunction={({ code }) => {
+            switch (code) {
+                case 'Equal':
+                    return toggleSoundDeck(soundDeck)()
+                case 'Escape':
+                    return setScenario(undefined)
+            }
+        }} />
         <button onClick={() => {
             setScenario(undefined)
         }}>reset</button>
