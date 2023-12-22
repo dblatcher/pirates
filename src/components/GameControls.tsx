@@ -10,6 +10,7 @@ interface Props {
     player?: Ship
     addDirective: { (directive: Directive): void }
     paused: boolean
+    setPaused: { (value: boolean): void }
     playerWheel: number
     wheelRef: React.MutableRefObject<number | undefined>
 }
@@ -28,16 +29,19 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
     'Digit3': FiringPattern.ALTERNATE,
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef }: Props) => {
+export const GameControls = ({ player, setPaused, addDirective, paused, playerWheel, wheelRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = (value: number) => { wheelRef.current = value }
 
     const keyDownFunction = (event: KeyboardEvent) => {
-        const directive = directiveKeys[event.code]
+        if (event.code == 'KeyP') {
+            setPaused(!paused)
+        }
         if (paused) {
             return
         }
+        const directive = directiveKeys[event.code]
         if (directive) {
             if (directive.order === Order.FIRE) {
                 addDirective({ ...directive, pattern: firingPattern })

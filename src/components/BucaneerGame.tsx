@@ -141,6 +141,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     player={player}
                     addDirective={addDirective}
                     paused={paused}
+                    setPaused={setPaused}
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
                 />
