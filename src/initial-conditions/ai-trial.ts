@@ -6,7 +6,7 @@ import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { Scenario } from "../initial-conditions";
 import { _DEG, xy } from "../lib/geometry";
 
-const makeState = (): GameState => {
+const makeInitialState = (): GameState => {
 
     const initalState: GameState = {
         cycleNumber: 0,
@@ -143,10 +143,9 @@ const makeState = (): GameState => {
     return initalState
 }
 
-
-
-export const aiTrial: Scenario = () => ({
-    gameState: makeState(),
+export const aiTrial: Scenario = ({
+    makeInitialState,
     mapHeight: 1800,
     mapWidth: 2400,
+    name:'AI Testing Scenario'
 })

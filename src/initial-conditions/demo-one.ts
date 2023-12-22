@@ -7,7 +7,7 @@ import { makeTownWithForts } from "../game-state/towns";
 import { Scenario } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 
-const makeState = (): GameState => {
+const makeInitialState = (): GameState => {
     const initalState: GameState = {
         cycleNumber: 0,
         playerId: 1,
@@ -194,8 +194,9 @@ const makeState = (): GameState => {
     return initalState
 }
 
-export const demoOne: Scenario = () => ({
-    gameState: makeState(),
+export const demoOne: Scenario = ({
+    makeInitialState,
     mapHeight: 1800,
     mapWidth: 2400,
+    name: 'Demo Scenario One',
 })

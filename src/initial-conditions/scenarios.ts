@@ -1,9 +1,8 @@
 import { GameState } from "../game-state";
 
-export type InitialConditions = {
-    gameState: GameState,
+export type Scenario = {
+    makeInitialState: { (): GameState }
     mapWidth: number,
     mapHeight: number,
+    name?: string,
 }
-
-export type Scenario = { (): InitialConditions }

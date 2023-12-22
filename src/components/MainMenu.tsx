@@ -1,17 +1,18 @@
 import { useState } from "react"
+import { SoundDeck } from "sound-deck"
 import * as scenarios from '../initial-conditions'
-import { InitialConditions } from "../initial-conditions"
+import { Scenario } from "../initial-conditions"
 import { buildMatrixFromGameState } from "../lib/path-finding/build-matrix"
 import { BuccaneerGame } from "./BucaneerGame"
-import { SoundDeck } from "sound-deck"
 import { SoundToggle } from "./SoundToggle"
 
 type Props = {
 
 }
 
-const ScenarioGame = (props: { scenario: InitialConditions, soundDeck: SoundDeck }) => {
-    const { gameState, mapHeight, mapWidth } = props.scenario
+const ScenarioGame = (props: { scenario: Scenario, soundDeck: SoundDeck }) => {
+    const { mapHeight, mapWidth } = props.scenario
+    const gameState = props.scenario.makeInitialState()
     const { landAndForts, land } = buildMatrixFromGameState(mapWidth, mapHeight, gameState)
     return (
         <BuccaneerGame
@@ -26,7 +27,7 @@ const ScenarioGame = (props: { scenario: InitialConditions, soundDeck: SoundDeck
 
 
 export const MainMenu = ({ }: Props) => {
-    const [scenario, setScenario] = useState<InitialConditions | undefined>()
+    const [scenario, setScenario] = useState<Scenario | undefined>()
     const soundDeck = new SoundDeck()
 
     return <div>
@@ -40,15 +41,11 @@ export const MainMenu = ({ }: Props) => {
         ) : (
             <>
                 <h1>Title screen</h1>
-                <button onClick={() => {
-                    setScenario(scenarios.aiTrial())
-                }}>aiTrial</button>
-                <button onClick={() => {
-                    setScenario(scenarios.demoOne())
-                }}>demoOne</button>
-                <button onClick={() => {
-                    setScenario(scenarios.bigMesseyBattle())
-                }}>bigMesseyBattle</button>
+                {Object.entries(scenarios).map(([key, scenario]) => (
+                    <button key={key} onClick={() => {
+                        setScenario(scenario)
+                    }}>{scenario.name ?? key}</button>
+                ))}
             </>
         )}
     </div>
