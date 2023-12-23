@@ -11,6 +11,11 @@ export type Wind = {
     direction: number;
 }
 
+export type BoardingAction = {
+    boardingShipId: number
+    boardedShipId: number
+    resolved: boolean
+}
 
 export type GameState = {
     playerId: number,
@@ -22,6 +27,7 @@ export type GameState = {
     cycleNumber: number;
     land: Landmass[];
     towns: Town[];
+    boardingActions: BoardingAction[];
 }
 
 export type ViewPort = {
@@ -46,6 +52,7 @@ export enum Order {
     RESET_WHEEL,
     WHEEL_TO,
     INVADE_TOWN,
+    BOARD_SHIP,
 }
 
 export enum Side {
@@ -67,7 +74,7 @@ type QuantityDirective = {
 }
 
 type PlainDirective = {
-    order: Order.RESET_WHEEL | Order.INVADE_TOWN
+    order: Order.RESET_WHEEL | Order.INVADE_TOWN | Order.BOARD_SHIP
 }
 
 type FireDirective = {

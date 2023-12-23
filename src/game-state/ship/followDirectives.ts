@@ -87,6 +87,10 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                 ship.launchingInvasion = true
                 break
             }
+            case Order.BOARD_SHIP: {
+                ship.boardingShip = true
+                break
+            }
         }
     });
 };

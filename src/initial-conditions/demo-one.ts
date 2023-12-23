@@ -189,7 +189,8 @@ const makeInitialState = (): GameState => {
                 { x: 175, y: 0 },
                 { x: 225, y: 0 },
             ]),
-        ]
+        ],
+        boardingActions: [],
     }
     return initalState
 }

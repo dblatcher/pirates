@@ -1,4 +1,6 @@
-import { getDistance } from "../../lib/geometry"
+import { describeShipWithId, isBeingBoarded, isBoarding } from "."
+import { identifyShips } from "../../ai/identify-ships"
+import { findClosestAndDistance, getDistance } from "../../lib/geometry"
 import { DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { Ship } from "../model/ship-types"
 import { getTownShipIsInvading } from "../towns"
@@ -26,3 +28,28 @@ export function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (messag
         shipId: ship.id,
     })
 }
+
+export function tryToBoardShip(ship: Ship, game: GameState, pushLog: (message: string) => void) {
+    ship.boardingShip = false
+    if (isBoarding(ship, game)) {
+        pushLog(`${describeShipWithId(ship)} is already boarding a ship`)
+        return
+    }
+    const { enemies } = identifyShips(ship, game, INVASION_RANGE + ship.width)
+    const { item: closestEnemy, distance } = findClosestAndDistance(enemies, ship)
+    if (!closestEnemy) {
+        pushLog(`There are no enemies in range of ${ship.name}`)
+        return
+    }
+    pushLog(`${describeShipWithId(closestEnemy)} is the closest, ${distance.toFixed(0)} away.`)
+    if (isBeingBoarded(closestEnemy, game)) {
+        pushLog(`${describeShipWithId(closestEnemy)} is already being boarded.`)
+    }
+    pushLog(`${describeShipWithId(ship)} boards ${describeShipWithId(closestEnemy)}.`)
+    game.boardingActions.push({
+        boardedShipId: closestEnemy.id,
+        boardingShipId: ship.id,
+        resolved: false,
+    })
+}
+

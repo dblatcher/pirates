@@ -24,6 +24,7 @@ export type Ship = {
     width: number,
     length: number,
     launchingInvasion?: boolean,
+    boardingShip?: boolean,
     underRepair?: boolean,
 
     x: number,

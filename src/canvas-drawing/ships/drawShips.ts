@@ -1,5 +1,5 @@
 import { GameState, ViewPort } from "../../game-state"
-import { isShipInView } from "../../game-state/ship"
+import { isBeingBoarded, isBoarding, isShipInView } from "../../game-state/ship"
 import { getTownShipIsInvading } from "../../game-state/towns"
 import { timePhase } from "../../lib/util"
 import { drawIcon } from "../draw-icon"
@@ -26,9 +26,15 @@ export const drawShips = (
     })
     shipsInView.forEach(ship => {
         const invading = getTownShipIsInvading(ship, towns)
-        if (invading) {
+        const boarding = isBoarding(ship, gameState) // TO DO - make effcient
+        const beingBoarded = isBeingBoarded(ship, gameState)
+        if (invading || boarding) {
             const phase = timePhase(cycleNumber, 30, 1)
             drawIcon(ctx, drawingMethods, ship, { icon: 'BLACK_CUTLASS', width: 100 + phase, height: 100 + phase })
+        }
+        if (beingBoarded) {
+            const phase = timePhase(cycleNumber, 30, 1)
+            drawIcon(ctx, drawingMethods, ship, { icon: 'RED_CUTLASS', width: 100 + phase, height: 100 + phase })
         }
         if (ship.underRepair) {
             const phase = timePhase(cycleNumber, 30, 1)

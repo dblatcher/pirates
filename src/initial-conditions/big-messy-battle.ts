@@ -77,7 +77,8 @@ const makeInitialState = (): GameState => {
         effects: [],
         surfaceEffects: [],
         land: [],
-        towns: []
+        towns: [],
+        boardingActions: [],
     }
     return initalState
 }

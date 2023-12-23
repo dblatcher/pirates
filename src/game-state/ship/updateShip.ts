@@ -5,7 +5,7 @@ import { Collison, GameState, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, S
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect } from "./collision-shapes"
 import { detectForwardCollisions, detectTurningCollisons } from "./collison-detection"
-import { tryToLauchInvasion } from "./invade"
+import { tryToBoardShip, tryToLauchInvasion } from "./invade"
 import { shipIsAtPort } from "./repairAtPort"
 
 
@@ -60,6 +60,10 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
 
     if (ship.launchingInvasion) {
         tryToLauchInvasion(ship, game, pushLog)
+    }
+
+    if (ship.boardingShip) {
+        tryToBoardShip(ship, game, pushLog)
     }
 
     ship.underRepair = ship.damage > 0 && shipIsAtPort(ship, game)

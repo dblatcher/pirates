@@ -1,6 +1,7 @@
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
+import { handleBoardingActions } from "./boarding";
 import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
 import { addWaves } from "./effects/background";
 import { createImpact, createSplash, updateEffect } from "./effects/effect";
@@ -84,6 +85,8 @@ export const cycle = (
     gameState.towns.forEach(town => {
         updateTown(town, oldGameState)
     })
+    handleBoardingActions(gameState)
+
     gameState.effects.forEach(effect => {
         updateEffect(effect)
     })

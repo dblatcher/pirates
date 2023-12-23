@@ -90,6 +90,14 @@ const makeInitialState = (): GameState => {
                 h: _DEG * 0,
                 damage: 0,
             }),
+            makeDefaultShip({
+                id: 4,
+                name: 'The target',
+                x: 1000,
+                y: 500,
+                h: _DEG * 90,
+                damage: 0,
+            }),
 
         ],
         projectiles: [],
@@ -137,7 +145,8 @@ const makeInitialState = (): GameState => {
             }
         ],
         towns: [
-        ]
+        ],
+        boardingActions: [],
     }
 
     return initalState
