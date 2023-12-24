@@ -27,11 +27,13 @@ export type Ship = {
     boardingShip?: boolean,
     underRepair?: boolean,
 
+    damage: number,
+    marines: number,
+
     x: number,
     y: number,
     h: number,
     sailLevel: number,
-    damage: number,
     speedLastTurn: number
     turnsUnimpeded: number
 

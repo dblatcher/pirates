@@ -15,6 +15,7 @@ export type BoardingAction = {
     boardingShipId: number
     boardedShipId: number
     resolved: boolean
+    boardingParty: number
 }
 
 export type GameState = {

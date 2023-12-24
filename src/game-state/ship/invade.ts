@@ -1,6 +1,7 @@
 import { describeShipWithId, isBeingBoarded, isBoarding } from "."
 import { identifyShips } from "../../ai/identify-ships"
 import { findClosestAndDistance, getDistance } from "../../lib/geometry"
+import { startBoardingAction } from "../boarding"
 import { DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { Ship } from "../model/ship-types"
 import { getTownShipIsInvading } from "../towns"
@@ -46,10 +47,7 @@ export function tryToBoardShip(ship: Ship, game: GameState, pushLog: (message: s
         pushLog(`${describeShipWithId(closestEnemy)} is already being boarded.`)
     }
     pushLog(`${describeShipWithId(ship)} boards ${describeShipWithId(closestEnemy)}.`)
-    game.boardingActions.push({
-        boardedShipId: closestEnemy.id,
-        boardingShipId: ship.id,
-        resolved: false,
-    })
+
+    startBoardingAction(ship, closestEnemy, game)
 }
 

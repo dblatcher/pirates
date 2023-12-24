@@ -26,6 +26,7 @@ const shipDefaults = () => ({
     wheel: 0,
     sailLevelTarget: 0,
     damage: 0,
+    marines: 10,
 })
 
 const sloopAttributes = () => ({
@@ -56,6 +57,7 @@ const frigateAttributes = () => ({
             { position: .25, height: .8, flag: SMALL_PENNANT },
         ]
     },
+    marines: 30,
     cannons: frigateCannons(),
 })
 
