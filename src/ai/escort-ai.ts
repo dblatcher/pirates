@@ -14,4 +14,3 @@ export class EscortAutoPilot extends MissonAi {
         super(initalState, shipId, debugToConsole)
     }
 }
-

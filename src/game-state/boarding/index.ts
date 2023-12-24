@@ -1,3 +1,4 @@
+import { AIFactory } from "../../factory";
 import { BATTLE_PERIOD, BoardingAction, GameState, Ship } from "../model";
 
 export const startBoardingAction = (boardingShip: Ship, boardedShip: Ship, gameState: GameState) => {
@@ -12,13 +13,14 @@ export const startBoardingAction = (boardingShip: Ship, boardedShip: Ship, gameS
 
 
 const captureShip = (
-    boardingShip: Ship, boardedShip: Ship, boardingAction: BoardingAction,
+    boardingShip: Ship, boardedShip: Ship, boardingAction: BoardingAction, aiFactory: AIFactory
 ) => {
     boardingShip.marines = boardingAction.boardingParty
     boardedShip.faction = boardingShip.faction
+    boardedShip.ai = aiFactory.escort(boardingShip.id, boardedShip.id)
 }
 
-const progressBoardingAction = (boardingAction: BoardingAction, gameState: GameState): boolean => {
+const progressBoardingAction = (boardingAction: BoardingAction, gameState: GameState, aiFactory: AIFactory): boolean => {
 
     const boardingShip = gameState.ships.find(_ => _.id == boardingAction.boardingShipId)
     const boardedShip = gameState.ships.find(_ => _.id == boardingAction.boardedShipId)
@@ -29,7 +31,7 @@ const progressBoardingAction = (boardingAction: BoardingAction, gameState: GameS
     if (gameState.cycleNumber % BATTLE_PERIOD === 0) {
         boardedShip.marines = boardedShip.marines - 1
         if (boardedShip.marines <= 0) {
-            captureShip(boardingShip, boardedShip, boardingAction)
+            captureShip(boardingShip, boardedShip, boardingAction, aiFactory)
             return true
         }
         boardingAction.boardingParty = boardingAction.boardingParty - 1
@@ -37,9 +39,9 @@ const progressBoardingAction = (boardingAction: BoardingAction, gameState: GameS
     return false
 }
 
-export const handleBoardingActions = (gameState: GameState) => {
+export const handleBoardingActions = (gameState: GameState, aiFactory: AIFactory) => {
     gameState.boardingActions.forEach(boardingAction => {
-        boardingAction.resolved = progressBoardingAction(boardingAction, gameState)
+        boardingAction.resolved = progressBoardingAction(boardingAction, gameState, aiFactory)
     })
     gameState.boardingActions = gameState.boardingActions.filter(_ => !_.resolved)
 }

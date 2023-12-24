@@ -1,3 +1,5 @@
+import { AI } from "../ai";
+import { AIFactory } from "../factory";
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
@@ -9,7 +11,6 @@ import { Collison, Directive, GameState, MAX_WIND, ViewPort } from "./model";
 import { SoundEffectRequest } from "./model/sound";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
 import { aimAndFireCannonsFromForts, updateTown } from "./towns";
-
 
 
 const handleShipCollison = (collision: Collison, game: GameState) => {
@@ -52,6 +53,7 @@ export const cycle = (
     pushLog: { (newLog: string): void },
     soundEffectRequests: SoundEffectRequest[],
     viewPort: ViewPort,
+    aiFactory: AIFactory
 ): GameState => {
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
@@ -85,7 +87,7 @@ export const cycle = (
     gameState.towns.forEach(town => {
         updateTown(town, oldGameState)
     })
-    handleBoardingActions(gameState)
+    handleBoardingActions(gameState, aiFactory)
 
     gameState.effects.forEach(effect => {
         updateEffect(effect)

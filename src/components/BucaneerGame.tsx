@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
+import { aiFactory } from '../factory'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
@@ -55,6 +56,7 @@ const makeRefresh = (
         pushLog,
         soundEffectRequests,
         viewPortRef.current,
+        aiFactory,
     )
     Object.assign(gameStateRef.current, updatedGame)
 
