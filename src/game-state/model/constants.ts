@@ -18,6 +18,7 @@ export const BATTLE_PERIOD = 25
 // enviromental
 export const MAX_WIND = 10;
 
+export const BASE_SPEED_MULTIPLIER = 1.5
 export const SAIL_CHANGE_RATE = .01
 export const SHIP_TURN_RATE = _DEG * 2.5
 /**The level of damage that starts to slow a ship */

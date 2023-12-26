@@ -1,6 +1,6 @@
 import { findRotationBetweenHeadings } from "../../lib/geometry";
 import { clamp } from "../../lib/util";
-import { GameState, MAX_WIND, SHIP_DAMAGE_LEVEL_THAT_SLOWS } from "../model";
+import { BASE_SPEED_MULTIPLIER, GameState, MAX_WIND, SHIP_DAMAGE_LEVEL_THAT_SLOWS } from "../model";
 import { Ship } from "../model";
 
 export const getSpeed = (ship: Ship, gameState: GameState): number => {
@@ -22,7 +22,7 @@ export const getSpeed = (ship: Ship, gameState: GameState): number => {
     const unclampedFactor = ((1 / (SHIP_DAMAGE_LEVEL_THAT_SLOWS - 1)) * damagelevel) - (1 / (SHIP_DAMAGE_LEVEL_THAT_SLOWS - 1))
     const damageFactor = clamp(unclampedFactor, 1, 0)
 
-    return ship.sailLevel * ship.profile.speed * windFactor * damageFactor
+    return ship.sailLevel * ship.profile.speed * windFactor * damageFactor * BASE_SPEED_MULTIPLIER
 }
 
 const getSpeedAtFullSail = (ship: Ship, gameState: GameState): number => {
