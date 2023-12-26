@@ -1,5 +1,6 @@
 import { GameState, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
+import { drawBoardingAction, drawInvadingAction } from "./drawAction";
 import { drawLand } from "./drawLand";
 import { drawProjectile } from "./drawProjectile";
 import { makeDrawingMethods } from "./drawWithOffSet";
@@ -11,7 +12,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     const ctx = canvas.getContext('2d')
     if (!ctx) { return }
     const drawingMethods = makeDrawingMethods(ctx, viewPort)
-    const { projectiles, effects, towns, surfaceEffects } = game
+    const { projectiles, effects, towns, surfaceEffects, invadingActions, boardingActions } = game
     ctx.clearRect(0, 0, viewPort.width, viewPort.height)
     surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
     drawLand(ctx, drawingMethods, viewPort, game.land)
@@ -19,6 +20,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLC
     drawShips(ctx, drawingMethods, viewPort, game, false)
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
     effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
+    invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, action, game))
+    boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, action, game))
 }
-
 

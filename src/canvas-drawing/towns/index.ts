@@ -40,9 +40,9 @@ export const drawTowns = (
 
         if (beingInvaded) {
             const phase = timePhase(cycleNumber, 30, 1)
-            drawIcon(ctx, drawingMethods, town, { icon: 'JOLLY_RODGER', width: TOWN_SIZE + phase, height: TOWN_SIZE + phase })
+            drawIcon(ctx, drawingMethods, town, { icon: 'RED_CUTLASS', width: TOWN_SIZE + phase, height: TOWN_SIZE + phase })
         }
-        showDefenceLevel(ctx, drawingMethods, viewPort, town, cycleNumber)
+        showDefenceLevel(ctx, drawingMethods, town, cycleNumber)
     })
 
     // TO DO - check separately if the fort is in view

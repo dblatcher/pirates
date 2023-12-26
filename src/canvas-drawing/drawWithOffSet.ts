@@ -12,6 +12,12 @@ export type OffsetDrawMethods = {
         x1: number, y1: number, w1?: number, h1?: number,
         x2?: number, y2?: number, w2?: number, h2?: number,
     ) => void
+    fillText: (
+        text: string,
+        x: number,
+        y: number,
+        maxWidth?: number,
+    ) => void
 }
 
 export const makeDrawingMethods = (ctx: CanvasRenderingContext2D, viewPort: ViewPort): OffsetDrawMethods => {
@@ -44,5 +50,14 @@ export const makeDrawingMethods = (ctx: CanvasRenderingContext2D, viewPort: View
                 ? ctx.drawImage(image, x1 - viewPort.x, y1 - viewPort.y, w1, h1)
                 : ctx.drawImage(image, x1 - viewPort.x, y1 - viewPort.y)
 
-    return { arc, moveTo, lineTo, arcTo, rect, quadraticCurveTo, drawImage }
+    const fillText = (
+        text: string,
+        x: number,
+        y: number,
+        maxWidth?: number
+    ) =>
+        ctx.fillText(text, x - viewPort.x, y - viewPort.y, maxWidth)
+
+
+    return { arc, moveTo, lineTo, arcTo, rect, quadraticCurveTo, drawImage, fillText }
 }
