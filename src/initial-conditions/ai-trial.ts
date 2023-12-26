@@ -19,9 +19,9 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 1000,
-                y: 400,
-                h: _DEG * -90,
+                x: 1100,
+                y: 450,
+                h: _DEG * 90,
                 id: 1,
                 damage: 0,
                 sailLevelTarget: 0,
