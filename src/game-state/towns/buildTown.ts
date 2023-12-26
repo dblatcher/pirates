@@ -27,7 +27,6 @@ export const makeTown = (input: TownInput): Town => ({
         maxDefences: 50,
         maxGarrison: 25
     },
-    invasions: [],
     forts: input.forts || [],
     ...input
 })

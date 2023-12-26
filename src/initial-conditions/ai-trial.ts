@@ -149,7 +149,7 @@ const makeInitialState = (): GameState => {
                 name: 'Invade Me',
                 id: 1,
                 defences: 1,
-                garrison: 50,
+                garrison: 20,
             }),
         ],
     }

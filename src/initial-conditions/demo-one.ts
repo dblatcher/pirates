@@ -166,7 +166,6 @@ const makeInitialState = (): GameState => {
                     maxDefences: 100,
                     maxGarrison: 25,
                 },
-                invasions: [],
                 garrison: 20,
             }, [
                 { x: 0, y: 100 },

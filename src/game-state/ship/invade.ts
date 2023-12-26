@@ -1,7 +1,7 @@
 import { describeShipWithId, isBeingBoarded, isBoarding } from "."
 import { identifyShips } from "../../ai/identify-ships"
 import { findClosestAndDistance, getDistance } from "../../lib/geometry"
-import { startBoardingAction } from "../boarding"
+import { startBoardingAction } from "../melee"
 import { DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { Ship } from "../model/ship-types"
 import { getTownShipIsInvading } from "../towns"
@@ -9,7 +9,7 @@ import { getTownShipIsInvading } from "../towns"
 
 export function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (message: string) => void) {
     ship.launchingInvasion = false
-    if (getTownShipIsInvading(ship, game.towns)) {
+    if (getTownShipIsInvading(ship, game)) {
         pushLog(`${ship.name} is already invading a town`)
         return
     }
@@ -24,10 +24,12 @@ export function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (messag
         pushLog(`${ship.name} wants to invade ${town.name}, but its defenses are still up`)
         return
     }
-    pushLog(`${ship.name} invading ${town.name}`)
-    town.invasions.push({
-        shipId: ship.id,
-        landingParty: ship.marines,
+    pushLog(`${ship.name} invading ${town.name} with ${ship.marines} marines`)
+    game.invadingActions.push({
+        boardingParty: ship.marines,
+        boardingShipId: ship.id,
+        townId: town.id,
+        resolved: false,
     })
     ship.marines = 0
 }

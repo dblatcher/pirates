@@ -20,21 +20,21 @@ const captureShip = (
     boardedShip.ai = aiFactory.escort(boardingShip.id, boardedShip.id)
 }
 
-const progressBoardingAction = (boardingAction: BoardingAction, gameState: GameState, aiFactory: AIFactory): boolean => {
+const progressBoardingAction = (action: BoardingAction, gameState: GameState, aiFactory: AIFactory): boolean => {
 
-    const boardingShip = gameState.ships.find(_ => _.id == boardingAction.boardingShipId)
-    const boardedShip = gameState.ships.find(_ => _.id == boardingAction.boardedShipId)
+    const boardingShip = gameState.ships.find(_ => _.id == action.boardingShipId)
+    const boardedShip = gameState.ships.find(_ => _.id == action.boardedShipId)
 
-    if (!boardedShip || !boardingShip || boardingAction.boardingParty <= 0) {
+    if (!boardedShip || !boardingShip || action.boardingParty <= 0) {
         return true
     }
     if (gameState.cycleNumber % BATTLE_PERIOD === 0) {
         boardedShip.marines = boardedShip.marines - 1
         if (boardedShip.marines <= 0) {
-            captureShip(boardingShip, boardedShip, boardingAction, aiFactory)
+            captureShip(boardingShip, boardedShip, action, aiFactory)
             return true
         }
-        boardingAction.boardingParty = boardingAction.boardingParty - 1
+        action.boardingParty = action.boardingParty - 1
     }
     return false
 }

@@ -17,7 +17,7 @@ export const drawShips = (
     showCollision = false
 ) => {
 
-    const { ships, wind, cycleNumber, towns } = gameState
+    const { ships, wind, cycleNumber } = gameState
     const shipsInView = ships.filter(ship => isShipInView(ship, viewPort))
     shipsInView.forEach(ship => drawShipBase(ctx, drawingMethods, ship, showCollision))
     shipsInView.forEach(ship => drawDamage(ctx, drawingMethods, ship, cycleNumber))
@@ -25,7 +25,7 @@ export const drawShips = (
         drawShipMasts(ship.profile.masts, ctx, drawingMethods, ship, cycleNumber, wind)
     })
     shipsInView.forEach(ship => {
-        const invading = getTownShipIsInvading(ship, towns)
+        const invading = getTownShipIsInvading(ship, gameState)
         const boarding = isBoarding(ship, gameState) // TO DO - make effcient
         const beingBoarded = isBeingBoarded(ship, gameState)
         if (invading || boarding) {

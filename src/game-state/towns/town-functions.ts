@@ -1,10 +1,9 @@
-import { InvasionByShip, Ship, Town } from "../model";
+import { Ship, Town, GameState } from "../model";
 
-export const getInvasionsAndShips = (town: Town, ships: Ship[]): { invasion: InvasionByShip, ship: Ship }[] =>
-    town.invasions.flatMap(invasion => {
-        const ship = ships.find(ship => ship.id === invasion.shipId)
-        return ship ? [{ invasion, ship }] : []
-    })
+export const getTownShipIsInvading = (ship: Ship, gameState: GameState): Town | undefined => {
+    const action = gameState.invadingActions.find(_ => _.boardingShipId === ship.id)
+    if (!action) { return undefined }
+    return gameState.towns.find(town => town.id === action.townId)
+}
 
-export const getTownShipIsInvading = (ship: Ship, towns: Town[]): Town | undefined =>
-    towns.find(town => town.invasions.some(invasion => invasion.shipId === ship.id))
+export const townIsBeingInvaded = (town: Town, gameState: GameState): boolean => gameState.invadingActions.some(action => action.townId === town.id)

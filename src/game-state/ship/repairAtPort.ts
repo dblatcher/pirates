@@ -5,8 +5,8 @@ export const shipIsAtPort = (ship: Ship, gameState: GameState): boolean => {
 
     return ship.sailLevel === 0
         && gameState.towns.some(town =>
-            town.invasions.length === 0
-            && town.faction === ship.faction
+            town.faction === ship.faction
+            && gameState.invadingActions.every(action => action.townId !== town.id)
             && getDistance(ship, town) < TOWN_SIZE + REPAIR_RANGE
         )
 }

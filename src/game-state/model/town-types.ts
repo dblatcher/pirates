@@ -19,12 +19,6 @@ export type Town = XY & {
     id: number,
     defences: number,
     profile: TownProfile,
-    invasions: InvasionByShip[],
     garrison: number,
     forts: Fort[],
-}
-
-export type InvasionByShip = {
-    shipId: number
-    landingParty: number
 }

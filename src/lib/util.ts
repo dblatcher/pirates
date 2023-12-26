@@ -21,6 +21,7 @@ export const isEven = (value: number) => value % 2 === 0
 export const average = (list: number[]): number =>
     list.reduce((previous, current) => previous + current, 0) / list.length
 
+export const sum = (list: number[]): number => list.reduce((previous, current) => previous + current, 0) 
 
 /** random integer from 1 to max */
 export const randomInt = (max: number): number => {

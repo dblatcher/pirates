@@ -1,4 +1,4 @@
-import { Flag, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
+import { Flag, InvadingAction, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { translateZ } from "../../lib/geometry";
 import { timePhase } from "../../lib/util";
@@ -22,11 +22,13 @@ export const drawTowns = (
     viewPort: ViewPort,
     cycleNumber: number,
     wind: Wind,
+    invadingActions: InvadingAction[],
 ) => {
     const townsInView = towns.filter(town => isTownInView(town, viewPort))
+    const idsOfTownsInBeingInvaded = invadingActions.map(_ => _.townId)
 
     townsInView.forEach(town => {
-        const beingInvaded = town.invasions.length > 0
+        const beingInvaded = idsOfTownsInBeingInvaded.includes(town.id)
         const color = getFactionColor(town)
         const flagHeight = Math.min(50, town.garrison * 2)
 
