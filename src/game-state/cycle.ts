@@ -1,4 +1,3 @@
-import { AI } from "../ai";
 import { AIFactory } from "../factory";
 import { _DEG, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";

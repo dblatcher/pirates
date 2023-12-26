@@ -27,7 +27,9 @@ export function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (messag
     pushLog(`${ship.name} invading ${town.name}`)
     town.invasions.push({
         shipId: ship.id,
+        landingParty: ship.marines,
     })
+    ship.marines = 0
 }
 
 export function tryToBoardShip(ship: Ship, game: GameState, pushLog: (message: string) => void) {

@@ -26,4 +26,5 @@ export type Town = XY & {
 
 export type InvasionByShip = {
     shipId: number
+    landingParty: number
 }

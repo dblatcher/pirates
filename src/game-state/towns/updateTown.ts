@@ -7,8 +7,10 @@ import { doRepairs } from "./town-ai";
 import { getInvasionsAndShips } from "./town-functions";
 
 const conquerTown = (town: Town, faction?: FactionId) => {
+    // TO DO - if the invasions are for another faction, keep invading?
+    const totalTroops = town.invasions.reduce<number>((total, nextInvasion) => total + nextInvasion.landingParty, 0)
     town.faction = faction
-    town.garrison = 1
+    town.garrison = totalTroops
     town.invasions = []
 }
 
@@ -25,19 +27,22 @@ export const updateTown = (town: Town, gameState: GameState) => {
         if (gameState.cycleNumber % BATTLE_PERIOD === 0) {
             const invasionsAndShips = getInvasionsAndShips(town, gameState.ships)
 
-            const [_outOfRange, inRange] = splitArray(invasionsAndShips, invasion =>
-                getDistance(invasion.ship, town) > TOWN_SIZE + INVASION_RANGE)
+            const [_invasionsOver, invasionsStillGoingOn] = splitArray(invasionsAndShips, invasionAndShip =>
+                invasionAndShip.invasion.landingParty <= 1 ||
+                getDistance(invasionAndShip.ship, town) > TOWN_SIZE + INVASION_RANGE
+            )
 
-            town.invasions = inRange.map(_ => _.invasion)
+            town.invasions = invasionsStillGoingOn.map(_ => _.invasion)
             // TO DO - handle simulanteous invasions from rival factions!
-            const [firstRemainingInvasion] = inRange
+            const [firstRemainingInvasion] = invasionsStillGoingOn
             if (!firstRemainingInvasion) {
                 return
             }
             const invadingFaction = firstRemainingInvasion.ship.faction
 
-            town.invasions.forEach(_invasion => {
+            town.invasions.forEach(invasion => {
                 town.garrison = Math.max(town.garrison - 1, 0)
+                invasion.landingParty = invasion.landingParty - 1
             })
 
             if (town.garrison <= 0) {
