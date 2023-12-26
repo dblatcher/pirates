@@ -34,6 +34,7 @@ const sloopAttributes = () => ({
     length: 80,
     profile: {
         maxHp: 20,
+        maxMarines: 20,
         speed: 1,
         maneuver: 1,
         masts: [
@@ -49,6 +50,7 @@ const frigateAttributes = () => ({
     length: 100,
     profile: {
         maxHp: 40,
+        maxMarines: 30,
         speed: .8,
         maneuver: .9,
         masts: [

@@ -66,8 +66,12 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
         tryToBoardShip(ship, game, pushLog)
     }
 
-    ship.underRepair = ship.damage > 0 && shipIsAtPort(ship, game)
-    if (ship.underRepair && game.cycleNumber % REPAIR_PERIOD === 0) {
-        ship.damage = clamp(ship.damage - 1, ship.profile.maxHp, 0)
+    const atPort = shipIsAtPort(ship, game)
+    ship.underRepair = ship.damage > 0 && atPort
+    if (game.cycleNumber % REPAIR_PERIOD === 0) {
+        if (atPort) {
+            ship.damage = clamp(ship.damage - 1, ship.profile.maxHp, 0)
+            ship.marines = clamp(ship.marines + 1, ship.profile.maxMarines)
+        }
     }
 }

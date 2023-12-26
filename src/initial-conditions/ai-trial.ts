@@ -23,7 +23,7 @@ const makeInitialState = (): GameState => {
                 y: 450,
                 h: _DEG * 90,
                 id: 1,
-                damage: 0,
+                damage: 10,
                 sailLevelTarget: 0,
                 sailLevel: 0
             }),

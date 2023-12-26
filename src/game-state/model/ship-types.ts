@@ -11,6 +11,7 @@ export interface MastConfig {
 
 export type ShipProfile = {
     maxHp: number,
+    maxMarines: number,
     speed: number,
     maneuver: number,
     masts: MastConfig[],
