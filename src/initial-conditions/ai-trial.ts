@@ -4,14 +4,13 @@ import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTown } from "../game-state/towns";
-import { Scenario } from "../initial-conditions";
+import { Scenario, GAME_STATE_DEFAULTS } from "../initial-conditions";
 import { _DEG, xy } from "../lib/geometry";
 
 const makeInitialState = (): GameState => {
 
     const initalState: GameState = {
-        cycleNumber: 0,
-        playerId: 1,
+        ...GAME_STATE_DEFAULTS,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -101,9 +100,6 @@ const makeInitialState = (): GameState => {
             }),
 
         ],
-        projectiles: [],
-        effects: [],
-        surfaceEffects: [],
         land: [
             {
                 x: 1000,
@@ -156,7 +152,6 @@ const makeInitialState = (): GameState => {
                 garrison: 50,
             }),
         ],
-        boardingActions: [],
     }
 
     return initalState

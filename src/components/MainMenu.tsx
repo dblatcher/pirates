@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { SoundDeck } from "sound-deck"
-import * as scenarios from '../initial-conditions'
-import { Scenario } from "../initial-conditions"
+import { scenarios, Scenario } from '../initial-conditions'
 import { buildMatrixFromGameState } from "../lib/path-finding/build-matrix"
 import { BuccaneerGame } from "./BucaneerGame"
 import { SoundToggle } from "./SoundToggle"

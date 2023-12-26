@@ -17,6 +17,12 @@ export type BoardingAction = {
     resolved: boolean
     boardingParty: number
 }
+export type InvadingAction = {
+    boardingShipId: number
+    townId: number
+    resolved: boolean
+    boardingParty: number
+}
 
 export type GameState = {
     playerId: number,
@@ -29,6 +35,8 @@ export type GameState = {
     land: Landmass[];
     towns: Town[];
     boardingActions: BoardingAction[];
+    invadingActions: InvadingAction[];
+    
 }
 
 export type ViewPort = {

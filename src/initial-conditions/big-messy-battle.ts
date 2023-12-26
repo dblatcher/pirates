@@ -2,7 +2,7 @@ import { AttackAutoPilot } from "../ai";
 import { GameState, Ship } from "../game-state";
 import { FactionId } from "../game-state/faction";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { Scenario } from "../initial-conditions";
+import { Scenario, GAME_STATE_DEFAULTS } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 
 
@@ -23,8 +23,7 @@ const addAttackShip = (x: number, y: number, h = 0, faction: FactionId = 'grance
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
-        cycleNumber: 0,
-        playerId: 1,
+        ...GAME_STATE_DEFAULTS,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -73,12 +72,6 @@ const makeInitialState = (): GameState => {
 
 
         ],
-        projectiles: [],
-        effects: [],
-        surfaceEffects: [],
-        land: [],
-        towns: [],
-        boardingActions: [],
     }
     return initalState
 }
@@ -87,5 +80,5 @@ export const bigMesseyBattle: Scenario = ({
     makeInitialState,
     mapHeight: 1800,
     mapWidth: 2400,
-    name:'Big Messy Battle',
+    name: 'Big Messy Battle',
 })
