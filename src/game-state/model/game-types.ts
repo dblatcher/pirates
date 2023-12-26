@@ -12,16 +12,16 @@ export type Wind = {
 }
 
 export type BoardingAction = {
-    boardingShipId: number
+    attackingShipId: number
     boardedShipId: number
     resolved: boolean
-    boardingParty: number
+    numberOfAttackers: number
 }
 export type InvadingAction = {
-    boardingShipId: number
+    attackingShipId: number
     townId: number
     resolved: boolean
-    boardingParty: number
+    numberOfAttackers: number
 }
 
 export type GameState = {

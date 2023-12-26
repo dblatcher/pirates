@@ -11,7 +11,7 @@ export const isShipInView = (ship: Ship, viewPort: ViewPort): boolean => {
 export const describeShipWithId = (ship: Ship) => ship.name ? `${ship.name}(#${ship.id})` : `SHIP#${ship.id}`
 
 export const isBoarding = (ship: Ship, gameState: GameState) => {
-    return gameState.boardingActions.some(boardingAction => boardingAction.boardingShipId === ship.id)
+    return gameState.boardingActions.some(boardingAction => boardingAction.attackingShipId === ship.id)
 }
 
 export const isBeingBoarded = (ship: Ship, gameState: GameState) => {

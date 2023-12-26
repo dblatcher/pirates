@@ -7,11 +7,11 @@ const captureTown = (town: Town, ship: Ship, _action: InvadingAction, gameState:
     const allActionsOnThisTown = gameState.invadingActions.filter(_ => _.townId === town.id);
     // TO DO - add the faction to the invadingAction to avoid this mess
     const isActionBySameFaction = (otherAction: InvadingAction): boolean => {
-        const otherShip = gameState.ships.find(_ => _.id == otherAction.boardingShipId)
+        const otherShip = gameState.ships.find(_ => _.id == otherAction.attackingShipId)
         return !!otherShip && otherShip.faction == ship.faction
     }
     const [actionsFromSameFaction] = splitArray(allActionsOnThisTown, isActionBySameFaction)
-    const totalTroopForSameFaction = sum(actionsFromSameFaction.map(_ => _.boardingParty))
+    const totalTroopForSameFaction = sum(actionsFromSameFaction.map(_ => _.numberOfAttackers))
     actionsFromSameFaction.forEach(action => { action.resolved = true })
 
     town.faction = ship.faction
@@ -21,10 +21,10 @@ const captureTown = (town: Town, ship: Ship, _action: InvadingAction, gameState:
 }
 
 const progressInvadingAction = (action: InvadingAction, gameState: GameState, _aiFactory: AIFactory): boolean => {
-    const ship = gameState.ships.find(_ => _.id == action.boardingShipId)
+    const ship = gameState.ships.find(_ => _.id == action.attackingShipId)
     const town = gameState.towns.find(_ => _.id == action.townId)
 
-    if (!town || !ship || action.boardingParty <= 0) {
+    if (!town || !ship || action.numberOfAttackers <= 0) {
         return true
     }
     
@@ -39,7 +39,7 @@ const progressInvadingAction = (action: InvadingAction, gameState: GameState, _a
             captureTown(town, ship, action, gameState)
             return true
         }
-        action.boardingParty = action.boardingParty - 1
+        action.numberOfAttackers = action.numberOfAttackers - 1
     }
     return false
 }

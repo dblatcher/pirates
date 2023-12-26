@@ -26,8 +26,8 @@ export function tryToLauchInvasion(ship: Ship, game: GameState, pushLog: (messag
     }
     pushLog(`${ship.name} invading ${town.name} with ${ship.marines} marines`)
     game.invadingActions.push({
-        boardingParty: ship.marines,
-        boardingShipId: ship.id,
+        numberOfAttackers: ship.marines,
+        attackingShipId: ship.id,
         townId: town.id,
         resolved: false,
     })
