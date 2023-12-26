@@ -3,6 +3,7 @@ import { HunterAi, MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
+import { makeTown } from "../game-state/towns";
 import { Scenario } from "../initial-conditions";
 import { _DEG, xy } from "../lib/geometry";
 
@@ -145,6 +146,15 @@ const makeInitialState = (): GameState => {
             }
         ],
         towns: [
+            makeTown({
+                x: 1200,
+                y: 600,
+                faction: 'spaim',
+                name: 'Invade Me',
+                id: 1,
+                defences: 1,
+                garrison: 50,
+            }),
         ],
         boardingActions: [],
     }
@@ -156,5 +166,5 @@ export const aiTrial: Scenario = ({
     makeInitialState,
     mapHeight: 1800,
     mapWidth: 2400,
-    name:'AI Testing Scenario'
+    name: 'AI Testing Scenario'
 })
