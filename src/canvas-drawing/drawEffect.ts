@@ -1,3 +1,4 @@
+import { CYCLES_TO_SINK } from "../game-state";
 import { Effect, EffectType } from "../game-state/effects/effect";
 import { colors, rgba } from "../lib/Color";
 import { translate, xy } from "../lib/geometry";
@@ -61,13 +62,9 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
         }
 
         case EffectType.SHINKING_SHIP: {
-
-            const sinking = clamp(effect.sink,200,0)
-            console.log(sinking)
-
+            const sinking = clamp(effect.sink, CYCLES_TO_SINK, 0)
             drawShipBase(ctx, drawingMethods, effect.ship, false, sinking)
             break;
-
         }
     }
 }

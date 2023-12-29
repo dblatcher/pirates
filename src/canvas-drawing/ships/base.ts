@@ -1,4 +1,4 @@
-import { Ship } from "../../game-state";
+import { CYCLES_TO_SINK, SINKING_DISTANCE, Ship } from "../../game-state";
 import { getCollisionCircles } from "../../game-state/ship";
 import { colors, rgba } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
@@ -67,7 +67,11 @@ const drawHullPath = (
 }
 
 const fadeAsSinking = (sinking: number): number => {
-    return .7 - .8 * (sinking / 200)
+    return .7 - .8 * (sinking / CYCLES_TO_SINK)
+}
+
+const getSinkDistance = (sinking: number): number => {
+    return -sinking * (SINKING_DISTANCE / CYCLES_TO_SINK)
 }
 
 export const drawShipBase = (
@@ -84,13 +88,13 @@ export const drawShipBase = (
     const l = h + _90_DEG_LEFT;
 
     const surfaceFore = translate(getXYVector((length) / 2, h), ship);
-    const fore = sinking ? translateZ(surfaceFore, -sinking) : surfaceFore
+    const fore = sinking ? translateZ(surfaceFore, getSinkDistance(sinking)) : surfaceFore
     const foreBack = translate(fore, getXYVector(-width / 2, h));
     const foreLeft = translate(foreBack, getXYVector(width / 2, l));
     const foreRight = translate(foreBack, getXYVector(width / 2, r));
 
     const surfaceBack = translate(ship, getXYVector(-(length / 2 - width / 2), h));
-    const back = sinking ? translateZ(surfaceBack, -sinking) : surfaceBack
+    const back = sinking ? translateZ(surfaceBack, getSinkDistance(sinking)) : surfaceBack
     const backLeft = translate(back, getXYVector(width / 2, l));
     const backRight = translate(back, getXYVector(width / 2, r));
     const backCurveControlPoint = translate(back, getXYVector(-width, h))

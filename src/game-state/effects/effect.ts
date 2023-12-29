@@ -1,5 +1,5 @@
 import { XY } from "../../lib/geometry";
-import { GameState, Ship } from "../model";
+import { CYCLES_TO_SINK, GameState, Ship } from "../model";
 
 // TO DO - move to model
 export enum EffectType {
@@ -87,7 +87,7 @@ export const AddSinkingShip = (ship: Ship, game: GameState) => {
         type: EffectType.SHINKING_SHIP,
         x: ship.x,
         y: ship.y,
-        timeLeft: 200,
+        timeLeft: CYCLES_TO_SINK,
         ship,
         sink: 0,
     })

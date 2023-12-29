@@ -33,3 +33,7 @@ export const DEFAULT_FIRE_DISTANCE = 150
 /**How far a ship's actual target can get from the ship's current destination before the ship should set a new path */
 export const DISTANCE_TO_REEVAULATE_PATH = 300
 export const MIN_CYCLES_BETWEEN_PATH_FINDING = 50
+
+// effects
+export const CYCLES_TO_SINK = 100
+export const SINKING_DISTANCE = 50
