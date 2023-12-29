@@ -96,7 +96,7 @@ const makeInitialState = (): GameState => {
                 x: 1000,
                 y: 500,
                 h: _DEG * 90,
-                damage: 0,
+                damage: 19,
             }),
 
         ],

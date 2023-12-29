@@ -1,9 +1,9 @@
 import { XY } from "../../lib/geometry";
-import { GameState } from "../model";
+import { GameState, Ship } from "../model";
 
 // TO DO - move to model
 export enum EffectType {
-    SPLASH, IMPACT, GROUNDHIT, WAVE,
+    SPLASH, IMPACT, GROUNDHIT, WAVE, SHINKING_SHIP
 }
 type BaseEffect = {
     x: number;
@@ -29,7 +29,13 @@ type WAVE = BaseEffect & {
     type: EffectType.WAVE
 }
 
-export type Effect = Splash | Impact | GroundHit | WAVE
+type ShinkingShip = BaseEffect & {
+    type: EffectType.SHINKING_SHIP
+    ship: Ship
+    sink: number
+}
+
+export type Effect = Splash | Impact | GroundHit | WAVE | ShinkingShip
 
 export const updateEffect = (effect: Effect) => {
     effect.timeLeft = effect.timeLeft - 1
@@ -43,6 +49,11 @@ export const updateEffect = (effect: Effect) => {
                 particle.x = particle.x + particle.v.x
             })
             break
+        case EffectType.SHINKING_SHIP:
+            effect.sink = effect.sink + 1
+            break;
+        case EffectType.WAVE:
+        case EffectType.IMPACT:
     }
 }
 
@@ -68,5 +79,16 @@ export const createGroundHit = (start: Omit<GroundHit, 'type' | 'particles'>, ga
         particles: [
             makeParticle(), makeParticle(), makeParticle(), makeParticle(), makeParticle(), makeParticle(), makeParticle(), makeParticle(),
         ]
+    })
+}
+
+export const AddSinkingShip = (ship: Ship, game: GameState) => {
+    game.surfaceEffects.push({
+        type: EffectType.SHINKING_SHIP,
+        x: ship.x,
+        y: ship.y,
+        timeLeft: 200,
+        ship,
+        sink: 0,
     })
 }

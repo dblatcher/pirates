@@ -5,7 +5,7 @@ import { randomInt, splitArray } from "../lib/util";
 import { handleBoardingActions, handleInvadingActions } from "./melee";
 import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
 import { addWaves } from "./effects/background";
-import { createImpact, createSplash, updateEffect } from "./effects/effect";
+import { AddSinkingShip, createImpact, createSplash, updateEffect } from "./effects/effect";
 import { Collison, Directive, GameState, MAX_WIND, ViewPort } from "./model";
 import { SoundEffectRequest } from "./model/sound";
 import { followDirectives, getProwPosition, updateShip } from "./ship";
@@ -28,6 +28,7 @@ const removeSinkingShips = (game: GameState, pushLog: { (newLog: string): void }
     shipsSinking.forEach(ship => {
         soundEffectRequests.push({ position: ship, sfx: 'shipSink' })
         pushLog(`${ship.name || 'a ship'} sinks!`)
+        AddSinkingShip(ship, game)
         createSplash({ ...ship, radius: 30, timeLeft: 100 }, game)
         createSplash({ ...ship, radius: 25, timeLeft: 100 }, game)
         createSplash({ ...ship, radius: 20, timeLeft: 100 }, game)

@@ -11,8 +11,9 @@ const BLACK: Color = { r: 0, g: 0, b: 0 } as const
 const WHITE: Color = { r: 255, g: 255, b: 255 } as const
 const GRAY: Color = { r: 120, g: 120, b: 120 } as const
 const RED: Color = { r: 240, g: 60, b: 60 } as const
+const BROWN: Color = { r: 165, g: 42, b: 42 } as const
 export const colors = {
-    BLACK, WHITE, GRAY, RED
+    BLACK, WHITE, GRAY, RED, BROWN
 } as const
 
 export const SAIL_COLOR_CSS = rgba(colors.WHITE, .8);

@@ -1,9 +1,9 @@
-import { getCollisionCircles } from "../../game-state/ship";
 import { Ship } from "../../game-state";
+import { getCollisionCircles } from "../../game-state/ship";
+import { colors, rgba } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { s, getFactionColor } from "../helpers";
-import { rgb } from "../../lib/Color";
+import { getFactionColor, s } from "../helpers";
 
 
 type HullPoints = {
@@ -66,11 +66,16 @@ const drawHullPath = (
     }
 }
 
+const fadeAsSinking = (sinking: number): number => {
+    return .7 - .8 * (sinking / 200)
+}
+
 export const drawShipBase = (
     ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
-    showCollision = false
+    showCollision = false,
+    sinking = 0
 ) => {
     const { h, width, length } = ship;
     const { arc } = drawMethods;
@@ -78,12 +83,14 @@ export const drawShipBase = (
     const r = h + _90_DEG_RIGHT;
     const l = h + _90_DEG_LEFT;
 
-    const fore = translate(getXYVector((length) / 2, h), ship);
+    const surfaceFore = translate(getXYVector((length) / 2, h), ship);
+    const fore = sinking ? translateZ(surfaceFore, -sinking) : surfaceFore
     const foreBack = translate(fore, getXYVector(-width / 2, h));
     const foreLeft = translate(foreBack, getXYVector(width / 2, l));
     const foreRight = translate(foreBack, getXYVector(width / 2, r));
 
-    const back = translate(ship, getXYVector(-(length / 2 - width / 2), h));
+    const surfaceBack = translate(ship, getXYVector(-(length / 2 - width / 2), h));
+    const back = sinking ? translateZ(surfaceBack, -sinking) : surfaceBack
     const backLeft = translate(back, getXYVector(width / 2, l));
     const backRight = translate(back, getXYVector(width / 2, r));
     const backCurveControlPoint = translate(back, getXYVector(-width, h))
@@ -92,14 +99,15 @@ export const drawShipBase = (
         fore, foreLeft, foreRight, backCurveControlPoint, backLeft, backRight
     }
 
-    const factionColor = rgb(getFactionColor(ship))
+    const opacity = sinking ? fadeAsSinking(sinking) : 1
+    const factionColor = rgba(getFactionColor(ship), opacity)
 
     drawHullPath(ctx, drawMethods,
         { stroke: factionColor, fill: factionColor, width: 1 },
         points,
     )
     drawHullPath(ctx, drawMethods,
-        { stroke: factionColor, fill: 'brown', width: 1 },
+        { stroke: factionColor, fill: rgba(colors.BROWN, opacity), width: 1 },
         points,
         2
     )

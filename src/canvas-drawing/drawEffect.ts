@@ -4,6 +4,7 @@ import { translate, xy } from "../lib/geometry";
 import { clamp } from "../lib/util";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";
+import { drawShipBase } from "./ships/base";
 
 export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, effect: Effect) {
     const { x, y } = effect
@@ -56,6 +57,17 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
             moveTo(...s(translate(effect, xy(-spread, 0))))
             lineTo(...s(translate(effect, xy(spread, 0))))
             ctx.stroke();
+            break;
+        }
+
+        case EffectType.SHINKING_SHIP: {
+
+            const sinking = clamp(effect.sink,200,0)
+            console.log(sinking)
+
+            drawShipBase(ctx, drawingMethods, effect.ship, false, sinking)
+            break;
+
         }
     }
 }
