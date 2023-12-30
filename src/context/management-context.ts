@@ -3,10 +3,14 @@ import { Scenario } from '../initial-conditions'
 
 const mangementContext = createContext<{
     mainMenuOpen: boolean,
-    scenario?: Scenario
+    soundIsEnabled: boolean,
+    toggleSound: { (): Promise<void> }
+    scenario?: Scenario,
 }>({
     mainMenuOpen: false,
-    scenario: undefined
+    soundIsEnabled: false,
+    toggleSound: () => Promise.resolve(),
+    scenario: undefined,
 })
 
 export const ManagementProvider = mangementContext.Provider
