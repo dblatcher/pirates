@@ -4,13 +4,24 @@
   padding: .5rem;
 }
 
+.main-menu {
+  padding: 10px;
+}
+
+.main-menu__button-container {
+  margin: 0 auto;
+  max-width: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
 
 .panel-frame {
   border: 2px solid slategray;
   padding: .5rem;
 }
 
-.panel-frame p{
+.panel-frame p {
   margin: 0;
 }
 
