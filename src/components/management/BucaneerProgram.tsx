@@ -8,48 +8,49 @@ import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
 import { MainMenu } from "./MainMenu"
 import { Modal } from "./Modal"
+import { ManagementProvider } from "../../context/management-context"
 
-type Props = {
-
-}
-
-export const BucaneerProgram = ({ }: Props) => {
+export const BucaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
-    const [menuIsOpen, setMenuIsOpen] = useState(false)
+    const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [restartTimestamp, setRestartTimestamp] = useState(Date.now())
     const soundDeck = new SoundDeck()
 
-    return <div>
-        <SoundToggle soundDeck={soundDeck} />
-        <KeyboardControls keyDownFunction={({ code }) => {
-            switch (code) {
-                case 'Equal':
-                    return toggleSoundDeck(soundDeck)()
-                case 'Escape':
-                    return setMenuIsOpen(!menuIsOpen)
-            }
-        }} />
-        <button onClick={() => { setMenuIsOpen(!menuIsOpen) }}> main menu</button>
+    return (
+        <ManagementProvider value={{
+            mainMenuOpen, scenario
+        }}>
+            <SoundToggle soundDeck={soundDeck} />
+            <KeyboardControls keyDownFunction={({ code }) => {
+                switch (code) {
+                    case 'Equal':
+                        return toggleSoundDeck(soundDeck)()
+                    case 'Escape':
+                        return setMainMenuOpen(!mainMenuOpen)
+                }
+            }} />
+            <button onClick={() => { setMainMenuOpen(!mainMenuOpen) }}> main menu</button>
 
-        {scenario ? (
-            <ScenarioGame
-                soundDeck={soundDeck}
-                scenario={scenario}
-                key={restartTimestamp} />
-        ) : (
-            <TitleScreen
-                setScenario={setScenario}
-                scenarios={scenarios} />
-        )}
+            {scenario ? (
+                <ScenarioGame
+                    soundDeck={soundDeck}
+                    scenario={scenario}
+                    key={restartTimestamp} />
+            ) : (
+                <TitleScreen
+                    setScenario={setScenario}
+                    scenarios={scenarios} />
+            )}
 
-        <Modal setIsOpen={setMenuIsOpen} isOpen={menuIsOpen} >
-            <MainMenu
-                quitToTitle={() => {
-                    setScenario(undefined)
-                    setMenuIsOpen(false)
-                }}
-                restartGame={() => { setRestartTimestamp(Date.now()) }}
-            />
-        </Modal>
-    </div>
+            <Modal setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen} >
+                <MainMenu
+                    quitToTitle={() => {
+                        setScenario(undefined)
+                        setMainMenuOpen(false)
+                    }}
+                    restartGame={() => { setRestartTimestamp(Date.now()) }}
+                />
+            </Modal>
+        </ManagementProvider>
+    )
 }

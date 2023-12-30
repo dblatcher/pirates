@@ -12,6 +12,7 @@ import { GameScreen } from './GameScreen'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { useManagement } from '../context/management-context'
 
 interface Props {
     initial: GameState;
@@ -83,6 +84,8 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
+    const { mainMenuOpen } = useManagement()
+
     const addDirective = (directive: Directive) => {
         directivesRef.current.push(directive)
     }
@@ -113,7 +116,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     )
 
 
-    useSchedule(refresh, paused ? null : turbo ? 1 : 10)
+    useSchedule(refresh, paused || mainMenuOpen ? null : turbo ? 1 : 10)
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>
