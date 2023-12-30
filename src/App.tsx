@@ -1,9 +1,9 @@
 import './App.css'
-import { MainMenu } from './components/MainMenu'
+import { BucaneerProgram } from './components/management/BucaneerProgram'
 
 
 function App() {
-  return <MainMenu />
+  return <BucaneerProgram />
 }
 
 export default App
