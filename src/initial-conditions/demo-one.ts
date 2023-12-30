@@ -9,7 +9,7 @@ import { _DEG } from "../lib/geometry";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
-        ...GAME_STATE_DEFAULTS, 
+        ...GAME_STATE_DEFAULTS,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -194,4 +194,8 @@ export const demoOne: Scenario = ({
     mapHeight: 1800,
     mapWidth: 2400,
     name: 'Demo Scenario One',
+    intro: [
+        { text: 'This is a demo scenario' },
+        { text: 'Try it out' },
+    ]
 })

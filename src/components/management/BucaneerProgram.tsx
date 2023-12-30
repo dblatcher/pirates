@@ -61,7 +61,10 @@ export const BucaneerProgram = () => {
                         setScenario(undefined)
                         setMainMenuOpen(false)
                     }}
-                    restartGame={() => { setRestartTimestamp(Date.now()) }}
+                    restartGame={() => {
+                        setRestartTimestamp(Date.now())
+                        setMainMenuOpen(false)
+                    }}
                 />
             </Modal>
         </ManagementProvider>

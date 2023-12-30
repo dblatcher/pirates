@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { aiFactory } from '../factory'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
@@ -13,6 +13,7 @@ import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { useManagement } from '../context/management-context'
+import { IntroMessage } from './IntroMessage'
 
 interface Props {
     initial: GameState;
@@ -66,6 +67,7 @@ const makeRefresh = (
 }
 
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix, soundDeck }: Props) => {
+    const { mainMenuOpen, scenario } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
@@ -76,6 +78,8 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     })
     const directivesRef = useRef<Directive[]>([])
 
+    const [introPages, setIntroPages] = useState(scenario?.intro ? [...scenario.intro] : [])
+    const [doneInitialRefresh, setDoneInitialRefresh] = useState(false)
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
@@ -84,7 +88,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
 
-    const { mainMenuOpen } = useManagement()
 
     const addDirective = (directive: Directive) => {
         directivesRef.current.push(directive)
@@ -115,8 +118,16 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         [getAndClearDirectives, updateTimeTracking]
     )
 
+    const [currentIntroPage] = introPages;
 
-    useSchedule(refresh, paused || mainMenuOpen ? null : turbo ? 1 : 10)
+    useEffect(() => {
+        if (!doneInitialRefresh) {
+            refresh()
+            setDoneInitialRefresh(true)
+        }
+    }, [doneInitialRefresh])
+
+    useSchedule(refresh, currentIntroPage || paused || mainMenuOpen ? null : turbo ? 1 : 10)
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>
@@ -150,7 +161,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
                 />
-
             </main>
 
             <aside>
@@ -174,6 +184,13 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     mapHeight={mapHeight}
                 />
             )}
+
+            <IntroMessage
+                currentIntroPage={currentIntroPage}
+                goToNext={() => {
+                    setIntroPages(introPages.slice(1))
+                }}
+            />
         </div>
     )
 }
