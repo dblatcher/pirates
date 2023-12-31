@@ -1,5 +1,4 @@
 import { Scenario } from "../../initial-conditions"
-import skull from "../../../public/jolly-rodger.png"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
@@ -16,7 +15,7 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
                     setScenario(scenario)
                 }}>{scenario.name ?? key}</button>
             ))}
-            <img src={skull} style={{ position: 'fixed', right: 0, top: 0, zIndex: -1, width: "40%" }} />
+            <img src={'./jolly-rodger.png'} style={{ position: 'fixed', right: 0, top: 0, zIndex: -1, width: "40%" }} />
         </>
     )
 }
