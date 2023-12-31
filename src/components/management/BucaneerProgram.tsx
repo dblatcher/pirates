@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { SoundDeck } from "sound-deck"
-import { Scenario, ScenarioOutcome, scenarios } from '../../initial-conditions'
+import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../initial-conditions'
 import { KeyboardControls } from "../KeyboardControls"
 import { SoundToggle } from "../SoundToggle"
 import { ScenarioGame } from "./ScenarioGame"
@@ -31,9 +31,18 @@ export const BucaneerProgram = () => {
     }
 
     const reportOutcome = (outcome: ScenarioOutcome) => {
-        console.log(outcome, scenario?.name)
-        // TO DO - progress to next scenario if success
-        resetScenario()
+        if (outcome.success === false) {
+            return resetScenario()
+        }
+        if (outcome.nextScenarioId) {
+            const maybeScenario = scenarios[outcome.nextScenarioId]
+            if (!maybeScenario) {
+                return console.warn(`no scenario called ${outcome.nextScenarioId}`)
+            }
+            setScenario(maybeScenario)
+            return resetScenario()
+        }
+        return console.warn(`Success outcome has no next scenario`)
     }
 
     return (
@@ -59,7 +68,7 @@ export const BucaneerProgram = () => {
             ) : (
                 <TitleScreen
                     setScenario={setScenario}
-                    scenarios={scenarios} />
+                    scenarios={startingScenarios} />
             )}
 
             <Modal setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen} >

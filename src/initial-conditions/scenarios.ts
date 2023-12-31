@@ -9,6 +9,7 @@ export type Intro = {
 export type ScenarioOutcome = {
     success: boolean
     message: string
+    nextScenarioId?: string
 }
 
 export type Scenario = {
