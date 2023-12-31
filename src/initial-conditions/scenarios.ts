@@ -1,6 +1,7 @@
+import type { expressions } from "@dblatcher/funny-face";
 import { GameState } from "../game-state";
 
-type IntroPage = { text: string }
+type IntroPage = { text: string, expression?: keyof typeof expressions }
 
 export type Intro = {
     pages: IntroPage[]

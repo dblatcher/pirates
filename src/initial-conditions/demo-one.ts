@@ -2,7 +2,6 @@ import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { EscortAutoPilot } from "../ai/escort-ai";
 import { GameState } from "../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { makeTownWithForts } from "../game-state/towns";
 import { GAME_STATE_DEFAULTS, Scenario } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 import { demoLand, makeDemoTowns } from "./library";
@@ -120,8 +119,9 @@ export const demoOne: Scenario = ({
     name: 'Demo Scenario One',
     intro: {
         pages: [
-            { text: 'This is a demo scenario.' },
-            { text: 'Your mission is to capture the enemy town.' },
+            { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.' },
+            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY' },
+            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY' },
         ]
     },
     checkForOutcome(game) {
