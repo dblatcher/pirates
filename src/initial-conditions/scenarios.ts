@@ -2,12 +2,16 @@ import { GameState } from "../game-state";
 
 export type IntroPage = { text: string }
 
+export type Intro = {
+    pages: IntroPage[]
+}
+
 export type Scenario = {
     makeInitialState: { (): GameState }
     mapWidth: number,
     mapHeight: number,
     name?: string,
-    intro?: IntroPage[],
+    intro?: Intro,
 }
 
 export const GAME_STATE_DEFAULTS: GameState = {

@@ -1,9 +1,9 @@
-import { CSSProperties } from "react"
-import { IntroPage } from "../initial-conditions"
+import { CSSProperties, useState } from "react"
+import { Intro, IntroPage } from "../initial-conditions"
 
 type Props = {
-    currentIntroPage?: IntroPage
-    goToNext: { (): void }
+    intro?: Intro
+    closeIntro: { (): void }
 }
 
 const containerStyle: CSSProperties = {
@@ -13,18 +13,27 @@ const containerStyle: CSSProperties = {
     padding: 10,
 }
 
-export const IntroMessage = ({ currentIntroPage, goToNext }: Props) => {
-    if (!currentIntroPage) {
+export const IntroMessage = ({ intro, closeIntro }: Props) => {
+    const [pageIndex, setPageIndex] = useState(0)
+
+    if (!intro) {
         return null
     }
+
+    const currentIntroPage = intro.pages[pageIndex]
 
     return (
         <div className="modal-frame">
             <aside style={containerStyle}>
-                <p>
-                    {currentIntroPage.text}
-                </p>
-                <button onClick={goToNext}>next</button>
+                {currentIntroPage && (<>
+                    <p>
+                        {currentIntroPage.text}
+                    </p>
+                    {pageIndex + 1 < intro.pages.length && (
+                        <button onClick={() => { setPageIndex(pageIndex + 1) }}>next</button>
+                    )}
+                </>)}
+                <button onClick={closeIntro}>close</button>
             </aside>
         </div>
     )

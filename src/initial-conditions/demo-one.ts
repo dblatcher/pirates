@@ -194,8 +194,10 @@ export const demoOne: Scenario = ({
     mapHeight: 1800,
     mapWidth: 2400,
     name: 'Demo Scenario One',
-    intro: [
-        { text: 'This is a demo scenario' },
-        { text: 'Try it out' },
-    ]
+    intro: {
+        pages: [
+            { text: 'This is a demo scenario' },
+            { text: 'Try it out' },
+        ]
+    }
 })

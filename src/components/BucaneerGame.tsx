@@ -78,7 +78,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     })
     const directivesRef = useRef<Directive[]>([])
 
-    const [introPages, setIntroPages] = useState(scenario?.intro ? [...scenario.intro] : [])
+    const [introDone, setIntroDone] = useState(scenario?.intro ? false : true);
     const [doneInitialRefresh, setDoneInitialRefresh] = useState(false)
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
@@ -118,8 +118,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         [getAndClearDirectives, updateTimeTracking]
     )
 
-    const [currentIntroPage] = introPages;
-
     useEffect(() => {
         if (!doneInitialRefresh) {
             refresh()
@@ -127,7 +125,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         }
     }, [doneInitialRefresh])
 
-    useSchedule(refresh, currentIntroPage || paused || mainMenuOpen ? null : turbo ? 1 : 10)
+    useSchedule(refresh, !introDone || paused || mainMenuOpen ? null : turbo ? 1 : 10)
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>
@@ -185,12 +183,12 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 />
             )}
 
-            <IntroMessage
-                currentIntroPage={currentIntroPage}
-                goToNext={() => {
-                    setIntroPages(introPages.slice(1))
-                }}
-            />
+            {!introDone && (
+                <IntroMessage
+                    intro={scenario?.intro}
+                    closeIntro={() => {setIntroDone(true)}}
+                />
+            )}
         </div>
     )
 }
