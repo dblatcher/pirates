@@ -16,6 +16,27 @@
   flex-direction: column;
 }
 
+.title-screen {
+  min-height: 60vh;
+  color: crimson;
+  border: 5px double black;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-image: url(./jolly-rodger.png);
+  background-position: bottom right;
+  background-size: 10rem;
+  background-repeat: no-repeat;
+}
+
+.title-screen button {
+  margin: .25rem 0;
+  font-size: larger;
+}
+
 .panel-frame {
   border: 2px solid slategray;
   padding: .5rem;

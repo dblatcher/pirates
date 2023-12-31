@@ -174,7 +174,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     wheelRef={wheelRef}
                 />
             </main>
-
             <aside>
                 <div>
                     <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
@@ -187,7 +186,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 {outcome && <EndOfScenario outcome={outcome} />}
                 <ShipsLog entries={log} />
             </aside>
-
             {showMap && (
                 <WorldMap
                     closeModal={() => { setShowMap(false) }}
