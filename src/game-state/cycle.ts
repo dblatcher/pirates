@@ -13,8 +13,11 @@ import { aimAndFireCannonsFromForts, updateTown } from "./towns";
 
 
 const handleShipCollison = (collision: Collison, game: GameState) => {
-    const { ship, obstacle, speedWhenHit } = collision
-    console.log(`${ship.name} hit ${obstacle.name} at ${speedWhenHit}`)
+    const { 
+        ship, 
+        // obstacle, speedWhenHit 
+    } = collision
+    // console.log(`${ship.name} hit ${obstacle.name} at ${speedWhenHit}`)
     createImpact({
         ...getProwPosition(ship),
         timeLeft: 10,

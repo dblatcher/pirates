@@ -1,9 +1,14 @@
 import { GameState } from "../game-state";
 
-export type IntroPage = { text: string }
+type IntroPage = { text: string }
 
 export type Intro = {
     pages: IntroPage[]
+}
+
+export type ScenarioOutcome = {
+    success: boolean
+    message: string
 }
 
 export type Scenario = {
@@ -12,6 +17,7 @@ export type Scenario = {
     mapHeight: number,
     name?: string,
     intro?: Intro,
+    checkForOutcome?: { (game: GameState): ScenarioOutcome | undefined }
 }
 
 export const GAME_STATE_DEFAULTS: GameState = {

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
+import { useManagement } from '../context/management-context'
 import { aiFactory } from '../factory'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
@@ -9,11 +10,12 @@ import { playSoundEffectsInView } from '../lib/sounds'
 import { average } from '../lib/util'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
+import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { useManagement } from '../context/management-context'
-import { IntroMessage } from './IntroMessage'
+import { ScenarioOutcome } from '../initial-conditions'
+import { EndOfScenario } from './EndOfScenario'
 
 interface Props {
     initial: GameState;
@@ -85,9 +87,9 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     const [showMap, setShowMap] = useState(false)
     const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
+    const [outcome, setOutcome] = useState<ScenarioOutcome | undefined>()
 
     const pushLog = (newEntry: string) => setLog([...log, newEntry])
-
 
     const addDirective = (directive: Directive) => {
         directivesRef.current.push(directive)
@@ -118,6 +120,10 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         [getAndClearDirectives, updateTimeTracking]
     )
 
+    const checkScenarioOver = useCallback(
+        () => scenario?.checkForOutcome && scenario.checkForOutcome(gameStateRef.current), [scenario]
+    )
+
     useEffect(() => {
         if (!doneInitialRefresh) {
             refresh()
@@ -125,7 +131,15 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         }
     }, [doneInitialRefresh])
 
-    useSchedule(refresh, !introDone || paused || mainMenuOpen ? null : turbo ? 1 : 10)
+    useSchedule(() => {
+        refresh()
+        const newOutcome = !outcome && gameStateRef.current.cycleNumber % 100 == 0 && checkScenarioOver()
+        if (newOutcome) {
+            setOutcome(newOutcome)
+        }
+    }, !introDone || paused || mainMenuOpen ? null : turbo ? 1 : 10)
+
+
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (
         <div style={{ display: 'flex' }}>
@@ -170,6 +184,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                 </div>
+                {outcome && <EndOfScenario outcome={outcome} />}
                 <ShipsLog entries={log} />
             </aside>
 
@@ -186,7 +201,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
             {!introDone && (
                 <IntroMessage
                     intro={scenario?.intro}
-                    closeIntro={() => {setIntroDone(true)}}
+                    closeIntro={() => { setIntroDone(true) }}
                 />
             )}
         </div>

@@ -1,5 +1,5 @@
 import { CSSProperties, useState } from "react"
-import { Intro, IntroPage } from "../initial-conditions"
+import { Intro } from "../initial-conditions"
 
 type Props = {
     intro?: Intro

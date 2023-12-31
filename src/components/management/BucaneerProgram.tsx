@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { SoundDeck } from "sound-deck"
-import { Scenario, scenarios } from '../../initial-conditions'
+import { Scenario, ScenarioOutcome, scenarios } from '../../initial-conditions'
 import { KeyboardControls } from "../KeyboardControls"
 import { SoundToggle } from "../SoundToggle"
 import { ScenarioGame } from "./ScenarioGame"
@@ -12,10 +12,13 @@ import { ManagementProvider } from "../../context/management-context"
 export const BucaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
-    const [restartTimestamp, setRestartTimestamp] = useState(Date.now())
+    const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
     const soundDeck = new SoundDeck()
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
 
+    const resetScenario = () => setGameTimeStamp(Date.now())
+
+    // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Can it not?
     const toggleSound = async () => {
         if (!soundIsEnabled) {
             await soundDeck.enable()
@@ -27,11 +30,15 @@ export const BucaneerProgram = () => {
         }
     }
 
-    // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Can it not?
+    const reportOutcome = (outcome: ScenarioOutcome) => {
+        console.log(outcome, scenario?.name)
+        // TO DO - progress to next scenario if success
+        resetScenario()
+    }
 
     return (
         <ManagementProvider value={{
-            mainMenuOpen, scenario, soundIsEnabled, toggleSound
+            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome
         }}>
             <SoundToggle />
             <KeyboardControls keyDownFunction={({ code }) => {
@@ -48,7 +55,7 @@ export const BucaneerProgram = () => {
                 <ScenarioGame
                     soundDeck={soundDeck}
                     scenario={scenario}
-                    key={restartTimestamp} />
+                    key={gameTimeStamp} />
             ) : (
                 <TitleScreen
                     setScenario={setScenario}
@@ -62,7 +69,7 @@ export const BucaneerProgram = () => {
                         setMainMenuOpen(false)
                     }}
                     restartGame={() => {
-                        setRestartTimestamp(Date.now())
+                        resetScenario()
                         setMainMenuOpen(false)
                     }}
                 />

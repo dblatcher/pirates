@@ -18,8 +18,8 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 1000,
-                y: 1200,
+                x: 300,
+                y: 150,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
@@ -34,7 +34,7 @@ const makeInitialState = (): GameState => {
                 y: 1300,
                 h: 0,
                 // damage:15,
-                ai: new EscortAutoPilot(1, 15, true)
+                ai: new EscortAutoPilot(1, 15, false)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',
@@ -79,7 +79,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: [],
-                }, 14, true)
+                }, 14, false)
             }),
             makeDefaultShip({
                 name: 'Spaim 1',
@@ -173,16 +173,15 @@ const makeInitialState = (): GameState => {
             ]),
             makeTownWithForts({
                 faction: 'spaim',
+                // faction: 'grance',
                 x: 600,
                 y: 800,
                 id: 2,
                 name: 'Villa della Canto',
             }, [
-                { x: -25, y: -100 },
-                { x: -125, y: 0 },
-                { x: 125, y: 0 },
-                { x: 175, y: 0 },
-                { x: 225, y: 0 },
+                // { x: -25, y: -100 },
+                // { x: -125, y: 0 },
+                // { x: 125, y: 0 },
             ]),
         ],
     }
@@ -196,8 +195,17 @@ export const demoOne: Scenario = ({
     name: 'Demo Scenario One',
     intro: {
         pages: [
-            { text: 'This is a demo scenario' },
-            { text: 'Try it out' },
+            { text: 'This is a demo scenario.' },
+            { text: 'Your mission is to capture the enemy town.' },
         ]
-    }
+    },
+    checkForOutcome(game) {
+        if (game.towns.every(_=>_.faction === 'grance')) {
+            return {
+                success:true,
+                message: 'You captured the town.'
+            }
+        }
+        return undefined
+    },
 })
