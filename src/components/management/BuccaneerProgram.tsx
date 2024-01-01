@@ -1,31 +1,31 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { SoundDeck } from "sound-deck"
+import { ManagementProvider } from "../../context/management-context"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../initial-conditions'
+import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
 import { SoundToggle } from "../SoundToggle"
-import { ScenarioGame } from "./ScenarioGame"
-import { TitleScreen } from "./TitleScreen"
 import { MainMenu } from "./MainMenu"
 import { Modal } from "./Modal"
-import { ManagementProvider } from "../../context/management-context"
-import { IconButton } from "../IconButton"
+import { ScenarioGame } from "./ScenarioGame"
+import { TitleScreen } from "./TitleScreen"
 
 export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
-    const soundDeckRef = useRef(new SoundDeck())
-    const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeckRef.current.isEnabled)
-
+    const [soundDeck] = useState(new SoundDeck())
+    //changes to soundDeck.isEnabled are not reactive - use separate state to track for the UI
+    const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
 
-    // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Can it not?
+    // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Could it not?
+    // more refs?
     const toggleSound = async () => {
-        const soundDeck = soundDeckRef.current
-        if (!soundIsEnabled) {
+        if (!soundDeck.isEnabled) {
             await soundDeck.enable()
-            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25 }, { volume: .1 })
             setSoundIsEnabled(true)
+            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25 }, { volume: .1 })
         } else {
             await soundDeck.disable()
             setSoundIsEnabled(false)
@@ -73,7 +73,7 @@ export const BuccaneerProgram = () => {
 
             {scenario ? (
                 <ScenarioGame
-                    soundDeck={soundDeckRef.current}
+                    soundDeck={soundDeck}
                     scenario={scenario}
                     key={gameTimeStamp} />
             ) : (
