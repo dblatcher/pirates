@@ -60,7 +60,7 @@ export const cycle = (
 ): GameState => {
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
-    updateWind(oldGameState)
+    updateWind(gameState)
     const pushLogWithCycleNumber = (message:string) => pushLog(message, gameState.cycleNumber)
 
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
@@ -76,18 +76,18 @@ export const cycle = (
     })
 
     gameState.towns.forEach(town => {
-        aimAndFireCannonsFromForts(town, oldGameState)
+        aimAndFireCannonsFromForts(town, gameState)
     })
 
     const collisons: Collison[] = []
     gameState.ships.forEach(ship => {
-        updateShip(ship, oldGameState, collisons, pushLogWithCycleNumber)
+        updateShip(ship, gameState, collisons, pushLogWithCycleNumber)
     })
     gameState.projectiles.forEach(projectile => {
         updateProjectile(projectile)
     })
     gameState.towns.forEach(town => {
-        updateTown(town, oldGameState)
+        updateTown(town, gameState)
     })
     handleBoardingActions(gameState, aiFactory)
     handleInvadingActions(gameState, aiFactory)
