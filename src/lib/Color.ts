@@ -17,3 +17,5 @@ export const colors = {
 } as const
 
 export const SAIL_COLOR_CSS = rgba(colors.WHITE, .8);
+export const MAP_BG_COLOR_CSS = rgb(colors.WHITE);
+export const SEA_COLOR_CSS = 'skyblue';

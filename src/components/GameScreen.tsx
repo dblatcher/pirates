@@ -1,5 +1,6 @@
 import { drawScene } from "../canvas-drawing/draw"
 import { GameState, ViewPort } from "../game-state"
+import { SEA_COLOR_CSS } from "../lib/Color"
 import { CanvasScreen } from "./CanvasScreen"
 
 interface Props {
@@ -18,7 +19,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         canvasStyle={{
             width: viewPort.width * magnify,
             height: viewPort.height * magnify,
-            backgroundColor: 'skyblue',
+            backgroundColor: SEA_COLOR_CSS,
         }}
         draw={drawScene(gameState, viewPort)}
         width={viewPort.width}

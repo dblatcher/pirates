@@ -9,10 +9,7 @@ type Props = {
 }
 
 const containerStyle: CSSProperties = {
-    background: 'black',
-    color: 'white',
     minWidth: 200,
-    padding: 10,
 }
 
 
@@ -25,11 +22,7 @@ const faceAndTextWrapperStyle: CSSProperties = {
 }
 
 const textBubbleStyle: CSSProperties = {
-    background: 'antiquewhite',
     flexBasis: '15rem',
-    borderRadius: '.5rem',
-    padding: '.25rem',
-    color: 'black',
     margin: 0,
 }
 
@@ -53,8 +46,7 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
 
     return (
         <div className="modal-frame">
-            <aside style={containerStyle}>
-
+            <aside style={containerStyle} className="dialog">
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
                         <FunnyFace
@@ -69,7 +61,7 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                                 lipColor: 'crimson'
                             }}
                         />
-                        <p style={textBubbleStyle}>
+                        <p style={textBubbleStyle} className="text-bubble">
                             {currentIntroPage.text.slice(0, displayedCharacters)}
                         </p>
                     </div>

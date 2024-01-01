@@ -8,7 +8,7 @@ type Props = {
 export const TitleScreen = ({ setScenario, scenarios }: Props) => {
 
     return (
-        <main className="title-screen">
+        <main className="dialog title-screen">
             <h1>Buccaneer</h1>
             {Object.entries(scenarios).map(([key, scenario]) => (
                 <button key={key} onClick={() => {

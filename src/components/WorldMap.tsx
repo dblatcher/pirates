@@ -1,5 +1,6 @@
 import { buildDrawMapFnc } from "../canvas-drawing/world-map"
 import { GameState } from "../game-state"
+import { MAP_BG_COLOR_CSS } from "../lib/Color"
 import { CellMatrix } from "../lib/path-finding/types"
 import { CanvasScreen } from "./CanvasScreen"
 
@@ -20,7 +21,7 @@ export const WorldMap = ({ closeModal, mapHeight, mapWidth, matrix, gameState }:
         <div className="modal-frame">
             <button onClick={closeModal}>close</button>
             <aside style={{
-                backgroundColor: 'white',
+                backgroundColor: MAP_BG_COLOR_CSS,
             }}>
                 <p>Map</p>
 

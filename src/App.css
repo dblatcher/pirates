@@ -2,10 +2,20 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: .5rem;
+  font-family: var(--text-font);
+  color: var(--ink-color);
+
+  h1, h2 {
+    font-family: var(--heading-font);
+    color: var(--accent-color);
+    margin: 0 0 var(--space);
+  }
 }
 
-.main-menu {
-  padding: 10px;
+.dialog {
+  background-color: var(--dialog-bg);
+  border: 3px double var(--accent-color);
+  padding: var(--space);
 }
 
 .main-menu__button-container {
@@ -18,9 +28,7 @@
 
 .title-screen {
   min-height: 60vh;
-  color: crimson;
-  border: 5px double black;
-  padding: 10px;
+  border-width: 7px;
 
   display: flex;
   flex-direction: column;
@@ -32,7 +40,7 @@
   background-repeat: no-repeat;
 
   button {
-    margin: .25rem 0;
+    margin: var(--small-space) 0;
     font-size: larger;
   }
 }
@@ -62,8 +70,8 @@
 }
 
 .panel-frame {
-  border: 2px solid slategray;
-  padding: .5rem;
+  border: 2px solid var(--border-color);
+  padding: var(--space);
 
   p {
     margin: 0;
@@ -85,4 +93,11 @@
     font-size: large;
     font-style: normal;
   }
+}
+
+.text-bubble {
+  background-color: var(--page-bg);
+  color: var(--accent-color);
+  padding: var(--small-space);
+  border-radius: var(--space);
 }

@@ -13,9 +13,7 @@ export const Modal = ({ setIsOpen, isOpen, children }: Props) => {
     return (
         <div className="modal-frame" style={{ display: isOpen ? 'unset' : 'none' }}>
             <button onClick={() => setIsOpen(false)}>close</button>
-            <aside style={{
-                backgroundColor: 'white',
-            }}>
+            <aside>
                 {children}
             </aside>
         </div>
