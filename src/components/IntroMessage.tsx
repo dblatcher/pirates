@@ -1,5 +1,5 @@
 import { FunnyFace, browShapes, expressions } from "@dblatcher/funny-face"
-import { CSSProperties, useCallback, useState } from "react"
+import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 import { Intro } from "../initial-conditions"
 
