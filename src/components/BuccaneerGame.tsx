@@ -176,9 +176,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
             </main>
             <aside>
                 <div>
-                    <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
-                </div>
-                <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
@@ -202,6 +199,10 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     closeIntro={() => { setIntroDone(true) }}
                 />
             )}
+
+            <div className='performance-monitor'>
+                <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
+            </div>
         </div>
     )
 }

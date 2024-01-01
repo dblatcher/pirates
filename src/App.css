@@ -83,7 +83,7 @@
   }
 }
 
-.sound-icon {
+.menu-icon {
   display: inline-flex;
   background-color: black;
   padding: 2px;
@@ -100,4 +100,12 @@
   color: var(--accent-color);
   padding: var(--small-space);
   border-radius: var(--space);
+}
+
+.performance-monitor {
+  position: fixed;
+  pointer-events: none;
+  right: 0;
+  bottom: 0;
+  font-family: monospace, sans-serif;
 }

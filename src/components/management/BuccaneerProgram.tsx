@@ -8,6 +8,7 @@ import { TitleScreen } from "./TitleScreen"
 import { MainMenu } from "./MainMenu"
 import { Modal } from "./Modal"
 import { ManagementProvider } from "../../context/management-context"
+import { IconButton } from "../IconButton"
 
 export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
@@ -49,7 +50,17 @@ export const BuccaneerProgram = () => {
         <ManagementProvider value={{
             mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome
         }}>
-            <SoundToggle />
+            <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+            }}>
+                {!!scenario && (
+                    <IconButton 
+                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }} 
+                        icon="⚙️" />
+                )}
+                <SoundToggle />
+            </div>
             <KeyboardControls keyDownFunction={({ code }) => {
                 switch (code) {
                     case 'Equal':
@@ -58,7 +69,6 @@ export const BuccaneerProgram = () => {
                         return setMainMenuOpen(!mainMenuOpen)
                 }
             }} />
-            <button onClick={() => { setMainMenuOpen(!mainMenuOpen) }}> main menu</button>
 
             {scenario ? (
                 <ScenarioGame
