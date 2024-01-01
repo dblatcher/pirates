@@ -30,11 +30,11 @@
   background-position: bottom right;
   background-size: 10rem;
   background-repeat: no-repeat;
-}
 
-.title-screen button {
-  margin: .25rem 0;
-  font-size: larger;
+  button {
+    margin: .25rem 0;
+    font-size: larger;
+  }
 }
 
 
@@ -51,29 +51,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.modal-frame>button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 1rem;
-  padding: 1rem;
+  >button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 1rem;
+  }
 }
-
 
 .panel-frame {
   border: 2px solid slategray;
   padding: .5rem;
-}
 
-.panel-frame p {
-  margin: 0;
-}
+  p {
+    margin: 0;
+  }
 
-.panel-frame ul {
-  margin: 0;
-  padding-inline-start: 1em;
+  ul {
+    margin: 0;
+    padding-inline-start: 1em;
+  }
 }
 
 .sound-icon {
@@ -81,9 +80,9 @@
   background-color: black;
   padding: 2px;
   border-radius: 50%;
-}
 
-.sound-icon i {
-  font-size: large;
-  font-style: normal;
+  i {
+    font-size: large;
+    font-style: normal;
+  }
 }
