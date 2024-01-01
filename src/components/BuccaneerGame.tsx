@@ -5,17 +5,18 @@ import { aiFactory } from '../factory'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
+import { ScenarioOutcome } from '../initial-conditions'
 import { CellMatrix } from '../lib/path-finding/types'
 import { playSoundEffectsInView } from '../lib/sounds'
-import { average, splitArray } from '../lib/util'
+import { average } from '../lib/util'
+import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { ScenarioOutcome } from '../initial-conditions'
-import { EndOfScenario } from './EndOfScenario'
+import { cornerOverlay } from '../lib/style-helpers'
 
 interface Props {
     initial: GameState;
@@ -157,26 +158,14 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                         viewPort={viewPortRef.current}
                         gameState={gameStateRef.current}
                         magnify={magnify} />
-                    <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                    }}>
+                    <div style={cornerOverlay('bottom', 'right')}>
                         <WindSock wind={gameStateRef.current.wind} />
                     </div>
-                    <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                    }}>
+                    <div style={cornerOverlay('top', 'left')}>
                         <span>{player?.x.toFixed(0)}, {player?.y.toFixed(0)}</span>
                     </div>
-                    <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                    }}>
-                        <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber}/>
+                    <div style={cornerOverlay('bottom', 'left')}>
+                        <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
                     </div>
                 </div>
 
@@ -186,8 +175,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     paused={paused}
                     setPaused={setPaused}
                     playerWheel={player?.wheel ?? 0}
-                    wheelRef={wheelRef}
-                />
+                    wheelRef={wheelRef} />
             </main>
             <aside>
                 <div>

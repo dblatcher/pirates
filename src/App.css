@@ -141,7 +141,5 @@
   li:first-child {
     animation-duration: 1s;
     animation-name: slidein;
-    /* animation-iteration-count: infinite; */
-    /* animation-direction: alternate; */
   }
 }
