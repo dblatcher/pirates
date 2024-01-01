@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { SoundDeck } from "sound-deck"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../initial-conditions'
 import { KeyboardControls } from "../KeyboardControls"
@@ -14,13 +14,14 @@ export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
-    const soundDeck = new SoundDeck()
-    const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
+    const soundDeckRef = useRef(new SoundDeck())
+    const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeckRef.current.isEnabled)
 
     const resetScenario = () => setGameTimeStamp(Date.now())
 
     // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Can it not?
     const toggleSound = async () => {
+        const soundDeck = soundDeckRef.current
         if (!soundIsEnabled) {
             await soundDeck.enable()
             soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25 }, { volume: .1 })
@@ -55,8 +56,8 @@ export const BuccaneerProgram = () => {
                 justifyContent: 'flex-end',
             }}>
                 {!!scenario && (
-                    <IconButton 
-                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }} 
+                    <IconButton
+                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
                         icon="⚙️" />
                 )}
                 <SoundToggle />
@@ -72,7 +73,7 @@ export const BuccaneerProgram = () => {
 
             {scenario ? (
                 <ScenarioGame
-                    soundDeck={soundDeck}
+                    soundDeck={soundDeckRef.current}
                     scenario={scenario}
                     key={gameTimeStamp} />
             ) : (

@@ -6,7 +6,8 @@ import { isPointInsideRect } from "./geometry";
 
 
 export const playSoundEffectsInView = (soundEffectRequests: SoundEffectRequest[], soundDeck: SoundDeck, viewPort: ViewPort) => {
-    if (!soundDeck.isEnabled) {
+    const {isEnabled, isMuted} = soundDeck
+    if (!isEnabled || isMuted) {
         return
     }
     const viewRect = viewPortToRect(viewPort)
