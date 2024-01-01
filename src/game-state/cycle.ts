@@ -13,8 +13,8 @@ import { aimAndFireCannonsFromForts, updateTown } from "./towns";
 
 
 const handleShipCollison = (collision: Collison, game: GameState) => {
-    const { 
-        ship, 
+    const {
+        ship,
         // obstacle, speedWhenHit 
     } = collision
     // console.log(`${ship.name} hit ${obstacle.name} at ${speedWhenHit}`)
@@ -53,7 +53,7 @@ export const cycle = (
     oldGameState: GameState,
     playerDirectives: Directive[],
     matrix: CellMatrix,
-    pushLog: { (newLog: string): void },
+    pushLog: { (message: string, cycleNumber: number): void },
     soundEffectRequests: SoundEffectRequest[],
     viewPort: ViewPort,
     aiFactory: AIFactory
@@ -61,6 +61,7 @@ export const cycle = (
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
     updateWind(oldGameState)
+    const pushLogWithCycleNumber = (message:string) => pushLog(message, gameState.cycleNumber)
 
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
@@ -72,8 +73,6 @@ export const cycle = (
         ship.ai.shiftPathIfReachedPoint(ship)
         followDirectives(ship, ship.ai.issueDirectives({ ship, gameState, matrix }))
         ship.ai.setPathToDestination(ship, gameState, matrix)
-
-        // TO DO periodically check if the path needs re-evaluating?
     })
 
     gameState.towns.forEach(town => {
@@ -82,7 +81,7 @@ export const cycle = (
 
     const collisons: Collison[] = []
     gameState.ships.forEach(ship => {
-        updateShip(ship, oldGameState, collisons, pushLog)
+        updateShip(ship, oldGameState, collisons, pushLogWithCycleNumber)
     })
     gameState.projectiles.forEach(projectile => {
         updateProjectile(projectile)
@@ -104,8 +103,8 @@ export const cycle = (
     collisons.forEach(collison => handleShipCollison(collison, gameState))
 
     fireCannons(gameState, soundEffectRequests)
-    handleProjectileHitsAndLandings(gameState, pushLog, soundEffectRequests)
-    removeSinkingShips(gameState, pushLog, soundEffectRequests)
+    handleProjectileHitsAndLandings(gameState, pushLogWithCycleNumber, soundEffectRequests)
+    removeSinkingShips(gameState, pushLogWithCycleNumber, soundEffectRequests)
     addWaves(gameState, viewPort)
 
     return gameState

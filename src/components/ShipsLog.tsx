@@ -1,17 +1,23 @@
+import type { LogEntry } from "./BuccaneerGame"
+
 interface Props {
-    entries: string[]
+    entries: LogEntry[]
     numberToShow?: number
+    currentCycleNumber:number
 }
 
-export const ShipsLog = ({ entries, numberToShow = 8 }: Props) => {
+export const ShipsLog = ({ entries, numberToShow = 8 , currentCycleNumber}: Props) => {
     const { length } = entries
-    const tail = length <= numberToShow ? [...entries] : entries.slice(length - numberToShow)
+    const truncatedLog = length <= numberToShow ? [...entries] : entries.slice(length - numberToShow)
+    const truncatedLogWithOldMessagesGone = truncatedLog.filter(entry => currentCycleNumber - entry.cycleNumber < 2000)
+    const [latestEntry, ...others] = truncatedLogWithOldMessagesGone.reverse()
 
     return (
-        <div className="panel-frame">
-            <ul>
-                {tail.map((entry, index) =>
-                    <li key={index}>{entry}</li>
+        <div className="message-log">
+            <ul key={latestEntry.message}>
+                <li>{latestEntry.message}</li>
+                {others.map((entry, index) =>
+                    <li key={index}>{entry.message}</li>
                 )}
             </ul>
         </div>

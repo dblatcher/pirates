@@ -5,7 +5,8 @@
   font-family: var(--text-font);
   color: var(--ink-color);
 
-  h1, h2 {
+  h1,
+  h2 {
     font-family: var(--heading-font);
     color: var(--accent-color);
     margin: 0 0 var(--space);
@@ -108,4 +109,39 @@
   right: 0;
   bottom: 0;
   font-family: monospace, sans-serif;
+}
+
+
+@keyframes slidein {
+  from {
+    height: 0em;
+    color: red;
+  }
+
+  to {
+    height: 1em;
+    color: var(--ink-color);
+  }
+}
+
+.message-log {
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0 0 1em;
+  }
+
+  li {
+    height: 1em;
+    color: var(--ink-color);
+  }
+
+  li:first-child {
+    animation-duration: 1s;
+    animation-name: slidein;
+    /* animation-iteration-count: infinite; */
+    /* animation-direction: alternate; */
+  }
 }

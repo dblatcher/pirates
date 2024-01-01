@@ -7,7 +7,7 @@ import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
 import { CellMatrix } from '../lib/path-finding/types'
 import { playSoundEffectsInView } from '../lib/sounds'
-import { average } from '../lib/util'
+import { average, splitArray } from '../lib/util'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { IntroMessage } from './IntroMessage'
@@ -26,6 +26,11 @@ interface Props {
     soundDeck: SoundDeck;
 }
 
+export interface LogEntry {
+    message: string;
+    cycleNumber: number;
+}
+
 const magnify = 2 / 3
 const SCREEN_WIDTH = 600
 const SCREEN_HEIGHT = 450
@@ -38,7 +43,7 @@ const makeRefresh = (
     obstacleMatrix: CellMatrix,
     getAndClearDirectives: { (): Directive[] },
     updateTimeTracking: { (refreshStart: number): void },
-    pushLog: { (message: string): void },
+    pushLog: { (message: string, timestamp: number): void },
     soundDeck: SoundDeck,
 ) => () => {
     const refreshStart = Date.now()
@@ -85,11 +90,14 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
-    const [log, setLog] = useState<string[]>([`Yarrgh! Game started at ${new Date().toISOString()}`])
+    const [log, setLog] = useState<LogEntry[]>([{
+        message: `Yarrgh! Game started at ${new Date().toISOString()}`,
+        cycleNumber: Date.now(),
+    }])
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
     const [outcome, setOutcome] = useState<ScenarioOutcome | undefined>()
 
-    const pushLog = (newEntry: string) => setLog([...log, newEntry])
+    const pushLog = (message: string, cycleNumber: number) => setLog([...log, { message, cycleNumber }])
 
     const addDirective = (directive: Directive) => {
         directivesRef.current.push(directive)
@@ -163,6 +171,13 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     }}>
                         <span>{player?.x.toFixed(0)}, {player?.y.toFixed(0)}</span>
                     </div>
+                    <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                    }}>
+                        <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber}/>
+                    </div>
                 </div>
 
                 <GameControls
@@ -181,7 +196,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                 </div>
                 {outcome && <EndOfScenario outcome={outcome} />}
-                <ShipsLog entries={log} />
             </aside>
             {showMap && (
                 <WorldMap
