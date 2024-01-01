@@ -9,7 +9,7 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
 
     return (
         <main className="title-screen">
-            <h1>Bucaneer</h1>
+            <h1>Buccaneer</h1>
             {Object.entries(scenarios).map(([key, scenario]) => (
                 <button key={key} onClick={() => {
                     setScenario(scenario)

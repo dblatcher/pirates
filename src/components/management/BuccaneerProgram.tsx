@@ -9,7 +9,7 @@ import { MainMenu } from "./MainMenu"
 import { Modal } from "./Modal"
 import { ManagementProvider } from "../../context/management-context"
 
-export const BucaneerProgram = () => {
+export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())

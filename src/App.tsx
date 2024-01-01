@@ -1,9 +1,9 @@
 import './App.css'
-import { BucaneerProgram } from './components/management/BucaneerProgram'
+import { BuccaneerProgram } from './components/management/BuccaneerProgram'
 
 
 function App() {
-  return <BucaneerProgram />
+  return <BuccaneerProgram />
 }
 
 export default App

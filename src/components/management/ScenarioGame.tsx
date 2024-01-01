@@ -1,7 +1,7 @@
 import { SoundDeck } from "sound-deck"
 import { Scenario } from "../../initial-conditions"
 import { buildMatrixFromGameState } from "../../lib/path-finding/build-matrix"
-import { BuccaneerGame } from "../BucaneerGame"
+import { BuccaneerGame } from "../BuccaneerGame"
 
 type Props = {
     scenario: Scenario
