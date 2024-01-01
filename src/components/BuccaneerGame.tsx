@@ -92,7 +92,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     const [showMap, setShowMap] = useState(false)
     const [log, setLog] = useState<LogEntry[]>([{
         message: `Yarrgh! Game started at ${new Date().toISOString()}`,
-        cycleNumber: Date.now(),
+        cycleNumber: 0,
     }])
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
     const [outcome, setOutcome] = useState<ScenarioOutcome | undefined>()

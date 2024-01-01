@@ -14,7 +14,7 @@ export const ShipsLog = ({ entries, numberToShow = 8 , currentCycleNumber}: Prop
 
     return (
         <div className="message-log">
-            <ul key={latestEntry.message}>
+            <ul key={truncatedLogWithOldMessagesGone.map(_=>_.message).join()}>
                 <li>{latestEntry.message}</li>
                 {others.map((entry, index) =>
                     <li key={index}>{entry.message}</li>
