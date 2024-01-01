@@ -10,13 +10,11 @@ export const ShipsLog = ({ entries, numberToShow = 8 , currentCycleNumber}: Prop
     const { length } = entries
     const truncatedLog = length <= numberToShow ? [...entries] : entries.slice(length - numberToShow)
     const truncatedLogWithOldMessagesGone = truncatedLog.filter(entry => currentCycleNumber - entry.cycleNumber < 2000)
-    const [latestEntry, ...others] = truncatedLogWithOldMessagesGone.reverse()
 
     return (
         <div className="message-log">
-            <ul key={truncatedLogWithOldMessagesGone.map(_=>_.message).join()}>
-                <li>{latestEntry.message}</li>
-                {others.map((entry, index) =>
+            <ul key={truncatedLogWithOldMessagesGone.map(_=>_.message).join()}>  
+                {truncatedLogWithOldMessagesGone.reverse().map((entry, index) =>
                     <li key={index}>{entry.message}</li>
                 )}
             </ul>
