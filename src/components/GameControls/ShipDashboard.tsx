@@ -1,4 +1,4 @@
-import { Ship } from "../game-state";
+import { Ship } from "../../game-state";
 
 interface Props {
     ship: Ship

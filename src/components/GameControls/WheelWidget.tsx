@@ -1,5 +1,5 @@
 import { CSSProperties, useState, } from "react"
-import { Directive } from "../game-state"
+import { Directive } from "../../game-state"
 
 interface Props {
     addDirective: { (directive: Directive): void }
