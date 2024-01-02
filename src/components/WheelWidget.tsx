@@ -1,11 +1,11 @@
 import { CSSProperties, useState, } from "react"
-import { Directive, Order } from "../game-state"
-import { useInterval } from "../hooks/useInterval"
+import { Directive } from "../game-state"
 
 interface Props {
     addDirective: { (directive: Directive): void }
     playerWheel: number
     setWheelTo: { (value: number): void }
+    wheelShoudResetRef: React.MutableRefObject<boolean>
 }
 
 
@@ -37,25 +37,11 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 })
 
 
-export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo }: Props) => {
+export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelShoudResetRef }: Props) => {
     const [locked, setLocked] = useState(false)
-    const [pointerOnInput, setPointerOnInput] = useState(false)
-
-    const addWheelDirective = (value: number) => {
-        addDirective({ order: Order.WHEEL_TO, quantity: value })
-    }
-
-    const revertToCentre = () => {
-        if (locked || pointerOnInput || actualWheel === 0) {
-            return
-        }
-        const changeAmount = Math.min(Math.abs(actualWheel), .01)
-        addWheelDirective(actualWheel - changeAmount * Math.sign(actualWheel))
-    }
-
-    useInterval(revertToCentre, 10)
-
+    const [userIsTurningWheel, setUserIsTurningWheel] = useState(false)
     const wheelAngle = -(actualWheel * 180)
+
     return (
         <div className="panel-frame" style={{
             position: 'relative',
@@ -72,20 +58,22 @@ export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo
             <div style={{
                 position: 'absolute',
                 bottom: '50%',
-                opacity:.2,
-                transform:'scaleY(10)',
+                opacity: .2,
+                transform: 'scaleY(10)',
                 left: 0,
                 right: 0
             }}>
                 <input type="range"
                     onPointerDown={() => {
-                        setPointerOnInput(true)
+                        setUserIsTurningWheel(true)
+                        wheelShoudResetRef.current = false
                     }}
                     onPointerUp={() => {
-                        setPointerOnInput(false)
+                        setUserIsTurningWheel(false)
+                        wheelShoudResetRef.current = !locked
                     }}
                     style={{ width: 100, margin: '0 auto', display: 'block' }}
-                    max={50} min={-50} step={5}
+                    max={50} min={-50} step={'any'}
                     value={actualWheel * -100}
                     onChange={e => {
                         const value = Number(e.target.value)
@@ -98,7 +86,14 @@ export const WheelWidget = ({ addDirective, playerWheel: actualWheel, setWheelTo
                 top: 0,
                 right: 0,
             }}>
-                <input type="checkbox" checked={locked} onChange={e => setLocked(e.target.checked)} />
+                <input type="checkbox" checked={locked} onChange={e => {
+                    setLocked(e.target.checked)
+                    if (e.target.checked) {
+                        wheelShoudResetRef.current = false
+                    } else {
+                        wheelShoudResetRef.current = !userIsTurningWheel
+                    }
+                }} />
             </div>
         </div>
     )

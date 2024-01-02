@@ -78,6 +78,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     const { mainMenuOpen, scenario } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
+    const wheelShoudResetRef = useRef(true)
     const viewPortRef = useRef<ViewPort>({
         x: 100,
         y: 10,
@@ -141,6 +142,10 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     }, [doneInitialRefresh])
 
     useSchedule(() => {
+        if (wheelShoudResetRef.current === true && player?.wheel) {
+            const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
+            wheelRef.current = player.wheel - changeAmount 
+        }
         refresh()
         const newOutcome = !outcome && gameStateRef.current.cycleNumber % 100 == 0 && checkScenarioOver()
         if (newOutcome) {
@@ -175,7 +180,9 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     paused={paused}
                     setPaused={setPaused}
                     playerWheel={player?.wheel ?? 0}
-                    wheelRef={wheelRef} />
+                    wheelRef={wheelRef}
+                    wheelShoudResetRef={wheelShoudResetRef}
+                />
             </main>
             <aside>
                 <div>

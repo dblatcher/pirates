@@ -13,6 +13,7 @@ interface Props {
     setPaused: { (value: boolean): void }
     playerWheel: number
     wheelRef: React.MutableRefObject<number | undefined>
+    wheelShoudResetRef: React.MutableRefObject<boolean>
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
@@ -30,7 +31,7 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
     'Digit3': FiringPattern.ALTERNATE,
 }
 
-export const GameControls = ({ player, setPaused, addDirective, paused, playerWheel, wheelRef }: Props) => {
+export const GameControls = ({ player, setPaused, addDirective, paused, playerWheel, wheelRef, wheelShoudResetRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = (value: number) => { wheelRef.current = value }
@@ -75,6 +76,7 @@ export const GameControls = ({ player, setPaused, addDirective, paused, playerWh
                     addDirective={addDirective}
                     playerWheel={playerWheel}
                     setWheelTo={setWheelTo}
+                    wheelShoudResetRef={wheelShoudResetRef}
                 />
                 <SailsWidget
                     setSailLevelTarget={(value) => {
