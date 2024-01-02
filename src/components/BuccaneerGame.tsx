@@ -38,7 +38,7 @@ const SCREEN_HEIGHT = 450
 let lastCycleStartedAt = Date.now()
 
 
-const makeRefresh = (
+const makeNextCycleFunction = (
     gameStateRef: React.MutableRefObject<GameState>,
     viewPortRef: React.MutableRefObject<ViewPort>,
     obstacleMatrix: CellMatrix,
@@ -88,7 +88,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     const directivesRef = useRef<Directive[]>([])
 
     const [introDone, setIntroDone] = useState(scenario?.intro ? false : true);
-    const [doneInitialRefresh, setDoneInitialRefresh] = useState(false)
+    const [doneInitialCycle, setDoneInitialCycle] = useState(false)
     const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
@@ -125,8 +125,8 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         []
     )
 
-    const refresh = useCallback(
-        makeRefresh(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
+    const doNextCycle = useCallback(
+        makeNextCycleFunction(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
         [getAndClearDirectives, updateTimeTracking]
     )
 
@@ -135,18 +135,18 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
     )
 
     useEffect(() => {
-        if (!doneInitialRefresh) {
-            refresh()
-            setDoneInitialRefresh(true)
+        if (!doneInitialCycle) {
+            doNextCycle()
+            setDoneInitialCycle(true)
         }
-    }, [doneInitialRefresh])
+    }, [doneInitialCycle])
 
     useSchedule(() => {
         if (wheelShoudResetRef.current === true && player?.wheel) {
             const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
-            wheelRef.current = player.wheel - changeAmount 
+            wheelRef.current = player.wheel - changeAmount
         }
-        refresh()
+        doNextCycle()
         const newOutcome = !outcome && gameStateRef.current.cycleNumber % 100 == 0 && checkScenarioOver()
         if (newOutcome) {
             setOutcome(newOutcome)
@@ -155,9 +155,9 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
-    return (
-        <div style={{ display: 'flex' }}>
-            <main>
+    return (<>
+        <main style={{ display: 'flex' }}>
+            <section>
                 <div style={{ position: 'relative' }}>
                     <GameScreen
                         viewPort={viewPortRef.current}
@@ -183,36 +183,37 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     wheelRef={wheelRef}
                     wheelShoudResetRef={wheelShoudResetRef}
                 />
-            </main>
-            <aside>
+            </section>
+            <section>
                 <div>
                     <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                 </div>
                 {outcome && <EndOfScenario outcome={outcome} />}
-            </aside>
-            {showMap && (
-                <WorldMap
-                    closeModal={() => { setShowMap(false) }}
-                    gameState={gameStateRef.current}
-                    matrix={landMatrix}
-                    mapWidth={mapWidth}
-                    mapHeight={mapHeight}
-                />
-            )}
+            </section>
+        </main>
 
-            {!introDone && (
-                <IntroMessage
-                    intro={scenario?.intro}
-                    closeIntro={() => { setIntroDone(true) }}
-                />
-            )}
+        {showMap && (
+            <WorldMap
+                closeModal={() => { setShowMap(false) }}
+                gameState={gameStateRef.current}
+                matrix={landMatrix}
+                mapWidth={mapWidth}
+                mapHeight={mapHeight}
+            />
+        )}
 
-            <div className='performance-monitor'>
-                <span>T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}</span>
-            </div>
-        </div>
-    )
+        {!introDone && (
+            <IntroMessage
+                intro={scenario?.intro}
+                closeIntro={() => { setIntroDone(true) }}
+            />
+        )}
+
+        <span className='performance-monitor'>
+            T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}
+        </span>
+    </>)
 }
 
