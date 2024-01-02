@@ -6,7 +6,7 @@ import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
 import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
-import { Modal } from "./Modal"
+import { Modal } from "../Modal"
 import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
 
