@@ -13,6 +13,7 @@ import { TitleScreen } from "./TitleScreen"
 export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
+    const [gameIsPaused, setGameIsPaused] = useState(false)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
     const [soundDeck] = useState(new SoundDeck())
     //changes to soundDeck.isEnabled are not reactive - use separate state to track for the UI
@@ -49,17 +50,20 @@ export const BuccaneerProgram = () => {
 
     return (
         <ManagementProvider value={{
-            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome
+            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused
         }}>
             <div style={{
                 display: 'flex',
                 justifyContent: 'flex-end',
             }}>
-                {!!scenario && (
+                {!!scenario && (<>
                     <IconButton
                         onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
                         icon="⚙️" />
-                )}
+                    <IconButton
+                        onClick={() => { setGameIsPaused(!gameIsPaused) }}
+                        icon={gameIsPaused ? "⏯️" : "⏸️"} />
+                </>)}
                 <SoundToggle />
             </div>
             <KeyboardControls keyDownFunction={({ code }) => {
@@ -68,6 +72,8 @@ export const BuccaneerProgram = () => {
                         return toggleSound()
                     case 'Escape':
                         return setMainMenuOpen(!mainMenuOpen)
+                    case 'KeyP':
+                        return setGameIsPaused(!gameIsPaused)
                 }
             }} />
 
@@ -86,11 +92,13 @@ export const BuccaneerProgram = () => {
                 <MainMenu
                     quitToTitle={() => {
                         setScenario(undefined)
+                        setGameIsPaused(false)
                         setMainMenuOpen(false)
                     }}
                     restartGame={() => {
-                        resetScenario()
+                        setGameIsPaused(false)
                         setMainMenuOpen(false)
+                        resetScenario()
                     }}
                 />
             </Modal>

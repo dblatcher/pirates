@@ -4,12 +4,14 @@ import { Scenario, ScenarioOutcome } from '../initial-conditions'
 const mangementContext = createContext<{
     mainMenuOpen: boolean,
     soundIsEnabled: boolean,
+    gameIsPaused: boolean,
     toggleSound: { (): Promise<void> }
     scenario?: Scenario,
     reportOutcome: { (outcome: ScenarioOutcome): void }
 }>({
     mainMenuOpen: false,
     soundIsEnabled: false,
+    gameIsPaused: false,
     toggleSound: () => Promise.resolve(),
     scenario: undefined,
     reportOutcome: () => { }

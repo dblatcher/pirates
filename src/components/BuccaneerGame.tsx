@@ -75,7 +75,7 @@ const makeNextCycleFunction = (
 }
 
 export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix, soundDeck }: Props) => {
-    const { mainMenuOpen, scenario } = useManagement()
+    const { mainMenuOpen, scenario, gameIsPaused } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
     const wheelShoudResetRef = useRef(true)
@@ -89,7 +89,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
     const [introDone, setIntroDone] = useState(scenario?.intro ? false : true);
     const [doneInitialCycle, setDoneInitialCycle] = useState(false)
-    const [paused, setPaused] = useState(false)
     const [turbo, setTurbo] = useState(false)
     const [showMap, setShowMap] = useState(false)
     const [log, setLog] = useState<LogEntry[]>([{
@@ -151,7 +150,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
         if (newOutcome) {
             setOutcome(newOutcome)
         }
-    }, !introDone || paused || mainMenuOpen ? null : turbo ? 1 : 10)
+    }, !introDone || gameIsPaused || mainMenuOpen ? null : turbo ? 1 : 10)
 
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
@@ -177,8 +176,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 <GameControls
                     player={player}
                     addDirective={addDirective}
-                    paused={paused}
-                    setPaused={setPaused}
+                    paused={gameIsPaused}
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
                     wheelShoudResetRef={wheelShoudResetRef}
@@ -186,7 +184,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
             </section>
             <section>
                 <div>
-                    <button onClick={() => setPaused(!paused)}>{paused ? 'paused' : 'running'}</button>
                     <button onClick={() => setTurbo(!turbo)}>{turbo ? 'turbo' : 'normal'}</button>
                     <button onClick={() => setShowMap(!showMap)}>{showMap ? 'map' : 'map'}</button>
                 </div>
