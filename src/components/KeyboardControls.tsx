@@ -4,10 +4,11 @@ import { useInterval } from "../hooks/useInterval"
 interface Props {
     keyDownFunction?: { (event: KeyboardEvent): void }
     keyMapFunction?: { (keyMap: Record<string, boolean>): void }
+    renderOutput?: boolean
 }
 
 
-export const KeyboardControls = ({ keyMapFunction, keyDownFunction }: Props) => {
+export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput }: Props) => {
     const [keyMap, setKeyMap] = useState<Record<string, boolean>>({})
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -37,5 +38,12 @@ export const KeyboardControls = ({ keyMapFunction, keyDownFunction }: Props) => 
         }
     }, keyDownFunction ? 0 : null)
 
-    return <></>
+    if (!renderOutput) { return <></> }
+
+    const output = Object.entries(keyMap)
+        .filter(([_key, value]) => { return value })
+        .map(([key]) => key)
+        .join("|")
+
+    return <span>{output}</span>
 }
