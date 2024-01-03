@@ -10,10 +10,10 @@ interface Props {
 export const Modal = ({ setIsOpen, isOpen, children }: Props) => {
     return (
         <div className="modal-frame" style={{ display: isOpen ? undefined : 'none' }}>
-            <button onClick={() => setIsOpen(false)}>close</button>
-            <aside>
+            <section>
+                <button onClick={() => setIsOpen(false)}>X</button>
                 {children}
-            </aside>
+            </section>
         </div>
     )
 }
