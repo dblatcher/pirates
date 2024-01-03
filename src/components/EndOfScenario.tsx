@@ -10,7 +10,7 @@ export const EndOfScenario = ({ outcome }: Props) => {
     const { reportOutcome } = useManagement()
 
     return (
-        <div className="panel-frame">
+        <div className="dialog">
             {outcome.message}
             <button onClick={() => { reportOutcome(outcome) }}>ok</button>
         </div>

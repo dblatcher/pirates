@@ -16,7 +16,7 @@ import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { cornerOverlay } from '../lib/style-helpers'
+import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 
 interface Props {
     initial: GameState;
@@ -154,7 +154,7 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (<>
-        <main style={{ display: 'flex' }}>
+        <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section>
                 <div style={{ position: 'relative' }}>
                     <GameScreen
@@ -170,6 +170,14 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     <div style={cornerOverlay('bottom', 'left')}>
                         <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
                     </div>
+                    <div style={cornerOverlay('top', 'right')}>
+                        <button onClick={() => setShowMap(!showMap)}>map</button>
+                    </div>
+                    {outcome &&
+                        <div style={middleOverlay(60)}>
+                            {<EndOfScenario outcome={outcome} />}
+                        </div>
+                    }
                 </div>
 
                 <GameControls
@@ -180,12 +188,6 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                     wheelRef={wheelRef}
                     wheelShoudResetRef={wheelShoudResetRef}
                 />
-            </section>
-            <section>
-                <div>
-                    <button onClick={() => setShowMap(!showMap)}>map</button>
-                </div>
-                {outcome && <EndOfScenario outcome={outcome} />}
             </section>
         </main>
 
