@@ -5,7 +5,7 @@ interface Props {
     addDirective: { (directive: Directive): void }
     playerWheel: number
     setWheelTo: { (value: number): void }
-    wheelShoudResetRef: React.MutableRefObject<boolean>
+    wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
 }
 
 
@@ -37,7 +37,7 @@ const wheelStyle = (angle: number, color: string, size: number): CSSProperties =
 })
 
 
-export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelShoudResetRef }: Props) => {
+export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelNotLockedByPointerRef }: Props) => {
     const [locked, setLocked] = useState(false)
     const [userIsTurningWheel, setUserIsTurningWheel] = useState(false)
     const wheelAngle = -(actualWheel * 180)
@@ -66,11 +66,11 @@ export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelShoudRe
                 <input type="range"
                     onPointerDown={() => {
                         setUserIsTurningWheel(true)
-                        wheelShoudResetRef.current = false
+                        wheelNotLockedByPointerRef.current = false
                     }}
                     onPointerUp={() => {
                         setUserIsTurningWheel(false)
-                        wheelShoudResetRef.current = !locked
+                        wheelNotLockedByPointerRef.current = !locked
                     }}
                     style={{ width: 100, margin: '0 auto', display: 'block' }}
                     max={50} min={-50} step={'any'}
@@ -89,9 +89,9 @@ export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelShoudRe
                 <input type="checkbox" checked={locked} onChange={e => {
                     setLocked(e.target.checked)
                     if (e.target.checked) {
-                        wheelShoudResetRef.current = false
+                        wheelNotLockedByPointerRef.current = false
                     } else {
-                        wheelShoudResetRef.current = !userIsTurningWheel
+                        wheelNotLockedByPointerRef.current = !userIsTurningWheel
                     }
                 }} />
             </div>
