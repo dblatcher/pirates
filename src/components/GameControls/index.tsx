@@ -66,7 +66,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
     }
 
     return (
-        <aside style={{ display: 'flex' }}>
+        <aside className="control-panel">
             {player && (<>
                 <WheelWidget
                     addDirective={addDirective}

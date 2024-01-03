@@ -33,8 +33,8 @@ export interface LogEntry {
 }
 
 const magnify = 2 / 3
-const SCREEN_WIDTH = 600
-const SCREEN_HEIGHT = 450
+const SCREEN_WIDTH = 700
+const SCREEN_HEIGHT = 425
 let lastCycleStartedAt = Date.now()
 
 

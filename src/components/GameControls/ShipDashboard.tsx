@@ -6,7 +6,7 @@ interface Props {
 
 export const ShipDashBoard = ({ ship }: Props) => {
     return (
-        <div className="panel-frame">
+        <div className="panel-frame" style={{flex:1}}>
             <p>
                 damage: {ship.damage} / {ship.profile.maxHp}
             </p>
