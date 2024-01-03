@@ -8,13 +8,15 @@ const mangementContext = createContext<{
     toggleSound: { (): Promise<void> }
     scenario?: Scenario,
     reportOutcome: { (outcome: ScenarioOutcome): void }
+    cyclePeriod: number,
 }>({
     mainMenuOpen: false,
     soundIsEnabled: false,
     gameIsPaused: false,
     toggleSound: () => Promise.resolve(),
     scenario: undefined,
-    reportOutcome: () => { }
+    reportOutcome: () => { },
+    cyclePeriod: 10
 })
 
 export const ManagementProvider = mangementContext.Provider

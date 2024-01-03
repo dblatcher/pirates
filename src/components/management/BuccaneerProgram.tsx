@@ -14,6 +14,7 @@ export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [gameIsPaused, setGameIsPaused] = useState(false)
+    const [cyclePeriod, setCyclePeriod] = useState(10)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
     const [soundDeck] = useState(new SoundDeck())
     //changes to soundDeck.isEnabled are not reactive - use separate state to track for the UI
@@ -50,7 +51,7 @@ export const BuccaneerProgram = () => {
 
     return (
         <ManagementProvider value={{
-            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused
+            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod
         }}>
             <div style={{
                 display: 'flex',
@@ -63,6 +64,9 @@ export const BuccaneerProgram = () => {
                     <IconButton
                         onClick={() => { setGameIsPaused(!gameIsPaused) }}
                         icon={gameIsPaused ? "⏯️" : "⏸️"} />
+                    <IconButton
+                        onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
+                        icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
                 </>)}
                 <SoundToggle />
             </div>
