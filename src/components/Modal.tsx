@@ -9,9 +9,11 @@ interface Props {
 
 export const Modal = ({ setIsOpen, isOpen, children }: Props) => {
     return (
-        <div className="modal-frame" style={{ display: isOpen ? undefined : 'none' }}>
+        <div className="modal-overlay" style={{ display: isOpen ? undefined : 'none' }}>
             <section>
-                <button onClick={() => setIsOpen(false)}>X</button>
+                <button 
+                    className="round-button"
+                    onClick={() => setIsOpen(false)}>X</button>
                 {children}
             </section>
         </div>

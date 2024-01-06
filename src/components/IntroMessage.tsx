@@ -45,7 +45,7 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
     }
 
     return (
-        <div className="modal-frame">
+        <div className="modal-overlay">
             <aside style={containerStyle} className="dialog">
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
