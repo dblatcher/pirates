@@ -18,9 +18,9 @@
   padding: var(--space);
 }
 
-.main-menu__button-container {
+.button-stack {
   margin: 0 auto;
-  max-width: 200px;
+  min-width: 200px;
   padding: 10px;
   display: flex;
   flex-direction: column;
