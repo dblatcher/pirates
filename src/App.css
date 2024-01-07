@@ -10,6 +10,11 @@
     color: var(--accent-color);
     margin: 0 0 var(--space);
   }
+
+  h1 {
+    font-family: var(--title-font);
+    font-size: 4rem;
+  }
 }
 
 .dialog {
@@ -49,7 +54,7 @@
 .title-frame {
   max-width: fit-content;
   margin: 0 auto;
-  
+
 }
 
 .title-screen {
@@ -71,7 +76,8 @@
   justify-content: center;
   align-items: center;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: var(--accent-color);
     border-color: var(--dialog-bg);
     color: var(--dialog-bg);
