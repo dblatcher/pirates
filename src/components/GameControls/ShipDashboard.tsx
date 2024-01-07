@@ -10,9 +10,6 @@ export const ShipDashBoard = ({ ship }: Props) => {
             <p>
                 damage: {ship.damage} / {ship.profile.maxHp}
             </p>
-            <p>
-                marines: {ship.marines}
-            </p>
         </div>
     )
 }

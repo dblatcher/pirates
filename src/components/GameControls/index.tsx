@@ -5,6 +5,7 @@ import { KeyboardControls } from "../KeyboardControls"
 import { SailsWidget } from "./SailsWidget"
 import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
+import { MeleeControls } from "./MeleeControl"
 
 interface Props {
     player?: Ship
@@ -87,6 +88,12 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     paused={paused}
                     firingPattern={firingPattern}
                     setFiringPattern={setFiringPattern}
+                />
+                <MeleeControls 
+                    addDirective={addDirective}
+                    alreadyFighting={false}
+                    marines={player.marines}
+                    maxMarines={player.profile.maxMarines}
                 />
                 <ShipDashBoard
                     ship={player}
