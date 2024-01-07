@@ -18,6 +18,21 @@
   padding: var(--space);
 }
 
+.paper {
+  border-image-source: url(./page.png);
+  border-image-repeat: round;
+  border-image-slice: calc(30 / 160 * 100%) calc(30 / 160 * 100%) fill;
+  border-image-width: 1rem;
+}
+
+.skull-stamp {
+  background-image: url(./jolly-rodger.png);
+  background-clip: padding-box;
+  background-position: bottom right;
+  background-size: 10rem;
+  background-repeat: no-repeat;
+}
+
 .button-stack {
   margin: 0 auto;
   min-width: 200px;
@@ -31,23 +46,17 @@
   }
 }
 
-.title-screen {
-  min-height: 60vh;
-  border-width: 7px;
+.title-frame {
+  max-width: fit-content;
+  margin: 0 auto;
+  
+}
 
+.title-screen {
+  padding: 10px 90px 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  background-image: url(./jolly-rodger.png);
-  background-position: bottom right;
-  background-size: 10rem;
-  background-repeat: no-repeat;
-
-  button {
-    margin: var(--small-space) 0;
-    font-size: larger;
-  }
 }
 
 .round-button {
