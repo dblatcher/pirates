@@ -2,6 +2,7 @@ import { CSSProperties } from "react"
 import { Ship } from "../../game-state"
 import { SAIL_COLOR_CSS } from "../../lib/Color"
 import { VerticalRange } from "../VerticalRange"
+import { cornerOverlay, middleOverlay } from "../../lib/style-helpers"
 
 interface Props {
     ship: Ship
@@ -13,7 +14,7 @@ const figureStyle = (height: number, width: number): CSSProperties => ({
     boxSizing: 'border-box',
     width,
     height,
-    borderTop: '3px solid black',
+    borderTop: '3px solid brown',
     margin: '0 auto',
 })
 const mastStyle = (height: number): CSSProperties => ({
@@ -22,7 +23,7 @@ const mastStyle = (height: number): CSSProperties => ({
     top: 0,
     height,
     width: '50%',
-    borderRight: '3px solid black',
+    borderRight: '3px solid brown',
 })
 
 const sailStyle = (level: number): CSSProperties => ({
@@ -68,9 +69,11 @@ export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
                         <div style={sailStyle(ship.sailLevel)}></div>
                         <div style={targetLineStyle(ship.sailLevelTarget)}></div>
                     </figure>
+                    <div style={cornerOverlay('bottom','right')}>
+                        Speed: {ship.speedLastTurn.toFixed(2)}
+                    </div>
                 </div>
             </div>
-            <p>Speed: {ship.speedLastTurn.toFixed(2)}</p>
         </div >
     )
 }
