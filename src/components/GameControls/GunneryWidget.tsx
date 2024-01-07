@@ -1,6 +1,7 @@
 import { Fragment, useId } from "react";
-import { Ship, ShipCannon, Directive, FiringPattern, Order, Side } from "../../game-state";
+import { Directive, FiringPattern, Order, Ship, Side } from "../../game-state";
 import { splitArray } from "../../lib/util";
+import { CannonIndicator } from "./CannonIndicator";
 
 interface Props {
     ship: Ship
@@ -10,13 +11,6 @@ interface Props {
     setFiringPattern: { (firingPattern: FiringPattern): void }
 }
 
-const sideToDescription = (side: Side): string => {
-    switch (side) {
-        case Side.LEFT: return `Port Guns`
-        case Side.RIGHT: return `Star'd Guns`
-        default: return 'Cannons'
-    }
-}
 
 const patternToDescription = (pattern: FiringPattern): string => {
     switch (pattern) {
@@ -26,26 +20,6 @@ const patternToDescription = (pattern: FiringPattern): string => {
         default: return '?'
     }
 }
-
-const cooldownToSymbol = (cooldown: number): string =>
-    cooldown === 0 ? '◆' : '◇'
-
-const CannonIndicator = ({ cannons, side }: { cannons: ShipCannon[], side: Side }) => (
-    <div title={sideToDescription(side)}>
-        <div style={{
-            display: "flex",
-            flexDirection: 'column',
-            alignItems: 'center',
-            fontFamily: 'monospace',
-            fontSize: '.5rem',
-            lineHeight: 1
-        }}>
-            {cannons.map((cannon, index) => (
-                <b key={index}>{cooldownToSymbol(cannon.cooldown)}</b>
-            ))}
-        </div>
-    </div>
-)
 
 export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFiringPattern }: Props) => {
 
@@ -63,16 +37,6 @@ export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFi
 
     return (
         <div className="panel-frame">
-            <div style={{ display: 'flex' }}>
-                <div>
-                    <button onClick={fireTo(Side.LEFT)}>FIRE</button>
-                    <CannonIndicator cannons={leftCannons} side={Side.LEFT} />
-                </div>
-                <div>
-                    <button onClick={fireTo(Side.RIGHT)}>FIRE</button>
-                    <CannonIndicator cannons={rightCannons} side={Side.RIGHT} />
-                </div>
-            </div>
 
             {[FiringPattern.BROADSIDE, FiringPattern.CASCADE, FiringPattern.ALTERNATE].map((pattern, index) => (
                 <Fragment key={index}>
@@ -85,6 +49,14 @@ export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFi
                     />
                 </Fragment>
             ))}
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 5 }}>
+                <button onClick={fireTo(Side.LEFT)}>
+                    <CannonIndicator cannons={leftCannons} side={Side.LEFT} />
+                </button>
+                <button onClick={fireTo(Side.RIGHT)}>
+                    <CannonIndicator cannons={rightCannons} side={Side.RIGHT} />
+                </button>
+            </div>
         </div>
     )
 }
