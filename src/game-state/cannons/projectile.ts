@@ -5,6 +5,7 @@ import { createGroundHit, createImpact, createSplash } from "../effects/effect";
 import { isLandAt } from "../land";
 import { Cannon, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, Projectile } from "../model";
 import { SoundEffectRequest } from "../model/sound";
+import { damageTown } from "../towns";
 
 export const launchProjectile = (start: { x: number, y: number, h: number }, game: GameState) => {
     game.projectiles.push({
@@ -56,10 +57,7 @@ export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (ne
         game.towns.forEach(town => {
             if (willProjectileHitTown(projectile, town)) {
                 projectilesThatHitSomething.push(projectile)
-                town.defences = Math.max(0, town.defences - 5)
-                // pushLog(`Hit ${town.name}: ${town.defences}/${town.profile.maxDefences}`)
-                createGroundHit({ ...projectile, timeLeft: 80 }, game)
-                createImpact({ ...projectile, timeLeft: 50 }, game)
+                damageTown(town, projectile, game)
                 soundEffectRequests.push({ position: town, sfx: 'shipHit' })
             } else {
                 town.forts.forEach(fort => {
