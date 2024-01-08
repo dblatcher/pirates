@@ -8,7 +8,7 @@ import { opportunisticFire } from "../issue-directives/opportunistic-fire";
 
 export const performTravelMission = (ai: AI, context: DescisonContext): Directive[] => {
 
-    const { enemies } = identifyShips(context.ship, context.gameState, DEFAULT_FIRE_DISTANCE)
+    const { enemies, allies } = identifyShips(context.ship, context.gameState, DEFAULT_FIRE_DISTANCE)
 
     if (!ai.state.destination) {
         ai.setDestinationToCurrentWaypoint()
@@ -18,7 +18,7 @@ export const performTravelMission = (ai: AI, context: DescisonContext): Directiv
     }
 
     return [
-        ...opportunisticFire(ai, context, enemies),
+        ...opportunisticFire(ai, context, enemies, allies),
         ...followCurrentPath(ai, context)
     ]
 

@@ -2,8 +2,8 @@ import { AI, DescisonContext } from ".."
 import { Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
 import { _DEG, findRotationBetweenHeadings, getHeadingFrom } from "../../lib/geometry"
 
-
-export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: Ship[]): Directive[] => {
+/** TO DO - don't fire if there is an ally closer than the target, on the same side */
+export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: Ship[], _allies: Ship[]): Directive[] => {
 
     const directives: Directive[] = []
 
@@ -13,7 +13,6 @@ export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: S
 
     const targetsAndAngles = enemies.map(enemy => {
         const heading = getHeadingFrom(ship, enemy)
-
         const headingAtWhichShipIsOnTargetToFireLeft = heading - anglesBySide[Side.LEFT]
         const headingAtWhichShipIsOnTargetToFireRight = heading - anglesBySide[Side.RIGHT]
 
@@ -23,7 +22,7 @@ export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: S
             rightDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireRight)),
         }
     })
-    // TO DO - don't fire if there is a friendly ship closer than the target, on the same side
+   
     if (targetsAndAngles.find(target => target.rightDiff < 15 * _DEG)) {
         directives.push(
             { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.BROADSIDE },

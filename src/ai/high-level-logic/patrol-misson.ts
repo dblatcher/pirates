@@ -10,7 +10,7 @@ import { turnToAndFire } from "../issue-directives/target-and-fire"
 
 export const performPatrolMission = (ai: AI, context: DescisonContext): Directive[] => {
     const { ship, gameState } = context
-    const { enemies } = identifyShips(ship, gameState)
+    const { enemies, allies } = identifyShips(ship, gameState)
 
     if (!ai.state.destination) {
         ai.setDestinationToCurrentWaypoint()
@@ -23,7 +23,7 @@ export const performPatrolMission = (ai: AI, context: DescisonContext): Directiv
     if (targetShip) {
         if (range > DEFAULT_FIRE_DISTANCE) {
             return [
-                ...opportunisticFire(ai, context, enemies),
+                ...opportunisticFire(ai, context, enemies, allies),
                 ...approach(context, targetShip)
             ]
         }
