@@ -4,6 +4,7 @@ import { getDistance } from "../../lib/geometry"
 import { identifyShips } from "../identify-ships"
 import { approach } from "../issue-directives/approach"
 import { followCurrentPath } from "../issue-directives/follow-path"
+import { opportunisticFire } from "../issue-directives/opportunistic-fire"
 import { turnToAndFire } from "../issue-directives/target-and-fire"
 
 
@@ -21,7 +22,10 @@ export const performPatrolMission = (ai: AI, context: DescisonContext): Directiv
     const { ship: targetShip, distance: range } = ai.getCurrentTargetOrChooseClosest(ship, enemies)
     if (targetShip) {
         if (range > DEFAULT_FIRE_DISTANCE) {
-            return approach(context, targetShip)
+            return [
+                ...opportunisticFire(ai, context, enemies),
+                ...approach(context, targetShip)
+            ]
         }
         return [
             { order: Order.SAILS_TO, quantity: .5 },

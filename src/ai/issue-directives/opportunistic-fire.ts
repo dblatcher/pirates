@@ -23,7 +23,7 @@ export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: S
             rightDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireRight)),
         }
     })
-
+    // TO DO - don't fire if there is a friendly ship closer than the target, on the same side
     if (targetsAndAngles.find(target => target.rightDiff < 15 * _DEG)) {
         directives.push(
             { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.BROADSIDE },
