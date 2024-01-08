@@ -23,6 +23,7 @@ export const SAIL_CHANGE_RATE = .01
 export const SHIP_TURN_RATE = _DEG * 2.5
 /**The level of damage that starts to slow a ship */
 export const SHIP_DAMAGE_LEVEL_THAT_SLOWS = .5
+export const MINIMUM_SPEED_FACTOR_DUE_TO_DAMAGE = .2
 
 
 
