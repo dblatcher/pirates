@@ -21,7 +21,7 @@ const makeInitialState = (): GameState => {
                 faction: 'grance',
                 x: 1100,
                 y: 450,
-                h: _DEG * 90,
+                h: _DEG * 270,
                 id: 1,
                 damage: 10,
                 sailLevelTarget: 0,
@@ -29,23 +29,23 @@ const makeInitialState = (): GameState => {
             }),
             makeDefaultShip({
                 name: 'follower one',
-                faction: 'spaim',
+                faction: 'grance',
                 id: 15,
                 x: 1250,
-                y: 1200,
-                h: 180 * _DEG,
-                damage: 19,
-                ai: new HunterAi(1, 16, true)
+                y: 350,
+                h: 0 * _DEG,
+                damage: 4,
+                ai: new FollowerAutoPilot(1, 15, true)
             }),
             makeDefaultShip({
                 name: 'follower two',
                 faction: 'grance',
                 id: 16,
                 x: 1350,
-                y: 1500,
+                y: 350,
                 h: 0 * _DEG,
-                damage: 12,
-                ai: new FollowerAutoPilot(15, 16, false)
+                damage: 3,
+                ai: new FollowerAutoPilot(1, 16, true)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',
@@ -94,7 +94,7 @@ const makeInitialState = (): GameState => {
                 id: 4,
                 name: 'The target',
                 x: 1000,
-                y: 500,
+                y: 1500,
                 h: _DEG * 90,
                 damage: 19,
             }),

@@ -10,6 +10,22 @@ enum FollowPlan {
     CatchUp, MatchSpeed, ReachTargetPoint, Stop, UseCurrentPath,
 }
 
+const setFollowPoint = (ship: Ship, shipToFollow: Ship, gameState: GameState) => {
+    const { cycleNumber: determinedAtCycle } = gameState
+    const shipsFollowingSameShip = gameState.ships.filter(
+        ship => ship.ai?.state.mission.type === 'follow' &&
+            ship.ai?.state.mission.targetShipId === shipToFollow.id
+    )
+
+    const indexOfCurrentShip = shipsFollowingSameShip.indexOf(ship)
+    if (indexOfCurrentShip === -1 || shipsFollowingSameShip.length < 2) {
+        return { distance: 120, angle: 0, determinedAtCycle }
+    }
+
+    const angle = [-20, 20, -40, 40][indexOfCurrentShip % 4]
+    const distance = (Math.floor(indexOfCurrentShip / 4) + 1) * 120
+    return { distance, angle, determinedAtCycle }
+}
 
 const determinePlanToFollow = (
     ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState,
@@ -25,14 +41,15 @@ const determinePlanToFollow = (
         }
     }
 
+    if (!ai.state.followPoint || (gameState.cycleNumber - ai.state.followPoint.determinedAtCycle > 100)) {
+        ai.state.followPoint = setFollowPoint(ship, shipToFollow, gameState)
+    }
+    const followPoint = ai.state.followPoint
 
-    // TO DO - determine at what angle to follow the ship
-    // so multiple ships can follow the same ship without crashing into each other
-    // all the time
-    const chaseAngle = _DEG * 0
+    const chaseAngle = _DEG * followPoint.angle
     const combinedRadi = ship.length / 2 + shipToFollow.length / 2
+    const targetDistance = followPoint.distance + combinedRadi
 
-    const targetDistance = 100 + combinedRadi
     const targetPoint = translate(shipToFollow, getXYVector(-targetDistance, shipToFollow.h + chaseAngle))
     const distanceToStopAt = 25 + combinedRadi
     const distanceToCatchUpAt = 150 + combinedRadi

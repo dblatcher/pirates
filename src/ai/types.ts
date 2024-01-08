@@ -16,6 +16,11 @@ export type AIState = {
     destination?: XY;
     path: XY[];
     lastCycleWithPathfinding?: number;
+    followPoint?: {
+        angle: number
+        distance: number
+        determinedAtCycle: number
+    }
 }
 
 export type DescisonContext = {
