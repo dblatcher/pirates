@@ -1,4 +1,4 @@
-import { EscortAutoPilot } from "../ai/escort-ai";
+import { FollowerAutoPilot } from "../ai/follower-ai";
 import { HunterAi, MissonAi } from "../ai/mission-ai";
 import { TerrainType } from "../game-state/land";
 import { GameState } from "../game-state/model";
@@ -45,7 +45,7 @@ const makeInitialState = (): GameState => {
                 y: 1500,
                 h: 0 * _DEG,
                 damage: 12,
-                ai: new EscortAutoPilot(15, 16, false)
+                ai: new FollowerAutoPilot(15, 16, false)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',

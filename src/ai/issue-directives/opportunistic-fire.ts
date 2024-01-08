@@ -21,7 +21,6 @@ export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: S
             enemy,
             leftDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireLeft)),
             rightDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireRight)),
-
         }
     })
 

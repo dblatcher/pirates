@@ -5,7 +5,7 @@ import { turnToAndFire } from "../issue-directives/target-and-fire"
 
 
 export const performHuntMission = (ai: AI, context: DescisonContext): Directive[] => {
-    // NOTE - assumes the escort know where the target is regardless of distance
+    // NOTE - assumes the follower know where the target is regardless of distance
     const { ship: targetShip, distance: distanceToOtherShip } = ai.getCurrentTarget(context.ship, context.gameState.ships)
 
     if (!targetShip) {

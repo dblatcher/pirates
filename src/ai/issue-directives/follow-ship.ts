@@ -11,7 +11,7 @@ enum FollowPlan {
 }
 
 
-const determinePlanToEscort = (
+const determinePlanToFollow = (
     ai: AI, ship: Ship, shipToFollow: Ship, distanceToOtherShip: number, gameState: GameState,
 ): { plan: FollowPlan, targetPoint: XY, targetSpeed: number } => {
 
@@ -82,7 +82,7 @@ export const followShip = (
     // TO DO - do we want to use the mission tyep this way?
     const { plan, targetPoint, targetSpeed } = ai.state.mission.type === 'hunt'
         ? determinePlanToHunt(ai, ship, shipToFollow, distanceToOtherShip, gameState)
-        : determinePlanToEscort(ai, ship, shipToFollow, distanceToOtherShip, gameState)
+        : determinePlanToFollow(ai, ship, shipToFollow, distanceToOtherShip, gameState)
 
     switch (plan) {
         case FollowPlan.CatchUp:

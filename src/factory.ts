@@ -1,10 +1,10 @@
 import type { AI } from "./ai"
-import { EscortAutoPilot } from "./ai/escort-ai"
+import { FollowerAutoPilot } from "./ai/follower-ai"
 
 export type AIFactory = {
-    escort: { (idOfShipToEscort: number, shipId: number): AI }
+    follow: { (idOfShipToFollow: number, shipId: number): AI }
 }
 
 export const aiFactory: AIFactory = {
-    escort: (idOfShipToEscort: number, shipId: number) => new EscortAutoPilot(idOfShipToEscort, shipId)
+    follow: (idOfShipToFollow: number, shipId: number) => new FollowerAutoPilot(idOfShipToFollow, shipId)
 }

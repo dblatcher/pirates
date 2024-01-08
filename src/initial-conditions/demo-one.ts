@@ -1,5 +1,5 @@
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
-import { EscortAutoPilot } from "../ai/escort-ai";
+import { FollowerAutoPilot } from "../ai/follower-ai";
 import { GameState } from "../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { GAME_STATE_DEFAULTS, Scenario } from "../initial-conditions";
@@ -33,7 +33,7 @@ const makeInitialState = (): GameState => {
                 y: 1300,
                 h: 0,
                 // damage:15,
-                ai: new EscortAutoPilot(1, 15, false)
+                ai: new FollowerAutoPilot(1, 15, false)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',

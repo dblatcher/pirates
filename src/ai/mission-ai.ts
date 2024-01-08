@@ -1,6 +1,6 @@
 import { AI, AIState, DescisonContext } from ".";
 import { Directive } from "../game-state";
-import { performEscortMission } from "./high-level-logic/escort-mission";
+import { performFollowMission } from "./high-level-logic/follow-mission";
 import { performHuntMission } from "./high-level-logic/hunt-misson";
 import { performPatrolMission } from "./high-level-logic/patrol-misson";
 import { performTravelMission } from "./high-level-logic/travel-mission";
@@ -13,7 +13,7 @@ export class MissonAi extends AI {
             case "patrol":
                 return performPatrolMission(this, context)
             case "follow":
-                return performEscortMission(this, context)
+                return performFollowMission(this, context)
             case "travel":
                 return performTravelMission(this, context)
             case 'hunt':
@@ -24,11 +24,11 @@ export class MissonAi extends AI {
 }
 
 export class HunterAi extends MissonAi {
-    constructor(idOfShipToEscort: number, shipId: number, debugToConsole = false) {
+    constructor(idOfShipToHunt: number, shipId: number, debugToConsole = false) {
         const initalState: AIState = {
             mission: {
                 type: 'hunt',
-                targetShipId: idOfShipToEscort
+                targetShipId: idOfShipToHunt
             },
             path: [],
         }
