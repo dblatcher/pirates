@@ -56,10 +56,15 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                             profile={{
                                 browShape: browShapes.THIN,
                                 eyeColor: 'green',
-                                width: .8,
-                                color: 'goldenrod',
+                                width: .7,
+                                color: 'coral',
                                 lipColor: 'crimson'
                             }}
+                            accessories={[
+                                {
+                                    x: 0, y: -20, src: '/Straw_hat_icon.svg.png', width: 110,
+                                }
+                            ]}
                         />
                         <p style={textBubbleStyle} className="text-bubble">
                             {currentIntroPage.text.slice(0, displayedCharacters)}
