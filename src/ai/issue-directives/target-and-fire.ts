@@ -10,6 +10,8 @@ const pickSideToUse = (firingShip: Ship, headingToTarget: number): Side => {
     return amountToTurnToFireLeft < amountToTurnToFireRight ? Side.LEFT : Side.RIGHT
 }
 
+// TO DO - use the logic in oppurtunistic fire (or similar) to avoid firing
+// when an friendly ship is in the way
 export const turnToAndFire = (
     { ship }: DescisonContext,
     firingOrders: {

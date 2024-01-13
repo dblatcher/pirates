@@ -17,10 +17,11 @@ const makeInitialState = (): GameState => {
                 x: 550, y: 300, h: _DEG * 90, id: 2, faction: 'grance'
             }),
             makeDefaultShip({
-                x: 550, y: 350, h: _DEG * 90, id: 3, faction: 'spaim'
+                x: 550, y: 350, h: _DEG * -90, id: 3, faction: 'spaim',
+                sailLevel: .1, sailLevelTarget: .1,
             }),
             makeDefaultShip({
-                x: 550, y: 400, h: _DEG * 90, id: 4, faction: 'spaim',
+                x: 550, y: 400, h: _DEG * 93, id: 4, faction: 'spaim',
                 ai: new MissonAi({
                     mission: {
                         type: 'travel',
@@ -32,10 +33,11 @@ const makeInitialState = (): GameState => {
                 x: 750, y: 300, h: _DEG * 90, id: 5, faction: 'grance'
             }),
             makeDefaultShip({
-                x: 750, y: 350, h: _DEG * 90, id: 6, faction: 'spaim'
+                x: 750, y: 350, h: _DEG * 90, id: 6, faction: 'spaim',
+                sailLevel: .1, sailLevelTarget: .1,
             }),
             makeDefaultShip({
-                x: 750, y: 500, h: _DEG * 90, id: 7, faction: 'spaim',
+                x: 750, y: 400, h: _DEG * -90, id: 7, faction: 'spaim',
                 ai: new MissonAi({
                     mission: {
                         type: 'travel',
