@@ -23,7 +23,7 @@ export const performPatrolMission = (ai: AI, context: DescisonContext): Directiv
     if (targetShip) {
         if (range > DEFAULT_FIRE_DISTANCE) {
             return [
-                ...opportunisticFire(ai, context, enemies, allies),
+                ...opportunisticFire(ai, context, { enemies, allies }), // will include ships outside fire range
                 ...approach(context, targetShip)
             ]
         }

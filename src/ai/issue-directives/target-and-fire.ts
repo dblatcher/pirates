@@ -1,6 +1,6 @@
 import { DescisonContext } from "../types"
 import { DEFAULT_FIRE_DISTANCE, Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
-import { getVectorFrom, getHeading, _90_DEG_LEFT, normaliseHeading, _DEG, XY, getDistance } from "../../lib/geometry"
+import { getVectorFrom, getHeading, normaliseHeading, _DEG, XY, getDistance } from "../../lib/geometry"
 
 const pickSideToUse = (firingShip: Ship, headingToTarget: number): Side => {
     const aimDirectionToFireFromLeft = headingToTarget - anglesBySide[Side.LEFT]
