@@ -34,6 +34,10 @@ export const DEFAULT_FIRE_DISTANCE = 150
 /**How far a ship's actual target can get from the ship's current destination before the ship should set a new path */
 export const DISTANCE_TO_REEVAULATE_PATH = 300
 export const MIN_CYCLES_BETWEEN_PATH_FINDING = 50
+/** How close ship needs to be for a fort to aim at it */
+export const FORT_AIM_DISTANCE = 400
+/** How close ship needs to be for a fort to fire at it */
+export const FORT_FIRE_DISTANCE = 250
 
 // effects
 export const CYCLES_TO_SINK = 100
