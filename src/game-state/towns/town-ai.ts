@@ -46,7 +46,7 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
 
             if (targetDistance < FORT_FIRE_DISTANCE) {
                 const [firstThingToBeHit] = getShipsInArcNearestFirst(undefined, fort, buildInitialTargettingList(fort, [closestEnemy], allies))
-                if (!firstThingToBeHit.isEnemy) {
+                if (!firstThingToBeHit?.isEnemy) {
                     return
                 }
 
