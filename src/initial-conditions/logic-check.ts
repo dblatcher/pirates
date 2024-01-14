@@ -43,7 +43,7 @@ const makeInitialState = (): GameState => {
                         type: 'travel',
                     },
                     path: [],
-                }, 7, true)
+                }, 7, false)
             }),
         ],
         land: [
