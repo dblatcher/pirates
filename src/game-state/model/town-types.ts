@@ -3,7 +3,7 @@ import { XY } from "../../lib/geometry"
 import { FactionId } from "../faction"
 
 export type Fort = XY & {
-    aimDirection: number,
+    h: number,
     cannons: FortCannon[],
     damage: number,
 }

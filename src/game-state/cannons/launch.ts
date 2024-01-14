@@ -31,15 +31,15 @@ const launchFromFort = (cannon: FortCannon, fort: Fort, game: GameState): boolea
         cannon.firing = false
         return false
     }
-    const { aimDirection = 0 } = fort
+    const { h = 0 } = fort
 
     const getStartAt = (distanceFromFortCenter: number) => {
         const d = (FORT_SIZE / 2) * distanceFromFortCenter
-        const placeAlongDiameter = translate(fort, getXYVector(d, _90_DEG_RIGHT + aimDirection))
-        const placeOutsideRadius = translate(placeAlongDiameter, getXYVector(1 + FORT_SIZE / 2, aimDirection))
+        const placeAlongDiameter = translate(fort, getXYVector(d, _90_DEG_RIGHT + h))
+        const placeOutsideRadius = translate(placeAlongDiameter, getXYVector(1 + FORT_SIZE / 2, h))
         return {
             ...placeOutsideRadius,
-            h: aimDirection
+            h: h
         }
     }
 
