@@ -1,5 +1,5 @@
 import { AI, DescisonContext } from ".."
-import { Directive, TERRAIN_SQUARE_SIZE, DEFAULT_FIRE_DISTANCE, Order } from "../../game-state"
+import { Directive, TERRAIN_SQUARE_SIZE, DEFAULT_FIRE_DISTANCE, Order, DEFAULT_ATTACK_RANGE } from "../../game-state"
 import { getDistance } from "../../lib/geometry"
 import { identifyShips } from "../identify-ships"
 import { approach } from "../issue-directives/approach"
@@ -10,7 +10,7 @@ import { turnToAndFire } from "../issue-directives/target-and-fire"
 
 export const performPatrolMission = (ai: AI, context: DescisonContext): Directive[] => {
     const { ship, gameState } = context
-    const { enemies, allies } = identifyShips(ship, gameState)
+    const { enemies, allies } = identifyShips(ship, gameState, DEFAULT_ATTACK_RANGE)
 
     if (!ai.state.destination) {
         ai.setDestinationToCurrentWaypoint()
@@ -23,7 +23,7 @@ export const performPatrolMission = (ai: AI, context: DescisonContext): Directiv
     if (targetShip) {
         if (range > DEFAULT_FIRE_DISTANCE) {
             return [
-                ...opportunisticFire(ai, context, enemies, allies),
+                ...opportunisticFire(ai, context, { enemies, allies }), // will include ships outside fire range
                 ...approach(context, targetShip)
             ]
         }

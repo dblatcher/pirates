@@ -36,7 +36,7 @@ export type GameState = {
     towns: Town[];
     boardingActions: BoardingAction[];
     invadingActions: InvadingAction[];
-    
+
 }
 
 export type ViewPort = {
@@ -72,10 +72,17 @@ export enum FiringPattern {
     BROADSIDE, CASCADE, ALTERNATE
 }
 
+export const descriptionsBySide: Record<Side, string> = {
+    [Side.LEFT]: 'left',
+    [Side.RIGHT]: 'right',
+}
 export const anglesBySide: Record<Side, number> = {
     [Side.LEFT]: _90_DEG_LEFT,
     [Side.RIGHT]: _90_DEG_RIGHT,
 }
+export const allSides: readonly Side[] = [
+    Side.LEFT, Side.RIGHT
+]
 
 type QuantityDirective = {
     order: Order.HEADING_TO | Order.SAILS_BY | Order.SAILS_TO | Order.WHEEL_TO

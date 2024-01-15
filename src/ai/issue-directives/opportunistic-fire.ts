@@ -1,38 +1,42 @@
 import { AI, DescisonContext } from ".."
-import { Directive, FiringPattern, Order, Ship, Side, anglesBySide } from "../../game-state"
-import { _DEG, findRotationBetweenHeadings, getHeadingFrom } from "../../lib/geometry"
+import { DEFAULT_FIRE_DISTANCE, Directive, FiringPattern, Order, Ship, Side, allSides, descriptionsBySide } from "../../game-state"
+import { describeShipWithId } from "../../game-state/ship"
+import { buildInitialTargettingList, getShipsInArcNearestFirst } from "../../lib/targeting"
+import { identifyShips } from "../identify-ships"
 
-/** TO DO - don't fire if there is an ally closer than the target, on the same side */
-export const opportunisticFire = (_ai: AI, { ship }: DescisonContext, enemies: Ship[], _allies: Ship[]): Directive[] => {
 
+export const opportunisticFire = (ai: AI, { ship, gameState }: DescisonContext, preCalculatedShipsInRange?: { enemies: Ship[], allies: Ship[] }): Directive[] => {
+    const { enemies, allies } = preCalculatedShipsInRange ?? identifyShips(ship, gameState, DEFAULT_FIRE_DISTANCE)
     const directives: Directive[] = []
-
-    if (enemies.length === 0 || ship.cannons.every(cannon => cannon.cooldown > 0)) {
+    if (enemies.length === 0) {
         return directives
     }
 
-    const targetsAndAngles = enemies.map(enemy => {
-        const heading = getHeadingFrom(ship, enemy)
-        const headingAtWhichShipIsOnTargetToFireLeft = heading - anglesBySide[Side.LEFT]
-        const headingAtWhichShipIsOnTargetToFireRight = heading - anglesBySide[Side.RIGHT]
+    const cannonsReadyOn: Record<Side, boolean> = {
+        [Side.LEFT]: ship.cannons.some(cannon => cannon.side === Side.LEFT && cannon.cooldown <= 0),
+        [Side.RIGHT]: ship.cannons.some(cannon => cannon.side === Side.RIGHT && cannon.cooldown <= 0),
+    }
 
-        return {
-            enemy,
-            leftDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireLeft)),
-            rightDiff: Math.abs(findRotationBetweenHeadings(ship.h, headingAtWhichShipIsOnTargetToFireRight)),
+    if (Object.values(cannonsReadyOn).every(readiness => readiness === false)) {
+        return directives
+    }
+
+    const targettingList = buildInitialTargettingList(ship, enemies, allies)
+
+    allSides.forEach(side => {
+        if (cannonsReadyOn[side]) {
+            const targettingListInArc = getShipsInArcNearestFirst(side, ship, targettingList)
+            const [closestTargetInArc] = targettingListInArc
+            if (closestTargetInArc?.isEnemy) {
+                ai.debugLog(`Firing at ${describeShipWithId(closestTargetInArc.ship)} on my ${descriptionsBySide[side]}`)
+                directives.push(
+                    { order: Order.FIRE, side: side, pattern: FiringPattern.BROADSIDE },
+                )
+            } else if (closestTargetInArc) {
+                ai.debugLog(`Not firing ${descriptionsBySide[side]} because ${describeShipWithId(closestTargetInArc.ship)} is closet in arc`)
+            }
         }
     })
-   
-    if (targetsAndAngles.find(target => target.rightDiff < 15 * _DEG)) {
-        directives.push(
-            { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.BROADSIDE },
-        )
-    }
-    if (targetsAndAngles.find(target => target.leftDiff < 15 * _DEG)) {
-        directives.push(
-            { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.BROADSIDE },
-        )
-    }
 
     return directives
 }

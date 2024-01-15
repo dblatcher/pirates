@@ -23,3 +23,4 @@ export const getBoundingRect = (ship: Ship, margin = 6): Rect => {
 };
 
 export const getProwPosition = (ship: Ship) => translate(ship, getXYVector(ship.length / 2, ship.h))
+export const getAftPosition = (ship: Ship) => translate(ship, getXYVector(-ship.length / 2, ship.h))

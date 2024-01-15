@@ -1,14 +1,12 @@
 import { AI, DescisonContext } from "..";
-import { DEFAULT_FIRE_DISTANCE, Directive, TERRAIN_SQUARE_SIZE } from "../../game-state";
+import { Directive, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { getDistance } from "../../lib/geometry";
-import { identifyShips } from "../identify-ships";
 import { followCurrentPath } from "../issue-directives/follow-path";
 import { opportunisticFire } from "../issue-directives/opportunistic-fire";
 
 
 export const performTravelMission = (ai: AI, context: DescisonContext): Directive[] => {
 
-    const { enemies, allies } = identifyShips(context.ship, context.gameState, DEFAULT_FIRE_DISTANCE)
 
     if (!ai.state.destination) {
         ai.setDestinationToCurrentWaypoint()
@@ -18,7 +16,7 @@ export const performTravelMission = (ai: AI, context: DescisonContext): Directiv
     }
 
     return [
-        ...opportunisticFire(ai, context, enemies, allies),
+        ...opportunisticFire(ai, context),
         ...followCurrentPath(ai, context)
     ]
 

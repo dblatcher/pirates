@@ -1,8 +1,9 @@
 import { identifyShips } from "../../ai/identify-ships";
 import { doesLineSegmentCrossCircleEdge } from "../../lib/expensive-geometry";
 import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../../lib/geometry";
+import { buildInitialTargettingList, getShipsInArcNearestFirst } from "../../lib/targeting";
 import { clamp } from "../../lib/util";
-import { DAMAGE_THAT_STOPS_FORTS_FIRING, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, TOWN_SIZE, Town } from "../model";
+import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_AIM_DISTANCE, FORT_FIRE_DISTANCE, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, TOWN_SIZE, Town } from "../model";
 
 
 export const doRepairs = (town: Town) => {
@@ -27,8 +28,10 @@ export const doRepairs = (town: Town) => {
 
 export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => {
 
-    const { enemies } = identifyShips(town, gameState)
+    const { enemies, allies } = identifyShips(town, gameState, FORT_AIM_DISTANCE)
     const { item: closestEnemy } = findClosestAndDistance(enemies, town)
+
+    // TO DO - don't fire if there is an ally in the way
 
     if (closestEnemy) {
         town.forts.forEach(fort => {
@@ -37,12 +40,16 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
             if (cannonsReady.length === 0) {
                 return
             }
-
             const targetHeading = getHeading(getVectorFrom(fort, closestEnemy))
             const targetDistance = getDistance(fort, closestEnemy)
-            fort.aimDirection = targetHeading
+            fort.h = targetHeading
 
-            if (targetDistance < 250) {
+            if (targetDistance < FORT_FIRE_DISTANCE) {
+                const [firstThingToBeHit] = getShipsInArcNearestFirst(undefined, fort, buildInitialTargettingList(fort, [closestEnemy], allies))
+                if (!firstThingToBeHit?.isEnemy) {
+                    return
+                }
+
                 const projectPathEnd = translate(fort, getXYVector(targetDistance, targetHeading))
                 //TODO - this works but is too expensive - find more efficient solution based on angles
                 // can figure out the town angle once and store on an optional proprty of the fort
@@ -58,5 +65,4 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
             }
         })
     }
-
 }

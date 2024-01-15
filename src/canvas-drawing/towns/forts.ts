@@ -21,7 +21,7 @@ export const drawFort = (
 
     ctx.beginPath()
     drawingMethods.moveTo(...s(fort))
-    drawingMethods.lineTo(...s(translate(fort, getXYVector(FORT_SIZE * (3 / 8), fort.aimDirection || 0))))
+    drawingMethods.lineTo(...s(translate(fort, getXYVector(FORT_SIZE * (3 / 8), fort.h || 0))))
     ctx.stroke()
 
     drawFortDamage(ctx, drawingMethods, fort, fort.damage, cycleNumber)

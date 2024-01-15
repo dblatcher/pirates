@@ -2,7 +2,7 @@ import { Fort, Town } from "../model";
 import { XY, translate } from "../../lib/geometry";
 
 export const makeFort = (distanceFromTown: XY, townPosition: XY): Fort => ({
-    aimDirection: 0,
+    h: 0,
     damage: 0,
     cannons: [
         {
