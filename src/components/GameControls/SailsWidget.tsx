@@ -1,8 +1,8 @@
 import { CSSProperties } from "react"
 import { Ship } from "../../game-state"
 import { SAIL_COLOR_CSS } from "../../lib/Color"
+import { cornerOverlay } from "../../lib/style-helpers"
 import { VerticalRange } from "../VerticalRange"
-import { cornerOverlay, middleOverlay } from "../../lib/style-helpers"
 
 interface Props {
     ship: Ship

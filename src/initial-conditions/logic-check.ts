@@ -1,5 +1,4 @@
 import { GAME_STATE_DEFAULTS, Scenario } from ".";
-import { MissonAi } from "../ai/mission-ai";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip } from "../game-state/ship";
 import { makeTownWithForts } from "../game-state/towns";
