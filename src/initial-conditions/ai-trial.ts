@@ -1,6 +1,6 @@
 import { FollowerAutoPilot } from "../ai/follower-ai";
 import { MissonAi } from "../ai/mission-ai";
-import { TerrainType } from "../game-state/land";
+import { TerrainType, inputToLandmass } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTown } from "../game-state/towns";
@@ -140,7 +140,7 @@ const makeInitialState = (): GameState => {
                     [TerrainType.PLAIN]
                 ]
             }
-        ],
+        ].map(inputToLandmass),
         towns: [
             makeTown({
                 x: 1200,
