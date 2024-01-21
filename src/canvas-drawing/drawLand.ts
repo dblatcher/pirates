@@ -1,7 +1,7 @@
+import { coastlinesPng } from "../assets";
+import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { Landmass, TerrainType, getLandInView } from "../game-state/land";
-import { ViewPort, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { OffsetDrawMethods } from "./drawWithOffSet";
-import { coastlinesPng } from "../assets"
 
 // TO DO - replace asset - coastlines are too thin  
 const image = new Image(200, 200)
@@ -10,18 +10,6 @@ const fw = image.naturalWidth * 1 / 4
 const fh = image.naturalHeight * 1 / 4
 const t = TERRAIN_SQUARE_SIZE
 
-const drawEastCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 0, fh * 2, fw, fh, x + t, y, t, t)
-}
-const drawNorthCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 1, fh * 2, fw, fh, x, y - t, t, t)
-}
-const drawWestCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 2, fh * 2, fw, fh, x - t, y, t, t)
-}
-const drawSouthCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 3, fh * 2, fw, fh, x, y + t, t, t)
-}
 
 const plotCoastlineSpriteFunc = (fx: number, fy: number, drawingMethods: OffsetDrawMethods) => (x: number, y: number) => {
     drawingMethods.drawImage(image, fw * fx, fh * fy, fw, fh, x, y, t, t)
@@ -63,20 +51,40 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 ctx.fill()
 
                 if (square.coastLines.east) {
-                    drawEastCoast(drawingMethods, x, y)
                     drawInnerEastCoast(x, y)
                 }
                 if (square.coastLines.north) {
-                    drawNorthCoast(drawingMethods, x, y)
                     drawInnerNorthCoast(x, y)
                 }
                 if (square.coastLines.west) {
-                    drawWestCoast(drawingMethods, x, y)
                     drawInnerWestCoast(x, y)
                 }
                 if (square.coastLines.south) {
-                    drawSouthCoast(drawingMethods, x, y)
                     drawInnerSouthCoast(x, y)
+                }
+            })
+        })
+
+        landmass.coasts.forEach((row, rowIndex) => {
+            row.forEach((coastSquare, squareIndex) => {
+
+                if (typeof coastSquare === 'undefined') {
+                    return
+                }
+                const x = landmass.x + (squareIndex - 1) * TERRAIN_SQUARE_SIZE
+                const y = landmass.y + (rowIndex - 1) * TERRAIN_SQUARE_SIZE
+
+                if (coastSquare.north) {
+                    drawInnerNorthCoast(x, y)
+                }
+                if (coastSquare.south) {
+                    drawInnerSouthCoast(x, y)
+                }
+                if (coastSquare.west) {
+                    drawInnerWestCoast(x, y)
+                }
+                if (coastSquare.east) {
+                    drawInnerEastCoast(x, y)
                 }
             })
         })

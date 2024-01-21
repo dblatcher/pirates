@@ -5,14 +5,16 @@ export enum TerrainType {
     SWAMP,
 }
 
+export type CoastLines = {
+    north: boolean,
+    south: boolean,
+    east: boolean,
+    west: boolean,
+}
+
 export type TerrainSquare = {
     type: TerrainType,
-    coastLines: {
-        north: boolean,
-        south: boolean,
-        east: boolean,
-        west: boolean,
-    }
+    coastLines: CoastLines
 }
 
 export type LandmassInput = {
@@ -25,4 +27,5 @@ export type Landmass = {
     x: number,
     y: number,
     shape: Array<Array<TerrainSquare | undefined>>
+    coasts: Array<Array<CoastLines | undefined>>
 }
