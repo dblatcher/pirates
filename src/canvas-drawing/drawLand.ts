@@ -23,6 +23,10 @@ const drawSouthCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number)
     drawingMethods.drawImage(image, fw * 3, fh * 2, fw, fh, x, y + t, t, t)
 }
 
+const plotCoastlineSpriteFunc = (fx: number, fy: number, drawingMethods: OffsetDrawMethods) => (x: number, y: number) => {
+    drawingMethods.drawImage(image, fw * fx, fh * fy, fw, fh, x, y, t, t)
+}
+
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
     switch (terrain) {
         case TerrainType.PLAIN:
@@ -38,8 +42,11 @@ const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
 
 
 export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[]) {
-
     const landInView = getLandInView(land, viewPort)
+    const drawInnerEastCoast = plotCoastlineSpriteFunc(2, 2, drawingMethods)
+    const drawInnerWestCoast = plotCoastlineSpriteFunc(0, 2, drawingMethods)
+    const drawInnerNorthCoast = plotCoastlineSpriteFunc(3, 2, drawingMethods)
+    const drawInnerSouthCoast = plotCoastlineSpriteFunc(1, 2, drawingMethods)
 
     landInView.forEach(landmass => {
         landmass.shape.forEach((row, rowIndex) => {
@@ -57,15 +64,19 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
 
                 if (square.coastLines.east) {
                     drawEastCoast(drawingMethods, x, y)
+                    drawInnerEastCoast(x, y)
                 }
                 if (square.coastLines.north) {
                     drawNorthCoast(drawingMethods, x, y)
+                    drawInnerNorthCoast(x, y)
                 }
                 if (square.coastLines.west) {
                     drawWestCoast(drawingMethods, x, y)
+                    drawInnerWestCoast(x, y)
                 }
                 if (square.coastLines.south) {
                     drawSouthCoast(drawingMethods, x, y)
+                    drawInnerSouthCoast(x, y)
                 }
             })
         })
