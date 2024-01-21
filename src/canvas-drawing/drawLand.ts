@@ -1,10 +1,11 @@
 import { Landmass, TerrainType, getLandInView } from "../game-state/land";
 import { ViewPort, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { OffsetDrawMethods } from "./drawWithOffSet";
+import { coastlinesPng } from "../assets"
 
 // TO DO - replace asset - coastlines are too thin  
 const image = new Image(200, 200)
-image.src = '/coastlines.png'
+image.src = coastlinesPng
 const fw = image.naturalWidth * 1 / 4
 const fh = image.naturalHeight * 1 / 4
 const t = TERRAIN_SQUARE_SIZE

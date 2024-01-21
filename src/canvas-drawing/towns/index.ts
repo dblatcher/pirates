@@ -1,8 +1,6 @@
-import { Flag, InvadingAction, TOWN_SIZE, Town, ViewPort, Wind } from "../../game-state";
+import { Flag, InvadingAction, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { translateZ } from "../../lib/geometry";
-import { timePhase } from "../../lib/util";
-import { drawIcon } from "../draw-icon";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { getFactionColor, isTownInView } from "../helpers";
@@ -37,11 +35,6 @@ export const drawTowns = (
         )
         drawFlagPole(ctx, drawingMethods, town, 80)
         drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
-
-        if (beingInvaded) {
-            const phase = timePhase(cycleNumber, 30, 1)
-            drawIcon(ctx, drawingMethods, town, { icon: 'RED_CUTLASS', width: TOWN_SIZE + phase, height: TOWN_SIZE + phase })
-        }
         showDefenceLevel(ctx, drawingMethods, town, cycleNumber)
     })
 

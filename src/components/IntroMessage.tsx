@@ -2,6 +2,7 @@ import { FunnyFace, browShapes, expressions } from "@dblatcher/funny-face"
 import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 import { Intro } from "../initial-conditions"
+import { StrawHatIconPng } from "../assets"
 
 type Props = {
     intro?: Intro
@@ -62,7 +63,7 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                             }}
                             accessories={[
                                 {
-                                    x: 0, y: -20, src: '/Straw_hat_icon.svg.png', width: 110,
+                                    x: 0, y: -20, src: StrawHatIconPng, width: 110,
                                 }
                             ]}
                         />
