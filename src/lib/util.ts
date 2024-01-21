@@ -1,3 +1,4 @@
+import { XY } from "./geometry"
 
 export const splitArray = <T,>(list: T[], predicate: { (item: T): boolean }): [T[], T[]] => {
     const passes: T[] = []
@@ -21,7 +22,7 @@ export const isEven = (value: number) => value % 2 === 0
 export const average = (list: number[]): number =>
     list.reduce((previous, current) => previous + current, 0) / list.length
 
-export const sum = (list: number[]): number => list.reduce((previous, current) => previous + current, 0) 
+export const sum = (list: number[]): number => list.reduce((previous, current) => previous + current, 0)
 
 /** random integer from 1 to max */
 export const randomInt = (max: number): number => {
@@ -31,3 +32,5 @@ export const randomInt = (max: number): number => {
 /** convert a timestamp a number going up and down within a range around zero */
 export const timePhase = (t: number, phase: number, step = 1): number =>
     Math.abs(((t * (step)) % (phase * 2)) - phase) - (phase * .5)
+
+export const xYToString = (point: XY, decimalPlaces =0 ) => `[${point.x.toFixed(decimalPlaces)}, ${point.y.toFixed(decimalPlaces)}]`
