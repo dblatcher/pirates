@@ -1,4 +1,5 @@
 import { GAME_STATE_DEFAULTS, Scenario } from ".";
+import { TerrainType, inputToLandmass } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip } from "../game-state/ship";
 import { makeTownWithForts } from "../game-state/towns";
@@ -47,8 +48,16 @@ const makeInitialState = (): GameState => {
             // }),
         ],
         land: [
-
-        ],
+            {
+                x:400,
+                y:400,
+                shape:[
+                    [
+                        TerrainType.DESERT,TerrainType.DESERT
+                    ]
+                ]
+            }
+        ].map(inputToLandmass),
         towns: [
             makeTownWithForts({
                 x: 560, y: 550,

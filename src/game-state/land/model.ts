@@ -6,7 +6,13 @@ export enum TerrainType {
 }
 
 export type TerrainSquare = {
-    type: TerrainType
+    type: TerrainType,
+    coastLines: {
+        north: boolean,
+        south: boolean,
+        east: boolean,
+        west: boolean,
+    }
 }
 
 export type LandmassInput = {

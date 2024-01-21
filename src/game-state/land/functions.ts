@@ -1,7 +1,7 @@
-import { LandmassInput, Landmass } from "./model";
 import { Rect, XY, doRectsIntersect, isPointInsideRect } from "../../lib/geometry";
-import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
 import { viewPortToRect } from "../helpers";
+import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
+import { Landmass } from "./model";
 
 
 export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
@@ -42,14 +42,4 @@ export const isLandAt = (point: XY, land: Landmass[]): boolean => {
         const square = row[sqx]
         return typeof square !== 'undefined'
     })
-}
-
-export const inputToLandmass = (landmassInput: LandmassInput): Landmass => {
-    const { x, y, shape: inputShape } = landmassInput
-    const shape: Landmass['shape'] = inputShape.map(row =>
-        row.map(value => typeof value === 'undefined' ? value : { type: value })
-    )
-    return {
-        x, y, shape
-    }
 }

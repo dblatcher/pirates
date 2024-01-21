@@ -42,7 +42,6 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
     const landInView = getLandInView(land, viewPort)
 
     landInView.forEach(landmass => {
-        const isSquareAt = (x: number, y: number) => landmass.shape[y] ? typeof landmass.shape[y][x] !== 'undefined' : false
         landmass.shape.forEach((row, rowIndex) => {
             row.forEach((square, squareIndex) => {
                 if (typeof square === 'undefined') {
@@ -56,16 +55,16 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 drawingMethods.rect(x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                 ctx.fill()
 
-                if (!isSquareAt(squareIndex + 1, rowIndex)) {
+                if (square.coastLines.east) {
                     drawEastCoast(drawingMethods, x, y)
                 }
-                if (!isSquareAt(squareIndex, rowIndex - 1)) {
+                if (square.coastLines.north) {
                     drawNorthCoast(drawingMethods, x, y)
                 }
-                if (!isSquareAt(squareIndex - 1, rowIndex)) {
+                if (square.coastLines.west) {
                     drawWestCoast(drawingMethods, x, y)
                 }
-                if (!isSquareAt(squareIndex, rowIndex + 1)) {
+                if (square.coastLines.south) {
                     drawSouthCoast(drawingMethods, x, y)
                 }
             })
