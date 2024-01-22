@@ -30,9 +30,6 @@ export const aimAndFireCannonsFromForts = (town: Town, gameState: GameState) => 
 
     const { enemies, allies } = identifyShips(town, gameState, FORT_AIM_DISTANCE)
     const { item: closestEnemy } = findClosestAndDistance(enemies, town)
-
-    // TO DO - don't fire if there is an ally in the way
-
     if (closestEnemy) {
         town.forts.forEach(fort => {
 
