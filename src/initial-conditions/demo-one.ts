@@ -1,10 +1,27 @@
+import { browShapes } from "@dblatcher/funny-face";
 import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { FollowerAutoPilot } from "../ai/follower-ai";
 import { GameState } from "../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { GAME_STATE_DEFAULTS, Scenario } from "../initial-conditions";
+import { GAME_STATE_DEFAULTS, Person, Scenario } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 import { demoLand, makeDemoTowns } from "./library";
+
+const ROBERT: Person = {
+    profile: {
+        browShape: browShapes.WIDE,
+        eyeColor: 'purple',
+        width: .7,
+        color: 'coral',
+        lipColor: 'crimson'
+    },
+    accessories: [
+        {
+            x: 0, y: -20, src: '/Straw_hat_icon.svg.png', width: 110,
+        }
+    ]
+}
+
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -119,9 +136,9 @@ export const demoOne: Scenario = ({
     name: 'Demo Scenario One',
     intro: {
         pages: [
-            { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.' },
-            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY' },
-            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY' },
+            { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.', person: ROBERT },
+            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY', person: ROBERT },
+            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY', person: ROBERT },
         ]
     },
     checkForOutcome(game) {

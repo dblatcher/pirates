@@ -1,4 +1,4 @@
-import { FunnyFace, browShapes, expressions } from "@dblatcher/funny-face"
+import { FunnyFace, expressions } from "@dblatcher/funny-face"
 import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 import { Intro } from "../initial-conditions"
@@ -49,23 +49,16 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
             <aside style={containerStyle} className="dialog">
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
-                        <FunnyFace
-                            size={100} x={0} y={0}
-                            expression={currentIntroPage.expression ? expressions[currentIntroPage.expression] : undefined}
-                            talking={displayedCharacters < currentIntroPage.text.length}
-                            profile={{
-                                browShape: browShapes.THIN,
-                                eyeColor: 'green',
-                                width: .7,
-                                color: 'coral',
-                                lipColor: 'crimson'
-                            }}
-                            accessories={[
-                                {
-                                    x: 0, y: -20, src: '/Straw_hat_icon.svg.png', width: 110,
-                                }
-                            ]}
-                        />
+                        {currentIntroPage.person && (
+
+                            <FunnyFace
+                                size={100} x={0} y={0}
+                                expression={currentIntroPage.expression ? expressions[currentIntroPage.expression] : undefined}
+                                talking={displayedCharacters < currentIntroPage.text.length}
+                                profile={currentIntroPage.person.profile}
+                                accessories={currentIntroPage.person.accessories}
+                            />
+                        )}
                         <p style={textBubbleStyle} className="text-bubble">
                             {currentIntroPage.text.slice(0, displayedCharacters)}
                         </p>
