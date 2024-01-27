@@ -1,5 +1,5 @@
 import { Town } from "../game-state";
-import { Landmass, TerrainType } from "../game-state/land";
+import { Landmass, TerrainType, inputToLandmass } from "../game-state/land";
 import { makeTownWithForts } from "../game-state/towns";
 
 export const demoLand: Landmass[] = [
@@ -48,7 +48,7 @@ export const demoLand: Landmass[] = [
             [undefined, undefined, undefined, TerrainType.PLAIN, TerrainType.JUNGLE, TerrainType.JUNGLE],
         ]
     }
-];
+].map(inputToLandmass);
 
 export const makeDemoTowns = (level: 1 | 2): Town[] => {
 

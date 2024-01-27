@@ -6,6 +6,7 @@ import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { GAME_STATE_DEFAULTS, Person, Scenario } from "../initial-conditions";
 import { _DEG } from "../lib/geometry";
 import { demoLand, makeDemoTowns } from "./library";
+import { StrawHatIconPng } from "../assets"
 
 const ROBERT: Person = {
     profile: {
@@ -17,7 +18,7 @@ const ROBERT: Person = {
     },
     accessories: [
         {
-            x: 0, y: -20, src: '/Straw_hat_icon.svg.png', width: 110,
+            x: 0, y: -20, src: StrawHatIconPng, width: 110,
         }
     ]
 }

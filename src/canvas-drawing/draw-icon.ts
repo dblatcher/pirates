@@ -1,21 +1,16 @@
+import { repairPng, crossedSwordsPng } from "../assets";
 import { XY, translate } from "../lib/geometry";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";
 
 
-const RED_CUTLASS = new Image(100, 100)
-RED_CUTLASS.src = '/red-cutlass.png'
-const BLACK_CUTLASS = new Image(100, 100)
-BLACK_CUTLASS.src = '/black-cutlass.png'
-const JOLLY_RODGER = new Image(100, 100)
-JOLLY_RODGER.src = '/jolly-rodger.png'
+const CROSSED_SWORDS = new Image(100, 100)
+CROSSED_SWORDS.src = crossedSwordsPng
 const REPAIR = new Image(100, 100)
-REPAIR.src = '/repair.png'
+REPAIR.src = repairPng
 
 const ICONS = {
-    RED_CUTLASS,
-    BLACK_CUTLASS,
-    JOLLY_RODGER,
+    CROSSED_SWORDS,
     REPAIR,
 }
 

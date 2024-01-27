@@ -1,6 +1,7 @@
 import { FORT_SIZE, Fort, GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { Landmass } from "../../game-state/land";
 import { XY, translate, xy } from "../geometry";
+import { xYToString } from "../util";
 import { CellMatrix } from "./types";
 import { toCell, toCellContaining } from "./util";
 
@@ -22,11 +23,14 @@ const makeEmptyGrid = (widthInCells: number, heightInCells: number): CellMatrix 
 
 
 // TO DO discourage sailing too close to the coast
-// add forts to the matrix
 // can cells have vaules other than 0|1? - check pacakage readme
 const landToCells = (landmass: Landmass): XY[] => {
-    // WRONG! need to align/snap landmass to grid
-    // for this to work
+
+    const isAligned = (landmass.x % TERRAIN_SQUARE_SIZE) === 0 && (landmass.y % TERRAIN_SQUARE_SIZE) === 0
+    if (!isAligned) {
+        console.warn(`landmass at ${xYToString(landmass)} is not aligned to ${TERRAIN_SQUARE_SIZE}x${TERRAIN_SQUARE_SIZE} grid. Pathfinding functions may fail.`)
+    }
+
     const topLeft = toCell(landmass)
     const cells: XY[] = []
     landmass.shape.forEach((row, rowIndex) => {

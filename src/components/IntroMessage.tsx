@@ -50,7 +50,6 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
                         {currentIntroPage.person && (
-
                             <FunnyFace
                                 size={100} x={0} y={0}
                                 expression={currentIntroPage.expression ? expressions[currentIntroPage.expression] : undefined}

@@ -1,7 +1,7 @@
-import { Landmass } from "./model";
 import { Rect, XY, doRectsIntersect, isPointInsideRect } from "../../lib/geometry";
-import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
 import { viewPortToRect } from "../helpers";
+import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
+import { Landmass } from "./model";
 
 
 export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
@@ -17,12 +17,12 @@ export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
 
 
 export const isLandInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
-    const viewPortRect= viewPortToRect(viewPort)
+    const viewPortRect = viewPortToRect(viewPort)
     return doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
 }
 
 export const getLandInView = (landmasses: Landmass[], viewPort: ViewPort): Landmass[] => {
-    const viewPortRect= viewPortToRect(viewPort)
+    const viewPortRect = viewPortToRect(viewPort)
     return landmasses.filter(landmass =>
         doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
     )
@@ -33,8 +33,8 @@ export const isLandAt = (point: XY, land: Landmass[]): boolean => {
     const landToTest = land.filter(landmass => isPointInsideRect(point, getBoundingRect(landmass)))
 
     return landToTest.some(landmass => {
-        const sqx = Math.floor((point.x - landmass.x)/TERRAIN_SQUARE_SIZE)
-        const sqy = Math.floor((point.y - landmass.y)/TERRAIN_SQUARE_SIZE)
+        const sqx = Math.floor((point.x - landmass.x) / TERRAIN_SQUARE_SIZE)
+        const sqy = Math.floor((point.y - landmass.y) / TERRAIN_SQUARE_SIZE)
         const row = landmass.shape[sqy]
         if (!row) {
             return false

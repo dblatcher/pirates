@@ -1,26 +1,15 @@
-import { Landmass, TerrainType, getLandInView } from "../game-state/land";
-import { ViewPort, TERRAIN_SQUARE_SIZE } from "../game-state";
+import { coastlinesPng } from "../assets";
+import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
+import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
+import { sum } from "../lib/util";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 // TO DO - replace asset - coastlines are too thin  
 const image = new Image(200, 200)
-image.src = '/coastlines.png'
+image.src = coastlinesPng
 const fw = image.naturalWidth * 1 / 4
 const fh = image.naturalHeight * 1 / 4
-const t = TERRAIN_SQUARE_SIZE
 
-const drawEastCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 0, fh * 2, fw, fh, x + t, y, t, t)
-}
-const drawNorthCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 1, fh * 2, fw, fh, x, y - t, t, t)
-}
-const drawWestCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 2, fh * 2, fw, fh, x - t, y, t, t)
-}
-const drawSouthCoast = (drawingMethods: OffsetDrawMethods, x: number, y: number) => {
-    drawingMethods.drawImage(image, fw * 3, fh * 2, fw, fh, x, y + t, t, t)
-}
 
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
     switch (terrain) {
@@ -35,13 +24,58 @@ const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
     }
 }
 
+class CoastLinePlotter {
+    private drawingMethods: OffsetDrawMethods
+    constructor(drawingMethods: OffsetDrawMethods) {
+        this.drawingMethods = drawingMethods
+    }
+
+    drawCoasts(coastLines: CoastLines, x: number, y: number) {
+        const { plotCoastlineSpriteFunc } = this
+        switch (this.coastlinesToBinary(coastLines)) {
+            case 0b0111: return plotCoastlineSpriteFunc(0, 0)(x, y)
+            case 0b1110: return plotCoastlineSpriteFunc(1, 0)(x, y)
+            case 0b1011: return plotCoastlineSpriteFunc(2, 0)(x, y)
+            case 0b1101: return plotCoastlineSpriteFunc(3, 0)(x, y)
+
+            case 0b1001: return plotCoastlineSpriteFunc(0, 1)(x, y)
+            case 0b1010: return plotCoastlineSpriteFunc(1, 1)(x, y)
+            case 0b0110: return plotCoastlineSpriteFunc(2, 1)(x, y)
+            case 0b0101: return plotCoastlineSpriteFunc(3, 1)(x, y)
+
+            case 0b0001: return plotCoastlineSpriteFunc(0, 2)(x, y)
+            case 0b0100: return plotCoastlineSpriteFunc(1, 2)(x, y)
+            case 0b0010: return plotCoastlineSpriteFunc(2, 2)(x, y)
+            case 0b1000: return plotCoastlineSpriteFunc(3, 2)(x, y)
+
+            case 0b1111: return plotCoastlineSpriteFunc(0, 3)(x, y)
+            case 0b1100: return plotCoastlineSpriteFunc(1, 3)(x, y)
+            case 0b0011: return plotCoastlineSpriteFunc(2, 3)(x, y)
+        }
+    }
+
+    private coastlinesToBinary(coastLines: CoastLines): number {
+        const bit = (v: boolean, p: number) => v ? 2 ** p : 0
+        return sum([
+            bit(coastLines.north, 3),
+            bit(coastLines.south, 2),
+            bit(coastLines.east, 1),
+            bit(coastLines.west, 0),
+        ])
+    }
+
+    private plotCoastlineSpriteFunc = (fx: number, fy: number) => (x: number, y: number) => {
+        this.drawingMethods.drawImage(image, fw * fx, fh * fy, fw, fh, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+    }
+}
+
 
 export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[]) {
 
+    const plotter = new CoastLinePlotter(drawingMethods)
     const landInView = getLandInView(land, viewPort)
 
     landInView.forEach(landmass => {
-        const isSquareAt = (x: number, y: number) => landmass.shape[y] ? typeof landmass.shape[y][x] !== 'undefined' : false
         landmass.shape.forEach((row, rowIndex) => {
             row.forEach((square, squareIndex) => {
                 if (typeof square === 'undefined') {
@@ -49,24 +83,24 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 }
                 const x = landmass.x + squareIndex * TERRAIN_SQUARE_SIZE
                 const y = landmass.y + rowIndex * TERRAIN_SQUARE_SIZE
+
                 ctx.beginPath()
                 ctx.lineWidth = 1;
-                setLandFill(ctx, square)
+                setLandFill(ctx, square.type)
                 drawingMethods.rect(x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                 ctx.fill()
+                plotter.drawCoasts(square.coastLines, x, y)
+            })
+        })
 
-                if (!isSquareAt(squareIndex + 1, rowIndex)) {
-                    drawEastCoast(drawingMethods, x, y)
+        landmass.coasts.forEach((row, rowIndex) => {
+            row.forEach((coastSquare, squareIndex) => {
+                if (typeof coastSquare === 'undefined') {
+                    return
                 }
-                if (!isSquareAt(squareIndex, rowIndex - 1)) {
-                    drawNorthCoast(drawingMethods, x, y)
-                }
-                if (!isSquareAt(squareIndex - 1, rowIndex)) {
-                    drawWestCoast(drawingMethods, x, y)
-                }
-                if (!isSquareAt(squareIndex, rowIndex + 1)) {
-                    drawSouthCoast(drawingMethods, x, y)
-                }
+                const x = landmass.x + (squareIndex - 1) * TERRAIN_SQUARE_SIZE
+                const y = landmass.y + (rowIndex - 1) * TERRAIN_SQUARE_SIZE
+                plotter.drawCoasts(coastSquare, x, y)
             })
         })
     })
