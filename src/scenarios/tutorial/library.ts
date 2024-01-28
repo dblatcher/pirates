@@ -1,19 +1,27 @@
 import { browShapes } from "@dblatcher/funny-face";
 import { Person } from "..";
 import { LandmassInput } from "../../game-state/land";
+import { makeTown } from "../../game-state/towns";
+import { captainHatPng } from "../../assets";
 
 export const tutorialPerson: Person = {
-    name: "Captian Blunderheim",
+    name: "Captain Blunderheim",
     size: 75,
     profile: {
         browShape: browShapes.THIN,
         eyeColor: 'green',
         width: .95,
         color: 'pink',
-        lipColor: 'crimson'
+        lipColor: 'crimson',
+        noseHeight: 8,
+        noseWidth: 20,
+        mouthNoseDistance: 15,
     },
     accessories: [
-
+        {
+            src: captainHatPng,
+            x: 0, y: -70, width: 170,
+        }
     ]
 }
 
@@ -26,21 +34,29 @@ export const tutorialLagoon: LandmassInput[] = [
             [1, U, 1, U, U, U, U, U, U, 1, U, U, 1, 1, 1, 1, 1, U, U, 1],
             [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 2, 1],
             [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 2, 1],
-            [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 0, 1],
+            [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, 2, 2, U, U, 0, 1],
             [1, 0, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 0, 1],
             [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 0, 1],
-            [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 0, 1],
-            [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 0, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
+            [1, 0, U, U, U, U, U, U, U, 2, U, U, U, U, U, U, U, U, 0, 1],
+            [1, 0, U, U, U, U, U, U, 2, 2, 2, U, U, U, U, U, U, U, 1, 1],
+            [1, 0, U, U, U, U, U, U, U, 2, 2, 2, U, U, U, U, U, U, 1, 1],
+            [1, 1, U, U, U, U, U, U, U, 2, U, U, U, U, U, U, U, U, 1, 1],
             [1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
+            [1, 1, U, U, U, 2, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
+            [1, 1, U, U, U, 2, 2, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
+            [1, 1, U, U, U, U, 2, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
             [1, 1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, 1, 1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, U, U, U, U, U, U, U, U, U, U, U, U, U, U, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, U, U],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, U, U],
         ]
     }
 ]
+
+export const makeTownOne = () => makeTown({
+    id: 1,
+    name: 'Townsville',
+    faction: 'grance',
+    x: 900,
+    y: 900,
+})

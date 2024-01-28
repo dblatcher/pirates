@@ -1,9 +1,9 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
-import { GameState } from "../../game-state";
+import { GameState, TOWN_SIZE } from "../../game-state";
 import { inputToLandmass } from "../../game-state/land";
 import { makeSloopShip } from "../../game-state/ship";
-import { _DEG } from "../../lib/geometry";
-import { tutorialPerson, tutorialLagoon } from "./library";
+import { _DEG, getDistance } from "../../lib/geometry";
+import { tutorialPerson, tutorialLagoon, makeTownOne } from "./library";
 
 
 const makeInitialState = (): GameState => {
@@ -28,9 +28,12 @@ const makeInitialState = (): GameState => {
 
         ],
         land: tutorialLagoon.map(inputToLandmass),
+        towns: [makeTownOne()]
     }
     return initalState
 }
+
+const townOneStatic = makeTownOne()
 
 export const tutorialOne: Scenario = ({
     makeInitialState,
@@ -41,19 +44,20 @@ export const tutorialOne: Scenario = ({
         pages: [
             { text: 'zzzzzzzz, hrrrmh zzzzz...', expression: 'ASLEEP', person: tutorialPerson },
             { text: 'hrrm, what!', expression: 'AFRAID', person: tutorialPerson },
-            { text: 'Oh, you\'re the new sea cadet, here to learn how to captain a ship, are you?', expression: 'NEUTRAL', person: tutorialPerson },
-            { text: 'First task - sail your ship to the south east corner of the lagoon.', expression: 'NEUTRAL', person: tutorialPerson },
+            { text: 'Oh, you\'re the new sea cadet, here to learn how to captain a ship, are you?', person: tutorialPerson },
+            { text: `First task - sail your ship to ${townOneStatic.name} in the south east corner of the lagoon.`, person: tutorialPerson },
         ]
     },
     checkForOutcome(game) {
         const player = game.ships.find(ship => ship.id === game.playerId)
+        const targetTown = game.towns.find(town => town.id === townOneStatic.id)
 
-        if (!player) { return undefined }
+        if (!player || !targetTown) { return undefined }
 
-        if (player.x > 750 && player.y > 750) {
+        if (getDistance(player, targetTown) < 100 + TOWN_SIZE) {
             return ({
                 success: true,
-                message: 'you made it.',
+                message: `You made it to ${townOneStatic.name}.`,
                 nextScenarioId: 'tutorialOne',
             })
         }
