@@ -46,6 +46,8 @@ export const tutorialOne: Scenario = ({
             { text: 'hrrm, what!', expression: 'AFRAID', person: tutorialPerson },
             { text: 'Oh, you\'re the new sea cadet, here to learn how to captain a ship, are you?', person: tutorialPerson },
             { text: `First task - sail your ship to ${townOneStatic.name} in the south east corner of the lagoon.`, person: tutorialPerson },
+            { text: `You can use the 'w' and 's' keys to raise and lower your sails and 'a' and 'd' to turn the wheel...`, person: tutorialPerson },
+            { text: `Or use the on-screen controls for more precision.`, person: tutorialPerson },
         ]
     },
     checkForOutcome(game) {
@@ -58,7 +60,7 @@ export const tutorialOne: Scenario = ({
             return ({
                 success: true,
                 message: `You made it to ${townOneStatic.name}.`,
-                nextScenarioId: 'tutorialOne',
+                nextScenarioId: 'tutorialTwo',
             })
         }
         return undefined
