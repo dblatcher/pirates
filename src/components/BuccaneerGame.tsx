@@ -203,9 +203,9 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
             />
         )}
 
-        {!introDone && (
+        {scenario?.intro && !introDone && (
             <IntroMessage
-                intro={scenario?.intro}
+                intro={scenario.intro}
                 closeIntro={() => { setIntroDone(true) }}
             />
         )}

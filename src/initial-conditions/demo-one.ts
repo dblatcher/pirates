@@ -9,16 +9,18 @@ import { demoLand, makeDemoTowns } from "./library";
 import { StrawHatIconPng } from "../assets"
 
 const ROBERT: Person = {
+    name: "Admiral Lord Robert Malden of Carlise",
+    size: 80,
     profile: {
         browShape: browShapes.WIDE,
         eyeColor: 'purple',
-        width: .7,
+        width: .9,
         color: 'coral',
         lipColor: 'crimson'
     },
     accessories: [
         {
-            x: 0, y: -20, src: StrawHatIconPng, width: 110,
+            x: 0, y: -20, src: StrawHatIconPng, width: 120,
         }
     ]
 }

@@ -4,6 +4,8 @@ import { GameState } from "../game-state";
 export type Person = {
     profile: FaceProfile,
     accessories?: Accessory[],
+    size?: number,
+    name?: string,
 }
 
 type IntroPage = {

@@ -1,10 +1,11 @@
-import { FunnyFace, expressions } from "@dblatcher/funny-face"
+import { expressions } from "@dblatcher/funny-face"
 import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 import { Intro } from "../initial-conditions"
+import { PersonFace } from "./PersonFace"
 
 type Props = {
-    intro?: Intro
+    intro: Intro
     closeIntro: { (): void }
 }
 
@@ -16,7 +17,7 @@ const containerStyle: CSSProperties = {
 const faceAndTextWrapperStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: '25rem',
     minHeight: 150,
 }
@@ -25,6 +26,7 @@ const textBubbleStyle: CSSProperties = {
     flexBasis: '15rem',
     margin: 0,
 }
+
 
 export const IntroMessage = ({ intro, closeIntro }: Props) => {
     const [pageIndex, setPageIndex] = useState(0)
@@ -38,7 +40,6 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
     }
     useInterval(showMoreText, 75)
 
-    if (!intro) { return null }
     const goToNext = () => {
         setDisplayedCharacters(0)
         setPageIndex(pageIndex + 1)
@@ -50,12 +51,10 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
                         {currentIntroPage.person && (
-                            <FunnyFace
-                                size={100} x={0} y={0}
+                            <PersonFace
+                                person={currentIntroPage.person}
                                 expression={currentIntroPage.expression ? expressions[currentIntroPage.expression] : undefined}
                                 talking={displayedCharacters < currentIntroPage.text.length}
-                                profile={currentIntroPage.person.profile}
-                                accessories={currentIntroPage.person.accessories}
                             />
                         )}
                         <p style={textBubbleStyle} className="text-bubble">
