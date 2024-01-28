@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import { Scenario, ScenarioOutcome } from '../initial-conditions'
+import { Scenario, ScenarioOutcome } from '../scenarios'
 
 const mangementContext = createContext<{
     mainMenuOpen: boolean,

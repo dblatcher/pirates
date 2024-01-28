@@ -1,5 +1,5 @@
 import { SoundDeck } from "sound-deck"
-import { Scenario } from "../../initial-conditions"
+import { Scenario } from "../../scenarios"
 import { buildMatrixFromGameState } from "../../lib/path-finding/build-matrix"
 import { BuccaneerGame } from "../BuccaneerGame"
 

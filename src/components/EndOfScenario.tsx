@@ -1,5 +1,5 @@
 import { useManagement } from "../context/management-context";
-import { ScenarioOutcome } from "../initial-conditions";
+import { ScenarioOutcome } from "../scenarios";
 
 interface Props {
     outcome: ScenarioOutcome

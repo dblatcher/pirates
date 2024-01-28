@@ -1,7 +1,7 @@
 import { expressions } from "@dblatcher/funny-face"
 import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
-import { Intro } from "../initial-conditions"
+import { Intro } from "../scenarios"
 import { PersonFace } from "./PersonFace"
 
 type Props = {

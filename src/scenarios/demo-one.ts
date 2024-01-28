@@ -3,7 +3,7 @@ import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
 import { FollowerAutoPilot } from "../ai/follower-ai";
 import { GameState } from "../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { GAME_STATE_DEFAULTS, Person, Scenario } from "../initial-conditions";
+import { GAME_STATE_DEFAULTS, Person, Scenario } from ".";
 import { _DEG } from "../lib/geometry";
 import { demoLand, makeDemoTowns } from "./library";
 import { StrawHatIconPng } from "../assets"

@@ -1,6 +1,6 @@
 import { FacialExpression, FunnyFace } from "@dblatcher/funny-face";
 import { CSSProperties } from "react";
-import { Person } from "../initial-conditions";
+import { Person } from "../scenarios";
 
 interface Props {
     person: Person,

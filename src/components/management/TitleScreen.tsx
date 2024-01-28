@@ -1,4 +1,4 @@
-import { Scenario } from "../../initial-conditions"
+import { Scenario } from "../../scenarios"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
