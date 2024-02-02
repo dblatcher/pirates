@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 import { useInterval } from "../hooks/useInterval"
 
 interface Props {
@@ -9,20 +9,22 @@ interface Props {
 
 
 export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput }: Props) => {
-    const [keyMap, setKeyMap] = useState<Record<string, boolean>>({})
+
+    const keyMapRef = useRef<Record<string, boolean>>({})
 
     const handleKeyDown = (event: KeyboardEvent) => {
-        if (keyMap[event.code]) {
+        if (keyMapRef.current[event.code]) {
             return // key already down - don't trigger event again
         }
-        setKeyMap({ ...keyMap, [event.code]: true })
+
+        keyMapRef.current = { ...keyMapRef.current, [event.code]: true }
         if (keyDownFunction) {
-            keyDownFunction(event, keyMap)
+            keyDownFunction(event, keyMapRef.current)
         }
     }
 
     const handleKeyUp = (event: KeyboardEvent) => {
-        setKeyMap({ ...keyMap, [event.code]: false })
+        keyMapRef.current ={ ...keyMapRef.current, [event.code]: false }
     }
 
     useEffect(() => {
@@ -34,16 +36,15 @@ export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput
         }
     })
 
-
     useInterval(() => {
         if (keyMapFunction) {
-            keyMapFunction(keyMap)
+            keyMapFunction(keyMapRef.current)
         }
     }, keyDownFunction ? 0 : null)
 
     if (!renderOutput) { return <></> }
 
-    const output = Object.entries(keyMap)
+    const output = Object.entries(keyMapRef.current)
         .filter(([_key, value]) => { return value })
         .map(([key]) => key)
         .join("|")
