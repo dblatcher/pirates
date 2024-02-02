@@ -9,16 +9,13 @@ type Props = {
 }
 
 export const ScenarioGame = ({ scenario, soundDeck }: Props) => {
-    const { mapHeight, mapWidth } = scenario
     const gameState = scenario.makeInitialState()
-    const { landAndForts, land } = buildMatrixFromGameState(mapWidth, mapHeight, gameState)
+    const { landAndForts, land } = buildMatrixFromGameState(gameState)
     return (
         <BuccaneerGame
             initial={gameState}
             obstacleMatrix={landAndForts}
             landMatrix={land}
-            mapHeight={mapHeight}
-            mapWidth={mapWidth}
             soundDeck={soundDeck}
         />)
 }

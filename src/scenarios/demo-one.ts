@@ -29,6 +29,8 @@ const ROBERT: Person = {
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
+        mapHeight: 1800,
+        mapWidth: 2400,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -134,8 +136,6 @@ const makeInitialState = (): GameState => {
 
 export const demoOne: Scenario = ({
     makeInitialState,
-    mapHeight: 1800,
-    mapWidth: 2400,
     name: 'Demo Scenario One',
     intro: {
         pages: [

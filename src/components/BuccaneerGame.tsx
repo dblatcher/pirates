@@ -20,8 +20,6 @@ import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 
 interface Props {
     initial: GameState;
-    mapHeight: number;
-    mapWidth: number;
     obstacleMatrix: CellMatrix;
     landMatrix: CellMatrix;
     soundDeck: SoundDeck;
@@ -74,7 +72,7 @@ const makeNextCycleFunction = (
     updateTimeTracking(refreshStart)
 }
 
-export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix, soundDeck }: Props) => {
+export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
@@ -198,8 +196,8 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 closeModal={() => { setShowMap(false) }}
                 gameState={gameStateRef.current}
                 matrix={landMatrix}
-                mapWidth={mapWidth}
-                mapHeight={mapHeight}
+                mapWidth={initial.mapWidth}
+                mapHeight={initial.mapHeight}
             />
         )}
 

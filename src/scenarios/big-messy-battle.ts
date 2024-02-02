@@ -23,6 +23,8 @@ const addAttackShip = (x: number, y: number, h = 0, faction: FactionId = 'grance
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
+        mapHeight: 1800,
+        mapWidth: 2400,
         ...GAME_STATE_DEFAULTS,
         wind: {
             direction: _DEG * 90,
@@ -78,7 +80,5 @@ const makeInitialState = (): GameState => {
 
 export const bigMesseyBattle: Scenario = ({
     makeInitialState,
-    mapHeight: 1800,
-    mapWidth: 2400,
     name: 'Big Messy Battle',
 })

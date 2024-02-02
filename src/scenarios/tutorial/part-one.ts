@@ -9,6 +9,8 @@ import { tutorialPerson, tutorialLagoon, makeTownOne } from "./library";
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
+        mapHeight: 1000,
+        mapWidth: 1000,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -37,8 +39,6 @@ const townOneStatic = makeTownOne()
 
 export const tutorialOne: Scenario = ({
     makeInitialState,
-    mapHeight: 1000,
-    mapWidth: 1000,
     name: 'Cadet School - lesson 1',
     intro: {
         pages: [

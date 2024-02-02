@@ -26,14 +26,12 @@ export type ScenarioOutcome = {
 
 export type Scenario = {
     makeInitialState: { (): GameState }
-    mapWidth: number,
-    mapHeight: number,
     name?: string,
     intro?: Intro,
     checkForOutcome?: { (game: GameState): ScenarioOutcome | undefined }
 }
 
-export const GAME_STATE_DEFAULTS: GameState = {
+export const GAME_STATE_DEFAULTS: Omit<GameState, 'mapWidth' | 'mapHeight'> = {
     cycleNumber: 0,
     ships: [],
     towns: [],
