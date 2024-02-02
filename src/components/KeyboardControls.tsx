@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 
 interface Props {
-    keyDownFunction?: { (event: KeyboardEvent): void }
+    keyDownFunction?: { (event: KeyboardEvent, keyMap: Record<string, boolean>): void }
     keyMapFunction?: { (keyMap: Record<string, boolean>): void }
     renderOutput?: boolean
 }
@@ -12,9 +12,12 @@ export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput
     const [keyMap, setKeyMap] = useState<Record<string, boolean>>({})
 
     const handleKeyDown = (event: KeyboardEvent) => {
+        if (keyMap[event.code]) {
+            return // key already down - don't trigger event again
+        }
         setKeyMap({ ...keyMap, [event.code]: true })
         if (keyDownFunction) {
-            keyDownFunction(event)
+            keyDownFunction(event, keyMap)
         }
     }
 
