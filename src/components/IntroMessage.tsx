@@ -9,8 +9,17 @@ type Props = {
     closeIntro: { (): void }
 }
 
+const frameStyle: CSSProperties = {
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+}
+
 const containerStyle: CSSProperties = {
     minWidth: 200,
+    padding: 20,
 }
 
 
@@ -46,8 +55,8 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
     }
 
     return (
-        <div className="modal-overlay">
-            <aside style={containerStyle} className="dialog">
+        <div style={frameStyle}>
+            <aside style={containerStyle} className="paper">
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
                         {currentIntroPage.person && (
