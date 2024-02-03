@@ -36,7 +36,8 @@ export type GameState = {
     towns: Town[];
     boardingActions: BoardingAction[];
     invadingActions: InvadingAction[];
-
+    mapWidth: number;
+    mapHeight: number;
 }
 
 export type ViewPort = {

@@ -60,19 +60,15 @@ const fortToCells = (fort: Fort): XY[] => {
 
 
 
-
-// TO DO - account for positions of forts
-export const buildMatrixFromGameState = (width: number, height: number, gameState: GameState): { landAndForts: CellMatrix, land: CellMatrix } => {
+export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: CellMatrix, land: CellMatrix } => {
     console.log('building matrix')
-    const widthInCells = Math.ceil(width / TERRAIN_SQUARE_SIZE)
-    const heightInCells = Math.ceil(height / TERRAIN_SQUARE_SIZE)
+    const widthInCells = Math.ceil(gameState.mapWidth / TERRAIN_SQUARE_SIZE)
+    const heightInCells = Math.ceil(gameState.mapHeight / TERRAIN_SQUARE_SIZE)
     const landAndFortsMatrix = makeEmptyGrid(widthInCells, heightInCells)
     const landMatrix = makeEmptyGrid(widthInCells, heightInCells)
 
     const cellsWithLand = gameState.land.flatMap(landToCells);
     const cellsWithForts = gameState.towns.flatMap(town => town.forts).flatMap(fortToCells);
-
-
 
     cellsWithLand.forEach(cell => {
         try {
@@ -90,7 +86,6 @@ export const buildMatrixFromGameState = (width: number, height: number, gameStat
             console.warn(err)
         }
     })
-
 
     return { landAndForts: landAndFortsMatrix, land: landMatrix }
 }

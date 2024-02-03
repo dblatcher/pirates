@@ -4,13 +4,15 @@ import { TerrainType, inputToLandmass } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTown } from "../game-state/towns";
-import { GAME_STATE_DEFAULTS, Scenario } from "../initial-conditions";
+import { GAME_STATE_DEFAULTS, Scenario } from ".";
 import { _DEG, xy } from "../lib/geometry";
 
 const makeInitialState = (): GameState => {
 
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
+        mapHeight: 1800,
+        mapWidth: 2400,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -159,7 +161,5 @@ const makeInitialState = (): GameState => {
 
 export const aiTrial: Scenario = ({
     makeInitialState,
-    mapHeight: 1800,
-    mapWidth: 2400,
     name: 'AI Testing Scenario'
 })

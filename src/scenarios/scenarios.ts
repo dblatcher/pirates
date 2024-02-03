@@ -1,7 +1,18 @@
-import type { expressions } from "@dblatcher/funny-face";
+import { Accessory, type expressions, type FaceProfile } from "@dblatcher/funny-face";
 import { GameState } from "../game-state";
 
-type IntroPage = { text: string, expression?: keyof typeof expressions }
+export type Person = {
+    profile: FaceProfile,
+    accessories?: Accessory[],
+    size?: number,
+    name?: string,
+}
+
+type IntroPage = {
+    text: string,
+    person?: Person,
+    expression?: keyof typeof expressions,
+}
 
 export type Intro = {
     pages: IntroPage[]
@@ -15,14 +26,12 @@ export type ScenarioOutcome = {
 
 export type Scenario = {
     makeInitialState: { (): GameState }
-    mapWidth: number,
-    mapHeight: number,
     name?: string,
     intro?: Intro,
     checkForOutcome?: { (game: GameState): ScenarioOutcome | undefined }
 }
 
-export const GAME_STATE_DEFAULTS: GameState = {
+export const GAME_STATE_DEFAULTS: Omit<GameState, 'mapWidth' | 'mapHeight'> = {
     cycleNumber: 0,
     ships: [],
     towns: [],

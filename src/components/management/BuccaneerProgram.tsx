@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { SoundDeck } from "sound-deck"
 import { ManagementProvider } from "../../context/management-context"
-import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../initial-conditions'
+import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
 import { SoundToggle } from "../SoundToggle"

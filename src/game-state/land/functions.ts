@@ -15,16 +15,10 @@ export const getBoundingRect = (landmass: Landmass, margin = 0): Rect => {
     }
 }
 
-
-export const isLandInView = (landmass: Landmass, viewPort: ViewPort): boolean => {
-    const viewPortRect = viewPortToRect(viewPort)
-    return doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
-}
-
 export const getLandInView = (landmasses: Landmass[], viewPort: ViewPort): Landmass[] => {
     const viewPortRect = viewPortToRect(viewPort)
     return landmasses.filter(landmass =>
-        doRectsIntersect(viewPortRect, getBoundingRect(landmass, 20))
+        doRectsIntersect(viewPortRect, getBoundingRect(landmass, TERRAIN_SQUARE_SIZE))
     )
 }
 

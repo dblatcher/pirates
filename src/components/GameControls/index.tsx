@@ -18,8 +18,8 @@ interface Props {
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
-    'KeyW': { order: Order.SAILS_BY, quantity: .1 },
-    'KeyS': { order: Order.SAILS_BY, quantity: -.1 },
+    'KeyW': { order: Order.SAILS_BY, quantity: .2 },
+    'KeyS': { order: Order.SAILS_BY, quantity: -.2 },
     'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.ALTERNATE },
     'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.ALTERNATE },
     'Space': { order: Order.INVADE_TOWN },
@@ -56,14 +56,17 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
     }
 
     const keyMapFunction = (keyMap: Record<string, boolean>) => {
-        const turn = keyMap['KeyA']
-            ? .5
-            : keyMap['KeyD']
-                ? -.5
-                : undefined
+        const goingLeft = !!keyMap['KeyA']
+        const goingRight = !!keyMap['KeyD']
+        const turn = goingLeft && goingRight ? 0 :
+            goingLeft
+                ? .5
+                : goingRight
+                    ? -.5
+                    : undefined
 
         wheelNotLockedByKeyboardRef.current = !turn
-        if (turn) {
+        if (typeof turn === 'number') {
             setWheelTo(turn)
         }
     }
@@ -89,7 +92,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     firingPattern={firingPattern}
                     setFiringPattern={setFiringPattern}
                 />
-                <MeleeControls 
+                <MeleeControls
                     addDirective={addDirective}
                     alreadyFighting={false}
                     marines={player.marines}

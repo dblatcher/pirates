@@ -5,10 +5,10 @@ import { aiFactory } from '../factory'
 import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
-import { ScenarioOutcome } from '../initial-conditions'
+import { ScenarioOutcome } from '../scenarios'
 import { CellMatrix } from '../lib/path-finding/types'
 import { playSoundEffectsInView } from '../lib/sounds'
-import { average } from '../lib/util'
+import { average, clamp } from '../lib/util'
 import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
@@ -20,8 +20,6 @@ import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 
 interface Props {
     initial: GameState;
-    mapHeight: number;
-    mapWidth: number;
     obstacleMatrix: CellMatrix;
     landMatrix: CellMatrix;
     soundDeck: SoundDeck;
@@ -52,11 +50,13 @@ const makeNextCycleFunction = (
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     if (player) {
+        const viewPortWidth = SCREEN_WIDTH / magnify
+        const viewPortHeight = SCREEN_HEIGHT / magnify
         Object.assign(viewPortRef.current, {
-            width: SCREEN_WIDTH / magnify,
-            height: SCREEN_HEIGHT / magnify,
-            x: player.x - viewPortRef.current.width / 2,
-            y: player.y - viewPortRef.current.height / 2,
+            width: viewPortWidth,
+            height: viewPortHeight,
+            x: clamp(player.x - viewPortWidth * .5, gameStateRef.current.mapWidth - (viewPortWidth * 1.5), 0),
+            y: clamp(player.y - viewPortRef.current.height * .5, gameStateRef.current.mapHeight - (viewPortHeight), 0),
         })
     }
     const updatedGame = cycle(
@@ -74,7 +74,7 @@ const makeNextCycleFunction = (
     updateTimeTracking(refreshStart)
 }
 
-export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, landMatrix, soundDeck }: Props) => {
+export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
@@ -198,14 +198,14 @@ export const BuccaneerGame = ({ initial, mapHeight, mapWidth, obstacleMatrix, la
                 closeModal={() => { setShowMap(false) }}
                 gameState={gameStateRef.current}
                 matrix={landMatrix}
-                mapWidth={mapWidth}
-                mapHeight={mapHeight}
+                mapWidth={initial.mapWidth}
+                mapHeight={initial.mapHeight}
             />
         )}
 
-        {!introDone && (
+        {scenario?.intro && !introDone && (
             <IntroMessage
-                intro={scenario?.intro}
+                intro={scenario.intro}
                 closeIntro={() => { setIntroDone(true) }}
             />
         )}
