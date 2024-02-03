@@ -30,7 +30,7 @@ function plotAttack(
     ctx.fill()
 
     const phase = timePhase(cycleNumber, 30, 1)
-    drawIcon(ctx, drawingMethods, midPoint, { icon: "CROSSED_SWORDS", width: 100 + phase, height: 100 + phase })
+    drawIcon(ctx, drawingMethods, midPoint, { icon: "CROSSED_SWORDS", width: 80 + phase, height: 80 + phase })
 
     ctx.beginPath()
     ctx.font = '25px arial'
