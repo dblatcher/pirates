@@ -39,14 +39,13 @@ p {
 }
 
 .button-stack {
-  margin: 0 auto;
   min-width: 200px;
   padding: 10px;
   display: flex;
   flex-direction: column;
+  gap: var(--small-space);
 
   button {
-    margin: var(--small-space) 0;
     font-size: larger;
   }
 }
