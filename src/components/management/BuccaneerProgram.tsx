@@ -4,12 +4,11 @@ import { ManagementProvider } from "../../context/management-context"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
+import { Layout } from "../Layout"
 import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
-import { Modal } from "../Modal"
 import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
-import { Layout } from "../Layout"
 
 export const BuccaneerProgram = () => {
     const [scenario, setScenario] = useState<Scenario | undefined>()
@@ -90,20 +89,18 @@ export const BuccaneerProgram = () => {
                         soundDeck={soundDeck}
                         scenario={scenario}
                         key={gameTimeStamp} />
-                    <Modal setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen} >
-                        <MainMenu
-                            quitToTitle={() => {
-                                setScenario(undefined)
-                                setGameIsPaused(false)
-                                setMainMenuOpen(false)
-                            }}
-                            restartGame={() => {
-                                setGameIsPaused(false)
-                                setMainMenuOpen(false)
-                                resetScenario()
-                            }}
-                        />
-                    </Modal>
+                    <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
+                        quitToTitle={() => {
+                            setScenario(undefined)
+                            setGameIsPaused(false)
+                            setMainMenuOpen(false)
+                        }}
+                        restartGame={() => {
+                            setGameIsPaused(false)
+                            setMainMenuOpen(false)
+                            resetScenario()
+                        }}
+                    />
                 </>) : (
                     <TitleScreen
                         setScenario={setScenario}

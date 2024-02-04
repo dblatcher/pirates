@@ -3,10 +3,11 @@ import { CSSProperties, ReactNode } from "react";
 interface Props {
     setIsOpen: { (isOpen: boolean): void }
     isOpen: boolean;
+    title: string;
     children: ReactNode
 }
 
-const modalStyle = (isOpen: boolean): CSSProperties => ({
+const modalFrameStyle = (isOpen: boolean): CSSProperties => ({
     display: isOpen ? 'flex' : 'none',
     position: 'fixed',
     inset: 0,
@@ -18,20 +19,22 @@ const modalStyle = (isOpen: boolean): CSSProperties => ({
     alignItems: 'center',
 })
 
-const buttonStyle: CSSProperties = {
-    position: 'absolute',
-    top: '-1rem',
-    right: '-1rem',
+
+const headerStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between'
 }
 
-export const Modal = ({ setIsOpen, isOpen, children }: Props) => {
+export const Modal = ({ setIsOpen, isOpen, children, title }: Props) => {
     return (
-        <div  style={modalStyle(isOpen)}>
-            <section style={{ position: 'relative' }}>
-                <button
-                    style={buttonStyle}
-                    className="round-button"
-                    onClick={() => setIsOpen(false)}>X</button>
+        <div style={modalFrameStyle(isOpen)}>
+            <section className="paper">
+                <header style={headerStyle}>
+                    <h2>{title}</h2>
+                    <button
+                        className="scrawl-button"
+                        onClick={() => setIsOpen(false)}>X</button>
+                </header>
                 {children}
             </section>
         </div>

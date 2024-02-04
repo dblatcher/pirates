@@ -22,12 +22,6 @@ p {
   margin: 0 0 var(--space);
 }
 
-.dialog {
-  background-color: var(--dialog-bg);
-  border: 3px double var(--accent-color);
-  padding: var(--space);
-}
-
 .paper {
   border-image-source: url(./page.png);
   border-image-repeat: round;
@@ -57,23 +51,23 @@ p {
   }
 }
 
-.round-button {
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-  border: 3px double var(--accent-color);
-  color: var(--accent-color);
-  background-color: var(--dialog-bg);
-  cursor: pointer;
+.scrawl-button {
+  height: 1.5em;
+  width: 1.5em;
+  padding: 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  font-size: larger;
+  font-weight: bold;
+  border: none;
+  background-color: unset;
+  color: var(--accent-color);
+  font-family: var(--title-font);
+  cursor: pointer;
 
-  &:hover,
-  &:focus {
-    background-color: var(--accent-color);
-    border-color: var(--dialog-bg);
-    color: var(--dialog-bg);
+  &:hover{
+    color: var(--text-color);
   }
 }
 

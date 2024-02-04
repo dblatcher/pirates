@@ -60,14 +60,14 @@ const plotTowns = (ctx: CanvasRenderingContext2D, towns: Town[]) => {
     towns.forEach(town => {
         ctx.beginPath()
         ctx.fillStyle = rgb(getFactionColor(town))
-        ctx.strokeStyle = 'black'
+        ctx.strokeStyle = rgb(colors.BLACK)
         ctx.lineWidth = 5
         ctx.arc(...s(town), 50, 0, Math.PI * 2)
         ctx.fill()
         ctx.stroke()
 
         ctx.beginPath()
-        ctx.fillStyle = 'white'
+        ctx.fillStyle = rgb(colors.BLACK)
         ctx.font = "90px arial";
         ctx.fillText(town.name, town.x - 50, town.y + 100)
     })
@@ -82,8 +82,7 @@ export const buildDrawMapFnc = (
         return
     }
     ctx.beginPath()
-    ctx.fillStyle = rgb(colors.BLACK)
-    ctx.fillRect(0, 0, mapWidth, mapHeight)
+    ctx.clearRect(0, 0, mapWidth, mapHeight)
     plotMatrix(ctx, matrix)
     plotShips(ctx, gameState.ships, gameState.playerId)
     plotTowns(ctx, gameState.towns)
