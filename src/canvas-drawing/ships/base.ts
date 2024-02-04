@@ -90,8 +90,8 @@ export const drawShipBase = (
     const surfaceFore = translate(getXYVector((length) / 2, h), ship);
     const fore = sinking ? translateZ(surfaceFore, getSinkDistance(sinking)) : surfaceFore
     const foreBack = translate(fore, getXYVector(-width / 2, h));
-    const foreLeft = translate(foreBack, getXYVector(width / 2, l));
-    const foreRight = translate(foreBack, getXYVector(width / 2, r));
+    const foreLeft = translate(translate(foreBack, getXYVector(width / 2, l)), getXYVector(-length * .1, h));
+    const foreRight = translate( translate(foreBack, getXYVector(width / 2, r)), getXYVector(-length * .1, h));
 
     const surfaceBack = translate(ship, getXYVector(-(length / 2 - width / 2), h));
     const back = sinking ? translateZ(surfaceBack, getSinkDistance(sinking)) : surfaceBack
