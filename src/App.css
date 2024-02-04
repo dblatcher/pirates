@@ -70,14 +70,19 @@ p {
   }
 }
 
-.control-panel {
-  display: flex;
-  justify-content: center;
+.game-wrapper {
+  border: 2px solid var(--border-color);
 }
 
 .panel-frame {
-  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  background-color: var(--panel-color);
   padding: var(--space);
+
+  &:last-child {
+    border-right: none;
+  }
 
   p {
     margin: 0;
