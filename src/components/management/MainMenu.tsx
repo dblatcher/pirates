@@ -11,8 +11,8 @@ export const MainMenu = ({ restartGame, quitToTitle }: Props) => {
         <div className="main-menu dialog">
             <h2>Main Menu</h2>
             <div className="button-stack">
-                <button onClick={quitToTitle}>exit to Title</button>
-                <button onClick={restartGame}>restart Scenario</button>
+                <button onClick={quitToTitle}>exit to title</button>
+                <button onClick={restartGame}>restart scenario</button>
             </div>
         </div>
     )

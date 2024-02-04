@@ -1,18 +1,25 @@
 #root {
   font-family: var(--text-font);
   color: var(--ink-color);
+}
 
-  h1,
-  h2 {
-    font-family: var(--heading-font);
-    color: var(--accent-color);
-    margin: 0 0 var(--space);
-  }
+h1,
+h2 {
+  font-family: var(--title-font);
+  margin: 0 0 var(--space);
+}
 
-  h1 {
-    font-family: var(--title-font);
-    font-size: 4rem;
-  }
+h1 {
+  font-size: 4rem;
+  color: var(--accent-color);
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+p {
+  margin: 0 0 var(--space);
 }
 
 .dialog {
@@ -26,6 +33,7 @@
   border-image-repeat: round;
   border-image-slice: calc(30 / 160 * 100%) calc(30 / 160 * 100%) fill;
   border-image-width: 1rem;
+  padding: var(--space);
 }
 
 .skull-stamp {
@@ -101,6 +109,7 @@
 }
 
 .text-bubble {
+  font-family: var(--speech-font);
   background-color: white;
   color: var(--accent-color);
   padding: var(--space);

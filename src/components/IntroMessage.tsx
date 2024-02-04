@@ -19,7 +19,6 @@ const frameStyle: CSSProperties = {
 
 const containerStyle: CSSProperties = {
     minWidth: 200,
-    padding: 20,
 }
 
 
