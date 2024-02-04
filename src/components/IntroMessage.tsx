@@ -65,9 +65,9 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                                 talking={displayedCharacters < currentIntroPage.text.length}
                             />
                         )}
-                        <p style={textBubbleStyle} className="text-bubble">
+                        <p style={textBubbleStyle} className="speech-bubble">
                             {currentIntroPage.text.slice(0, displayedCharacters)}
-                            <span className="text-bubble-tail"></span>
+                            <span className="speech-bubble-tail"></span>
                         </p>
                     </div>
                 </>)}
