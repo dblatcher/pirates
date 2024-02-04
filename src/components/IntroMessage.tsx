@@ -34,7 +34,13 @@ const textBubbleStyle: CSSProperties = {
     flexBasis: '15rem',
     margin: 0,
 }
-
+const buttonContainerStyle: CSSProperties = {
+    fontSize: '200%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    gap: 15,
+    paddingBottom: 10
+}
 
 export const IntroMessage = ({ intro, closeIntro }: Props) => {
     const [pageIndex, setPageIndex] = useState(0)
@@ -48,7 +54,12 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
     }
     useInterval(showMoreText, 75)
 
+    const onLastPage = pageIndex + 1 >= intro.pages.length
+
     const goToNext = () => {
+        if (onLastPage) {
+            return closeIntro()
+        }
         setDisplayedCharacters(0)
         setPageIndex(pageIndex + 1)
     }
@@ -71,11 +82,11 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                         </p>
                     </div>
                 </>)}
-                <div>
-                    {pageIndex + 1 < intro.pages.length && (
-                        <button onClick={goToNext}>next</button>
+                <div style={buttonContainerStyle}>
+                    {!onLastPage && (
+                        <button className="scrawl-button" onClick={goToNext}>next</button>
                     )}
-                    <button onClick={closeIntro}>close</button>
+                    <button className="scrawl-button" onClick={closeIntro}>{onLastPage ? 'done' : 'skip'}</button>
                 </div>
             </aside>
         </div>

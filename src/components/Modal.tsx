@@ -22,7 +22,8 @@ const modalFrameStyle = (isOpen: boolean): CSSProperties => ({
 
 const headerStyle: CSSProperties = {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems:'flex-start',
 }
 
 export const Modal = ({ setIsOpen, isOpen, children, title }: Props) => {
