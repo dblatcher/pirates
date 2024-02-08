@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=The+Nautigal:wght@400;700&display=swap');
 
 :root {
-  --title-font: 'The Nautigal', cursive;
-  --heading-font: cursive, sans-serif;
+  --title-font: 'The Nautigal', cursive, sans-serif;
+  --speech-font: cursive, sans-serif;
   --text-font: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   --page-bg: cornsilk;
-  --dialog-bg: khaki;
-  --accent-color: darkred;
+  --accent-color: crimson;
   --ink-color: black;
   --border-color: gray;
+  --panel-color: khaki;
   --space: .5rem;
   --small-space: .25rem;
 }

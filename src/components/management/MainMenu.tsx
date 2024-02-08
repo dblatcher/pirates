@@ -1,19 +1,21 @@
+import { Modal } from "../Modal";
 
 interface Props {
+    setIsOpen: { (isOpen: boolean): void }
+    isOpen: boolean;
     restartGame: { (): void }
     quitToTitle: { (): void }
 }
 
 
-export const MainMenu = ({ restartGame, quitToTitle }: Props) => {
+export const MainMenu = ({ restartGame, quitToTitle, setIsOpen, isOpen }: Props) => {
 
     return (
-        <div className="main-menu dialog">
-            <h2>Main Menu</h2>
+        <Modal title="Main Menu" setIsOpen={setIsOpen} isOpen={isOpen}>
             <div className="button-stack">
-                <button onClick={quitToTitle}>exit to Title</button>
-                <button onClick={restartGame}>restart Scenario</button>
+                <button onClick={quitToTitle}>exit to title</button>
+                <button onClick={restartGame}>restart scenario</button>
             </div>
-        </div>
+        </Modal>
     )
 }

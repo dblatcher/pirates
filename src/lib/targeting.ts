@@ -37,11 +37,12 @@ export const buildInitialTargettingList = (shootist: Ship | Fort, enemies: Ship[
 
 export const getShipsInArcNearestFirst = (shootistSide: Side | undefined, shootist: Ship | Fort, targettingList: Targeting[]): Targeting[] => {
 
-    const headingChangeForSide = shootistSide ? anglesBySide[shootistSide] : 0;
+    const headingChangeForSide = typeof shootistSide !== 'undefined' ? anglesBySide[shootistSide] : 0;
 
     const targettingInArc = targettingList.filter(targetting => {
         const headingAtWhichShipIsOnTargetToFire = targetting.headingFromShip - headingChangeForSide
-        const onAnotherSide = Math.abs(findRotationBetweenHeadings(shootist.h, headingAtWhichShipIsOnTargetToFire)) > 90 * _DEG;
+        const howFarToTurnToPointAtTarget = Math.abs(findRotationBetweenHeadings(shootist.h, headingAtWhichShipIsOnTargetToFire))
+        const onAnotherSide = howFarToTurnToPointAtTarget > 90 * _DEG;
         if (onAnotherSide) {
             return false
         }

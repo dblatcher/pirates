@@ -9,6 +9,14 @@ type Props = {
     closeIntro: { (): void }
 }
 
+const frameStyle: CSSProperties = {
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+}
+
 const containerStyle: CSSProperties = {
     minWidth: 200,
 }
@@ -26,7 +34,13 @@ const textBubbleStyle: CSSProperties = {
     flexBasis: '15rem',
     margin: 0,
 }
-
+const buttonContainerStyle: CSSProperties = {
+    fontSize: '200%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    gap: 15,
+    paddingBottom: 10
+}
 
 export const IntroMessage = ({ intro, closeIntro }: Props) => {
     const [pageIndex, setPageIndex] = useState(0)
@@ -40,14 +54,19 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
     }
     useInterval(showMoreText, 75)
 
+    const onLastPage = pageIndex + 1 >= intro.pages.length
+
     const goToNext = () => {
+        if (onLastPage) {
+            return closeIntro()
+        }
         setDisplayedCharacters(0)
         setPageIndex(pageIndex + 1)
     }
 
     return (
-        <div className="modal-overlay">
-            <aside style={containerStyle} className="dialog">
+        <div style={frameStyle}>
+            <aside style={containerStyle} className="paper">
                 {currentIntroPage && (<>
                     <div style={faceAndTextWrapperStyle}>
                         {currentIntroPage.person && (
@@ -57,17 +76,17 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
                                 talking={displayedCharacters < currentIntroPage.text.length}
                             />
                         )}
-                        <p style={textBubbleStyle} className="text-bubble">
+                        <p style={textBubbleStyle} className="speech-bubble">
                             {currentIntroPage.text.slice(0, displayedCharacters)}
-                            <span className="text-bubble-tail"></span>
+                            <span className="speech-bubble-tail"></span>
                         </p>
                     </div>
                 </>)}
-                <div>
-                    {pageIndex + 1 < intro.pages.length && (
-                        <button onClick={goToNext}>next</button>
+                <div style={buttonContainerStyle}>
+                    {!onLastPage && (
+                        <button className="scrawl-button" onClick={goToNext}>next</button>
                     )}
-                    <button onClick={closeIntro}>close</button>
+                    <button className="scrawl-button" onClick={closeIntro}>{onLastPage ? 'done' : 'skip'}</button>
                 </div>
             </aside>
         </div>

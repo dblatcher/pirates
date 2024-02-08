@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { CSSProperties, useState } from "react"
 import { Directive, FiringPattern, Order, Ship, Side } from "../../game-state"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "../KeyboardControls"
@@ -30,6 +30,11 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
     'Digit1': FiringPattern.BROADSIDE,
     'Digit2': FiringPattern.CASCADE,
     'Digit3': FiringPattern.ALTERNATE,
+}
+
+const controlsStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
 }
 
 export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef }: Props) => {
@@ -72,7 +77,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
     }
 
     return (
-        <aside className="control-panel">
+        <aside style={controlsStyle}>
             {player && (<>
                 <WheelWidget
                     addDirective={addDirective}

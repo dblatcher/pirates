@@ -4,9 +4,9 @@ import { ManagementProvider } from "../../context/management-context"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
+import { Layout } from "../Layout"
 import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
-import { Modal } from "../Modal"
 import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
 
@@ -53,23 +53,6 @@ export const BuccaneerProgram = () => {
         <ManagementProvider value={{
             mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod
         }}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-            }}>
-                {!!scenario && (<>
-                    <IconButton
-                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                        icon="⚙️" />
-                    <IconButton
-                        onClick={() => { setGameIsPaused(!gameIsPaused) }}
-                        icon={gameIsPaused ? "⏯️" : "⏸️"} />
-                    <IconButton
-                        onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                        icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
-                </>)}
-                <SoundToggle />
-            </div>
             <KeyboardControls keyDownFunction={({ code }) => {
                 switch (code) {
                     case 'Equal':
@@ -80,32 +63,50 @@ export const BuccaneerProgram = () => {
                         return setGameIsPaused(!gameIsPaused)
                 }
             }} />
-
-            {scenario ? (
-                <ScenarioGame
-                    soundDeck={soundDeck}
-                    scenario={scenario}
-                    key={gameTimeStamp} />
-            ) : (
-                <TitleScreen
-                    setScenario={setScenario}
-                    scenarios={startingScenarios} />
-            )}
-
-            <Modal setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen} >
-                <MainMenu
-                    quitToTitle={() => {
-                        setScenario(undefined)
-                        setGameIsPaused(false)
-                        setMainMenuOpen(false)
-                    }}
-                    restartGame={() => {
-                        setGameIsPaused(false)
-                        setMainMenuOpen(false)
-                        resetScenario()
-                    }}
-                />
-            </Modal>
+            <Layout
+                topMenu={
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                    }}>
+                        {!!scenario && (<>
+                            <IconButton
+                                onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
+                                icon="⚙️" />
+                            <IconButton
+                                onClick={() => { setGameIsPaused(!gameIsPaused) }}
+                                icon={gameIsPaused ? "⏯️" : "⏸️"} />
+                            <IconButton
+                                onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
+                                icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
+                        </>)}
+                        <SoundToggle />
+                    </div>
+                }
+            >
+                {scenario ? (<>
+                    <ScenarioGame
+                        soundDeck={soundDeck}
+                        scenario={scenario}
+                        key={gameTimeStamp} />
+                    <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
+                        quitToTitle={() => {
+                            setScenario(undefined)
+                            setGameIsPaused(false)
+                            setMainMenuOpen(false)
+                        }}
+                        restartGame={() => {
+                            setGameIsPaused(false)
+                            setMainMenuOpen(false)
+                            resetScenario()
+                        }}
+                    />
+                </>) : (
+                    <TitleScreen
+                        setScenario={setScenario}
+                        scenarios={startingScenarios} />
+                )}
+            </Layout>
         </ManagementProvider>
     )
 }

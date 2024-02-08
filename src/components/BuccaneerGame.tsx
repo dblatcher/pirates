@@ -156,7 +156,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     return (<>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
-            <section>
+            <section className='game-wrapper'>
                 <div style={{ position: 'relative' }}>
                     <GameScreen
                         viewPort={viewPortRef.current}

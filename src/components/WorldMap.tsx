@@ -16,18 +16,15 @@ interface Props {
 export const WorldMap = ({ closeModal, mapHeight, mapWidth, matrix, gameState }: Props) => {
     const drawMap = buildDrawMapFnc(gameState, matrix, mapWidth, mapHeight)
     return (
-        <Modal isOpen setIsOpen={closeModal}>
-            <aside className="dialog">
-                <div>Map</div>
-                <CanvasScreen width={mapWidth} height={mapHeight} draw={drawMap}
-                    containerStyle={{
-                        width: mapWidth / 5,
-                    }}
-                    canvasStyle={{
-                        maxWidth: '100%',
-                    }}
-                />
-            </aside>
+        <Modal isOpen setIsOpen={closeModal} title="Map">
+            <CanvasScreen width={mapWidth} height={mapHeight} draw={drawMap}
+                containerStyle={{
+                    width: mapWidth / 5,
+                }}
+                canvasStyle={{
+                    maxWidth: '100%',
+                }}
+            />
         </Modal>
     )
 }
