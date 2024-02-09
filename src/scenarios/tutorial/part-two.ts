@@ -19,9 +19,9 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 200,
-                y: 200,
-                h: _DEG * 50,
+                x: 800,
+                y: 850,
+                h: _DEG * 190,
                 id: 1,
                 damage: 0,
 
@@ -51,7 +51,7 @@ export const tutorialTwo: Scenario = ({
             { text: 'Back already?', expression: 'AFRAID', person: tutorialPerson },
             { text: 'Very, well. Time to learn about gunnery. For the next lession, your task is to sink the empy ship in the middle of the lagoon.', person: tutorialPerson },
             { text: 'No, it won\'t shoot back...', person: tutorialPerson, expression: 'ANGRY' },
-            { text: `You'll be saiing a frigate this time. It has more guns, but isn't as fast as the sloop.`, person: tutorialPerson },
+            { text: `You'll be sailng a frigate this time. It has more guns, but isn't as fast as the sloop.`, person: tutorialPerson },
             { text: `The 'q' and 'e' keys fire your cannons. Try changing the firing pattern with '1','2' and '3' too.`, person: tutorialPerson },
         ]
     },
