@@ -1,11 +1,12 @@
-import { CSSProperties } from "react"
-import { Ship } from "../../game-state"
+import { CSSProperties, memo } from "react"
 import { SAIL_COLOR_CSS } from "../../lib/Color"
 import { cornerOverlay } from "../../lib/style-helpers"
 import { VerticalRange } from "../VerticalRange"
 
 interface Props {
-    ship: Ship
+    sailLevelTarget: number;
+    speedLastTurn: number;
+    sailLevel: number;
     setSailLevelTarget: { (level: number): void }
 }
 
@@ -46,8 +47,7 @@ const targetLineStyle = (level: number): CSSProperties => ({
     height: 0,
 })
 
-export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
-
+export const SailsWidget = memo(({ sailLevelTarget, speedLastTurn, sailLevel, setSailLevelTarget }: Props) => {
     return (
         <div className="panel-frame" style={{ position: 'relative' }}>
             <div style={{
@@ -55,7 +55,7 @@ export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
                 height: 80,
             }}>
                 <VerticalRange
-                    value={ship.sailLevelTarget}
+                    value={sailLevelTarget}
                     height={80}
                     width={20}
                     onChange={setSailLevelTarget}
@@ -66,14 +66,14 @@ export const SailsWidget = ({ ship, setSailLevelTarget }: Props) => {
                 }}>
                     <figure style={figureStyle(80, 80)}>
                         <div style={mastStyle(80)}></div>
-                        <div style={sailStyle(ship.sailLevel)}></div>
-                        <div style={targetLineStyle(ship.sailLevelTarget)}></div>
+                        <div style={sailStyle(sailLevel)}></div>
+                        <div style={targetLineStyle(sailLevelTarget)}></div>
                     </figure>
-                    <div style={cornerOverlay('bottom','right')}>
-                        Speed: {ship.speedLastTurn.toFixed(2)}
+                    <div style={cornerOverlay('bottom', 'right')}>
+                        Speed: {speedLastTurn.toFixed(2)}
                     </div>
                 </div>
             </div>
         </div >
     )
-}
+})

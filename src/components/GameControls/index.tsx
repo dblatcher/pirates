@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react"
+import { CSSProperties, useCallback, useState } from "react"
 import { Directive, FiringPattern, Order, Ship, Side } from "../../game-state"
 import { GunneryWidget } from "./GunneryWidget"
 import { KeyboardControls } from "../KeyboardControls"
@@ -41,7 +41,10 @@ const controlsStyle: CSSProperties = {
 export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
-    const setWheelTo = (value: number) => { wheelRef.current = value }
+    const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
+    const setSailLevelTarget = useCallback((value: number) => {
+        addDirective({ order: Order.SAILS_TO, quantity: value })
+    }, [addDirective])
 
     const keyDownFunction = (event: KeyboardEvent) => {
         if (paused) {
@@ -91,10 +94,10 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                 />
                 <SailsWidget
-                    setSailLevelTarget={(value) => {
-                        addDirective({ order: Order.SAILS_TO, quantity: value })
-                    }}
-                    ship={player} />
+                    setSailLevelTarget={setSailLevelTarget}
+                    sailLevel={player.sailLevel}
+                    speedLastTurn={player.speedLastTurn}
+                    sailLevelTarget={player.sailLevelTarget} />
                 <GunneryWidget
                     leftCannons={leftCannonsReady}
                     rightCannons={rightCannonsReady}
