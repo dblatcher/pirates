@@ -46,7 +46,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         addDirective({ order: Order.SAILS_TO, quantity: value })
     }, [addDirective])
 
-    const keyDownFunction = (event: KeyboardEvent) => {
+    const keyDownFunction = useCallback((event: KeyboardEvent) => {
         if (paused) {
             return
         }
@@ -62,9 +62,9 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         if (typeof patternChange === 'number') {
             setFiringPattern(patternChange)
         }
-    }
+    }, [paused, addDirective, setFiringPattern, firingPattern])
 
-    const keyMapFunction = (keyMap: Record<string, boolean>) => {
+    const keyMapFunction = useCallback((keyMap: Record<string, boolean>) => {
         const goingLeft = !!keyMap['KeyA']
         const goingRight = !!keyMap['KeyD']
         const turn = goingLeft && goingRight ? 0 :
@@ -78,7 +78,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         if (typeof turn === 'number') {
             setWheelTo(turn)
         }
-    }
+    }, [setWheelTo, wheelNotLockedByKeyboardRef])
 
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)

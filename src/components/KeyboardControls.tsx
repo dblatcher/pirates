@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { memo, useEffect, useRef } from "react"
 import { useInterval } from "../hooks/useInterval"
 
 interface Props {
@@ -8,8 +8,7 @@ interface Props {
 }
 
 
-export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput }: Props) => {
-
+export const KeyboardControls = memo(({ keyMapFunction, keyDownFunction, renderOutput }: Props) => {
     const keyMapRef = useRef<Record<string, boolean>>({})
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -24,7 +23,7 @@ export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput
     }
 
     const handleKeyUp = (event: KeyboardEvent) => {
-        keyMapRef.current ={ ...keyMapRef.current, [event.code]: false }
+        keyMapRef.current = { ...keyMapRef.current, [event.code]: false }
     }
 
     useEffect(() => {
@@ -50,4 +49,4 @@ export const KeyboardControls = ({ keyMapFunction, keyDownFunction, renderOutput
         .join("|")
 
     return <span>{output}</span>
-}
+})
