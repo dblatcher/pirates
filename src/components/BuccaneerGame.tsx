@@ -100,9 +100,9 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
 
     const pushLog = (message: string, cycleNumber: number) => setLog([...log, { message, cycleNumber }])
 
-    const addDirective = (directive: Directive) => {
+    const addDirective = useCallback((directive: Directive) => {
         directivesRef.current.push(directive)
-    }
+    }, [directivesRef])
 
     const updateTimeTracking = useCallback((refreshStart: number) => {
         const timeTaken = Date.now() - lastCycleStartedAt

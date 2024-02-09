@@ -104,7 +104,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     maxMarines={player.profile.maxMarines}
                 />
                 <ShipDashBoard
-                    ship={player}
+                    ship={{...player}}
                 />
                 <KeyboardControls
                     keyDownFunction={keyDownFunction}

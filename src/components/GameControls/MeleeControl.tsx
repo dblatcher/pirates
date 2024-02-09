@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Directive, Order } from "../../game-state"
 import { cornerOverlay } from "../../lib/style-helpers"
 
@@ -8,8 +9,7 @@ interface Props {
     maxMarines: number
 }
 
-export const MeleeControls = ({ alreadyFighting, addDirective, marines, maxMarines }: Props) => {
-
+export const MeleeControls = memo(({ alreadyFighting, addDirective, marines, maxMarines }: Props) => {
     return (
         <aside className="panel-frame" style={{ position: 'relative' }}>
             <button
@@ -29,4 +29,4 @@ export const MeleeControls = ({ alreadyFighting, addDirective, marines, maxMarin
             </div>
         </aside>
     )
-}
+})
