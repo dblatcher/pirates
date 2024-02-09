@@ -1,8 +1,4 @@
-import { Side, ShipCannon } from "../../game-state"
-
-
-const cooldownToSymbol = (cooldown: number): string =>
-    cooldown === 0 ? '◆' : '◇'
+import { Side } from "../../game-state"
 
 const sideToDescription = (side: Side): string => {
     switch (side) {
@@ -12,7 +8,7 @@ const sideToDescription = (side: Side): string => {
     }
 }
 
-const CannonColumn = (props: { cannons: ShipCannon[], offset?: boolean }) => (
+const CannonColumn = (props: { cannonsReady: boolean[], offset?: boolean }) => (
     <div style={{
         display: "inline-flex",
         flexDirection: 'column',
@@ -22,24 +18,24 @@ const CannonColumn = (props: { cannons: ShipCannon[], offset?: boolean }) => (
         lineHeight: 1,
         transform: props.offset ? 'translateY(.5em)' : undefined
     }}>
-        {props.cannons.map((cannon, index) => (
-            <b key={index}>{cooldownToSymbol(cannon.cooldown)}</b>
+        {props.cannonsReady.map((ready, index) => (
+            <b key={index}>{ready ? '◆' : '◇'}</b>
         ))}
     </div>
 )
 
-export const CannonIndicator = ({ cannons, side }: { cannons: ShipCannon[], side: Side }) => {
+export const CannonIndicator = ({ cannons, side }: { cannons: boolean[], side: Side }) => {
 
     if (cannons.length < 5) {
         return (
             <div title={sideToDescription(side)}>
-                <CannonColumn cannons={cannons} />
+                <CannonColumn cannonsReady={cannons} />
             </div>
         )
     }
 
-    const columnOne: ShipCannon[] = []
-    const columnTwo: ShipCannon[] = []
+    const columnOne: boolean[] = []
+    const columnTwo: boolean[] = []
 
     cannons.forEach((cannon, index) => {
         (index % 2 === 0 ? columnOne : columnTwo).push(cannon)
@@ -50,8 +46,8 @@ export const CannonIndicator = ({ cannons, side }: { cannons: ShipCannon[], side
             display: 'flex',
             flexDirection: side === Side.RIGHT ? 'row-reverse' : 'row',
         }}>
-            <CannonColumn cannons={columnOne} />
-            <CannonColumn cannons={columnTwo} offset />
+            <CannonColumn cannonsReady={columnOne} />
+            <CannonColumn cannonsReady={columnTwo} offset />
         </div>
     )
 }

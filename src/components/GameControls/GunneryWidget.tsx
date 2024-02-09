@@ -1,10 +1,10 @@
-import { Fragment, useId } from "react";
-import { Directive, FiringPattern, Order, Ship, Side } from "../../game-state";
-import { splitArray } from "../../lib/util";
+import { Fragment, memo, useId } from "react";
+import { Directive, FiringPattern, Order, Side } from "../../game-state";
 import { CannonIndicator } from "./CannonIndicator";
 
 interface Props {
-    ship: Ship
+    leftCannons: boolean[]
+    rightCannons: boolean[]
     addDirective: { (directive: Directive): void }
     paused: boolean
     firingPattern: FiringPattern,
@@ -21,10 +21,18 @@ const patternToDescription = (pattern: FiringPattern): string => {
     }
 }
 
-export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFiringPattern }: Props) => {
+const booleanArraysMatch = (a: boolean[], b: boolean[]): boolean => {
+    if (a.length !== b.length) { return false }
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) {
+            return false
+        }
+    }
+    return true
+}
 
+export const GunneryWidget = memo(({ leftCannons, rightCannons, paused, addDirective, firingPattern, setFiringPattern }: Props) => {
     const radioId = useId()
-
     const addUnlessPaused = (directive: Directive) => {
         if (paused) { return }
         addDirective(directive)
@@ -32,8 +40,6 @@ export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFi
     const fireTo = (side: Side) => () => {
         addUnlessPaused({ order: Order.FIRE, side, pattern: firingPattern })
     }
-
-    const [leftCannons, rightCannons] = splitArray(ship.cannons, (_ => _.side === Side.LEFT))
 
     return (
         <div className="panel-frame">
@@ -59,4 +65,16 @@ export const GunneryWidget = ({ ship, paused, addDirective, firingPattern, setFi
             </div>
         </div>
     )
-}
+}, (prevProps, nextProps) => {
+    if (prevProps.paused !== nextProps.paused || prevProps.firingPattern !== nextProps.firingPattern) {
+        return false
+    }
+    if (!booleanArraysMatch(prevProps.leftCannons, nextProps.leftCannons)) {
+        return false
+    }
+    if (!booleanArraysMatch(prevProps.rightCannons, nextProps.rightCannons)) {
+        return false
+    }
+    return true
+})
+

@@ -6,6 +6,7 @@ import { SailsWidget } from "./SailsWidget"
 import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
 import { MeleeControls } from "./MeleeControl"
+import { splitArray } from "../../lib/util"
 
 interface Props {
     player?: Ship
@@ -76,6 +77,10 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         }
     }
 
+    const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
+    const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
+    const rightCannonsReady = rightCannons.map(c => c.cooldown <= 0)
+
     return (
         <aside style={controlsStyle}>
             {player && (<>
@@ -91,7 +96,8 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     }}
                     ship={player} />
                 <GunneryWidget
-                    ship={player}
+                    leftCannons={leftCannonsReady}
+                    rightCannons={rightCannonsReady}
                     addDirective={addDirective}
                     paused={paused}
                     firingPattern={firingPattern}
@@ -104,7 +110,7 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                     maxMarines={player.profile.maxMarines}
                 />
                 <ShipDashBoard
-                    ship={{...player}}
+                    ship={{ ...player }}
                 />
                 <KeyboardControls
                     keyDownFunction={keyDownFunction}
