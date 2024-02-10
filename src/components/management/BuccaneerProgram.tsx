@@ -21,8 +21,6 @@ export const BuccaneerProgram = () => {
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
 
-    // TO DO - toggling the sound causes a re-render, so the game does the matrix again. Could it not?
-    // more refs?
     const toggleSound = async () => {
         if (!soundDeck.isEnabled) {
             await soundDeck.enable()
