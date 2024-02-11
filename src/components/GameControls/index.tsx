@@ -7,6 +7,7 @@ import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
 import { MeleeControls } from "./MeleeControl"
 import { splitArray } from "../../lib/util"
+import "./controls.css"
 
 interface Props {
     player?: Ship

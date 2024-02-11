@@ -3,25 +3,6 @@
   color: var(--ink-color);
 }
 
-h1,
-h2 {
-  font-family: var(--title-font);
-  margin: 0 0 var(--space);
-}
-
-h1 {
-  font-size: 4rem;
-  color: var(--accent-color);
-}
-
-h2 {
-  font-size: 2.5rem;
-}
-
-p {
-  margin: 0 0 var(--space);
-}
-
 .paper {
   border-image-source: url(./page.png);
   border-image-repeat: round;
@@ -71,26 +52,6 @@ p {
 
 .game-wrapper {
   border: 2px solid var(--border-color);
-}
-
-.panel-frame {
-  border-top: 2px solid var(--border-color);
-  border-right: 2px solid var(--border-color);
-  background-color: var(--panel-color);
-  padding: var(--space);
-
-  &:last-child {
-    border-right: none;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  ul {
-    margin: 0;
-    padding-inline-start: 1em;
-  }
 }
 
 .menu-icon {
@@ -167,3 +128,4 @@ p {
     animation-name: slidein;
   }
 }
+
