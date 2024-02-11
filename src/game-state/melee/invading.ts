@@ -45,9 +45,9 @@ const progressInvadingAction = (action: InvadingAction, gameState: GameState, _a
 }
 
 
-export const handleInvadingActions = (gameState: GameState, _aiFactory: AIFactory) => {
+export const handleInvadingActions = (gameState: GameState, aiFactory: AIFactory) => {
     gameState.invadingActions.forEach(action => {
-        action.resolved = progressInvadingAction(action, gameState, _aiFactory)
+        action.resolved = progressInvadingAction(action, gameState, aiFactory)
     })
     gameState.invadingActions = gameState.invadingActions.filter(_ => !_.resolved)
 }

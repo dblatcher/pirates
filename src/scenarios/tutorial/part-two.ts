@@ -64,7 +64,7 @@ export const tutorialTwo: Scenario = ({
             return ({
                 success: true,
                 message: `You sunk the ship.`,
-                nextScenarioId: 'tutorialOne',
+                nextScenarioId: 'tutorialThree',
             })
         }
         return undefined

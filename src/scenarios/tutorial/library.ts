@@ -60,3 +60,11 @@ export const makeTownOne = () => makeTown({
     x: 900,
     y: 900,
 })
+
+export const makePirateCamp = () => makeTown({
+    id: 2,
+    name: 'Townsville',
+    faction: undefined,
+    x: 500,
+    y: 500,
+})
