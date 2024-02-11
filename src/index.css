@@ -17,6 +17,11 @@ body {
   margin: 0;
   overflow-y: hidden;
   background-color: var(--page-bg);
+
+  /* source: https://commons.wikimedia.org/wiki/File:Flag_of_Edward_England.svg */
+  /* license: https://creativecommons.org/licenses/by-sa/3.0/ */
+  background-image: url(.\assets\320px-Flag_of_Edward_England.svg.png);
+  background-size: 150px;
 }
 
 h1,
