@@ -11,7 +11,7 @@ interface Props {
 
 export const MeleeControls = memo(({ alreadyFighting, addDirective, marines, maxMarines }: Props) => {
     return (
-        <aside className="panel-frame" style={{ position: 'relative' }}>
+        <aside className="panel-frame">
             <button
                 disabled={alreadyFighting}
                 onClick={() => {
