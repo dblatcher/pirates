@@ -16,6 +16,7 @@ const buttonContainerStyle: CSSProperties = {
 
 export const EndOfScenario = ({ outcome }: Props) => {
     const { reportOutcome } = useManagement()
+    const buttonText = outcome.exitToTitle ? 'fin' : 'next misson'
     return (
         <div className="paper">
             <h2>{outcome.success ? "Success!" : "Failure!"}</h2>
@@ -24,7 +25,7 @@ export const EndOfScenario = ({ outcome }: Props) => {
                 <button
                     onClick={() => { reportOutcome(outcome) }}
                     className="scrawl-button"
-                >next mission</button>
+                >{buttonText}</button>
             </div>
         </div>
     )

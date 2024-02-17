@@ -22,6 +22,7 @@ export type ScenarioOutcome = {
     success: boolean
     message: string
     nextScenarioId?: string
+    exitToTitle?: boolean
 }
 
 export type Scenario = {

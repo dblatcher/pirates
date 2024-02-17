@@ -21,6 +21,12 @@ export const BuccaneerProgram = () => {
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
 
+    const exitToTitle = () => {
+        setScenario(undefined)
+        setGameIsPaused(false)
+        setMainMenuOpen(false)
+    }
+
     const toggleSound = async () => {
         if (!soundDeck.isEnabled) {
             await soundDeck.enable()
@@ -36,6 +42,9 @@ export const BuccaneerProgram = () => {
         if (outcome.success === false) {
             return resetScenario()
         }
+        if (outcome.exitToTitle) {
+            return exitToTitle()
+        }
         if (outcome.nextScenarioId) {
             const maybeScenario = scenarios[outcome.nextScenarioId]
             if (!maybeScenario) {
@@ -44,6 +53,7 @@ export const BuccaneerProgram = () => {
             setScenario(maybeScenario)
             return resetScenario()
         }
+
         return console.warn(`Success outcome has no next scenario`)
     }
 
@@ -88,11 +98,7 @@ export const BuccaneerProgram = () => {
                         scenario={scenario}
                         key={gameTimeStamp} />
                     <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
-                        quitToTitle={() => {
-                            setScenario(undefined)
-                            setGameIsPaused(false)
-                            setMainMenuOpen(false)
-                        }}
+                        quitToTitle={exitToTitle}
                         restartGame={() => {
                             setGameIsPaused(false)
                             setMainMenuOpen(false)
