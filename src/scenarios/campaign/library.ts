@@ -1,6 +1,6 @@
-import { Town } from "../game-state";
-import { Landmass, TerrainType, inputToLandmass } from "../game-state/land";
-import { makeTownWithForts } from "../game-state/towns";
+import { Town } from "../../game-state";
+import { Landmass, TerrainType, inputToLandmass } from "../../game-state/land";
+import { makeTownWithForts } from "../../game-state/towns";
 
 export const demoLand: Landmass[] = [
     {

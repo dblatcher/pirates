@@ -1,30 +1,10 @@
-import { browShapes } from "@dblatcher/funny-face";
-import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
-import { FollowerAutoPilot } from "../ai/follower-ai";
-import { GameState } from "../game-state";
-import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { GAME_STATE_DEFAULTS, Person, Scenario } from ".";
-import { _DEG } from "../lib/geometry";
+import { GAME_STATE_DEFAULTS, Scenario } from "..";
+import { AttackAutoPilot, PathFollowAutoPilot } from "../../ai";
+import { FollowerAutoPilot } from "../../ai/follower-ai";
+import { GameState } from "../../game-state";
+import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
+import { _DEG } from "../../lib/geometry";
 import { demoLand, makeDemoTowns } from "./library";
-import { StrawHatIconPng } from "../assets"
-
-const ROBERT: Person = {
-    name: "Admiral Lord Robert Malden of Carlise",
-    size: 80,
-    profile: {
-        browShape: browShapes.WIDE,
-        eyeColor: 'purple',
-        width: .9,
-        color: 'coral',
-        lipColor: 'crimson'
-    },
-    accessories: [
-        {
-            x: 0, y: -20, src: StrawHatIconPng, width: 120,
-        }
-    ]
-}
-
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -129,27 +109,25 @@ const makeInitialState = (): GameState => {
             }),
         ],
         land: demoLand,
-        towns: makeDemoTowns(1),
+        towns: makeDemoTowns(2),
     }
     return initalState
 }
 
-export const demoOne: Scenario = ({
+export const demoTwo: Scenario = ({
     makeInitialState,
-    name: 'Demo Scenario One',
+    name: 'Demo Scenario Two',
     intro: {
         pages: [
-            { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.', person: ROBERT },
-            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY', person: ROBERT },
-            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY', person: ROBERT },
+            { text: 'This is level two of a demo campaign.' },
+            { text: 'Your mission is to sink the enemy ships.' },
         ]
     },
     checkForOutcome(game) {
-        if (game.towns.every(_ => _.faction === 'grance')) {
+        if (!game.ships.some(_ => _.faction === 'spaim')) {
             return {
                 success: true,
-                message: 'You captured the town.',
-                nextScenarioId: 'demoTwo',
+                message: 'You sank all the Spaimish ships.'
             }
         }
         return undefined
