@@ -1,29 +1,12 @@
-import { browShapes } from "@dblatcher/funny-face";
+import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { AttackAutoPilot, PathFollowAutoPilot } from "../../ai";
 import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
-import { GAME_STATE_DEFAULTS, Person, Scenario } from "..";
 import { _DEG } from "../../lib/geometry";
-import { demoLand, makeDemoTowns } from "./library";
-import { StrawHatIconPng } from "../../assets"
+import { ROBERT, demoLand, makeDemoTowns } from "./library";
 
-const ROBERT: Person = {
-    name: "Admiral Lord Robert Malden of Carlise",
-    size: 80,
-    profile: {
-        browShape: browShapes.WIDE,
-        eyeColor: 'purple',
-        width: .9,
-        color: 'coral',
-        lipColor: 'crimson'
-    },
-    accessories: [
-        {
-            x: 0, y: -20, src: StrawHatIconPng, width: 120,
-        }
-    ]
-}
+
 
 
 const makeInitialState = (): GameState => {

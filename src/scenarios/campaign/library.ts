@@ -1,6 +1,27 @@
+import { browShapes } from "@dblatcher/funny-face";
+import { Person } from "../scenarios";
+import { StrawHatIconPng } from "../../assets";
 import { Town } from "../../game-state";
 import { Landmass, TerrainType, inputToLandmass } from "../../game-state/land";
 import { makeTownWithForts } from "../../game-state/towns";
+
+
+export const ROBERT: Person = {
+    name: "Admiral Lord Robert Malden of Carlise",
+    size: 80,
+    profile: {
+        browShape: browShapes.WIDE,
+        eyeColor: 'purple',
+        width: .9,
+        color: 'coral',
+        lipColor: 'crimson'
+    },
+    accessories: [
+        {
+            x: 0, y: -20, src: StrawHatIconPng, width: 120,
+        }
+    ]
+}
 
 export const demoLand: Landmass[] = [
     {

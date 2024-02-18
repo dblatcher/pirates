@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { demoLand, makeDemoTowns } from "./library";
+import { ROBERT, demoLand, makeDemoTowns } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -119,8 +119,8 @@ export const demoTwo: Scenario = ({
     name: 'Demo Scenario Two',
     intro: {
         pages: [
-            { text: 'This is level two of a demo campaign.' },
-            { text: 'Your mission is to sink the enemy ships.' },
+            { text: 'This is level two of a demo campaign.', person: ROBERT, },
+            { text: 'Your mission is to sink the enemy ships.', person: ROBERT, },
         ]
     },
     checkForOutcome(game) {
