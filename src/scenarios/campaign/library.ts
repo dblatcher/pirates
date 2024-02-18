@@ -24,7 +24,7 @@ export const ROBERT: Person = {
 }
 
 
-export const MAP_HEIGHT = 36 * TERRAIN_SQUARE_SIZE;
+export const MAP_HEIGHT = 38 * TERRAIN_SQUARE_SIZE;
 export const MAP_WIDTH = 48 * TERRAIN_SQUARE_SIZE;
 
 const _ = undefined;

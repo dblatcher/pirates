@@ -75,7 +75,7 @@ export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: 
             landMatrix[cell.y][cell.x] = 1
             landAndFortsMatrix[cell.y][cell.x] = 1
         } catch (err) {
-            console.warn(err)
+            console.warn('CELL OUT OF BOUNDS', cell, { widthInCells, heightInCells })
         }
     });
 
@@ -83,7 +83,7 @@ export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: 
         try {
             landAndFortsMatrix[cell.y][cell.x] = 1
         } catch (err) {
-            console.warn(err)
+            console.warn('CELL OUT OF BOUNDS', cell, { widthInCells, heightInCells })
         }
     })
 
