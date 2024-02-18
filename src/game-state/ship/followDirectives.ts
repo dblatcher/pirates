@@ -8,10 +8,11 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
 
     directives.forEach(directive => {
         switch (directive.order) {
-            case Order.WHEEL_TO:
+            case Order.WHEEL_TO: {
                 const { quantity = 0 } = directive;
                 ship.wheel = clamp(quantity, .5, -.5);
                 break;
+            }
             case Order.RESET_WHEEL:
                 ship.wheel = 0
                 break;

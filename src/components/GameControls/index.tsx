@@ -17,11 +17,10 @@ interface Props {
     wheelRef: React.MutableRefObject<number | undefined>
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     wheelNotLockedByKeyboardRef: React.MutableRefObject<boolean>
+    sailChangeRef: React.MutableRefObject<'UP' | 'DOWN' | undefined>
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
-    'KeyW': { order: Order.SAILS_BY, quantity: .2 },
-    'KeyS': { order: Order.SAILS_BY, quantity: -.2 },
     'KeyQ': { order: Order.FIRE, side: Side.LEFT, pattern: FiringPattern.ALTERNATE },
     'KeyE': { order: Order.FIRE, side: Side.RIGHT, pattern: FiringPattern.ALTERNATE },
     'Space': { order: Order.INVADE_TOWN },
@@ -39,7 +38,7 @@ const controlsStyle: CSSProperties = {
     justifyContent: 'center',
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef }: Props) => {
+export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef, sailChangeRef }: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
@@ -79,7 +78,10 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         if (typeof turn === 'number') {
             setWheelTo(turn)
         }
-    }, [setWheelTo, wheelNotLockedByKeyboardRef])
+        const sailsUp = !!keyMap['KeyW'] && !keyMap['KeyS']
+        const sailsDown = !!keyMap['KeyS'] && !keyMap['KeyW']
+        sailChangeRef.current = sailsUp ? 'UP' : sailsDown ? 'DOWN' : undefined
+    }, [setWheelTo, wheelNotLockedByKeyboardRef, sailChangeRef])
 
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)

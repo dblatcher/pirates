@@ -80,6 +80,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
     const wheelRef = useRef<number | undefined>(undefined)
     const wheelNotLockedByPointerRef = useRef(true)
     const wheelNotLockedByKeyboardRef = useRef(true)
+    const sailChangeRef = useRef<'UP' | 'DOWN' | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
         x: 100,
         y: 10,
@@ -116,6 +117,14 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
             const directives: Directive[] = [...directivesRef.current]
             if (typeof wheelRef.current === 'number') {
                 directives.push({ order: Order.WHEEL_TO, quantity: wheelRef.current })
+            }
+            switch (sailChangeRef.current) {
+                case 'DOWN':
+                    directives.push({ order: Order.SAILS_BY, quantity: -.01 })
+                    break;
+                case 'UP':
+                    directives.push({ order: Order.SAILS_BY, quantity: .01 })
+                    break;
             }
             wheelRef.current = undefined
             directivesRef.current = []
@@ -187,6 +196,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
                     paused={gameIsPaused}
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
+                    sailChangeRef={sailChangeRef}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     wheelNotLockedByKeyboardRef={wheelNotLockedByKeyboardRef}
                 />
