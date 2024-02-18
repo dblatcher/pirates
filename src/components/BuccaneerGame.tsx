@@ -91,7 +91,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
 
     const [introDone, setIntroDone] = useState(scenario?.intro ? false : true);
     const [doneInitialCycle, setDoneInitialCycle] = useState(false)
-    const [showMap, setShowMap] = useState(false)
+    const [mapOpen, setMapOpen] = useState(false)
     const [log, setLog] = useState<LogEntry[]>([{
         message: `Yarrgh! Game started at ${new Date().toISOString()}`,
         cycleNumber: 0,
@@ -174,14 +174,11 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
                     <div style={cornerOverlay('bottom', 'right')}>
                         <WindSock wind={gameStateRef.current.wind} />
                     </div>
-                    <div style={cornerOverlay('top', 'left')}>
+                    <div style={cornerOverlay('top', 'right')}>
                         <span>{player?.x.toFixed(0)}, {player?.y.toFixed(0)}</span>
                     </div>
                     <div style={cornerOverlay('bottom', 'left')}>
                         <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
-                    </div>
-                    <div style={cornerOverlay('top', 'right')}>
-                        <button onClick={() => setShowMap(!showMap)}>map</button>
                     </div>
                     {outcome &&
                         <div style={middleOverlay(60)}>
@@ -199,13 +196,15 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
                     sailChangeRef={sailChangeRef}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     wheelNotLockedByKeyboardRef={wheelNotLockedByKeyboardRef}
+                    mapOpen={mapOpen}
+                    setMapOpen={setMapOpen}
                 />
             </section>
         </main>
 
-        {showMap && (
+        {mapOpen && (
             <WorldMap
-                closeModal={() => { setShowMap(false) }}
+                closeModal={() => { setMapOpen(false) }}
                 gameState={gameStateRef.current}
                 matrix={landMatrix}
                 mapWidth={initial.mapWidth}

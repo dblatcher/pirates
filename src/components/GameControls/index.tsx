@@ -18,6 +18,8 @@ interface Props {
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     wheelNotLockedByKeyboardRef: React.MutableRefObject<boolean>
     sailChangeRef: React.MutableRefObject<'UP' | 'DOWN' | undefined>
+    mapOpen: boolean,
+    setMapOpen: { (value: boolean): void }
 }
 
 const directiveKeys: Record<string, Directive | undefined> = {
@@ -38,7 +40,15 @@ const controlsStyle: CSSProperties = {
     justifyContent: 'center',
 }
 
-export const GameControls = ({ player, addDirective, paused, playerWheel, wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef, sailChangeRef }: Props) => {
+export const GameControls = ({
+    player,
+    addDirective,
+    paused,
+    playerWheel,
+    wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef,
+    sailChangeRef,
+    mapOpen, setMapOpen,
+}: Props) => {
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
@@ -62,7 +72,11 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
         if (typeof patternChange === 'number') {
             setFiringPattern(patternChange)
         }
-    }, [paused, addDirective, setFiringPattern, firingPattern])
+
+        if (event.code === 'KeyM') {
+            setMapOpen(!mapOpen)
+        }
+    }, [paused, addDirective, firingPattern, setMapOpen, mapOpen])
 
     const keyMapFunction = useCallback((keyMap: Record<string, boolean>) => {
         const goingLeft = !!keyMap['KeyA']
@@ -117,6 +131,8 @@ export const GameControls = ({ player, addDirective, paused, playerWheel, wheelR
                 />
                 <ShipDashBoard
                     ship={{ ...player }}
+                    mapOpen={mapOpen}
+                    setMapOpen={setMapOpen}
                 />
                 <KeyboardControls
                     keyDownFunction={keyDownFunction}
