@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { ROBERT, demoLand, makeDemoTowns } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, demoLand, makeDemoTowns } from "./library";
 
 
 
@@ -12,8 +12,8 @@ import { ROBERT, demoLand, makeDemoTowns } from "./library";
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
-        mapHeight: 1800,
-        mapWidth: 2400,
+        mapHeight: MAP_HEIGHT,
+        mapWidth: MAP_WIDTH,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -22,8 +22,8 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 300,
-                y: 150,
+                x: 500,
+                y: 400,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
@@ -43,8 +43,8 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 name: 'The Flying Goose',
                 faction: 'spaim',
-                x: 300,
-                y: 0,
+                x: 800,
+                y: 500,
                 h: Math.PI * .5,
                 width: 15,
                 length: 60,
