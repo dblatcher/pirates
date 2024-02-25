@@ -4,6 +4,7 @@ import { StrawHatIconPng } from "../../assets";
 import { TERRAIN_SQUARE_SIZE, Town } from "../../game-state";
 import { Landmass, LandmassInput, inputToLandmass } from "../../game-state/land";
 import { makeTownWithForts } from "../../game-state/towns";
+import { FactionId } from "../../game-state/faction";
 
 
 export const ROBERT: Person = {
@@ -110,35 +111,33 @@ export const demoLand: Landmass[] = [
     SWAMPY_BIT,
 ].map(inputToLandmass);
 
-export const makeDemoTowns = (level: 1 | 2): Town[] => {
 
-    return [
-        makeTownWithForts({
-            faction: 'grance',
-            x: GROUPELLE_ISLAND.x + TERRAIN_SQUARE_SIZE * 2,
-            y: GROUPELLE_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
-            id: 1,
-            name: 'La Groupelle',
-            defences: 1,
-            profile: {
-                maxDefences: 100,
-                maxGarrison: 25,
-            },
-            garrison: 20,
-        }, [
-            { x: 0, y: 100 },
-            { x: 75, y: -50 },
-        ]),
-        makeTownWithForts({
-            faction: level === 1 ? 'spaim' : 'grance',
-            x: CANTO_ISLAND.x + TERRAIN_SQUARE_SIZE * 1,
-            y: CANTO_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
-            id: 2,
-            name: 'Villa della Canto',
-        }, [
-            // { x: -25, y: -100 },
-            // { x: -125, y: 0 },
-            // { x: 125, y: 0 },
-        ]),
-    ]
-}
+export const makeTownLaGroupelle = (): Town => makeTownWithForts({
+    faction: 'grance',
+    x: GROUPELLE_ISLAND.x + TERRAIN_SQUARE_SIZE * 2,
+    y: GROUPELLE_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
+    id: 1,
+    name: 'La Groupelle',
+    defences: 1,
+    profile: {
+        maxDefences: 100,
+        maxGarrison: 25,
+    },
+    garrison: 20,
+}, [
+    { x: 0, y: 100 },
+    { x: 75, y: -50 },
+])
+
+export const makeTownCanto = (faction: FactionId): Town => makeTownWithForts({
+    faction,
+    x: CANTO_ISLAND.x + TERRAIN_SQUARE_SIZE * 1,
+    y: CANTO_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
+    id: 2,
+    name: 'Villa della Canto',
+}, [
+    // { x: -25, y: -100 },
+    // { x: -125, y: 0 },
+    // { x: 125, y: 0 },
+])
+

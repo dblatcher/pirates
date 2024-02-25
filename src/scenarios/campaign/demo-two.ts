@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { ROBERT, demoLand, makeDemoTowns } from "./library";
+import { ROBERT, demoLand, makeTownCanto, makeTownLaGroupelle } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -109,7 +109,10 @@ const makeInitialState = (): GameState => {
             }),
         ],
         land: demoLand,
-        towns: makeDemoTowns(2),
+        towns: [
+            makeTownLaGroupelle(),
+            makeTownCanto('grance'),
+        ],
     }
     return initalState
 }
