@@ -1,10 +1,10 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
-import { AttackAutoPilot, PathFollowAutoPilot } from "../../ai";
+import { AttackAutoPilot } from "../../ai";
 import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { MAP_HEIGHT, MAP_WIDTH, ROBERT, demoLand, makeTownCanto, makeTownLaGroupelle } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, demoLand, makeTownLaGroupelle } from "./library";
 
 
 const makeInitialState = (): GameState => {
@@ -37,32 +37,6 @@ const makeInitialState = (): GameState => {
                 h: 0,
                 // damage:15,
                 ai: new FollowerAutoPilot(1, 15, false)
-            }),
-            makeDefaultShip({
-                name: 'The Flying Goose',
-                faction: 'spaim',
-                x: 800,
-                y: 500,
-                h: Math.PI * .5,
-                width: 15,
-                length: 60,
-                id: 2,
-                ai: new PathFollowAutoPilot(
-                    {
-                        mission: {
-                            type: 'travel',
-                        },
-                        destination: { x: 100, y: 500 },
-                        path: []
-                    }, 2, false),
-            }),
-            makeFrigateShip({
-                id: 3,
-                name: 'The Dead Duck',
-                x: 1550,
-                y: 300,
-                h: Math.PI * 1.4,
-                damage: 10,
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol',
@@ -112,7 +86,6 @@ const makeInitialState = (): GameState => {
         land: demoLand,
         towns: [
             makeTownLaGroupelle(),
-            makeTownCanto('spaim')
         ],
     }
     return initalState
@@ -124,15 +97,14 @@ export const demoOne: Scenario = ({
     intro: {
         pages: [
             { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.', person: ROBERT },
-            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY', person: ROBERT },
-            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY', person: ROBERT },
+            { text: 'Your mission is to sink the enemy ships.', person: ROBERT, },
         ]
     },
     checkForOutcome(game) {
-        if (game.towns.every(_ => _.faction === 'grance')) {
+        if (!game.ships.some(_ => _.faction === 'spaim')) {
             return {
                 success: true,
-                message: 'You captured the town.',
+                message: 'You sank all the Spaimish ships.',
                 nextScenarioId: 'demoTwo',
             }
         }

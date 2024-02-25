@@ -111,7 +111,7 @@ const makeInitialState = (): GameState => {
         land: demoLand,
         towns: [
             makeTownLaGroupelle(),
-            makeTownCanto('grance'),
+            makeTownCanto('spaim'),
         ],
     }
     return initalState
@@ -123,14 +123,15 @@ export const demoTwo: Scenario = ({
     intro: {
         pages: [
             { text: 'This is level two of a demo campaign.', person: ROBERT, },
-            { text: 'Your mission is to sink the enemy ships.', person: ROBERT, },
+            { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY', person: ROBERT },
+            { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY', person: ROBERT },
         ]
     },
     checkForOutcome(game) {
-        if (!game.ships.some(_ => _.faction === 'spaim')) {
+        if (game.towns.every(_ => _.faction === 'grance')) {
             return {
                 success: true,
-                message: 'You sank all the Spaimish ships.'
+                message: 'You captured the town.',   
             }
         }
         return undefined
