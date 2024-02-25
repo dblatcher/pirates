@@ -10,6 +10,22 @@
   }
 }
 
+@keyframes pulsingTextShadow {
+  from {
+    text-shadow:  
+      1px 1px 0px white,
+      0px 0px 10px black
+      ; 
+  }
+
+  to {
+    text-shadow:  
+      1px 1px 6px white,
+      0px 0px 15px black
+      ; 
+  }
+}
+
 .scrawl-button {
   min-width: 1.5em;
   padding: 0;
@@ -25,7 +41,7 @@
   cursor: pointer;
 
   &:hover{
-    color: var(--text-color);
+    animation: pulsingTextShadow .5s ease-in-out 0s infinite alternate;
   }
 }
 

@@ -1,7 +1,8 @@
 import { Flag, InvadingAction, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
-import { translateZ } from "../../lib/geometry";
+import { translate, translateZ, xy } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
+import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 import { getFactionColor, isTownInView } from "../helpers";
 import { showDefenceLevel } from "./defenceLevel";
@@ -27,15 +28,13 @@ export const drawTowns = (
 
     townsInView.forEach(town => {
         const beingInvaded = idsOfTownsInBeingInvaded.includes(town.id)
-        const color = getFactionColor(town)
-        const flagHeight = Math.min(50, town.garrison * 2)
-
         drawTownOutline(
-            ctx, drawingMethods, town, cycleNumber, beingInvaded
+            ctx, drawingMethods, town, cycleNumber
         )
-        drawFlagPole(ctx, drawingMethods, town, 80)
-        drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
-        showDefenceLevel(ctx, drawingMethods, town, cycleNumber)
+        if (beingInvaded) {
+            drawFlame(ctx, drawingMethods, translate(town, xy(-3, -4)), cycleNumber, 3)
+        }
+        showDefenceLevel(ctx, drawingMethods, town)
     })
 
     // TO DO - check separately if the fort is in view
@@ -43,5 +42,12 @@ export const drawTowns = (
         town.forts.forEach(fort => {
             drawFort(ctx, drawingMethods, fort, cycleNumber)
         })
+    })
+
+    townsInView.forEach(town => {
+        const color = getFactionColor(town)
+        const flagHeight = Math.min(50, town.garrison * 2)
+        drawFlagPole(ctx, drawingMethods, town, 80)
+        drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
     })
 }

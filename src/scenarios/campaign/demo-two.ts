@@ -1,10 +1,10 @@
-import { GAME_STATE_DEFAULTS, Scenario } from ".";
-import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
-import { FollowerAutoPilot } from "../ai/follower-ai";
-import { GameState } from "../game-state";
-import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { _DEG } from "../lib/geometry";
-import { demoLand, makeDemoTowns } from "./library";
+import { GAME_STATE_DEFAULTS, Scenario } from "..";
+import { AttackAutoPilot, PathFollowAutoPilot } from "../../ai";
+import { FollowerAutoPilot } from "../../ai/follower-ai";
+import { GameState } from "../../game-state";
+import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
+import { _DEG } from "../../lib/geometry";
+import { ROBERT, demoLand, makeDemoTowns } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -19,8 +19,8 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 300,
-                y: 150,
+                x: 400,
+                y: 500,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
@@ -119,8 +119,8 @@ export const demoTwo: Scenario = ({
     name: 'Demo Scenario Two',
     intro: {
         pages: [
-            { text: 'This is level two of a demo campaign.' },
-            { text: 'Your mission is to sink the enemy ships.' },
+            { text: 'This is level two of a demo campaign.', person: ROBERT, },
+            { text: 'Your mission is to sink the enemy ships.', person: ROBERT, },
         ]
     },
     checkForOutcome(game) {

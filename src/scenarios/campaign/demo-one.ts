@@ -1,36 +1,19 @@
-import { browShapes } from "@dblatcher/funny-face";
-import { AttackAutoPilot, PathFollowAutoPilot } from "../ai";
-import { FollowerAutoPilot } from "../ai/follower-ai";
-import { GameState } from "../game-state";
-import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
-import { GAME_STATE_DEFAULTS, Person, Scenario } from ".";
-import { _DEG } from "../lib/geometry";
-import { demoLand, makeDemoTowns } from "./library";
-import { StrawHatIconPng } from "../assets"
+import { GAME_STATE_DEFAULTS, Scenario } from "..";
+import { AttackAutoPilot, PathFollowAutoPilot } from "../../ai";
+import { FollowerAutoPilot } from "../../ai/follower-ai";
+import { GameState } from "../../game-state";
+import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
+import { _DEG } from "../../lib/geometry";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, demoLand, makeDemoTowns } from "./library";
 
-const ROBERT: Person = {
-    name: "Admiral Lord Robert Malden of Carlise",
-    size: 80,
-    profile: {
-        browShape: browShapes.WIDE,
-        eyeColor: 'purple',
-        width: .9,
-        color: 'coral',
-        lipColor: 'crimson'
-    },
-    accessories: [
-        {
-            x: 0, y: -20, src: StrawHatIconPng, width: 120,
-        }
-    ]
-}
+
 
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
-        mapHeight: 1800,
-        mapWidth: 2400,
+        mapHeight: MAP_HEIGHT,
+        mapWidth: MAP_WIDTH,
         wind: {
             direction: _DEG * 90,
             force: 10,
@@ -39,8 +22,8 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 300,
-                y: 150,
+                x: 500,
+                y: 400,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
@@ -60,8 +43,8 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 name: 'The Flying Goose',
                 faction: 'spaim',
-                x: 300,
-                y: 0,
+                x: 800,
+                y: 500,
                 h: Math.PI * .5,
                 width: 15,
                 length: 60,

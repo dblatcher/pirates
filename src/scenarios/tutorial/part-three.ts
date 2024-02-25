@@ -54,7 +54,7 @@ export const tutorialThree: Scenario = ({
             return ({
                 success: true,
                 message: `You took the town!`,
-                nextScenarioId: 'tutorialOne',
+                exitToTitle: true,
             })
         }
         return undefined
