@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { ROBERT, demoLand, makeTownCanto, makeTownLaGroupelle } from "./library";
+import { ROBERT, landMasses, makeTownCanto, makeTownLaGroupelle } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -108,7 +108,7 @@ const makeInitialState = (): GameState => {
                 }, 5, false)
             }),
         ],
-        land: demoLand,
+        land: landMasses,
         towns: [
             makeTownLaGroupelle(),
             makeTownCanto('spaim'),
@@ -117,9 +117,9 @@ const makeInitialState = (): GameState => {
     return initalState
 }
 
-export const demoTwo: Scenario = ({
+export const campaignLevelTwo: Scenario = ({
     makeInitialState,
-    name: 'Demo Scenario Two',
+    name: 'Campaign - level Two',
     intro: {
         pages: [
             { text: 'This is level two of a demo campaign.', person: ROBERT, },

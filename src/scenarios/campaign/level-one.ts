@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { MAP_HEIGHT, MAP_WIDTH, ROBERT, demoLand, makeTownLaGroupelle } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownLaGroupelle } from "./library";
 
 
 const makeInitialState = (): GameState => {
@@ -83,7 +83,7 @@ const makeInitialState = (): GameState => {
                 }, 5, false)
             }),
         ],
-        land: demoLand,
+        land: landMasses,
         towns: [
             makeTownLaGroupelle(),
         ],
@@ -91,9 +91,9 @@ const makeInitialState = (): GameState => {
     return initalState
 }
 
-export const demoOne: Scenario = ({
+export const campaignLevelOne: Scenario = ({
     makeInitialState,
-    name: 'Demo Scenario One',
+    name: 'Campaign',
     intro: {
         pages: [
             { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.', person: ROBERT },
@@ -105,7 +105,7 @@ export const demoOne: Scenario = ({
             return {
                 success: true,
                 message: 'You sank all the Spaimish ships.',
-                nextScenarioId: 'demoTwo',
+                nextScenarioId: 'campaignLevelTwo',
             }
         }
         return undefined

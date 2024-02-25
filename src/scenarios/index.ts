@@ -1,7 +1,7 @@
-import { demoOne } from './campaign/demo-one'
+import { campaignLevelOne } from './campaign/level-one'
 import { bigMesseyBattle } from './big-messy-battle'
 import { aiTrial } from './ai-trial'
-import { demoTwo } from './campaign/demo-two'
+import { campaignLevelTwo } from './campaign/level-two'
 import { Scenario } from './scenarios'
 import { sandbox } from './logic-check'
 import { tutorialOne } from './tutorial/part-one'
@@ -9,10 +9,10 @@ import { tutorialTwo } from './tutorial/part-two'
 import { tutorialThree } from './tutorial/part-three'
 
 const scenarios: Record<string, Scenario> = {
-    demoOne, bigMesseyBattle, aiTrial, demoTwo, sandbox, tutorialOne, tutorialTwo, tutorialThree
+    campaignLevelOne, bigMesseyBattle, aiTrial, campaignLevelTwo, sandbox, tutorialOne, tutorialTwo, tutorialThree
 }
 const startingScenarios: Record<string, Scenario> = {
-    demoOne, bigMesseyBattle, aiTrial, sandbox, tutorialOne, tutorialTwo, tutorialThree
+    campaignLevelOne, bigMesseyBattle, aiTrial, sandbox, tutorialOne, tutorialTwo, tutorialThree
 }
 
 export { scenarios, startingScenarios }

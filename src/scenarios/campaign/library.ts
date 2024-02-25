@@ -102,7 +102,7 @@ const SWAMPY_BIT: LandmassInput = {
     ]
 };
 
-export const demoLand: Landmass[] = [
+export const landMasses: Landmass[] = [
     NORTH_SHORE,
     GROUPELLE_ISLAND,
     CANTO_ISLAND,
