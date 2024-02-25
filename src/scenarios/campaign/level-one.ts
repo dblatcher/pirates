@@ -1,9 +1,10 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { AttackAutoPilot } from "../../ai";
 import { FollowerAutoPilot } from "../../ai/follower-ai";
+import { MissonAi } from "../../ai/mission-ai";
 import { GameState } from "../../game-state";
-import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
-import { _DEG } from "../../lib/geometry";
+import { makeCargoBarge, makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
+import { _DEG, xy } from "../../lib/geometry";
 import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownLaGroupelle } from "./library";
 
 
@@ -20,9 +21,9 @@ const makeInitialState = (): GameState => {
             makeFrigateShip({
                 name: 'Player McPlayerFace',
                 faction: 'grance',
-                x: 500,
+                x: 820,
                 y: 400,
-                h: _DEG * 50,
+                h: _DEG * 90,
                 id: 1,
                 damage: 0,
                 sailLevelTarget: 0,
@@ -31,17 +32,28 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 name: 'Wingman',
                 faction: 'grance',
-                id: 15,
-                x: 1600,
-                y: 1300,
-                h: 0,
-                // damage:15,
-                ai: new FollowerAutoPilot(1, 15, false)
+                id: 2,
+                x: 720,
+                y: 500,
+                h: _DEG * 90,
+                ai: new FollowerAutoPilot(1, 2, true)
+            }),
+            makeCargoBarge({
+                name: 'Cargio',
+                faction: 'grance',
+                id: 3,
+                x: 450,
+                y: 550,
+                h: _DEG * 90,
+                ai: new MissonAi({
+                    mission: { type: 'travel', waypoints: [xy(1000, 200), xy(450, 550), xy(1150, 1500)] },
+                    path: []
+                }, 3, false)
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol',
                 id: 14,
-                x: 600,
+                x: 700,
                 y: 1100,
                 h: _DEG * 30,
                 faction: 'spaim',
@@ -60,7 +72,7 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 name: 'Spaim 1',
                 id: 4,
-                x: 700,
+                x: 1700,
                 y: 500,
                 h: _DEG * 30,
                 faction: 'spaim',
@@ -68,19 +80,6 @@ const makeInitialState = (): GameState => {
                     mission: { type: 'patrol' },
                     path: [],
                 }, 4, false)
-            }),
-            makeDefaultShip({
-                name: 'Grance 1',
-                id: 5,
-                x: 650,
-                y: 500,
-                h: _DEG * 30,
-                damage: 10,
-                faction: 'grance',
-                ai: new AttackAutoPilot({
-                    mission: { type: 'patrol' },
-                    path: [],
-                }, 5, false)
             }),
         ],
         land: landMasses,

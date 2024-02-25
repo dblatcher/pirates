@@ -29,6 +29,21 @@ const shipDefaults = () => ({
     marines: 10,
 })
 
+const cargoBargeAttributes = () => ({
+    width: 25,
+    length: 60,
+    profile: {
+        maxHp: 15,
+        maxMarines: 5,
+        speed: 1,
+        maneuver: 1,
+        masts: [
+            { position: -1 / 4, height: .8, flag: SMALL_PENNANT },
+        ]
+    },
+    cannons: [],
+})
+
 const sloopAttributes = () => ({
     width: 20,
     length: 80,
@@ -72,6 +87,12 @@ export const makeFrigateShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Part
 export const makeSloopShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
     ...shipDefaults(),
     ...sloopAttributes(),
+    ...input,
+})
+
+export const makeCargoBarge = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
+    ...shipDefaults(),
+    ...cargoBargeAttributes(),
     ...input,
 })
 
