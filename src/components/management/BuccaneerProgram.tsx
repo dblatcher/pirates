@@ -21,6 +21,9 @@ export const BuccaneerProgram = () => {
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
 
+    // fairly crude, but way of controlling the scenarios on the menu, but will work for now
+    const secariosToShowOnMenu = location.search.includes('all') ? scenarios : startingScenarios
+
     const exitToTitle = () => {
         setScenario(undefined)
         setGameIsPaused(false)
@@ -108,7 +111,7 @@ export const BuccaneerProgram = () => {
                 </>) : (
                     <TitleScreen
                         setScenario={setScenario}
-                        scenarios={startingScenarios} />
+                        scenarios={secariosToShowOnMenu} />
                 )}
             </Layout>
         </ManagementProvider>

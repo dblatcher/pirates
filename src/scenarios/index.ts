@@ -12,7 +12,7 @@ const scenarios: Record<string, Scenario> = {
     campaignLevelOne, bigMesseyBattle, aiTrial, campaignLevelTwo, sandbox, tutorialOne, tutorialTwo, tutorialThree
 }
 const startingScenarios: Record<string, Scenario> = {
-    campaignLevelOne, bigMesseyBattle, aiTrial, sandbox, tutorialOne, tutorialTwo, tutorialThree
+    campaignLevelOne, bigMesseyBattle, tutorialOne, tutorialTwo, tutorialThree
 }
 
 export { scenarios, startingScenarios }
