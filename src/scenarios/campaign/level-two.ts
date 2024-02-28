@@ -4,13 +4,13 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { ROBERT, landMasses, makeTownCanto, makeTownLaGroupelle } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownCanto, makeTownLaGroupelle } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
         ...GAME_STATE_DEFAULTS,
-        mapHeight: 1800,
-        mapWidth: 2400,
+        mapHeight: MAP_HEIGHT,
+        mapWidth: MAP_WIDTH,
         wind: {
             direction: _DEG * 90,
             force: 10,
