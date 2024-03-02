@@ -40,8 +40,8 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 name: 'The Flying Goose',
                 faction: 'spaim',
-                x: 300,
-                y: 0,
+                x: 1800,
+                y: 1000,
                 h: Math.PI * .5,
                 width: 15,
                 length: 60,
