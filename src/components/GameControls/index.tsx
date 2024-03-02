@@ -1,12 +1,12 @@
-import { CSSProperties, useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import { Directive, FiringPattern, Order, Ship, Side } from "../../game-state"
-import { GunneryWidget } from "./GunneryWidget"
+import { splitArray } from "../../lib/util"
 import { KeyboardControls } from "../KeyboardControls"
+import { GunneryWidget } from "./GunneryWidget"
+import { MeleeControls } from "./MeleeControl"
 import { SailsWidget } from "./SailsWidget"
 import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
-import { MeleeControls } from "./MeleeControl"
-import { splitArray } from "../../lib/util"
 import "./controls.css"
 
 interface Props {
