@@ -7,9 +7,10 @@ import { sandbox } from './logic-check'
 import { tutorialOne } from './tutorial/part-one'
 import { tutorialTwo } from './tutorial/part-two'
 import { tutorialThree } from './tutorial/part-three'
+import { campaignMapTest } from './campaign/map-test'
 
 const scenarios: Record<string, Scenario> = {
-    campaignLevelOne, bigMesseyBattle, aiTrial, campaignLevelTwo, sandbox, tutorialOne, tutorialTwo, tutorialThree
+    campaignLevelOne, bigMesseyBattle, aiTrial, campaignLevelTwo, sandbox, tutorialOne, tutorialTwo, tutorialThree, campaignMapTest
 }
 const startingScenarios: Record<string, Scenario> = {
     campaignLevelOne, bigMesseyBattle, tutorialOne, tutorialTwo, tutorialThree
