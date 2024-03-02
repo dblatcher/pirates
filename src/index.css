@@ -20,8 +20,44 @@ body {
 
   /* source: https://commons.wikimedia.org/wiki/File:Flag_of_Edward_England.svg */
   /* license: https://creativecommons.org/licenses/by-sa/3.0/ */
-  background-image: url(.\assets\320px-Flag_of_Edward_England.svg.png);
+  background-image: url(/320px-Flag_of_Edward_England.svg.png);
   background-size: 150px;
+}
+
+#root {
+  font-family: var(--text-font);
+  color: var(--ink-color);
+}
+
+.paper {
+  border-image-source: url(/page.png);
+  border-image-repeat: round;
+  border-image-slice: calc(30 / 160 * 100%) calc(30 / 160 * 100%) fill;
+  border-image-width: 1rem;
+  padding: var(--space);
+}
+
+.skull-stamp {
+  background-image: url(/jolly-rodger.png);
+  background-clip: padding-box;
+  background-position: bottom right;
+  background-size: 10rem;
+  background-repeat: no-repeat;
+}
+
+.title-screen {
+  padding: 10px 90px 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 2rem;
 }
 
 h1,

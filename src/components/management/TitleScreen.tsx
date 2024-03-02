@@ -1,4 +1,3 @@
-import { CSSProperties } from "react"
 import { Scenario } from "../../scenarios"
 
 type Props = {
@@ -6,17 +5,10 @@ type Props = {
     scenarios: Record<string, Scenario>
 }
 
-const titleScreenStyle: CSSProperties = {
-    padding: '10px 90px 120px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-}
-
 export const TitleScreen = ({ setScenario, scenarios }: Props) => {
     return (
         <div className="paper" style={{ margin: '0 auto' }}>
-            <main className="title-screen skull-stamp" style={titleScreenStyle}>
+            <main className="title-screen skull-stamp">
                 <h1>Buccaneer</h1>
                 <div className="button-stack">
                     {Object.entries(scenarios).map(([key, scenario]) => (
