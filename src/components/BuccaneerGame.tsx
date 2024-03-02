@@ -5,7 +5,7 @@ import { aiFactory } from '../factory'
 import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
-import { ScenarioOutcome } from '../scenarios'
+import { ScenarioOutcome, checkForPlayerDeathOutcome } from '../scenarios'
 import { CellMatrix } from '../lib/path-finding/types'
 import { playSoundEffectsInView } from '../lib/sounds'
 import { average, clamp } from '../lib/util'
@@ -139,7 +139,9 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
     )
 
     const checkScenarioOver = useCallback(
-        () => scenario?.checkForOutcome && scenario.checkForOutcome(gameStateRef.current), [scenario]
+        () => {
+            return scenario?.checkForOutcome?.(gameStateRef.current) || checkForPlayerDeathOutcome(gameStateRef.current)
+        }, [scenario, gameStateRef]
     )
 
     useEffect(() => {

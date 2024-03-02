@@ -11,14 +11,14 @@ const buttonContainerStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'space-evenly',
     gap: 15,
-    paddingBottom: 10
+    paddingBottom: 10,
 }
 
 export const EndOfScenario = ({ outcome }: Props) => {
     const { reportOutcome } = useManagement()
-    const buttonText = outcome.exitToTitle ? 'fin' : 'next misson'
+    const buttonText = outcome.success ? outcome.exitToTitle ? 'fin' : 'next misson' : 'try again'
     return (
-        <div className="paper">
+        <div className="paper" style={{ minWidth: 200, textAlign: 'center' }}>
             <h2>{outcome.success ? "Success!" : "Failure!"}</h2>
             <p>{outcome.message}</p>
             <div style={buttonContainerStyle}>

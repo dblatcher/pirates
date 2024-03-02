@@ -45,3 +45,12 @@ export const GAME_STATE_DEFAULTS: Omit<GameState, 'mapWidth' | 'mapHeight'> = {
     boardingActions: [],
     invadingActions: [],
 }
+
+export const checkForPlayerDeathOutcome = (game: GameState, message = 'You were sunk!'): ScenarioOutcome | undefined => {
+    if (!game.ships.some(ship => ship.id === game.playerId)) {
+        return {
+            success: false,
+            message,
+        }
+    }
+}
