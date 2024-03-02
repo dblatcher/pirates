@@ -220,6 +220,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
         {scenario?.intro && !introDone && (
             <IntroMessage
                 intro={scenario.intro}
+                soundDeck={soundDeck}
                 closeIntro={() => { setIntroDone(true) }}
             />
         )}

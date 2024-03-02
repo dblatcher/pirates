@@ -6,7 +6,7 @@ import { isPointInsideRect } from "./geometry";
 
 
 export const playSoundEffectsInView = (soundEffectRequests: SoundEffectRequest[], soundDeck: SoundDeck, viewPort: ViewPort) => {
-    const {isEnabled, isMuted} = soundDeck
+    const { isEnabled, isMuted } = soundDeck
     if (!isEnabled || isMuted) {
         return
     }
@@ -23,4 +23,21 @@ export const playSoundEffectsInView = (soundEffectRequests: SoundEffectRequest[]
             }
         })
 
+}
+
+export const makeTalkSound = (soundDeck: SoundDeck) => {
+    const { isEnabled, isMuted } = soundDeck
+    if (!isEnabled || isMuted) {
+        return
+    }
+
+    const frequency = 200 + Math.floor(Math.random() * 100)
+    const duration = (75 + Math.floor(Math.random() * 50)) / 1000
+
+    soundDeck.playTone({
+        duration,
+        frequency: frequency,
+        endFrequency: frequency + 60,
+        type: 'sawtooth',
+    }, { volume: .05 })
 }

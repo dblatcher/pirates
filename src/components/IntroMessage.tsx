@@ -3,10 +3,13 @@ import { CSSProperties, useState } from "react"
 import { useInterval } from "../hooks/useInterval"
 import { Intro } from "../scenarios"
 import { PersonFace } from "./PersonFace"
+import type { SoundDeck } from "sound-deck"
+import { makeTalkSound } from "../lib/sounds"
 
 type Props = {
     intro: Intro
     closeIntro: { (): void }
+    soundDeck: SoundDeck
 }
 
 const frameStyle: CSSProperties = {
@@ -42,7 +45,7 @@ const buttonContainerStyle: CSSProperties = {
     paddingBottom: 10
 }
 
-export const IntroMessage = ({ intro, closeIntro }: Props) => {
+export const IntroMessage = ({ intro, closeIntro, soundDeck }: Props) => {
     const [pageIndex, setPageIndex] = useState(0)
     const [displayedCharacters, setDisplayedCharacters] = useState(0)
     const currentIntroPage = intro?.pages[pageIndex]
@@ -50,6 +53,9 @@ export const IntroMessage = ({ intro, closeIntro }: Props) => {
         if (!currentIntroPage) { return }
         if (displayedCharacters < currentIntroPage.text.length) {
             setDisplayedCharacters(displayedCharacters + 1)
+            if (displayedCharacters % 2 === 0) {
+                makeTalkSound(soundDeck)
+            }
         }
     }
     useInterval(showMoreText, 75)
