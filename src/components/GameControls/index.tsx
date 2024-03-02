@@ -35,11 +35,6 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
     'Digit3': FiringPattern.ALTERNATE,
 }
 
-const controlsStyle: CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-}
-
 export const GameControls = ({
     player,
     addDirective,
@@ -102,8 +97,8 @@ export const GameControls = ({
     const rightCannonsReady = rightCannons.map(c => c.cooldown <= 0)
 
     return (
-        <aside style={controlsStyle}>
-            {player && (<>
+        <aside className="controls-container">
+            {player ? (<>
                 <WheelWidget
                     addDirective={addDirective}
                     playerWheel={playerWheel}
@@ -139,6 +134,8 @@ export const GameControls = ({
                     keyMapFunction={keyMapFunction}
                 />
             </>
+            ) : (
+                <div className="panel-frame" style={{ flex: 1 }}></div>
             )}
         </aside>
     )
