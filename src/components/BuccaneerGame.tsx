@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { useManagement } from '../context/management-context'
 import { aiFactory } from '../factory'
-import { Directive, GameState, Order, ViewPort, cycle } from '../game-state'
+import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort, cycle } from '../game-state'
 import { SoundEffectRequest } from '../game-state/model/sound'
 import { useSchedule } from '../hooks/useSchedule'
 import { ScenarioOutcome } from '../scenarios'
@@ -55,7 +55,7 @@ const makeNextCycleFunction = (
         Object.assign(viewPortRef.current, {
             width: viewPortWidth,
             height: viewPortHeight,
-            x: clamp(player.x - viewPortWidth * .5, gameStateRef.current.mapWidth - (viewPortWidth * 1.5), 0),
+            x: clamp(player.x - viewPortWidth * .5, gameStateRef.current.mapWidth - (viewPortWidth * 1), 0),
             y: clamp(player.y - viewPortRef.current.height * .5, gameStateRef.current.mapHeight - (viewPortHeight), 0),
         })
     }
@@ -163,6 +163,9 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
 
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+    const playerCoordinates = player && { x: Math.floor(player.x / TERRAIN_SQUARE_SIZE), y: Math.floor(player.y / TERRAIN_SQUARE_SIZE) }
+    const coordinatesString = playerCoordinates ? `[${playerCoordinates.x.toString().padStart(3, " ")} , ${playerCoordinates.y.toString().padStart(3, " ")}]` : ""
+
     return (<>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper'>
@@ -175,7 +178,7 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
                         <WindSock wind={gameStateRef.current.wind} />
                     </div>
                     <div style={cornerOverlay('top', 'right')}>
-                        <span>{player?.x.toFixed(0)}, {player?.y.toFixed(0)}</span>
+                        <span>{coordinatesString}</span>
                     </div>
                     <div style={cornerOverlay('bottom', 'left')}>
                         <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
