@@ -78,6 +78,26 @@ const frigateAttributes = () => ({
     cannons: frigateCannons(),
 })
 
+const galleonAttributes = () => ({
+    width: 30,
+    length: 150,
+    profile: {
+        maxHp: 60,
+        maxMarines: 20,
+        speed: .5,
+        maneuver: .6,
+        masts: [
+            { position: -.4, height: 1 },
+            { position: -.2, height: 2, flag: BIG_JACK },
+            { position: .15, height: 2, },
+            { position: .3, height: .8, flag: SMALL_PENNANT },
+        ]
+    },
+    marines: 30,
+    cannons: frigateCannons(),
+})
+
+
 export const makeFrigateShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
     ...shipDefaults(),
     ...frigateAttributes(),
@@ -95,5 +115,13 @@ export const makeCargoBarge = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Parti
     ...cargoBargeAttributes(),
     ...input,
 })
+
+export const makeGalleonShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
+    ...shipDefaults(),
+    ...galleonAttributes(),
+    ...input,
+})
+
+
 
 export const makeDefaultShip = makeSloopShip
