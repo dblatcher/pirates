@@ -17,7 +17,7 @@ const captureShip = (
 ) => {
     boardingShip.marines = boardingAction.numberOfAttackers
     boardedShip.faction = boardingShip.faction
-    boardedShip.ai = aiFactory.follow(boardingShip.id, boardedShip.id)
+    boardedShip.ai = aiFactory.follow(boardingShip.id)
 }
 
 const progressBoardingAction = (action: BoardingAction, gameState: GameState, aiFactory: AIFactory): boolean => {

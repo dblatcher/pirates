@@ -32,6 +32,6 @@ export class HunterAi extends MissonAi {
             },
             path: [],
         }
-        super(initalState, -1, debugToConsole)
+        super(initalState, debugToConsole)
     }
 }

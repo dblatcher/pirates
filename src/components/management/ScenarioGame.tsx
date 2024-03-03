@@ -11,11 +11,12 @@ type Props = {
 
 export const ScenarioGame = ({ scenario, soundDeck }: Props) => {
     const initialState = useMemo(() => scenario.makeInitialState(), [scenario])
-    const { landAndForts, land } = useMemo(() => buildMatrixFromGameState(initialState), [initialState])
+    const { land, landWithBuffer, landAndForts } = useMemo(() => buildMatrixFromGameState(initialState), [initialState])
     return (
         <BuccaneerGame
             initial={initialState}
-            obstacleMatrix={landAndForts}
+            landAndFortsMatrix={landAndForts}
+            paddedObstacleMatrix={landWithBuffer}
             landMatrix={land}
             soundDeck={soundDeck}
         />)

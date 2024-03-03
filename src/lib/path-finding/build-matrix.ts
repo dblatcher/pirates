@@ -59,8 +59,44 @@ const fortToCells = (fort: Fort): XY[] => {
 }
 
 
+const valueAt = (cellIndex: number, rowIndex: number, matrix: CellMatrix): 0 | 1 | undefined => {
+    if (!matrix[rowIndex]) { return undefined }
+    return matrix[rowIndex][cellIndex]
+}
+const isNearland = (cellIndex: number, rowIndex: number, matrix: CellMatrix): boolean => {
+    const surroundingValues: Array<0 | 1 | undefined> = [
+        valueAt(cellIndex - 1, rowIndex - 1, matrix),
+        valueAt(cellIndex - 1, rowIndex, matrix),
+        valueAt(cellIndex - 1, rowIndex + 1, matrix),
+        valueAt(cellIndex, rowIndex - 1, matrix),
+        valueAt(cellIndex, rowIndex + 1, matrix),
+        valueAt(cellIndex + 1, rowIndex - 1, matrix),
+        valueAt(cellIndex + 1, rowIndex, matrix),
+        valueAt(cellIndex + 1, rowIndex + 1, matrix),
+    ]
+    return surroundingValues.some(value => value === 1)
+}
 
-export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: CellMatrix, land: CellMatrix } => {
+export const addBufferAroundLand = (cellMatrix: CellMatrix): CellMatrix => {
+    const copy: CellMatrix = cellMatrix.map(row => [...row]);
+
+    for (let rowIndex = 0; rowIndex < copy.length; rowIndex++) {
+        const rowToUpdate = copy[rowIndex]
+        for (let cellIndex = 0; cellIndex < rowToUpdate.length; cellIndex++) {
+            const value = valueAt(cellIndex, rowIndex, cellMatrix)
+            if (value !== 0) {
+                continue
+            }
+            if (isNearland(cellIndex, rowIndex, cellMatrix)) {
+                copy[rowIndex][cellIndex] = 1
+            }
+        }
+    }
+    return copy
+}
+
+
+export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: CellMatrix, land: CellMatrix, landWithBuffer: CellMatrix } => {
     console.log('building matrix')
     const widthInCells = Math.ceil(gameState.mapWidth / TERRAIN_SQUARE_SIZE)
     const heightInCells = Math.ceil(gameState.mapHeight / TERRAIN_SQUARE_SIZE)
@@ -87,5 +123,5 @@ export const buildMatrixFromGameState = (gameState: GameState): { landAndForts: 
         }
     })
 
-    return { landAndForts: landAndFortsMatrix, land: landMatrix }
+    return { landAndForts: landAndFortsMatrix, land: landMatrix, landWithBuffer: addBufferAroundLand(landAndFortsMatrix) }
 }

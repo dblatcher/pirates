@@ -116,7 +116,7 @@ const CANTO_ISLAND: LandmassInput = {
 };
 
 const SANDBANK: LandmassInput = {
-    x: TERRAIN_SQUARE_SIZE * 16,
+    x: TERRAIN_SQUARE_SIZE * 20,
     y: TERRAIN_SQUARE_SIZE * 11,
     shape: [
         [2, 2],

@@ -27,4 +27,5 @@ export type DescisonContext = {
     ship: Ship,
     gameState: GameState,
     matrix: CellMatrix,
+    paddedMatrix: CellMatrix,
 }

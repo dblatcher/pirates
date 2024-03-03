@@ -53,6 +53,7 @@ export const cycle = (
     oldGameState: GameState,
     playerDirectives: Directive[],
     matrix: CellMatrix,
+    paddedMatrix: CellMatrix,
     pushLog: { (message: string, cycleNumber: number): void },
     soundEffectRequests: SoundEffectRequest[],
     viewPort: ViewPort,
@@ -61,7 +62,7 @@ export const cycle = (
     const gameState = { ...oldGameState }
     gameState.cycleNumber = gameState.cycleNumber + 1
     updateWind(gameState)
-    const pushLogWithCycleNumber = (message:string) => pushLog(message, gameState.cycleNumber)
+    const pushLogWithCycleNumber = (message: string) => pushLog(message, gameState.cycleNumber)
 
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
@@ -71,8 +72,8 @@ export const cycle = (
     gameState.ships.forEach(ship => {
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
-        followDirectives(ship, ship.ai.issueDirectives({ ship, gameState, matrix }))
-        ship.ai.setPathToDestination({ship, gameState, matrix})
+        followDirectives(ship, ship.ai.issueDirectives({ ship, gameState, matrix, paddedMatrix }))
+        ship.ai.setPathToDestination({ ship, gameState, matrix, paddedMatrix })
     })
 
     gameState.towns.forEach(town => {

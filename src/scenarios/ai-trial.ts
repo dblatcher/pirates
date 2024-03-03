@@ -70,7 +70,7 @@ const makeInitialState = (): GameState => {
             makeDefaultShip({
                 id: 27,
                 faction: 'grance',
-                name: 'patrol with no path',
+                name: 'ship in square',
                 x: 650,
                 y: 750,
                 h: _DEG * 184,

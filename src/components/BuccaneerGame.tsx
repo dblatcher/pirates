@@ -20,7 +20,8 @@ import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 
 interface Props {
     initial: GameState;
-    obstacleMatrix: CellMatrix;
+    landAndFortsMatrix: CellMatrix;
+    paddedObstacleMatrix: CellMatrix;
     landMatrix: CellMatrix;
     soundDeck: SoundDeck;
 }
@@ -40,6 +41,7 @@ const makeNextCycleFunction = (
     gameStateRef: React.MutableRefObject<GameState>,
     viewPortRef: React.MutableRefObject<ViewPort>,
     obstacleMatrix: CellMatrix,
+    paddedObstacleMatrix: CellMatrix,
     getAndClearDirectives: { (): Directive[] },
     updateTimeTracking: { (refreshStart: number): void },
     pushLog: { (message: string, timestamp: number): void },
@@ -63,6 +65,7 @@ const makeNextCycleFunction = (
         gameStateRef.current,
         getAndClearDirectives(),
         obstacleMatrix,
+        paddedObstacleMatrix,
         pushLog,
         soundEffectRequests,
         viewPortRef.current,
@@ -74,7 +77,7 @@ const makeNextCycleFunction = (
     updateTimeTracking(refreshStart)
 }
 
-export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }: Props) => {
+export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const gameStateRef = useRef<GameState>(initial)
     const wheelRef = useRef<number | undefined>(undefined)
@@ -133,9 +136,9 @@ export const BuccaneerGame = ({ initial, obstacleMatrix, landMatrix, soundDeck }
         []
     )
 
-    const doNextCycle = useCallback(
-        makeNextCycleFunction(gameStateRef, viewPortRef, obstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
-        [getAndClearDirectives, updateTimeTracking]
+    const doNextCycle = useCallback<{():void}>(
+        makeNextCycleFunction(gameStateRef, viewPortRef, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
+        [getAndClearDirectives, updateTimeTracking, makeNextCycleFunction,]
     )
 
     const checkScenarioOver = useCallback(

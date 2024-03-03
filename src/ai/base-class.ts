@@ -18,7 +18,7 @@ export abstract class AI {
     debugLog(ship: Ship) {
         return (...messages: unknown[]) => {
             if (!this.debugToConsole) { return }
-            console.log(`[${describeShipWithId(ship)}]`, ...messages)
+            console.log(`${describeShipWithId(ship)}[${ship.x},${ship.y} ]:`, ...messages)
         }
     }
 
@@ -57,7 +57,9 @@ export abstract class AI {
         }
 
         if (gameState.cycleNumber - lastCycleWithPathfinding < MIN_CYCLES_BETWEEN_PATH_FINDING) {
-            this.debugLog(ship)('cannot pathfind again so soon!', gameState.cycleNumber - lastCycleWithPathfinding)
+            if (gameState.cycleNumber - lastCycleWithPathfinding === 1) {
+                this.debugLog(ship)('cannot pathfind again so soon!',)
+            }
             return
         }
 
@@ -127,14 +129,23 @@ export abstract class AI {
     }
 
     navigateTo(start: XY, destination: XY, context: DescisonContext) {
-        const { ship, matrix, gameState } = context
-        const route = findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
+        const { ship, gameState, paddedMatrix, matrix } = context
         this.state.lastCycleWithPathfinding = gameState.cycleNumber
-        if (route.length === 0) {
-            this.debugLog(ship)('CANNOT REACH', destination)
+
+        const routeAvoidingCoasts = findPath(start, destination, paddedMatrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: true })
+        const cannotAvoidCoasts = routeAvoidingCoasts.length === 0
+        const routeCloseToCoast = cannotAvoidCoasts ? findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false }) : [];
+        const routeToUse = cannotAvoidCoasts ? routeCloseToCoast : routeAvoidingCoasts
+
+        // TO DO - big ships dont try using routeCloseToCoast?
+
+        if (routeToUse.length === 0) {
+            this.debugLog(ship)('CANNOT REACH', destination, `[${Math.floor(destination.x / TERRAIN_SQUARE_SIZE)}, ${Math.floor(destination.y / TERRAIN_SQUARE_SIZE)}]`)
             this.setDestination(undefined)
+            return
         }
-        this.debugLog(ship)(`new route to destination: ${route.length} steps`, destination)
-        this.state.path.push(...route)
+
+        this.debugLog(ship)(`new route to destination: ${routeToUse.length} steps`, destination, { cannotAvoidCoasts })
+        this.state.path.push(...routeToUse)
     }
 }

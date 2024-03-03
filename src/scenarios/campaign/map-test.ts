@@ -44,7 +44,7 @@ const makeInitialState = (): GameState => {
                                 y: TERRAIN_SQUARE_SIZE * 20,
                             },
                             {
-                                x: TERRAIN_SQUARE_SIZE * 35,
+                                x: TERRAIN_SQUARE_SIZE * 25,
                                 y: TERRAIN_SQUARE_SIZE * 20,
                             },
                             {

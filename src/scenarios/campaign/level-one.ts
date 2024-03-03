@@ -48,37 +48,35 @@ const makeInitialState = (): GameState => {
                 name: 'Cargio',
                 faction: 'grance',
                 id: 3,
-                x: 450,
-                y: 550,
+                ...xyT(12, 11),
                 h: _DEG * 90,
                 ai: new MissonAi({
                     mission: {
                         type: 'travel', waypoints: [
-                            xy(1000, 200),
-                            xy(450, 550),
-                            xy(1150, 1500)
+                            xyT(19, 30),
+                            xyT(20, 8),
+                            xyT(30, 10)
                         ]
                     },
                     path: []
-                })
+                }, true)
             }),
             makeCargoBarge({
-                name: 'Cargio',
+                name: "Bart's barge",
                 faction: 'grance',
                 id: 4,
-                x: 950,
-                y: 1550,
+                ...xyT(19,30),
                 h: _DEG * 90,
                 ai: new MissonAi({
                     mission: {
                         type: 'travel', waypoints: [
-                            xy(1000, 200),
-                            xy(450, 550),
-                            xy(1150, 1500)
+                            xyT(19, 30),
+                            xyT(20, 8),
+                            xyT(30, 10)
                         ]
                     },
                     path: []
-                })
+                },true)
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol 1',
