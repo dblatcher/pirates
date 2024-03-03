@@ -2,7 +2,7 @@ import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { GameState } from "../../game-state";
 import { makeFrigateShip } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
-import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, landMasses } from "./library";
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -18,14 +18,14 @@ const makeInitialState = (): GameState => {
                 name: 'Player McPlayerFace',
                 faction: 'grance',
                 x: 997,
-                y: 666, 
+                y: 666,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
                 sailLevelTarget: 0,
                 sailLevel: 0
             }),
-           
+
         ],
         land: landMasses,
         towns: [

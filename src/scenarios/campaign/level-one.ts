@@ -1,12 +1,12 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { AttackAutoPilot } from "../../ai";
-import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { MissonAi } from "../../ai/mission-ai";
-import { GameState } from "../../game-state";
+import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeCargoBarge, makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
 import { _DEG, xy } from "../../lib/geometry";
-import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownLaGroupelle } from "./library";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
+const xyT = (x: number, y: number) => xy(x * TERRAIN_SQUARE_SIZE, y * TERRAIN_SQUARE_SIZE)
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -30,13 +30,19 @@ const makeInitialState = (): GameState => {
                 sailLevel: 0
             }),
             makeDefaultShip({
-                name: 'Wingman',
+                name: 'Pierre',
                 faction: 'grance',
                 id: 2,
-                x: 720,
+                x: 750,
                 y: 500,
                 h: _DEG * 90,
-                ai: new FollowerAutoPilot(1, 2, true)
+                ai: new AttackAutoPilot({
+                    mission: {
+                        type: 'patrol', waypoints: [
+                        ]
+                    },
+                    path: [],
+                }, 2)
             }),
             makeCargoBarge({
                 name: 'Cargio',
@@ -46,13 +52,37 @@ const makeInitialState = (): GameState => {
                 y: 550,
                 h: _DEG * 90,
                 ai: new MissonAi({
-                    mission: { type: 'travel', waypoints: [xy(1000, 200), xy(450, 550), xy(1150, 1500)] },
+                    mission: {
+                        type: 'travel', waypoints: [
+                            xy(1000, 200),
+                            xy(450, 550),
+                            xy(1150, 1500)
+                        ]
+                    },
                     path: []
                 }, 3, false)
             }),
+            makeCargoBarge({
+                name: 'Cargio',
+                faction: 'grance',
+                id: 4,
+                x: 950,
+                y: 1550,
+                h: _DEG * 90,
+                ai: new MissonAi({
+                    mission: {
+                        type: 'travel', waypoints: [
+                            xy(1000, 200),
+                            xy(450, 550),
+                            xy(1150, 1500)
+                        ]
+                    },
+                    path: []
+                }, 4, false)
+            }),
             makeDefaultShip({
-                name: 'Spaimish Patrol',
-                id: 14,
+                name: 'Spaimish Patrol 1',
+                id: 5,
                 x: 700,
                 y: 1100,
                 h: _DEG * 30,
@@ -67,11 +97,11 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: [],
-                }, 14, false)
+                }, 5, false)
             }),
             makeDefaultShip({
-                name: 'Spaim 1',
-                id: 4,
+                name: 'Spaimish Patrol 2',
+                id: 6,
                 x: 1700,
                 y: 500,
                 h: _DEG * 30,
@@ -79,12 +109,28 @@ const makeInitialState = (): GameState => {
                 ai: new AttackAutoPilot({
                     mission: { type: 'patrol' },
                     path: [],
-                }, 4, false)
+                }, 6, false)
+            }),
+            makeDefaultShip({
+                name: 'Spaimish Patrol 3',
+                id: 7,
+                ...xyT(30, 20),
+                h: _DEG * 30,
+                faction: 'spaim',
+                ai: new AttackAutoPilot({
+                    mission: { type: 'patrol' },
+                    path: [
+                        xyT(18,20),
+                        xyT(20,15),
+                        xyT(30,20),
+                    ],
+                }, 7, true)
             }),
         ],
         land: landMasses,
         towns: [
             makeTownLaGroupelle(),
+            makeTownTeulville(),
         ],
     }
     return initalState
@@ -95,8 +141,12 @@ export const campaignLevelOne: Scenario = ({
     name: 'Campaign',
     intro: {
         pages: [
-            { text: 'This is a demo scenario. I will tell you what to do now, please pay attention.', person: ROBERT },
+            { text: 'Welcome to the colonies, captain.', person: ROBERT },
+            { text: 'You may have expected an easy time of it here, but I have work for you.', person: ROBERT, expression:'SUSPICIOUS' },
+            { text: 'There are three enemy ships lurking in these waters, menacing the local merchants.', person: ROBERT, expression:'ANGRY'},
             { text: 'Your mission is to sink the enemy ships.', person: ROBERT, },
+            { text: 'A word of advice - if you get badly damaged, head back here to port for repairs before going after the rest of them.', person: ROBERT},
+            { text: 'If you lure them in range of our forts, all the better.', person: ROBERT, expression:'HAPPY'},
         ]
     },
     checkForOutcome(game) {

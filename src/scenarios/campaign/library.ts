@@ -180,3 +180,17 @@ export const makeTownCanto = (faction: FactionId): Town => makeTownWithForts({
     // { x: 125, y: 0 },
 ])
 
+export const makeTownTeulville = (): Town => makeTownWithForts({
+    faction: 'grance',
+    x: LAND_BRIDGE.x + TERRAIN_SQUARE_SIZE * 4,
+    y: LAND_BRIDGE.y + TERRAIN_SQUARE_SIZE * 12,
+    id: 3,
+    name: 'Teulville',
+    profile: {
+        maxDefences: 100,
+        maxGarrison: 25,
+    },
+    garrison: 25,
+}, [
+])
+
