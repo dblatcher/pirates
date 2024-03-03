@@ -9,10 +9,10 @@ export const performTravelMission = (ai: AI, context: DescisonContext): Directiv
 
 
     if (!ai.state.destination) {
-        ai.setDestinationToCurrentWaypoint()
+        ai.setDestinationToCurrentWaypoint(context)
     }
     if (ai.state.destination && getDistance(context.ship, ai.state.destination) < TERRAIN_SQUARE_SIZE / 2) {
-        ai.setDestinationToNextWaypoint()
+        ai.setDestinationToNextWaypoint(context)
     }
 
     return [

@@ -34,7 +34,7 @@ const makeInitialState = (): GameState => {
                         type: 'travel',
                     },
                     path: [],
-                }, 4, true)
+                }, true)
             }),
             // makeDefaultShip({
             //     x: 750, y: 300, h: _DEG * 90, id: 5, faction: 'grance'
@@ -50,7 +50,7 @@ const makeInitialState = (): GameState => {
             //             type: 'travel',
             //         },
             //         path: [],
-            //     }, 7, false)
+            //     }, false)
             // }),
         ],
         land: [

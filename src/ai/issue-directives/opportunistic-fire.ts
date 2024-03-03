@@ -28,12 +28,12 @@ export const opportunisticFire = (ai: AI, { ship, gameState }: DescisonContext, 
             const targettingListInArc = getShipsInArcNearestFirst(side, ship, targettingList)
             const [closestTargetInArc] = targettingListInArc
             if (closestTargetInArc?.isEnemy) {
-                ai.debugLog(`Firing at ${describeShipWithId(closestTargetInArc.ship)} on my ${descriptionsBySide[side]}`)
+                ai.debugLog(ship)(`Firing at ${describeShipWithId(closestTargetInArc.ship)} on my ${descriptionsBySide[side]}`)
                 directives.push(
                     { order: Order.FIRE, side: side, pattern: FiringPattern.BROADSIDE },
                 )
             } else if (closestTargetInArc) {
-                ai.debugLog(`Not firing ${descriptionsBySide[side]} because ${describeShipWithId(closestTargetInArc.ship)} is closet in arc`)
+                ai.debugLog(ship)(`Not firing ${descriptionsBySide[side]} because ${describeShipWithId(closestTargetInArc.ship)} is closet in arc`)
             }
         }
     })

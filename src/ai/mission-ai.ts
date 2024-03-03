@@ -24,7 +24,7 @@ export class MissonAi extends AI {
 }
 
 export class HunterAi extends MissonAi {
-    constructor(idOfShipToHunt: number, shipId: number, debugToConsole = false) {
+    constructor(idOfShipToHunt: number, debugToConsole = false) {
         const initalState: AIState = {
             mission: {
                 type: 'hunt',
@@ -32,6 +32,6 @@ export class HunterAi extends MissonAi {
             },
             path: [],
         }
-        super(initalState, shipId, debugToConsole)
+        super(initalState, -1, debugToConsole)
     }
 }

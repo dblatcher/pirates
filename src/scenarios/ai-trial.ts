@@ -37,7 +37,7 @@ const makeInitialState = (): GameState => {
                 y: 350,
                 h: 0 * _DEG,
                 damage: 4,
-                ai: new FollowerAutoPilot(1, 15, true)
+                ai: new FollowerAutoPilot(1, true)
             }),
             makeDefaultShip({
                 name: 'follower two',
@@ -47,7 +47,7 @@ const makeInitialState = (): GameState => {
                 y: 350,
                 h: 0 * _DEG,
                 damage: 3,
-                ai: new FollowerAutoPilot(1, 16, true)
+                ai: new FollowerAutoPilot(1, true)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',
@@ -65,7 +65,7 @@ const makeInitialState = (): GameState => {
                         ]
                     }, path: [
                     ],
-                }, 2, false)
+                }, false)
             }),
             makeDefaultShip({
                 id: 27,
@@ -82,7 +82,7 @@ const makeInitialState = (): GameState => {
                         ]
                     }, path: [
                     ],
-                }, 27, true)
+                }, true)
             }),
             makeFrigateShip({
                 id: 3,

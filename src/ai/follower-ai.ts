@@ -3,7 +3,7 @@ import { AIState } from "./types";
 
 
 export class FollowerAutoPilot extends MissonAi {
-    constructor(idOfShipToFollow: number, shipId: number, debugToConsole = false) {
+    constructor(idOfShipToFollow: number, debugToConsole = false) {
         const initalState: AIState = {
             mission: {
                 type: 'follow',
@@ -11,6 +11,6 @@ export class FollowerAutoPilot extends MissonAi {
             },
             path: [],
         }
-        super(initalState, shipId, debugToConsole)
+        super(initalState, -1, debugToConsole)
     }
 }

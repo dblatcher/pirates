@@ -92,7 +92,7 @@ export const followShip = (
     const { gameState, ship } = context
     const distanceBetweenTargetAndDestination = ai.state.destination ? getDistance(ai.state.destination, shipToFollow) : 0
     if (distanceBetweenTargetAndDestination > DISTANCE_TO_REEVAULATE_PATH) {
-        ai.debugLog(`target is ${distanceBetweenTargetAndDestination.toFixed(0)} from current destination - clearing`)
+        ai.debugLog(ship)(`target is ${distanceBetweenTargetAndDestination.toFixed(0)} from current destination - clearing`)
         ai.setDestination(undefined)
     }
 

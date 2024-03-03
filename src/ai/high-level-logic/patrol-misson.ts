@@ -13,10 +13,10 @@ export const performPatrolMission = (ai: AI, context: DescisonContext): Directiv
     const { enemies, allies } = identifyShips(ship, gameState, DEFAULT_ATTACK_RANGE)
 
     if (!ai.state.destination) {
-        ai.setDestinationToCurrentWaypoint()
+        ai.setDestinationToCurrentWaypoint(context)
     }
     if (ai.state.destination && getDistance(ship, ai.state.destination) < TERRAIN_SQUARE_SIZE / 2) {
-        ai.setDestinationToNextWaypoint()
+        ai.setDestinationToNextWaypoint(context)
     }
 
     const { ship: targetShip, distance: range } = ai.getCurrentTargetOrChooseClosest(ship, enemies)

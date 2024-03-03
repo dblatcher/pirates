@@ -1,26 +1,25 @@
-import { Directive, GameState, MIN_CYCLES_BETWEEN_PATH_FINDING, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
+import { Directive, MIN_CYCLES_BETWEEN_PATH_FINDING, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { describeShipWithId } from "../game-state/ship";
 import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
 import { findPath } from "../lib/path-finding/find-path";
-import { CellMatrix } from "../lib/path-finding/types";
 import { AIState, DescisonContext } from "./types";
 
 
 
 export abstract class AI {
-    shipId: number;
     state: AIState;
     debugToConsole: boolean;
 
-    constructor(initalState: AIState, shipId: number, debugToConsole = false) {
+    constructor(initalState: AIState, debugToConsole = false) {
         this.state = { ...initalState }
-        this.shipId = shipId
         this.debugToConsole = debugToConsole
     }
 
-    debugLog(...messages: any[]) {
-        if (!this.debugToConsole) { return }
-        console.log(`[SHIP:${this.shipId}]`, ...messages)
+    debugLog(ship: Ship) {
+        return (...messages: unknown[]) => {
+            if (!this.debugToConsole) { return }
+            console.log(`[${describeShipWithId(ship)}]`, ...messages)
+        }
     }
 
     abstract issueDirectives(context: DescisonContext): Directive[]
@@ -31,7 +30,7 @@ export abstract class AI {
         if (getDistance(ship, currentStep) < TERRAIN_SQUARE_SIZE / 2) {
             this.state.path.shift()
             if (this.state.path.length === 0) {
-                this.debugLog('shifted last step', currentStep)
+                this.debugLog(ship)('shifted last step', currentStep)
             }
         }
     }
@@ -48,7 +47,9 @@ export abstract class AI {
             : undefined
     }
 
-    setPathToDestination(ship: Ship, gameState: GameState, matrix: CellMatrix): void {
+    setPathToDestination(context: DescisonContext): void {
+        const { ship, gameState } = context
+
         const { destination, path, lastCycleWithPathfinding = -MIN_CYCLES_BETWEEN_PATH_FINDING } = this.state
 
         if (!destination || path.length > 0) {
@@ -56,84 +57,84 @@ export abstract class AI {
         }
 
         if (gameState.cycleNumber - lastCycleWithPathfinding < MIN_CYCLES_BETWEEN_PATH_FINDING) {
-            this.debugLog('cannot pathfind again so soon!', gameState.cycleNumber - lastCycleWithPathfinding)
+            this.debugLog(ship)('cannot pathfind again so soon!', gameState.cycleNumber - lastCycleWithPathfinding)
             return
         }
 
         if (this.haveReachedDestination(ship)) {
-            this.debugLog(`Already close to destination.`, destination)
+            this.debugLog(ship)(`Already close to destination.`, destination)
             return this.setDestination(undefined)
         }
-
-        this.navigateTo(ship, destination, matrix, gameState.cycleNumber)
+        this.navigateTo(ship, destination, context)
     }
 
-    getCurrentTarget(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
+    getCurrentTarget(ship: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
         const { targetShipId } = this.state.mission
         if (targetShipId) {
-            const ship = relevantShipsInRange.find(ship => ship.id === targetShipId)
-            if (ship) {
-                return { ship, distance: getDistance(thisShip, ship) }
+            const targetShip = relevantShipsInRange.find(ship => ship.id === targetShipId)
+            if (targetShip) {
+                return { ship: targetShip, distance: getDistance(ship, targetShip) }
             }
         }
         return { distance: Infinity }
     }
 
-    getCurrentTargetOrChooseClosest(thisShip: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
+    getCurrentTargetOrChooseClosest(ship: Ship, relevantShipsInRange: Ship[]): { ship?: Ship, distance: number } {
         const { targetShipId } = this.state.mission
         if (targetShipId) {
-            const ship = relevantShipsInRange.find(ship => ship.id === targetShipId)
-            if (ship) {
-                return { ship, distance: getDistance(thisShip, ship) }
+            const targetShip = relevantShipsInRange.find(otherShip => otherShip.id === targetShipId)
+            if (targetShip) {
+                return { ship: targetShip, distance: getDistance(ship, targetShip) }
             }
-            this.debugLog(`current target ship#${targetShipId} no longer in range`)
+            this.debugLog(ship)(`current target ship#${targetShipId} no longer in range`)
             this.state.mission.targetShipId = undefined
         }
 
-        const { item: ship, distance } = findClosestAndDistance(relevantShipsInRange, thisShip)
-        if (ship) {
-            this.debugLog(`closest target is ${describeShipWithId(ship)} ${distance.toFixed(0)} away. Setting as target`)
-            this.state.mission.targetShipId = ship.id
-            return { ship, distance }
+        const { item: newTargetShip, distance } = findClosestAndDistance(relevantShipsInRange, ship)
+        if (newTargetShip) {
+            this.debugLog(ship)(`closest target is ${describeShipWithId(newTargetShip)} ${distance.toFixed(0)} away. Setting as target`)
+            this.state.mission.targetShipId = newTargetShip.id
+            return { ship: newTargetShip, distance }
         }
 
         return { distance: Infinity }
     }
 
-    private useWaypoint(newWaypointIndex: number) {
+    private useWaypoint(newWaypointIndex: number, context: DescisonContext) {
         const { waypoints } = this.state.mission
         if (!waypoints || waypoints.length === 0) {
-            // this.debugLog(`cannot set destination - mission has no waypoints`)
+            // this.debugLog(context.ship)(`cannot set destination - mission has no waypoints`)
             return
         }
 
         const waypoint = waypoints[newWaypointIndex]
         if (!waypoint) {
-            this.debugLog(`There is no waypoint #${newWaypointIndex} - length is ${waypoints.length}`)
+            this.debugLog(context.ship)(`There is no waypoint #${newWaypointIndex} - length is ${waypoints.length}`)
         }
         this.setDestination(waypoint)
         this.state.mission.waypointIndex = newWaypointIndex
-        this.debugLog(`Waypoint #${newWaypointIndex} is destination`, waypoint)
+        this.debugLog(context.ship)(`Waypoint #${newWaypointIndex} is destination`, waypoint)
     }
 
-    setDestinationToNextWaypoint() {
+    setDestinationToNextWaypoint(context: DescisonContext) {
         const { waypointIndex = 0, waypoints = [] } = this.state.mission
-        this.useWaypoint(waypointIndex + 1 >= waypoints.length ? 0 : waypointIndex + 1)
+        this.useWaypoint(waypointIndex + 1 >= waypoints.length ? 0 : waypointIndex + 1, context)
     }
 
-    setDestinationToCurrentWaypoint() {
+    setDestinationToCurrentWaypoint(context: DescisonContext) {
         const { waypointIndex = 0, } = this.state.mission
-        this.useWaypoint(waypointIndex)
+        this.useWaypoint(waypointIndex, context)
     }
 
-    navigateTo(start: XY, destination: XY, matrix: CellMatrix, cycleNumber: number) {
+    navigateTo(start: XY, destination: XY, context: DescisonContext) {
+        const { ship, matrix, gameState } = context
         const route = findPath(start, destination, matrix, TERRAIN_SQUARE_SIZE, { diagonalAllowed: false })
-        this.state.lastCycleWithPathfinding = cycleNumber
+        this.state.lastCycleWithPathfinding = gameState.cycleNumber
         if (route.length === 0) {
-            this.debugLog('CANNOT REACH', destination)
+            this.debugLog(ship)('CANNOT REACH', destination)
             this.setDestination(undefined)
         }
-        this.debugLog(`new route to destination: ${route.length} steps`, destination)
+        this.debugLog(ship)(`new route to destination: ${route.length} steps`, destination)
         this.state.path.push(...route)
     }
 }

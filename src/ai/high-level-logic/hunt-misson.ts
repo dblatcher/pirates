@@ -9,7 +9,7 @@ export const performHuntMission = (ai: AI, context: DescisonContext): Directive[
     const { ship: targetShip, distance: distanceToOtherShip } = ai.getCurrentTarget(context.ship, context.gameState.ships)
 
     if (!targetShip) {
-        ai.debugLog(`Hunt Target ship#${ai.state.mission.targetShipId} is gone.`)
+        ai.debugLog(context.ship)(`Hunt Target ship#${ai.state.mission.targetShipId} is gone.`)
         return [
             { order: Order.SAILS_TO, quantity: 0 },
             { order: Order.RESET_WHEEL }

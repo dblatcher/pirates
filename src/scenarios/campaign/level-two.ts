@@ -35,7 +35,7 @@ const makeInitialState = (): GameState => {
                 y: 1300,
                 h: 0,
                 // damage:15,
-                ai: new FollowerAutoPilot(1, 15, false)
+                ai: new FollowerAutoPilot(1, false)
             }),
             makeDefaultShip({
                 name: 'The Flying Goose',
@@ -53,7 +53,7 @@ const makeInitialState = (): GameState => {
                         },
                         destination: { x: 100, y: 500 },
                         path: []
-                    }, 2, false),
+                    }),
             }),
             makeFrigateShip({
                 id: 3,
@@ -80,7 +80,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: [],
-                }, 14, false)
+                })
             }),
             makeDefaultShip({
                 name: 'Spaim 1',
@@ -92,7 +92,7 @@ const makeInitialState = (): GameState => {
                 ai: new AttackAutoPilot({
                     mission: { type: 'patrol' },
                     path: [],
-                }, 4, false)
+                })
             }),
             makeDefaultShip({
                 name: 'Grance 1',
@@ -105,7 +105,7 @@ const makeInitialState = (): GameState => {
                 ai: new AttackAutoPilot({
                     mission: { type: 'patrol' },
                     path: [],
-                }, 5, false)
+                })
             }),
         ],
         land: landMasses,

@@ -42,7 +42,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: [],
-                }, 2)
+                })
             }),
             makeCargoBarge({
                 name: 'Cargio',
@@ -60,7 +60,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: []
-                }, 3, false)
+                })
             }),
             makeCargoBarge({
                 name: 'Cargio',
@@ -78,7 +78,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: []
-                }, 4, false)
+                })
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol 1',
@@ -97,7 +97,7 @@ const makeInitialState = (): GameState => {
                         ]
                     },
                     path: [],
-                }, 5, false)
+                })
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol 2',
@@ -109,7 +109,7 @@ const makeInitialState = (): GameState => {
                 ai: new AttackAutoPilot({
                     mission: { type: 'patrol' },
                     path: [],
-                }, 6, false)
+                })
             }),
             makeDefaultShip({
                 name: 'Spaimish Patrol 3',
@@ -124,7 +124,7 @@ const makeInitialState = (): GameState => {
                         xyT(20,15),
                         xyT(30,20),
                     ],
-                }, 7, true)
+                })
             }),
         ],
         land: landMasses,

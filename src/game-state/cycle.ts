@@ -72,7 +72,7 @@ export const cycle = (
         if (!ship.ai) { return }
         ship.ai.shiftPathIfReachedPoint(ship)
         followDirectives(ship, ship.ai.issueDirectives({ ship, gameState, matrix }))
-        ship.ai.setPathToDestination(ship, gameState, matrix)
+        ship.ai.setPathToDestination({ship, gameState, matrix})
     })
 
     gameState.towns.forEach(town => {

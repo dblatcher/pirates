@@ -17,7 +17,7 @@ const addAttackShip = (x: number, y: number, h = 0, faction: FactionId = 'grance
         y,
         sailLevel: .5,
         h: h * _DEG,
-        ai: new AttackAutoPilot({ mission: { type: 'patrol' }, path: [], }, nextId, false)
+        ai: new AttackAutoPilot({ mission: { type: 'patrol' }, path: [], }, false)
     })
 }
 
