@@ -9,7 +9,8 @@ import { tutorialTwo } from './tutorial/part-two'
 import { tutorialThree } from './tutorial/part-three'
 import { campaignMapTest } from './campaign/map-test'
 import { campaignLevelThree } from './campaign/level-three'
-import { campaignPiratesFour } from './campaign/level-pirate-four'
+import { campaignPiratesFour } from './campaign/level-four-pirate'
+import { campaignFour } from './campaign/level-four'
 
 const scenarios: Record<string, Scenario> = {
     campaignLevelOne,
@@ -17,6 +18,7 @@ const scenarios: Record<string, Scenario> = {
     aiTrial,
     campaignLevelTwo,
     campaignLevelThree,
+    campaignFour,
     campaignPiratesFour,
     sandbox,
     tutorialOne,
@@ -25,7 +27,7 @@ const scenarios: Record<string, Scenario> = {
     campaignMapTest
 }
 const startingScenarios: Record<string, Scenario> = {
-    campaignLevelOne, bigMesseyBattle, tutorialOne, tutorialTwo, tutorialThree
+    campaignLevelOne, bigMesseyBattle, tutorialOne
 }
 
 export { scenarios, startingScenarios }

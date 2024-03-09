@@ -151,7 +151,8 @@ export const campaignLevelThree: Scenario = ({
         if (groupelle && galleon?.faction === 'grance' && getDistance(galleon, groupelle) < 550) {
             return {
                 success: true,
-                message: 'You brought back the galleon.'
+                message: 'You brought back the galleon.',
+                nextScenarioId: 'campaignFour',
             }
         }
         if (haven && galleon?.faction === 'grance' && getDistance(galleon, haven) < 250) {
