@@ -24,13 +24,32 @@ export const ROBERT: Person = {
     ]
 }
 
+export const BARNEY: Person = {
+    name: "Captain Barnabous 'Skullface' Hooke",
+    size: 80,
+    profile: {
+        browShape: browShapes.THIN,
+        eyeColor: 'red',
+        width: .7,
+        eyeDistance: 30,
+        noseHeight: 10,
+        noseWidth: 20,
+        color: 'aqua',
+        lipWidth: 5,
+        lipColor: 'brown'
+    },
+    accessories: [
+
+    ]
+}
+
 
 export const MAP_HEIGHT = 38 * TERRAIN_SQUARE_SIZE;
 export const MAP_WIDTH = 48 * TERRAIN_SQUARE_SIZE;
 
 const _ = undefined;
 
-const TERRA_FIRMA: LandmassInput = {
+export const TERRA_FIRMA: LandmassInput = {
     x: 4 * TERRAIN_SQUARE_SIZE, y: TERRAIN_SQUARE_SIZE * 32,
     shape: [
         [_, _, _, _, _, _, _, _, _, _, _, _, _, _, 0, 0, 0, 0, _, _, _, _, 0],

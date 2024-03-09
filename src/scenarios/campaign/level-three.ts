@@ -157,7 +157,8 @@ export const campaignLevelThree: Scenario = ({
         if (haven && galleon?.faction === 'grance' && getDistance(galleon, haven) < 250) {
             return {
                 success: true,
-                message: 'You stole the galleon and joined the pirates!.'
+                message: 'You stole the galleon and joined the pirates!.',
+                nextScenarioId: 'campaignPiratesFour'
             }
         }
 
