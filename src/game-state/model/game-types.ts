@@ -103,7 +103,7 @@ type FireDirective = {
 export type Directive = QuantityDirective | PlainDirective | FireDirective
 
 export type Flag = {
-    shape: 'triangle' | 'rectangle'
+    shape: 'triangle' | 'rectangle' | 'cross' | 'stripe'
     length: number,
     height: number,
 }

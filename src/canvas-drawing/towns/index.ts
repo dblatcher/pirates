@@ -4,14 +4,10 @@ import { translate, translateZ, xy } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { getFactionColor, isTownInView } from "../helpers";
+import { getFactionColor, getFactionFlag, getFactionSecondColor, isTownInView } from "../helpers";
 import { showDefenceLevel } from "./defenceLevel";
 import { drawFort } from "./forts";
 import { drawTownOutline } from "./outline";
-
-const TOWN_FLAG: Flag = {
-    shape: 'rectangle', length: 42, height: 30
-}
 
 
 export const drawTowns = (
@@ -46,8 +42,12 @@ export const drawTowns = (
 
     townsInView.forEach(town => {
         const color = getFactionColor(town)
+        const secondColor = getFactionSecondColor(town)
         const flagHeight = Math.min(50, town.garrison * 2)
         drawFlagPole(ctx, drawingMethods, town, 80)
-        drawFlag(ctx, drawingMethods, translateZ(town, flagHeight), wind.direction, cycleNumber, rgb(color), TOWN_FLAG)
+        drawFlag(ctx, drawingMethods, 
+            translateZ(town, flagHeight), 
+            wind.direction, cycleNumber, 
+            rgb(color), rgb(secondColor), getFactionFlag(town))
     })
 }

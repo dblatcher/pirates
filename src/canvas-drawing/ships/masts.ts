@@ -4,7 +4,7 @@ import { SAIL_COLOR_CSS, rgb } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { drawFlag } from "../drawFlag";
 import { OffsetDrawMethods } from "../drawWithOffSet";
-import { getFactionColor, s } from "../helpers";
+import { getFactionColor, getFactionSecondColor, s } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25
 const SAIL_END_AT_FULL = .2
@@ -23,7 +23,7 @@ const drawFlagOn = (
     cycleNumber: number,
     wind: Wind,
 ) => {
-    drawFlag(ctx, drawMethods, mast.top, wind.direction, cycleNumber, rgb(getFactionColor(ship)), mast.flag)
+    drawFlag(ctx, drawMethods, mast.top, wind.direction, cycleNumber, rgb(getFactionColor(ship)), rgb(getFactionSecondColor(ship)), mast.flag)
 }
 
 export const drawShipMasts = (
