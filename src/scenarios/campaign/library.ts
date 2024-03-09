@@ -150,12 +150,18 @@ export const landMasses: Landmass[] = [
     SWAMPY_BIT,
 ].map(inputToLandmass);
 
+export const townIds = {
+    GROUPELLE: 1,
+    CANTO: 2,
+    TEULVILLE: 3,
+    HAVEN: 4
+}
 
 export const makeTownLaGroupelle = (): Town => makeTownWithForts({
     faction: 'grance',
     x: GROUPELLE_ISLAND.x + TERRAIN_SQUARE_SIZE * 2,
     y: GROUPELLE_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
-    id: 1,
+    id: townIds.GROUPELLE,
     name: 'La Groupelle',
     defences: 1,
     profile: {
@@ -172,7 +178,7 @@ export const makeTownCanto = (faction: FactionId): Town => makeTownWithForts({
     faction,
     x: CANTO_ISLAND.x + TERRAIN_SQUARE_SIZE * 1,
     y: CANTO_ISLAND.y + TERRAIN_SQUARE_SIZE * 1,
-    id: 2,
+    id: townIds.CANTO,
     name: 'Villa della Canto',
 }, [
     // { x: -25, y: -100 },
@@ -184,8 +190,22 @@ export const makeTownTeulville = (): Town => makeTownWithForts({
     faction: 'grance',
     x: LAND_BRIDGE.x + TERRAIN_SQUARE_SIZE * 4,
     y: LAND_BRIDGE.y + TERRAIN_SQUARE_SIZE * 12,
-    id: 3,
+    id: townIds.TEULVILLE,
     name: 'Teulville',
+    profile: {
+        maxDefences: 100,
+        maxGarrison: 25,
+    },
+    garrison: 25,
+}, [
+])
+
+export const makeTownHaven = (): Town => makeTownWithForts({
+    faction: undefined,
+    x: TERRA_FIRMA.x + TERRAIN_SQUARE_SIZE * 25,
+    y: TERRA_FIRMA.y + TERRAIN_SQUARE_SIZE * 3,
+    id: townIds.HAVEN,
+    name: "Pirates' Haven",
     profile: {
         maxDefences: 100,
         maxGarrison: 25,

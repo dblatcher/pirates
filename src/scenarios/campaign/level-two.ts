@@ -132,7 +132,8 @@ export const campaignLevelTwo: Scenario = ({
         if (game.towns.every(_ => _.faction === 'grance')) {
             return {
                 success: true,
-                message: 'You captured the town.',   
+                message: 'You captured the town.',
+                nextScenarioId: 'campaignLevelThree',
             }
         }
         return undefined
