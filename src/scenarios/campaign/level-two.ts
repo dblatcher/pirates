@@ -123,7 +123,7 @@ export const campaignLevelTwo: Scenario = ({
     name: 'Campaign - level Two',
     intro: {
         pages: [
-            { text: 'This is level two of a demo campaign.', person: ROBERT, },
+            { text: 'It seems we have a new problem.', person: ROBERT, expression: 'SUSPICIOUS' },
             { text: 'The enemy has built a town nearby. Curse them!', expression: 'ANGRY', person: ROBERT },
             { text: 'Your mission is to capture the enemy town. It is to the south. Check your map.', expression: 'HAPPY', person: ROBERT },
         ]

@@ -43,7 +43,7 @@ export const campaignFour: Scenario = ({
         pages: [
             {
                 person: ROBERT,
-                text: "Keep capturing prizes like that an you'll be in for a promotion!",
+                text: "Keep capturing prizes like that and you'll be in for a promotion!",
                 expression: 'HAPPY',
             },
             {

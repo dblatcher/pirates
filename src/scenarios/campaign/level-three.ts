@@ -124,7 +124,8 @@ export const campaignLevelThree: Scenario = ({
     name: 'Campaign - level Three',
     intro: {
         pages: [
-            { text: 'Capture the galleon before it ecapes to the east.', person: ROBERT, },
+            { text: "It was all a decoy - they've stolen my treasure galleon!", person: ROBERT, expression:'AFRAID' },
+            { text: 'Capture that galleon before it ecapes to the east.', person: ROBERT, },
             { text: 'Bring it back to La Groupelle.', person: ROBERT, },
             { text: "Don't event think about taking it to Pirates' Haven and keeping the treasure for yourself...", person: ROBERT, expression: 'ANGRY' },
             { text: "Unless you want to be hunted down as a filthy, thieving pirate, that is.", person: ROBERT, expression: 'ANGRY' },
