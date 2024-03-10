@@ -1,4 +1,4 @@
-import { Flag, InvadingAction, Town, ViewPort, Wind } from "../../game-state";
+import { InvadingAction, Town, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { translate, translateZ, xy } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
