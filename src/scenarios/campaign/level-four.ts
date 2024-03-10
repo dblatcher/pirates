@@ -45,8 +45,23 @@ export const campaignFour: Scenario = ({
                 person: ROBERT,
                 text: "Keep capturing prizes like that an you'll be in for a promotion!",
                 expression: 'HAPPY',
-            }
+            },
+            {
+                person: ROBERT,
+                expression: 'ODD',
+                text: "This is the end of the campaign for now."
+            },
         ]
     },
     name: 'Campaign Level four',
+    checkForOutcome(game) {
+        if (game.cycleNumber > 50) {
+            return {
+                success: true,
+                exitToTitle: true,
+                message: 'campaign over'
+            }
+        }
+        return undefined
+    },
 })

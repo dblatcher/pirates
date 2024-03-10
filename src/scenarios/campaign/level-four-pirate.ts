@@ -1,6 +1,6 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
-import { makeFrigateShip,  } from "../../game-state/ship";
+import { makeFrigateShip, } from "../../game-state/ship";
 import { _DEG } from "../../lib/geometry";
 import { BARNEY, MAP_HEIGHT, MAP_WIDTH, TERRA_FIRMA, landMasses, makeTownCanto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
@@ -43,8 +43,23 @@ export const campaignPiratesFour: Scenario = ({
             {
                 person: BARNEY,
                 text: "Yarr. you be a pirate now."
-            }
+            },
+            {
+                person: BARNEY,
+                expression: 'ODD',
+                text: "This is the end of the campaign for now."
+            },
         ]
     },
     name: 'Campaign Level four (pirates)',
+    checkForOutcome(game) {
+        if (game.cycleNumber > 50) {
+            return {
+                success: true,
+                exitToTitle: true,
+                message: 'campaign over'
+            }
+        }
+        return undefined
+    },
 })
