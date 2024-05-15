@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { SoundDeck } from "sound-deck"
+import { assetParams } from "../../assets"
+import { WaitingAssetProvider } from "../../context/asset-context"
 import { ManagementProvider } from "../../context/management-context"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
@@ -61,59 +63,61 @@ export const BuccaneerProgram = () => {
     }
 
     return (
-        <ManagementProvider value={{
-            mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod
-        }}>
-            <KeyboardControls keyDownFunction={({ code }) => {
-                switch (code) {
-                    case 'Equal':
-                        return toggleSound()
-                    case 'Escape':
-                        return setMainMenuOpen(!mainMenuOpen)
-                    case 'KeyP':
-                        return setGameIsPaused(!gameIsPaused)
-                }
-            }} />
-            <Layout
-                topMenu={
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                    }}>
-                        {!!scenario && (<>
-                            <IconButton
-                                onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                                icon="⚙️" />
-                            <IconButton
-                                onClick={() => { setGameIsPaused(!gameIsPaused) }}
-                                icon={gameIsPaused ? "⏯️" : "⏸️"} />
-                            <IconButton
-                                onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                                icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
-                        </>)}
-                        <SoundToggle />
-                    </div>
-                }
-            >
-                {scenario ? (<>
-                    <ScenarioGame
-                        soundDeck={soundDeck}
-                        scenario={scenario}
-                        key={gameTimeStamp} />
-                    <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
-                        quitToTitle={exitToTitle}
-                        restartGame={() => {
-                            setGameIsPaused(false)
-                            setMainMenuOpen(false)
-                            resetScenario()
-                        }}
-                    />
-                </>) : (
-                    <TitleScreen
-                        setScenario={setScenario}
-                        scenarios={secariosToShowOnMenu} />
-                )}
-            </Layout>
-        </ManagementProvider>
+        <WaitingAssetProvider assetParams={assetParams} loadingContent={<p>waiting for image</p>}>
+            <ManagementProvider value={{
+                mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod
+            }}>
+                <KeyboardControls keyDownFunction={({ code }) => {
+                    switch (code) {
+                        case 'Equal':
+                            return toggleSound()
+                        case 'Escape':
+                            return setMainMenuOpen(!mainMenuOpen)
+                        case 'KeyP':
+                            return setGameIsPaused(!gameIsPaused)
+                    }
+                }} />
+                <Layout
+                    topMenu={
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                        }}>
+                            {!!scenario && (<>
+                                <IconButton
+                                    onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
+                                    icon="⚙️" />
+                                <IconButton
+                                    onClick={() => { setGameIsPaused(!gameIsPaused) }}
+                                    icon={gameIsPaused ? "⏯️" : "⏸️"} />
+                                <IconButton
+                                    onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
+                                    icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
+                            </>)}
+                            <SoundToggle />
+                        </div>
+                    }
+                >
+                    {scenario ? (<>
+                        <ScenarioGame
+                            soundDeck={soundDeck}
+                            scenario={scenario}
+                            key={gameTimeStamp} />
+                        <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
+                            quitToTitle={exitToTitle}
+                            restartGame={() => {
+                                setGameIsPaused(false)
+                                setMainMenuOpen(false)
+                                resetScenario()
+                            }}
+                        />
+                    </>) : (
+                        <TitleScreen
+                            setScenario={setScenario}
+                            scenarios={secariosToShowOnMenu} />
+                    )}
+                </Layout>
+            </ManagementProvider>
+        </WaitingAssetProvider>
     )
 }

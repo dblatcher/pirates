@@ -1,4 +1,5 @@
 import { drawScene } from "../canvas-drawing/draw"
+import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
 import { CanvasScreen } from "./CanvasScreen"
@@ -11,6 +12,8 @@ interface Props {
 
 export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
 
+    const assets = useAssets()
+
     return <CanvasScreen
         containerStyle={{
             display: 'flex',
@@ -20,7 +23,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
             height: viewPort.height * magnify,
             backgroundColor: SEA_COLOR_CSS,
         }}
-        draw={drawScene(gameState, viewPort)}
+        draw={drawScene(gameState, viewPort, assets)}
         width={viewPort.width}
         height={viewPort.height} />
 }

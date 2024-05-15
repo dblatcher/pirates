@@ -6,16 +6,17 @@ import { drawProjectile } from "./drawProjectile";
 import { makeDrawingMethods } from "./drawWithOffSet";
 import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
+import { AssetMap } from "../context/asset-context";
 
 
-export const drawScene = (game: GameState, viewPort: ViewPort) => (canvas: HTMLCanvasElement) => {
+export const drawScene = (game: GameState, viewPort: ViewPort, assets:AssetMap) => (canvas: HTMLCanvasElement) => {
     const ctx = canvas.getContext('2d')
     if (!ctx) { return }
     const drawingMethods = makeDrawingMethods(ctx, viewPort)
     const { projectiles, effects, towns, surfaceEffects, invadingActions, boardingActions } = game
     ctx.clearRect(0, 0, viewPort.width, viewPort.height)
     surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-    drawLand(ctx, drawingMethods, viewPort, game.land)
+    drawLand(ctx, drawingMethods, viewPort, game.land, assets)
     drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
     drawShips(ctx, drawingMethods, viewPort, game, false)
     projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))

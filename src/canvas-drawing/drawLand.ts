@@ -1,14 +1,9 @@
 import { coastlinesPng } from "../assets";
+import { AssetMap } from "../context/asset-context";
 import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
 import { sum } from "../lib/util";
 import { OffsetDrawMethods } from "./drawWithOffSet";
-
-// TO DO - replace asset - coastlines are too thin  
-const image = new Image(200, 200)
-image.src = coastlinesPng
-const fw = image.naturalWidth * 1 / 4
-const fh = image.naturalHeight * 1 / 4
 
 
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
@@ -26,8 +21,10 @@ const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
 
 class CoastLinePlotter {
     private drawingMethods: OffsetDrawMethods
-    constructor(drawingMethods: OffsetDrawMethods) {
+    private image: HTMLImageElement
+    constructor(drawingMethods: OffsetDrawMethods, image: HTMLImageElement) {
         this.drawingMethods = drawingMethods
+        this.image = image
     }
 
     drawCoasts(coastLines: CoastLines, x: number, y: number) {
@@ -65,14 +62,16 @@ class CoastLinePlotter {
     }
 
     private plotCoastlineSpriteFunc = (fx: number, fy: number) => (x: number, y: number) => {
-        this.drawingMethods.drawImage(image, fw * fx, fh * fy, fw, fh, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+        const fw = this.image.naturalWidth * 1 / 4
+        const fh = this.image.naturalHeight * 1 / 4
+        this.drawingMethods.drawImage(this.image, fw * fx, fh * fy, fw, fh, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
     }
 }
 
 
-export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[]) {
+export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[], assets: AssetMap) {
 
-    const plotter = new CoastLinePlotter(drawingMethods)
+    const plotter = new CoastLinePlotter(drawingMethods, assets.coastlines)
     const landInView = getLandInView(land, viewPort)
 
     landInView.forEach(landmass => {
