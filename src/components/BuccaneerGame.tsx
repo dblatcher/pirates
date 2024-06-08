@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
+import { ControlCenter, ControlsProvider, DirectiveEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
-import { aiFactory } from '../factory'
-import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort, cycle } from '../game-state'
-import { SoundEffectRequest } from '../game-state/model/sound'
+import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
-import { ScenarioOutcome, checkForPlayerDeathOutcome } from '../scenarios'
+import { SCREEN_HEIGHT, SCREEN_WIDTH, magnify, makeNextCycleFunction } from '../lib/cycle-updates'
 import { CellMatrix } from '../lib/path-finding/types'
-import { playSoundEffectsInView } from '../lib/sounds'
-import { average, clamp } from '../lib/util'
+import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
+import { average } from '../lib/util'
+import { ScenarioOutcome, checkForPlayerDeathOutcome } from '../scenarios'
 import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
@@ -16,8 +16,6 @@ import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
-import { ControlCenter, ControlsProvider, DirectiveEvent } from '../context/control-context'
 
 interface Props {
     initial: GameState;
@@ -32,51 +30,9 @@ export interface LogEntry {
     cycleNumber: number;
 }
 
-const magnify = 2 / 3
-const SCREEN_WIDTH = 700
-const SCREEN_HEIGHT = 425
+
 let lastCycleStartedAt = Date.now()
 
-
-const makeNextCycleFunction = (
-    gameStateRef: React.MutableRefObject<GameState>,
-    viewPortRef: React.MutableRefObject<ViewPort>,
-    obstacleMatrix: CellMatrix,
-    paddedObstacleMatrix: CellMatrix,
-    getAndClearDirectives: { (): Directive[] },
-    updateTimeTracking: { (refreshStart: number): void },
-    pushLog: { (message: string, timestamp: number): void },
-    soundDeck: SoundDeck,
-) => () => {
-    const refreshStart = Date.now()
-    const soundEffectRequests: SoundEffectRequest[] = []
-
-    const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
-    if (player) {
-        const viewPortWidth = SCREEN_WIDTH / magnify
-        const viewPortHeight = SCREEN_HEIGHT / magnify
-        Object.assign(viewPortRef.current, {
-            width: viewPortWidth,
-            height: viewPortHeight,
-            x: clamp(player.x - viewPortWidth * .5, gameStateRef.current.mapWidth - (viewPortWidth * 1), 0),
-            y: clamp(player.y - viewPortRef.current.height * .5, gameStateRef.current.mapHeight - (viewPortHeight), 0),
-        })
-    }
-    const updatedGame = cycle(
-        gameStateRef.current,
-        getAndClearDirectives(),
-        obstacleMatrix,
-        paddedObstacleMatrix,
-        pushLog,
-        soundEffectRequests,
-        viewPortRef.current,
-        aiFactory,
-    )
-    Object.assign(gameStateRef.current, updatedGame)
-
-    playSoundEffectsInView(soundEffectRequests, soundDeck, viewPortRef.current)
-    updateTimeTracking(refreshStart)
-}
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
