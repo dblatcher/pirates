@@ -17,6 +17,7 @@ import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
+import { ControlCenter, ControlsProvider, DirectiveEvent } from '../context/control-context'
 
 interface Props {
     initial: GameState;
@@ -136,7 +137,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         []
     )
 
-    const doNextCycle = useCallback<{():void}>(
+    const doNextCycle = useCallback<{ (): void }>(
         makeNextCycleFunction(gameStateRef, viewPortRef, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
         [getAndClearDirectives, updateTimeTracking, makeNextCycleFunction,]
     )
@@ -171,7 +172,23 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const playerCoordinates = player && { x: Math.floor(player.x / TERRAIN_SQUARE_SIZE), y: Math.floor(player.y / TERRAIN_SQUARE_SIZE) }
     const coordinatesString = playerCoordinates ? `[${playerCoordinates.x.toString().padStart(3, " ")} , ${playerCoordinates.y.toString().padStart(3, " ")}]` : ""
 
-    return (<>
+    const [center] = useState(new ControlCenter())
+
+    useEffect(() => {
+
+        const addAddirectiveFromEvent = (e: DirectiveEvent) => {
+            console.trace('directive recieved')
+            addDirective(e.data)
+        }
+
+        center.onDirective(addAddirectiveFromEvent)
+
+        return () => {
+            center.offDirective(addAddirectiveFromEvent)
+        }
+    }, [center])
+
+    return (<ControlsProvider value={{ center }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper'>
                 <div style={{ position: 'relative' }}>
@@ -231,6 +248,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         <span className='performance-monitor'>
             T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}
         </span>
-    </>)
+    </ControlsProvider>)
 }
 

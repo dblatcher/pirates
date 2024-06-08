@@ -113,7 +113,6 @@ export const GameControls = ({
                 <GunneryWidget
                     leftCannons={leftCannonsReady}
                     rightCannons={rightCannonsReady}
-                    addDirective={addDirective}
                     paused={paused}
                     firingPattern={firingPattern}
                     setFiringPattern={setFiringPattern}

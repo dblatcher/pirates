@@ -1,11 +1,11 @@
 import { Fragment, memo, useId } from "react";
 import { Directive, FiringPattern, Order, Side } from "../../game-state";
 import { CannonIndicator } from "./CannonIndicator";
+import { useControls } from "../../context/control-context";
 
 interface Props {
     leftCannons: boolean[]
     rightCannons: boolean[]
-    addDirective: { (directive: Directive): void }
     paused: boolean
     firingPattern: FiringPattern,
     setFiringPattern: { (firingPattern: FiringPattern): void }
@@ -31,11 +31,12 @@ const booleanArraysMatch = (a: boolean[], b: boolean[]): boolean => {
     return true
 }
 
-export const GunneryWidget = memo(({ leftCannons, rightCannons, paused, addDirective, firingPattern, setFiringPattern }: Props) => {
+export const GunneryWidget = memo(({ leftCannons, rightCannons, paused, firingPattern, setFiringPattern }: Props) => {
+    const { center } = useControls()
     const radioId = useId()
     const addUnlessPaused = (directive: Directive) => {
         if (paused) { return }
-        addDirective(directive)
+        center.sendDirective(directive)
     }
     const fireTo = (side: Side) => () => {
         addUnlessPaused({ order: Order.FIRE, side, pattern: firingPattern })
