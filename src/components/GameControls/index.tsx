@@ -14,7 +14,6 @@ interface Props {
     player?: Ship
     paused: boolean
     playerWheel: number
-    wheelRef: React.MutableRefObject<number | undefined>
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     mapOpen: boolean,
     setMapOpen: { (value: boolean): void }
@@ -37,13 +36,12 @@ export const GameControls = ({
     player,
     paused,
     playerWheel,
-    wheelRef, wheelNotLockedByPointerRef,
+    wheelNotLockedByPointerRef,
     mapOpen, setMapOpen,
 }: Props) => {
 
     const { center } = useControls()
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
-    const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
 
     const keyDownFunction = useCallback((event: KeyboardEvent) => {
         if (paused) {
@@ -62,6 +60,10 @@ export const GameControls = ({
             setFiringPattern(patternChange)
         }
 
+        if (event.code === 'KeyX') {
+            center.sendWheelValue(0)
+        }
+
         if (event.code === 'KeyM') {
             setMapOpen(!mapOpen)
         }
@@ -77,7 +79,6 @@ export const GameControls = ({
             {player ? (<>
                 <WheelWidget
                     playerWheel={playerWheel}
-                    setWheelTo={setWheelTo}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                 />
                 <SailsWidget

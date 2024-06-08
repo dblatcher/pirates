@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
-import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap } from '../context/control-context'
+import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
 import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
@@ -119,6 +119,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     }, [doneInitialCycle])
 
     useSchedule(() => {
+        // let player wheel drift back to 0 if not locked of being turned
         if (wheelNotLockedByPointerRef.current === true && wheelNotLockedByKeyboardRef.current && player?.wheel) {
             const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
             wheelRef.current = player.wheel - changeAmount
@@ -142,9 +143,14 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         const addAddirectiveFromEvent = (e: DirectiveEvent) => {
             addDirective(e.data)
         }
+        const changeWheelValueFromEvent = (e: WheelValueEvent) => {
+            wheelRef.current = e.data
+        }
         center.onDirective(addAddirectiveFromEvent)
+        center.onWheelValue(changeWheelValueFromEvent)
         return () => {
             center.offDirective(addAddirectiveFromEvent)
+            center.offWheelValue(changeWheelValueFromEvent)
         }
     }, [center])
 
@@ -176,7 +182,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     player={player}
                     paused={gameIsPaused}
                     playerWheel={player?.wheel ?? 0}
-                    wheelRef={wheelRef}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}

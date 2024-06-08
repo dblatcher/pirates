@@ -1,8 +1,8 @@
 import { CSSProperties, useState, } from "react"
+import { useControls } from "../../context/control-context"
 
 interface Props {
     playerWheel: number
-    setWheelTo: { (value: number): void }
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
 }
 
@@ -19,7 +19,8 @@ const wheelStyle = (angle: number, size: number): CSSProperties => ({
 })
 
 
-export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelNotLockedByPointerRef }: Props) => {
+export const WheelWidget = ({ playerWheel: actualWheel, wheelNotLockedByPointerRef }: Props) => {
+    const { center } = useControls()
     const [locked, setLocked] = useState(false)
     const [userIsTurningWheel, setUserIsTurningWheel] = useState(false)
     const wheelAngle = -(actualWheel * 180)
@@ -47,7 +48,7 @@ export const WheelWidget = ({ playerWheel: actualWheel, setWheelTo, wheelNotLock
                     onChange={e => {
                         const value = Number(e.target.value)
                         if (isNaN(value)) { return }
-                        setWheelTo(value * (-1 / 100))
+                        center.sendWheelValue(value * (-1 / 100))
                     }} />
             </div>
             <div className="locked-wrapper">
