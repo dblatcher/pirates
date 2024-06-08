@@ -82,12 +82,12 @@ export const GameControls = ({
 
         wheelNotLockedByKeyboardRef.current = !turn
         if (typeof turn === 'number') {
-            setWheelTo(turn)
+            wheelRef.current = turn
         }
         const sailsUp = !!keyMap['KeyW'] && !keyMap['KeyS']
         const sailsDown = !!keyMap['KeyS'] && !keyMap['KeyW']
         sailChangeRef.current = sailsUp ? 'UP' : sailsDown ? 'DOWN' : undefined
-    }, [setWheelTo, wheelNotLockedByKeyboardRef, sailChangeRef])
+    }, [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef])
 
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
