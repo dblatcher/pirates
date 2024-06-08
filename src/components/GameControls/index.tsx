@@ -47,9 +47,6 @@ export const GameControls = ({
 
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
-    const setSailLevelTarget = useCallback((value: number) => {
-        addDirective({ order: Order.SAILS_TO, quantity: value })
-    }, [addDirective])
 
     const keyDownFunction = useCallback((event: KeyboardEvent) => {
         if (paused) {
@@ -100,13 +97,11 @@ export const GameControls = ({
         <aside className="controls-container">
             {player ? (<>
                 <WheelWidget
-                    addDirective={addDirective}
                     playerWheel={playerWheel}
                     setWheelTo={setWheelTo}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                 />
                 <SailsWidget
-                    setSailLevelTarget={setSailLevelTarget}
                     sailLevel={player.sailLevel}
                     speedLastTurn={player.speedLastTurn}
                     sailLevelTarget={player.sailLevelTarget} />
@@ -118,7 +113,6 @@ export const GameControls = ({
                     setFiringPattern={setFiringPattern}
                 />
                 <MeleeControls
-                    addDirective={addDirective}
                     alreadyFighting={false}
                     marines={player.marines}
                     maxMarines={player.profile.maxMarines}

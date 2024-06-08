@@ -175,14 +175,10 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const [center] = useState(new ControlCenter())
 
     useEffect(() => {
-
         const addAddirectiveFromEvent = (e: DirectiveEvent) => {
-            console.trace('directive recieved')
             addDirective(e.data)
         }
-
         center.onDirective(addAddirectiveFromEvent)
-
         return () => {
             center.offDirective(addAddirectiveFromEvent)
         }

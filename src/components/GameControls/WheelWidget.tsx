@@ -1,8 +1,6 @@
 import { CSSProperties, useState, } from "react"
-import { Directive } from "../../game-state"
 
 interface Props {
-    addDirective: { (directive: Directive): void }
     playerWheel: number
     setWheelTo: { (value: number): void }
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
