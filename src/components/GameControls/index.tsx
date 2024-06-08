@@ -9,6 +9,7 @@ import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
 import "./controls.css"
 import { useControls } from "../../context/control-context"
+import { makeKeyMapHandler } from "../../lib/key-map-handling"
 
 interface Props {
     player?: Ship
@@ -70,24 +71,10 @@ export const GameControls = ({
         }
     }, [paused, center, firingPattern, setMapOpen, mapOpen])
 
-    const keyMapFunction = useCallback((keyMap: Record<string, boolean>) => {
-        const goingLeft = !!keyMap['KeyA']
-        const goingRight = !!keyMap['KeyD']
-        const turn = goingLeft && goingRight ? 0 :
-            goingLeft
-                ? .5
-                : goingRight
-                    ? -.5
-                    : undefined
-
-        wheelNotLockedByKeyboardRef.current = !turn
-        if (typeof turn === 'number') {
-            wheelRef.current = turn
-        }
-        const sailsUp = !!keyMap['KeyW'] && !keyMap['KeyS']
-        const sailsDown = !!keyMap['KeyS'] && !keyMap['KeyW']
-        sailChangeRef.current = sailsUp ? 'UP' : sailsDown ? 'DOWN' : undefined
-    }, [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef])
+    const keyMapFunction = useCallback(
+        makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef }),
+        [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef]
+    )
 
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
