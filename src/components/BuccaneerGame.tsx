@@ -210,7 +210,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
                 <GameControls
                     player={player}
-                    addDirective={addDirective}
                     paused={gameIsPaused}
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}

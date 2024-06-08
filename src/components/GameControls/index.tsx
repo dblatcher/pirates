@@ -8,10 +8,10 @@ import { SailsWidget } from "./SailsWidget"
 import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
 import "./controls.css"
+import { useControls } from "../../context/control-context"
 
 interface Props {
     player?: Ship
-    addDirective: { (directive: Directive): void }
     paused: boolean
     playerWheel: number
     wheelRef: React.MutableRefObject<number | undefined>
@@ -37,7 +37,6 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
 
 export const GameControls = ({
     player,
-    addDirective,
     paused,
     playerWheel,
     wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef,
@@ -45,6 +44,7 @@ export const GameControls = ({
     mapOpen, setMapOpen,
 }: Props) => {
 
+    const { center } = useControls()
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const setWheelTo = useCallback((value: number) => { wheelRef.current = value }, [wheelRef])
 
@@ -55,9 +55,9 @@ export const GameControls = ({
         const directive = directiveKeys[event.code]
         if (directive) {
             if (directive.order === Order.FIRE) {
-                addDirective({ ...directive, pattern: firingPattern })
+                center.sendDirective({ ...directive, pattern: firingPattern })
             } else {
-                addDirective(directive)
+                center.sendDirective(directive)
             }
         }
         const patternChange = patternKeys[event.code]
@@ -68,7 +68,7 @@ export const GameControls = ({
         if (event.code === 'KeyM') {
             setMapOpen(!mapOpen)
         }
-    }, [paused, addDirective, firingPattern, setMapOpen, mapOpen])
+    }, [paused, center, firingPattern, setMapOpen, mapOpen])
 
     const keyMapFunction = useCallback((keyMap: Record<string, boolean>) => {
         const goingLeft = !!keyMap['KeyA']
