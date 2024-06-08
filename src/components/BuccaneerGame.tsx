@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
-import { ControlCenter, ControlsProvider, DirectiveEvent } from '../context/control-context'
+import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap } from '../context/control-context'
 import { useManagement } from '../context/management-context'
 import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
@@ -16,6 +16,7 @@ import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { makeKeyMapHandler } from '../lib/key-map-handling'
 
 interface Props {
     initial: GameState;
@@ -47,6 +48,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         width: SCREEN_WIDTH / magnify,
         height: SCREEN_HEIGHT / magnify,
     })
+    const keyMapRef = useRef<KeyMap>({})
     const directivesRef = useRef<Directive[]>([])
 
     const [introDone, setIntroDone] = useState(scenario?.intro ? false : true);
@@ -104,6 +106,11 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         }, [scenario, gameStateRef]
     )
 
+    const keyMapHandler = useCallback(
+        makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef }),
+        [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef]
+    )
+
     useEffect(() => {
         if (!doneInitialCycle) {
             doNextCycle()
@@ -116,6 +123,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
             const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
             wheelRef.current = player.wheel - changeAmount
         }
+        keyMapHandler(keyMapRef.current)
         doNextCycle()
         const newOutcome = !outcome && gameStateRef.current.cycleNumber % 100 == 0 && checkScenarioOver()
         if (newOutcome) {
@@ -140,7 +148,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         }
     }, [center])
 
-    return (<ControlsProvider value={{ center }}>
+    return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper'>
                 <div style={{ position: 'relative' }}>
@@ -169,9 +177,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     paused={gameIsPaused}
                     playerWheel={player?.wheel ?? 0}
                     wheelRef={wheelRef}
-                    sailChangeRef={sailChangeRef}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
-                    wheelNotLockedByKeyboardRef={wheelNotLockedByKeyboardRef}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}
                 />

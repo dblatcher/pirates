@@ -1,15 +1,16 @@
 import { memo, useEffect, useRef } from "react"
-import { useInterval } from "../hooks/useInterval"
+import { useControls } from "../context/control-context"
 
 interface Props {
     keyDownFunction?: { (event: KeyboardEvent, keyMap: Record<string, boolean>): void }
-    keyMapFunction?: { (keyMap: Record<string, boolean>): void }
     renderOutput?: boolean
 }
 
 
-export const KeyboardControls = memo(({ keyMapFunction, keyDownFunction, renderOutput }: Props) => {
-    const keyMapRef = useRef<Record<string, boolean>>({})
+export const KeyboardControls = memo(({ keyDownFunction, renderOutput }: Props) => {
+    const localKeyMap = useRef<Record<string, boolean>>({})
+    const { keyMapRef: keyMapRefFromControls } = useControls()
+    const keyMapRef = keyMapRefFromControls ?? localKeyMap;
 
     const handleKeyDown = (event: KeyboardEvent) => {
         if (keyMapRef.current[event.code]) {
@@ -34,12 +35,6 @@ export const KeyboardControls = memo(({ keyMapFunction, keyDownFunction, renderO
             window.removeEventListener('keyup', handleKeyUp)
         }
     })
-
-    useInterval(() => {
-        if (keyMapFunction) {
-            keyMapFunction(keyMapRef.current)
-        }
-    }, keyDownFunction ? 0 : null)
 
     if (!renderOutput) { return <></> }
 

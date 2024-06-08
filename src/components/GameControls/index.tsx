@@ -9,7 +9,6 @@ import { ShipDashBoard } from "./ShipDashboard"
 import { WheelWidget } from "./WheelWidget"
 import "./controls.css"
 import { useControls } from "../../context/control-context"
-import { makeKeyMapHandler } from "../../lib/key-map-handling"
 
 interface Props {
     player?: Ship
@@ -17,8 +16,6 @@ interface Props {
     playerWheel: number
     wheelRef: React.MutableRefObject<number | undefined>
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
-    wheelNotLockedByKeyboardRef: React.MutableRefObject<boolean>
-    sailChangeRef: React.MutableRefObject<'UP' | 'DOWN' | undefined>
     mapOpen: boolean,
     setMapOpen: { (value: boolean): void }
 }
@@ -40,8 +37,7 @@ export const GameControls = ({
     player,
     paused,
     playerWheel,
-    wheelRef, wheelNotLockedByPointerRef, wheelNotLockedByKeyboardRef,
-    sailChangeRef,
+    wheelRef, wheelNotLockedByPointerRef,
     mapOpen, setMapOpen,
 }: Props) => {
 
@@ -71,10 +67,6 @@ export const GameControls = ({
         }
     }, [paused, center, firingPattern, setMapOpen, mapOpen])
 
-    const keyMapFunction = useCallback(
-        makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef }),
-        [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef]
-    )
 
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
@@ -111,7 +103,6 @@ export const GameControls = ({
                 />
                 <KeyboardControls
                     keyDownFunction={keyDownFunction}
-                    keyMapFunction={keyMapFunction}
                 />
             </>
             ) : (

@@ -1,12 +1,13 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useRef, MutableRefObject } from "react"
 import { Directive } from "../game-state"
 
+export type KeyMap = Record<string, boolean>
 
 export class DirectiveEvent extends MessageEvent<Directive> {
     data: Directive
-    constructor(directive: Directive) {
-        super('directive', { data: directive })
-        this.data = directive
+    constructor(data: Directive) {
+        super('directive', { data })
+        this.data = data
     }
 }
 
@@ -14,11 +15,10 @@ type Handler<T extends Event> = { (event: T): void }
 
 export class ControlCenter extends EventTarget {
 
-    sendDirective(d: Directive) {
-        const event = new DirectiveEvent(d)
+    sendDirective(data: Directive) {
+        const event = new DirectiveEvent(data)
         this.dispatchEvent(event)
     }
-
     onDirective(handler: Handler<DirectiveEvent>) {
         this.addEventListener('directive', handler as EventListener)
     }
@@ -26,9 +26,13 @@ export class ControlCenter extends EventTarget {
         this.removeEventListener('directive', handler as EventListener)
     }
 }
-
-const ControlContext = createContext({
-    center: new ControlCenter()
+useRef
+const ControlContext = createContext<{
+    center: ControlCenter
+    keyMapRef?: MutableRefObject<KeyMap>
+}>({
+    center: new ControlCenter(),
+    keyMapRef: undefined,
 })
 
 export const useControls = () => useContext(ControlContext)
