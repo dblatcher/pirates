@@ -40,9 +40,12 @@ export const makeKeyMapHandler = (
     const { wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef } = refs
     const actions = readKeyMap(keyMap)
     const turn = getTurnAmount(actions.steerLeft, actions.steerRight, actions.fineTurn)
-
     wheelNotLockedByKeyboardRef.current = !turn
-    wheelRef.current = turn
+    // don't set wheelRef to zero when no input - would block control
+    // of the wheel wiget
+    if (turn !== 0) {
+        wheelRef.current = turn
+    }
     sailChangeRef.current = actions.sailsUp ? 'UP' : actions.sailsDown ? 'DOWN' : undefined
 }
 
