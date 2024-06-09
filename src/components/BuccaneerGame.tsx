@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
-import { Directive, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
+import { Directive, FiringPattern, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
 import { SCREEN_HEIGHT, SCREEN_WIDTH, magnify, makeNextCycleFunction } from '../lib/cycle-updates'
 import { CellMatrix } from '../lib/path-finding/types'
@@ -16,7 +16,8 @@ import { IntroMessage } from './IntroMessage'
 import { ShipsLog } from './ShipsLog'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { makeKeyMapHandler } from '../lib/key-map-handling'
+import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
+import { KeyboardControls } from './KeyboardControls'
 
 interface Props {
     initial: GameState;
@@ -37,7 +38,9 @@ let lastCycleStartedAt = Date.now()
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
+    const [center] = useState(new ControlCenter())
     const gameStateRef = useRef<GameState>(initial)
+    const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const wheelRef = useRef<number | undefined>(undefined)
     const wheelNotLockedByPointerRef = useRef(true)
     const wheelNotLockedByKeyboardRef = useRef(true)
@@ -72,7 +75,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         setRecentRefreshTimes([timeTaken, ...recentRefeshTimes].slice(0, 10))
         lastCycleStartedAt = refreshStart
     }, [setRecentRefreshTimes, recentRefeshTimes])
-
 
     const getAndClearDirectives = useCallback(
         (): Directive[] => {
@@ -111,6 +113,11 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef]
     )
 
+    const keyDownFunction = useCallback(
+        makeKeyDownHandler(gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen),
+        [gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen]
+    )
+
     useEffect(() => {
         if (!doneInitialCycle) {
             doNextCycle()
@@ -119,7 +126,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     }, [doneInitialCycle])
 
     useSchedule(() => {
-        // let player wheel drift back to 0 if not locked of being turned
+        // let player wheel drift back to 0 if not locked or being turned by the player
         if (wheelNotLockedByPointerRef.current === true && wheelNotLockedByKeyboardRef.current && player?.wheel) {
             const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
             wheelRef.current = player.wheel - changeAmount
@@ -136,8 +143,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
     const playerCoordinates = player && { x: Math.floor(player.x / TERRAIN_SQUARE_SIZE), y: Math.floor(player.y / TERRAIN_SQUARE_SIZE) }
     const coordinatesString = playerCoordinates ? `[${playerCoordinates.x.toString().padStart(3, " ")} , ${playerCoordinates.y.toString().padStart(3, " ")}]` : ""
-
-    const [center] = useState(new ControlCenter())
 
     useEffect(() => {
         const addAddirectiveFromEvent = (e: DirectiveEvent) => {
@@ -185,6 +190,11 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}
+                    firingPattern={firingPattern}
+                    setFiringPattern={setFiringPattern}
+                />
+                <KeyboardControls
+                    keyDownFunction={keyDownFunction}
                 />
             </section>
         </main>
