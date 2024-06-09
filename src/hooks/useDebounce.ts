@@ -35,7 +35,7 @@ export const useDebounce = <T,>(
             setTimerId(undefined)
         }
         const newTimerId = setTimeout(doUpdateFnc(value), delay - timeSinceLastUpdate)
-        setTimerId(newTimerId)
+        setTimerId(newTimerId as unknown as number)
     }
 
     const getData = () => ({

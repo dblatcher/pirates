@@ -14,6 +14,10 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
 
     const assets = useAssets()
 
+    if (!assets) {
+        return <div>FAILED TO LOAD ASSETS</div>
+    }
+
     return <CanvasScreen
         containerStyle={{
             display: 'flex',

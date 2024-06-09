@@ -18,7 +18,7 @@ export function useSchedule(callback: () => void, delay: number | null) {
 
         const schedule = async (interval: number) => {
             const newTime = Date.now()
-            timeoutId = setTimeout(() => {
+            timeoutId = window.setTimeout(() => {
                 callback()
 
                 if (typeof delay === 'number') {

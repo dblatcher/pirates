@@ -1,4 +1,3 @@
-import { coastlinesPng } from "../assets";
 import { AssetMap } from "../context/asset-context";
 import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
