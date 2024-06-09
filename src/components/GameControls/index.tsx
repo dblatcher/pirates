@@ -10,7 +10,6 @@ import "./controls.css"
 interface Props {
     player?: Ship
     paused: boolean
-    playerWheel: number
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     mapOpen: boolean,
     setMapOpen: { (value: boolean): void }
@@ -22,7 +21,6 @@ interface Props {
 export const GameControls = ({
     player,
     paused,
-    playerWheel,
     wheelNotLockedByPointerRef,
     mapOpen,
     setMapOpen,
@@ -36,7 +34,7 @@ export const GameControls = ({
         <aside className="controls-container">
             {player ? (<>
                 <WheelWidget
-                    playerWheel={playerWheel}
+                    playerWheel={player.wheel}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                 />
                 <SailsWidget

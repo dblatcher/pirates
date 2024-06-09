@@ -19,11 +19,11 @@ const wheelStyle = (angle: number, size: number): CSSProperties => ({
 })
 
 
-export const WheelWidget = ({ playerWheel: actualWheel, wheelNotLockedByPointerRef }: Props) => {
+export const WheelWidget = ({ playerWheel, wheelNotLockedByPointerRef }: Props) => {
     const { center } = useControls()
     const [locked, setLocked] = useState(false)
     const [userIsTurningWheel, setUserIsTurningWheel] = useState(false)
-    const wheelAngle = -(actualWheel * 180)
+    const wheelAngle = -(playerWheel * 180)
 
     return (
         <div className="panel-frame wheel-widget-panel">
@@ -44,7 +44,7 @@ export const WheelWidget = ({ playerWheel: actualWheel, wheelNotLockedByPointerR
                         wheelNotLockedByPointerRef.current = !locked
                     }}
                     max={50} min={-50} step={'any'}
-                    value={actualWheel * -100}
+                    value={playerWheel * -100}
                     onChange={e => {
                         const value = Number(e.target.value)
                         if (isNaN(value)) { return }
