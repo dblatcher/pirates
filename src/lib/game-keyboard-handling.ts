@@ -16,6 +16,10 @@ const patternKeys: Record<string, FiringPattern | undefined> = {
 }
 
 
+const getTurnAmount = (goingLeft: boolean, goingRight: boolean, shiftDown: boolean): number => {
+    if (goingLeft === goingRight) { return 0 }
+    return (shiftDown ? .2 : .5) * (goingRight ? -1 : 1)
+}
 
 export const makeKeyMapHandler = (
     refs: {
@@ -25,26 +29,20 @@ export const makeKeyMapHandler = (
     }
 ) => (keyMap: Record<string, boolean>) => {
     const { wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef } = refs
+
+    const shiftDown = !!keyMap['ShiftRight'] || !!keyMap['ShiftLeft']
     const goingLeft = !!keyMap['KeyA']
     const goingRight = !!keyMap['KeyD']
-    const turn = goingLeft && goingRight ? 0 :
-        goingLeft
-            ? .5
-            : goingRight
-                ? -.5
-                : undefined
+    const turn = getTurnAmount(goingLeft, goingRight, shiftDown)
 
     wheelNotLockedByKeyboardRef.current = !turn
-    if (typeof turn === 'number') {
-        wheelRef.current = turn
-    }
+    wheelRef.current = turn
     const sailsUp = !!keyMap['KeyW'] && !keyMap['KeyS']
     const sailsDown = !!keyMap['KeyS'] && !keyMap['KeyW']
     sailChangeRef.current = sailsUp ? 'UP' : sailsDown ? 'DOWN' : undefined
 }
 
 export const makeKeyDownHandler = (paused: boolean, center: ControlCenter, setFiringPattern: { (value: FiringPattern): void }, firingPattern: FiringPattern, setMapOpen: { (value: boolean): void }, mapOpen: boolean) => (event: KeyboardEvent) => {
-
     if (paused) {
         return
     }
@@ -68,5 +66,4 @@ export const makeKeyDownHandler = (paused: boolean, center: ControlCenter, setFi
     if (event.code === 'KeyM') {
         setMapOpen(!mapOpen)
     }
-
 }
