@@ -11,8 +11,8 @@ export const SCREEN_WIDTH = 700
 export const SCREEN_HEIGHT = 425
 
 export const makeNextCycleFunction = (
-    gameStateRef: React.MutableRefObject<GameState>,
-    viewPortRef: React.MutableRefObject<ViewPort>,
+    gameState: GameState,
+    viewPort: ViewPort,
     obstacleMatrix: CellMatrix,
     paddedObstacleMatrix: CellMatrix,
     getAndClearDirectives: { (): Directive[] },
@@ -23,29 +23,29 @@ export const makeNextCycleFunction = (
     const refreshStart = Date.now()
     const soundEffectRequests: SoundEffectRequest[] = []
 
-    const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+    const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
         const viewPortWidth = SCREEN_WIDTH / magnify
         const viewPortHeight = SCREEN_HEIGHT / magnify
-        Object.assign(viewPortRef.current, {
-            width: viewPortWidth,
-            height: viewPortHeight,
-            x: clamp(player.x - viewPortWidth * .5, gameStateRef.current.mapWidth - (viewPortWidth * 1), 0),
-            y: clamp(player.y - viewPortRef.current.height * .5, gameStateRef.current.mapHeight - (viewPortHeight), 0),
+        Object.assign(viewPort, {
+            // width: viewPortWidth,
+            // height: viewPortHeight,
+            x: clamp(player.x - viewPortWidth * .5, gameState.mapWidth - (viewPortWidth * 1), 0),
+            y: clamp(player.y - viewPort.height * .5, gameState.mapHeight - (viewPortHeight), 0),
         })
     }
     const updatedGame = cycle(
-        gameStateRef.current,
+        gameState,
         getAndClearDirectives(),
         obstacleMatrix,
         paddedObstacleMatrix,
         pushLog,
         soundEffectRequests,
-        viewPortRef.current,
+        viewPort,
         aiFactory,
     )
-    Object.assign(gameStateRef.current, updatedGame)
+    Object.assign(gameState, updatedGame)
 
-    playSoundEffectsInView(soundEffectRequests, soundDeck, viewPortRef.current)
+    playSoundEffectsInView(soundEffectRequests, soundDeck, viewPort)
     updateTimeTracking(refreshStart)
 }

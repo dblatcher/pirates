@@ -98,7 +98,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     )
 
     const doNextCycle = useCallback<{ (): void }>(
-        makeNextCycleFunction(gameStateRef, viewPortRef, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
+        makeNextCycleFunction(gameStateRef.current, viewPortRef.current, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
         [getAndClearDirectives, updateTimeTracking, makeNextCycleFunction,]
     )
 
