@@ -4,10 +4,10 @@ import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEven
 import { useManagement } from '../context/management-context'
 import { Directive, FiringPattern, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
-import { SCREEN_HEIGHT, SCREEN_WIDTH, magnify, makeNextCycleFunction } from '../lib/cycle-updates'
+import { makeNextCycleFunction } from '../lib/cycle-updates'
 import { CellMatrix } from '../lib/path-finding/types'
 import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
-import { average } from '../lib/util'
+import { average, clamp } from '../lib/util'
 import { ScenarioOutcome, checkForPlayerDeathOutcome } from '../scenarios'
 import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
@@ -18,6 +18,9 @@ import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { KeyboardControls } from './KeyboardControls'
+
+export const SCREEN_WIDTH = 750
+export const SCREEN_HEIGHT = 425
 
 interface Props {
     initial: GameState;
@@ -39,6 +42,7 @@ let lastCycleStartedAt = Date.now()
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const [center] = useState(new ControlCenter())
+    const [magnify, setMagnify] = useState(4 / 6)
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const wheelRef = useRef<number | undefined>(undefined)
@@ -159,6 +163,13 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         }
     }, [center])
 
+    const adjustScale = (scale: number) => {
+        const adjusted = clamp(scale, 8 / 6, 2 / 6)
+        setMagnify(adjusted);
+        viewPortRef.current.width = SCREEN_WIDTH / adjusted
+        viewPortRef.current.height = SCREEN_HEIGHT / adjusted
+    }
+
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper'>
@@ -169,6 +180,8 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                         magnify={magnify} />
                     <div style={cornerOverlay('bottom', 'right')}>
                         <WindSock wind={gameStateRef.current.wind} />
+                        <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
+                        <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
                     </div>
                     <div style={cornerOverlay('top', 'right')}>
                         <span>{coordinatesString}</span>
