@@ -1,4 +1,4 @@
-import { createRef, useLayoutEffect } from "react"
+import { createRef, useEffect, useLayoutEffect } from "react"
 import { drawBackground, drawScene } from "../canvas-drawing/draw"
 import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
@@ -16,6 +16,12 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
     const backgroundCanvasRef = createRef<HTMLCanvasElement>()
     const spriteCanvasRef = createRef<HTMLCanvasElement>()
 
+    useEffect(()=> {
+        if (assets) {
+            drawBackground(gameState, viewPort, assets)(backgroundCanvasRef.current)
+        }
+    },[assets,backgroundCanvasRef.current]) 
+
     const renderCanvas = () => {
         if (!assets) {
             return
@@ -31,6 +37,9 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         return <div>FAILED TO LOAD ASSETS</div>
     }
 
+    const xR = gameState.mapWidth / viewPort.width
+    const yR = gameState.mapHeight / viewPort.height
+
     return (
         <div style={{
             display: 'flex',
@@ -43,12 +52,13 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    width: '100%',
-                    height: '100%',
+                    width: `${100 * xR}%`,
+                    height: `${100 * yR}%`,
                     backgroundColor: SEA_COLOR_CSS,
+                    transform: `translatex(${-viewPort.x * magnify}px) translatey(${-viewPort.y * magnify}px)`,
                 }}
-                width={viewPort.width}
-                height={viewPort.height}
+                width={gameState.mapWidth}
+                height={gameState.mapHeight}
                 ref={backgroundCanvasRef}></canvas>
             <canvas
                 style={{
