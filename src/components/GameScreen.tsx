@@ -1,5 +1,5 @@
 import { createRef, useLayoutEffect } from "react"
-import { drawScene } from "../canvas-drawing/draw"
+import { drawBackground, drawScene } from "../canvas-drawing/draw"
 import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
@@ -17,9 +17,12 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
     const spriteCanvasRef = createRef<HTMLCanvasElement>()
 
     const renderCanvas = () => {
-        assets
-            ? drawScene(gameState, viewPort, assets)([backgroundCanvasRef.current, spriteCanvasRef.current])
-            : undefined
+        if (!assets) {
+            return
+        }
+
+        drawBackground(gameState, viewPort, assets)(backgroundCanvasRef.current)
+        drawScene(gameState, viewPort, assets)(spriteCanvasRef.current)
     }
 
     useLayoutEffect(renderCanvas, [renderCanvas, backgroundCanvasRef, spriteCanvasRef])
@@ -36,19 +39,27 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
             height: viewPort.height * magnify,
             overflow: 'hidden'
         }}>
-            <canvas style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                backgroundColor: SEA_COLOR_CSS,
-            }} width={viewPort.width} height={viewPort.height} ref={backgroundCanvasRef}></canvas>
-            <canvas style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-            }} width={viewPort.width} height={viewPort.height} ref={spriteCanvasRef} ></canvas>
+            <canvas
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: SEA_COLOR_CSS,
+                }}
+                width={viewPort.width}
+                height={viewPort.height}
+                ref={backgroundCanvasRef}></canvas>
+            <canvas
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                }}
+                width={viewPort.width}
+                height={viewPort.height}
+                ref={spriteCanvasRef} ></canvas>
         </div>
     )
 }

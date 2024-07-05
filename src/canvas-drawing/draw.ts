@@ -9,32 +9,34 @@ import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
 
 
-export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (canvases: (HTMLCanvasElement | null)[]) => {
-    const [background_canvas, sprite_canvas] = canvases
-    const { projectiles, effects, towns, surfaceEffects, invadingActions, boardingActions } = game
+export const drawBackground = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
 
-    if (background_canvas) {
-        const ctx = background_canvas.getContext('2d')
+    const { surfaceEffects } = game
+
+    if (canvas) {
+        const ctx = canvas.getContext('2d')
         if (!ctx) { return }
-        const doubleViewport:ViewPort = {
+        const doubleViewport: ViewPort = {
             x: viewPort.x,
-            y:viewPort.y,
-            height:viewPort.height,
-            width:viewPort.width
+            y: viewPort.y,
+            height: viewPort.height,
+            width: viewPort.width
         }
         const drawingMethods = makeDrawingMethods(ctx, doubleViewport)
         ctx.clearRect(0, 0, doubleViewport.width, doubleViewport.height)
         surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
         drawLand(ctx, drawingMethods, doubleViewport, game.land, assets)
     }
+}
+
+
+export const drawScene = (game: GameState, viewPort: ViewPort, _assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
+    const { projectiles, effects, towns, invadingActions, boardingActions } = game
     if (sprite_canvas) {
         const ctx = sprite_canvas.getContext('2d')
         if (!ctx) { return }
         const drawingMethods = makeDrawingMethods(ctx, viewPort)
-        
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
-        
-        
         drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
         drawShips(ctx, drawingMethods, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
