@@ -3,6 +3,7 @@ import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
 import { CanvasScreen } from "./CanvasScreen"
+import { LayeredCanvasScreen } from "./LayeredCanvasScreen"
 
 interface Props {
     gameState: GameState
@@ -18,15 +19,19 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         return <div>FAILED TO LOAD ASSETS</div>
     }
 
-    return <CanvasScreen
+    return <LayeredCanvasScreen
         containerStyle={{
             display: 'flex',
-        }}
-        canvasStyle={{
             width: viewPort.width * magnify,
             height: viewPort.height * magnify,
-            backgroundColor: SEA_COLOR_CSS,
         }}
+        canvasStyle={[
+            {
+                backgroundColor: SEA_COLOR_CSS,
+            },
+            {
+            },
+        ]}
         draw={drawScene(gameState, viewPort, assets)}
         width={viewPort.width}
         height={viewPort.height} />
