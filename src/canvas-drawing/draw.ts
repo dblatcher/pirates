@@ -16,10 +16,16 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
     if (background_canvas) {
         const ctx = background_canvas.getContext('2d')
         if (!ctx) { return }
-        const drawingMethods = makeDrawingMethods(ctx, viewPort)
-        ctx.clearRect(0, 0, viewPort.width, viewPort.height)
+        const doubleViewport:ViewPort = {
+            x: viewPort.x,
+            y:viewPort.y,
+            height:viewPort.height,
+            width:viewPort.width
+        }
+        const drawingMethods = makeDrawingMethods(ctx, doubleViewport)
+        ctx.clearRect(0, 0, doubleViewport.width, doubleViewport.height)
         surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-        drawLand(ctx, drawingMethods, viewPort, game.land, assets)
+        drawLand(ctx, drawingMethods, doubleViewport, game.land, assets)
     }
     if (sprite_canvas) {
         const ctx = sprite_canvas.getContext('2d')
