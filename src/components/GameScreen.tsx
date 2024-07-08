@@ -1,5 +1,5 @@
 import { createRef, useEffect, useLayoutEffect } from "react"
-import { drawBackground, drawScene } from "../canvas-drawing/draw"
+import { drawTerrain, drawScene, drawSea } from "../canvas-drawing/draw"
 import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
@@ -13,12 +13,13 @@ interface Props {
 export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
 
     const assets = useAssets()
+    const seaCanvasRef = createRef<HTMLCanvasElement>()
     const backgroundCanvasRef = createRef<HTMLCanvasElement>()
     const spriteCanvasRef = createRef<HTMLCanvasElement>()
 
     useEffect(() => {
         if (assets) {
-            drawBackground(gameState, viewPort, assets)(backgroundCanvasRef.current)
+            drawTerrain(gameState, viewPort, assets)(backgroundCanvasRef.current)
         }
     }, [assets, backgroundCanvasRef.current])
 
@@ -26,6 +27,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         if (!assets) {
             return
         }
+        drawSea(gameState, viewPort, assets)(seaCanvasRef.current)
         drawScene(gameState, viewPort, assets)(spriteCanvasRef.current)
     }
 
@@ -50,9 +52,19 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
                 style={{
                     position: 'absolute',
                     inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: SEA_COLOR_CSS,
+                }}
+                width={viewPort.width}
+                height={viewPort.height}
+                ref={seaCanvasRef} ></canvas>
+            <canvas
+                style={{
+                    position: 'absolute',
+                    inset: 0,
                     width: `${100 * xR}%`,
                     height: `${100 * yR}%`,
-                    backgroundColor: SEA_COLOR_CSS,
                     transform: `translatex(${-viewPort.x * magnify}px) translatey(${-viewPort.y * magnify}px)`,
                 }}
                 width={gameState.mapWidth}

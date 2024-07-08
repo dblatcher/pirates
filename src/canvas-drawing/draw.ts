@@ -9,10 +9,18 @@ import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
 
 
-export const drawBackground = (game: GameState, _viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
+export const drawSea = (game: GameState, viewPort: ViewPort, _assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
+    const { surfaceEffects } = game
+    if (canvas) {
+        const ctx = canvas.getContext('2d')
+        if (!ctx) { return }
+        const drawingMethods = makeDrawingMethods(ctx, viewPort)
+        ctx.clearRect(0, 0, viewPort.width, viewPort.height)
+        surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
+    }
+}
 
-    // const { surfaceEffects } = game
-
+export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
     if (canvas) {
         const ctx = canvas.getContext('2d')
         if (!ctx) { return }
@@ -24,7 +32,6 @@ export const drawBackground = (game: GameState, _viewPort: ViewPort, assets: Ass
         }
         const drawingMethods = makeDrawingMethods(ctx, fullViewport)
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
-        // surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
         drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
     }
 }
