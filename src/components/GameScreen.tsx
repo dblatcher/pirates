@@ -16,18 +16,16 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
     const backgroundCanvasRef = createRef<HTMLCanvasElement>()
     const spriteCanvasRef = createRef<HTMLCanvasElement>()
 
-    useEffect(()=> {
+    useEffect(() => {
         if (assets) {
             drawBackground(gameState, viewPort, assets)(backgroundCanvasRef.current)
         }
-    },[assets,backgroundCanvasRef.current]) 
+    }, [assets, backgroundCanvasRef.current])
 
     const renderCanvas = () => {
         if (!assets) {
             return
         }
-
-        drawBackground(gameState, viewPort, assets)(backgroundCanvasRef.current)
         drawScene(gameState, viewPort, assets)(spriteCanvasRef.current)
     }
 
