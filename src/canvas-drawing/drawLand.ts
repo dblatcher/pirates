@@ -10,7 +10,7 @@ const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
         case TerrainType.PLAIN:
             return ctx.fillStyle = 'palegreen'
         case TerrainType.JUNGLE:
-            return ctx.fillStyle = 'green'
+            return ctx.fillStyle = 'burlywood'
         case TerrainType.DESERT:
             return ctx.fillStyle = 'yellow'
         case TerrainType.SWAMP:
@@ -88,6 +88,14 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 drawingMethods.rect(x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                 ctx.fill()
                 plotter.drawCoasts(square.coastLines, x, y)
+                if (square.type === TerrainType.JUNGLE) {
+                    drawingMethods.drawImage(assets.TREES, 40, 60, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+                }
+                if (square.type === TerrainType.PLAIN) {
+                    if (Math.random() > .9) {
+                        drawingMethods.drawImage(assets.TREES, 0, 0, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+                    }
+                }
             })
         })
 
