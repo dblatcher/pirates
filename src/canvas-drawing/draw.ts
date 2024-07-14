@@ -1,4 +1,4 @@
-import { GameState, ViewPort } from "../game-state";
+import { GameState, TOWN_SIZE, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
 import { drawBoardingAction, drawInvadingAction } from "./drawAction";
 import { drawLand } from "./drawLand";
@@ -23,6 +23,7 @@ export const drawSea = (game: GameState, viewPort: ViewPort, _assets: AssetMap) 
 export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
     if (canvas) {
         const ctx = canvas.getContext('2d')
+
         if (!ctx) { return }
         const fullViewport: ViewPort = {
             x: 0,
@@ -33,7 +34,27 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         const drawingMethods = makeDrawingMethods(ctx, fullViewport)
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
         drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
+
+        const imageSize = TOWN_SIZE * .6
+
+        game.towns.forEach(town => {
+            drawingMethods.drawImage(assets.HOUSE, town.x - imageSize / 2, town.y - imageSize / 2, imageSize, imageSize)
+        })
     }
+}
+
+export const drawnTerrainOffScreen = (game: GameState, assets: AssetMap) => {
+    const canvas = document.createElement('canvas')
+    canvas.width = game.mapWidth
+    canvas.height = game.mapHeight
+    drawTerrain(game,{
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    }, assets)(canvas)
+
+    return (canvas.toDataURL())
 }
 
 

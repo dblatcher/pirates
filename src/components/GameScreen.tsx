@@ -1,5 +1,5 @@
-import { createRef, useEffect, useLayoutEffect } from "react"
-import { drawTerrain, drawScene, drawSea } from "../canvas-drawing/draw"
+import { createRef, useEffect, useLayoutEffect, useState } from "react"
+import { drawScene, drawSea, drawnTerrainOffScreen } from "../canvas-drawing/draw"
 import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
@@ -14,14 +14,15 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
 
     const assets = useAssets()
     const seaCanvasRef = createRef<HTMLCanvasElement>()
-    const backgroundCanvasRef = createRef<HTMLCanvasElement>()
     const spriteCanvasRef = createRef<HTMLCanvasElement>()
+    const [terrainImage, setTerrainImage] = useState<string | undefined>(undefined)
 
     useEffect(() => {
         if (assets) {
-            drawTerrain(gameState, viewPort, assets)(backgroundCanvasRef.current)
+            const url = drawnTerrainOffScreen(gameState, assets)
+            setTerrainImage(url)
         }
-    }, [assets, backgroundCanvasRef.current])
+    }, [assets])
 
     const renderCanvas = () => {
         if (!assets) {
@@ -31,7 +32,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         drawScene(gameState, viewPort, assets)(spriteCanvasRef.current)
     }
 
-    useLayoutEffect(renderCanvas, [renderCanvas, backgroundCanvasRef, spriteCanvasRef])
+    useLayoutEffect(renderCanvas, [renderCanvas, spriteCanvasRef])
 
     if (!assets) {
         return <div>FAILED TO LOAD ASSETS</div>
@@ -59,7 +60,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
                 width={viewPort.width}
                 height={viewPort.height}
                 ref={seaCanvasRef} ></canvas>
-            <canvas
+            <div
                 style={{
                     position: 'absolute',
                     inset: 0,
@@ -67,9 +68,18 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
                     height: `${100 * yR}%`,
                     transform: `translatex(${-viewPort.x * magnify}px) translatey(${-viewPort.y * magnify}px)`,
                 }}
-                width={gameState.mapWidth}
-                height={gameState.mapHeight}
-                ref={backgroundCanvasRef}></canvas>
+            >
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        width: `${100}%`,
+                        height: `${100}%`,
+                        backgroundImage: terrainImage ? `url("${terrainImage}")` : undefined,
+                        backgroundSize: ` ${100}% ${100}%`,
+                    }}
+                ></div>
+            </div>
             <canvas
                 style={{
                     position: 'absolute',

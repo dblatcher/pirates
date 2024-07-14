@@ -23,14 +23,12 @@ const drawWall = (
     offset: number,
     isOuterWall: boolean,
 ) => {
-
     ctx.beginPath();
     ctx.lineWidth = wallWidth;
     ctx.setLineDash(getWallOffset(damageLevel, isOuterWall))
     drawingMethods.arc(town.x, town.y, (TOWN_SIZE / 2) + offset, 0, Math.PI * 2);
     ctx.stroke();
     ctx.setLineDash([])
-
 }
 
 const dividePointsByWall = (totalWalls: number, defences: number): number[] => {
@@ -55,9 +53,6 @@ export const drawTownOutline = (
     cycleNumber: number,
 ) => {
     ctx.beginPath();
-    ctx.fillStyle = 'gray'
-    drawingMethods.arc(town.x, town.y, TOWN_SIZE / 2, 0, Math.PI * 2);
-    ctx.fill();
 
     const townCanBeInvaded = town.defences < DEFENCES_TO_REPEL_INVADERS
     const totalWalls = Math.ceil(town.profile.maxDefences / POINTS_PER_WALL)

@@ -3,8 +3,7 @@ import StrawHatIconPng from "./Straw_hat_icon.svg.png"
 import repairPng from "./repair.png"
 import crossedSwordsPng from "./crossed-swords.png"
 import captainHatPng from "./captain-hat.png"
-
-
+import housePng from "./house.png"
 
 const assetParams = {
     coastlines: {
@@ -12,6 +11,7 @@ const assetParams = {
     },
     CROSSED_SWORDS: { width: 100, height: 100, src: crossedSwordsPng },
     REPAIR: { width: 100, height: 100, src: repairPng },
+    HOUSE: { width: 100, height: 100, src: housePng },
 }
 
-export { assetParams, coastlinesPng, StrawHatIconPng, repairPng, crossedSwordsPng, captainHatPng }
+export { assetParams, coastlinesPng, StrawHatIconPng, repairPng, crossedSwordsPng, captainHatPng, housePng }
