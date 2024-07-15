@@ -8,7 +8,7 @@ import { OffsetDrawMethods } from "./drawWithOffSet";
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
     switch (terrain) {
         case TerrainType.PLAIN:
-            return ctx.fillStyle = 'palegreen'
+            return ctx.fillStyle = 'greenyellow'
         case TerrainType.JUNGLE:
             return ctx.fillStyle = 'burlywood'
         case TerrainType.DESERT:
@@ -67,7 +67,6 @@ class CoastLinePlotter {
     }
 }
 
-
 export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, viewPort: ViewPort, land: Landmass[], assets: AssetMap) {
 
     const plotter = new CoastLinePlotter(drawingMethods, assets.coastlines)
@@ -92,8 +91,11 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                     drawingMethods.drawImage(assets.TREES, 40, 60, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                 }
                 if (square.type === TerrainType.PLAIN) {
-                    if (Math.random() > .9) {
+                    const random = Math.random()
+                    if (random > .93) {
                         drawingMethods.drawImage(assets.TREES, 0, 0, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+                    } else if (random > .9) {
+                        drawingMethods.drawImage(assets.MISC, 32, 0, 32, 32, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
                     }
                 }
             })
