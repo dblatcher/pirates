@@ -2,6 +2,7 @@ import { AssetMap } from "../context/asset-context";
 import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
 import { sum } from "../lib/util";
+import { drawSpriteFunc } from "./draw-sprite";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 
 
@@ -71,6 +72,7 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
 
     const plotter = new CoastLinePlotter(drawingMethods, assets.coastlines)
     const landInView = getLandInView(land, viewPort)
+    const drawSprite = drawSpriteFunc(drawingMethods, assets)
 
     landInView.forEach(landmass => {
         landmass.shape.forEach((row, rowIndex) => {
@@ -88,14 +90,14 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 ctx.fill()
                 plotter.drawCoasts(square.coastLines, x, y)
                 if (square.type === TerrainType.JUNGLE) {
-                    drawingMethods.drawImage(assets.TREES, 40, 60, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+                    drawSprite('TREES', x, y, 2, 3)
                 }
                 if (square.type === TerrainType.PLAIN) {
                     const random = Math.random()
-                    if (random > .93) {
-                        drawingMethods.drawImage(assets.TREES, 0, 0, 20, 20, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
-                    } else if (random > .9) {
-                        drawingMethods.drawImage(assets.MISC, 32, 0, 32, 32, x, y, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+                    if (random > .9) {
+                        drawSprite('TREES', x, y, 0, 0)
+                    } else if (random > .85) {
+                        drawSprite('MISC', x, y, 1, 0)
                     }
                 }
             })
