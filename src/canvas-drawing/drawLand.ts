@@ -90,14 +90,14 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
                 ctx.fill()
                 plotter.drawCoasts(square.coastLines, x, y)
                 if (square.type === TerrainType.JUNGLE) {
-                    drawSprite('TREES', x, y, 2, 3)
+                    drawSprite({ key: 'TREES', x, y, fx: 2, fy: 3 })
                 }
                 if (square.type === TerrainType.PLAIN) {
                     const random = Math.random()
                     if (random > .9) {
-                        drawSprite('TREES', x, y, 0, 0)
+                        drawSprite({ key: 'TREES', x, y, fx: 0, fy: 0 })
                     } else if (random > .85) {
-                        drawSprite('MISC', x, y, 1, 0)
+                        drawSprite({ key: 'MISC', x, y, fx: 1, fy: 0 })
                     }
                 }
             })

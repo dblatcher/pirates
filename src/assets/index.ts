@@ -29,7 +29,12 @@ const TREES: AssetData = {
         cols: 3, rows: 4
     }
 }
-const MISC: AssetData = { width: 96, height: 128, src: miscPng }
+const MISC: AssetData = {
+    width: 96, height: 128, src: miscPng,
+    sprites: {
+        cols: 3, rows: 4
+    }
+}
 
 const assetParams = {
     coastlines,
