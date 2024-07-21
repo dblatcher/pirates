@@ -1,4 +1,4 @@
-import { InvadingAction, Town, ViewPort, Wind } from "../../game-state";
+import { InvadingAction, Town, TOWN_SIZE, ViewPort, Wind } from "../../game-state";
 import { rgb } from "../../lib/Color";
 import { translate, translateZ, xy } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
@@ -44,10 +44,11 @@ export const drawTowns = (
         const color = getFactionColor(town)
         const secondColor = getFactionSecondColor(town)
         const flagHeight = Math.min(50, town.garrison * 2)
-        drawFlagPole(ctx, drawingMethods, town, 80)
-        drawFlag(ctx, drawingMethods, 
-            translateZ(town, flagHeight), 
-            wind.direction, cycleNumber, 
+        const flagPosition = translate(town, { x: -TOWN_SIZE / 2, y: -TOWN_SIZE / 4 })
+        drawFlagPole(ctx, drawingMethods, flagPosition, 80)
+        drawFlag(ctx, drawingMethods,
+            translateZ(flagPosition, flagHeight),
+            wind.direction, cycleNumber,
             rgb(color), rgb(secondColor), getFactionFlag(town))
     })
 }

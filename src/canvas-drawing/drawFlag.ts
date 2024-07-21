@@ -1,4 +1,5 @@
 import { Flag } from "../game-state"
+import { colors, rgb } from "../lib/Color"
 import { XY, _DEG, getXYVector, translate, translateZ } from "../lib/geometry"
 import { timePhase } from "../lib/util"
 import { OffsetDrawMethods } from "./drawWithOffSet"
@@ -13,7 +14,7 @@ export const drawFlagPole = (
     z: number,
 ) => {
     ctx.beginPath()
-    ctx.strokeStyle = 'black'
+    ctx.strokeStyle = rgb( colors.BROWN)
     ctx.lineWidth = 4
     drawMethods.moveTo(...s(position))
     drawMethods.lineTo(...s(translateZ(position, z)))
