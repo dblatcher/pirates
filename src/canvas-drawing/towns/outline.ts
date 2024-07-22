@@ -26,7 +26,7 @@ const drawWall = (
     ctx.beginPath();
     ctx.lineWidth = wallWidth;
     ctx.setLineDash(getWallOffset(damageLevel, isOuterWall))
-    drawingMethods.arc(town.x, town.y, (TOWN_SIZE / 2) + offset, 0, Math.PI * 2);
+    drawingMethods.arc(town.x, town.y, (TOWN_SIZE / 2) + offset, Math.PI * -0.1, Math.PI * 1.1);
     ctx.stroke();
     ctx.setLineDash([])
 }

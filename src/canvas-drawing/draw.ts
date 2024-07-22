@@ -36,17 +36,16 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
         drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
 
-        const imageSize = TOWN_SIZE * 1
-
+        const imageSize = TOWN_SIZE * .8
         const drawSprite = drawSpriteFunc(drawingMethods, assets)
-
         game.towns.forEach(town => {
             drawSprite({
                 key: 'MISC',
-                x: town.x - imageSize / 2,
-                y: town.y - imageSize / 2,
+                x: town.x,
+                y: town.y - imageSize * .1,
                 fx: 1, fy: 3,
-                width: imageSize, height: imageSize
+                width: imageSize, height: imageSize,
+                center: true,
             })
         })
     }

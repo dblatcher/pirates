@@ -13,7 +13,7 @@ function plotAttack(
     ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, assets: AssetMap,
 ) {
     const midPoint = xy(average([target.x, attackingShip.x]), average([target.y, attackingShip.y]))
-    const message = `${attackerCount}/${defenderCount}`
+    const message = `${attackerCount} / ${defenderCount}`
 
     ctx.beginPath()
     ctx.lineWidth = 5
@@ -43,8 +43,8 @@ function plotAttack(
     })
 
     ctx.beginPath()
-    ctx.font = '25px arial'
-    ctx.fillStyle = rgba(colors.WHITE, 1)
+    ctx.font = 'bold 25px arial'
+    ctx.fillStyle = rgba(colors.BLACK, 1)
     ctx.textBaseline = 'middle'
     ctx.textAlign = 'center'
     drawingMethods.fillText(message, ...s(midPoint))

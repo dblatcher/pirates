@@ -1,4 +1,5 @@
 import { TOWN_SIZE, Town } from "../../game-state";
+import { colors, rgb } from "../../lib/Color";
 import { OffsetDrawMethods } from "../drawWithOffSet";
 
 export const showDefenceLevel = (
@@ -6,10 +7,11 @@ export const showDefenceLevel = (
     drawingMethods: OffsetDrawMethods,
     town: Town,
 ) => {
-    const { fillText } = drawingMethods
+    const { fillText, } = drawingMethods
     ctx.beginPath()
     const garrisonString = `${town.garrison} troops`
-    ctx.font = '18px arial'
-    ctx.fillStyle = 'white'
-    fillText(garrisonString, town.x - TOWN_SIZE / 3, town.y + 25)
+    ctx.font = 'bold 30px arial'
+    ctx.fillStyle = rgb(colors.BLACK)
+
+    fillText(garrisonString, town.x + TOWN_SIZE * 0.4, town.y + TOWN_SIZE * 0.6)
 }
