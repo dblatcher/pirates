@@ -36,7 +36,7 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
         drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
 
-        const imageSize = TOWN_SIZE * .8
+        const imageSize = TOWN_SIZE * 1
 
         const drawSprite = drawSpriteFunc(drawingMethods, assets)
 
@@ -67,7 +67,7 @@ export const drawnTerrainOffScreen = (game: GameState, assets: AssetMap) => {
 }
 
 
-export const drawScene = (game: GameState, viewPort: ViewPort, _assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
+export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
     const { projectiles, effects, towns, invadingActions, boardingActions } = game
     if (sprite_canvas) {
         const ctx = sprite_canvas.getContext('2d')
@@ -78,8 +78,8 @@ export const drawScene = (game: GameState, viewPort: ViewPort, _assets: AssetMap
         drawShips(ctx, drawingMethods, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
         effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, action, game))
-        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, action, game))
+        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, assets, action, game))
+        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, assets, action, game))
     }
 }
 

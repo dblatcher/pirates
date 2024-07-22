@@ -1,16 +1,13 @@
-import { repairPng, crossedSwordsPng } from "../assets";
+import { repairPng } from "../assets";
 import { XY, translate } from "../lib/geometry";
 import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";
 
 
-const CROSSED_SWORDS = new Image(100, 100)
-CROSSED_SWORDS.src = crossedSwordsPng
 const REPAIR = new Image(100, 100)
 REPAIR.src = repairPng
 
 const ICONS = {
-    CROSSED_SWORDS,
     REPAIR,
 }
 

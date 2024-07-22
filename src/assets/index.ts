@@ -1,7 +1,6 @@
 import coastlinesPng from "./coastlines.png"
 import StrawHatIconPng from "./Straw_hat_icon.svg.png"
 import repairPng from "./repair.png"
-import crossedSwordsPng from "./crossed-swords.png"
 import captainHatPng from "./captain-hat.png"
 import housePng from "./house.png"
 import treesPng from "./trees.png"
@@ -19,9 +18,6 @@ const coastlines: AssetData = {
     width: 200, height: 200, src: coastlinesPng,
 
 }
-const CROSSED_SWORDS: AssetData = {
-    width: 100, height: 100, src: crossedSwordsPng
-}
 const REPAIR: AssetData = { width: 100, height: 100, src: repairPng }
 const HOUSE: AssetData = { width: 100, height: 100, src: housePng }
 const TREES: AssetData = {
@@ -38,11 +34,10 @@ const MISC: AssetData = {
 
 const assetParams = {
     coastlines,
-    CROSSED_SWORDS,
     REPAIR,
     HOUSE,
     TREES,
     MISC,
 } satisfies Record<string, AssetData>
 
-export { assetParams, coastlinesPng, StrawHatIconPng, repairPng, crossedSwordsPng, captainHatPng, housePng }
+export { assetParams, coastlinesPng, StrawHatIconPng, repairPng, captainHatPng, housePng }
