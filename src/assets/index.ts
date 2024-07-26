@@ -4,6 +4,7 @@ import captainHatPng from "./captain-hat.png"
 import housePng from "./house.png"
 import treesPng from "./trees.png"
 import miscPng from "./misc.png"
+import eyePatch from "./eyepatch.svg"
 
 type AssetData = {
     width: number, height: number, src: string,
@@ -28,12 +29,16 @@ const MISC: AssetData = {
         cols: 3, rows: 4
     }
 }
+const EYE_PATCH:AssetData = {
+    width:50, height:50, src: eyePatch
+}
 
 const assetParams = {
     coastlines,
     HOUSE,
     TREES,
     MISC,
+    EYE_PATCH,
 } satisfies Record<string, AssetData>
 
-export { assetParams, coastlinesPng, StrawHatIconPng, captainHatPng, housePng }
+export { assetParams, coastlinesPng, StrawHatIconPng, captainHatPng, housePng, eyePatch }

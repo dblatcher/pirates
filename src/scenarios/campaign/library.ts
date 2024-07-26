@@ -1,6 +1,6 @@
 import { browShapes } from "@dblatcher/funny-face";
 import { Person } from "../scenarios";
-import { StrawHatIconPng } from "../../assets";
+import { StrawHatIconPng, eyePatch,  } from "../../assets";
 import { TERRAIN_SQUARE_SIZE, Town } from "../../game-state";
 import { Landmass, LandmassInput, inputToLandmass } from "../../game-state/land";
 import { makeTownWithForts } from "../../game-state/towns";
@@ -39,7 +39,7 @@ export const BARNEY: Person = {
         lipColor: 'brown'
     },
     accessories: [
-
+        {x: 0, y: 0, src: eyePatch, width: 100, place:'right-eye'}
     ]
 }
 
