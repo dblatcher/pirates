@@ -6,6 +6,8 @@ import { Ship } from "../model";
 
 export const followDirectives = (ship: Ship, directives: Directive[]) => {
 
+    ship.rowingBack = directives.some(directive => directive.order === Order.ROW_BACK)
+
     directives.forEach(directive => {
         switch (directive.order) {
             case Order.WHEEL_TO: {
@@ -91,6 +93,9 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
             }
             case Order.BOARD_SHIP: {
                 ship.boardingShip = true
+                break
+            }
+            case Order.ROW_BACK: {
                 break
             }
         }

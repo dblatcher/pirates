@@ -9,8 +9,12 @@ export const getCollisionCircles = (ship: Ship): Circle[] => {
     return [0.5, 0.25, 0, -0.25, -0.5].map(pointAlongMiddleAt).map(point => ({ ...point, r: ship.width / 2 }));
 };
 
-export const geLeadingCollisionCircle = (ship: Ship): Circle => {
+export const getFrontCollisionCircle = (ship: Ship): Circle => {
     return { ...pointAlongMiddleAtOf(ship)(.5), r: ship.width / 2 }
+}
+
+export const getRearCollisionCircle = (ship: Ship): Circle => {
+    return { ...pointAlongMiddleAtOf(ship)(-.5), r: ship.width / 2 }
 }
 
 export const getBoundingRect = (ship: Ship, margin = 6): Rect => {

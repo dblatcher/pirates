@@ -37,6 +37,7 @@ export type Ship = {
     sailLevel: number,
     speedLastTurn: number
     turnsUnimpeded: number
+    rowingBack?: boolean
 
     sailLevelTarget: number,
     wheel: number,

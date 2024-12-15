@@ -4,7 +4,7 @@ import { updateCannon } from "../cannons"
 import { Collison, GameState, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, Ship } from "../model"
 import { getSpeed } from "./calculate-speed"
 import { getBoundingRect } from "./collision-shapes"
-import { detectForwardCollisions, detectTurningCollisons } from "./collison-detection"
+import { detectBackwardsCollisions, detectForwardCollisions, detectTurningCollisons } from "./collison-detection"
 import { tryToBoardShip, tryToLauchInvasion } from "./invade"
 import { shipIsAtPort } from "./repairAtPort"
 
@@ -22,7 +22,7 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
     // TO DO - turn more slowly with full sails
     const turnAmount = (SHIP_TURN_RATE * ship.wheel * ship.profile.maneuver)
 
-    const { otherShipRanInto, runsAgroundFromGoingForward, fortRunInto } = detectForwardCollisions(ship, forward, otherShipsNearby, forts, game.land)
+    const { otherShipRanInto, runsAground, fortRunInto } = detectForwardCollisions(ship, forward, otherShipsNearby, forts, game.land)
     const { otherShipTurnedInto, fortTurnedInto } = detectTurningCollisons(ship, turnAmount, otherShipsNearby, forts)
 
     if (otherShipRanInto) {
@@ -36,16 +36,25 @@ export const updateShip = (ship: Ship, game: GameState, collisions: Collison[], 
         }
     }
 
-    if (!otherShipRanInto && !runsAgroundFromGoingForward && !fortRunInto) {
+    if (!otherShipRanInto && !runsAground && !fortRunInto) {
         ship.x = ship.x += forward.x
         ship.y = ship.y += forward.y
+    }
+
+    if (ship.rowingBack && ship.sailLevel === 0) {
+        const backwards = getXYVector(-.25, ship.h)
+        const { otherShipRanInto, runsAground, fortRunInto } = detectBackwardsCollisions(ship, backwards, otherShipsNearby, forts, game.land)
+        if (!otherShipRanInto && !runsAground && !fortRunInto) {
+            ship.x = ship.x += backwards.x
+            ship.y = ship.y += backwards.y
+        }
     }
 
     if (!otherShipTurnedInto && !fortTurnedInto) {
         ship.h = normaliseHeading(ship.h + turnAmount)
     }
 
-    const wasNotImpeded = !otherShipRanInto && !runsAgroundFromGoingForward && !otherShipTurnedInto && !fortRunInto && !fortTurnedInto
+    const wasNotImpeded = !otherShipRanInto && !runsAground && !otherShipTurnedInto && !fortRunInto && !fortTurnedInto
     ship.speedLastTurn = wasNotImpeded ? moveAmount : 0
     ship.turnsUnimpeded = wasNotImpeded ? ship.turnsUnimpeded + 1 : 0
 

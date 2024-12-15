@@ -46,6 +46,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const wheelRef = useRef<number | undefined>(undefined)
+    const rowBackRef = useRef<boolean>(false)
     const wheelNotLockedByPointerRef = useRef(true)
     const wheelNotLockedByKeyboardRef = useRef(true)
     const sailChangeRef = useRef<'UP' | 'DOWN' | undefined>(undefined)
@@ -94,6 +95,9 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     directives.push({ order: Order.SAILS_BY, quantity: .01 })
                     break;
             }
+            if (rowBackRef.current) {
+                directives.push({ order: Order.ROW_BACK })
+            }
             wheelRef.current = undefined
             directivesRef.current = []
             return directives
@@ -113,8 +117,8 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     )
 
     const keyMapHandler = useCallback(
-        makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef }),
-        [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef]
+        makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef, rowBackRef }),
+        [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef, rowBackRef]
     )
 
     const keyDownFunction = useCallback(

@@ -63,6 +63,7 @@ export enum Order {
     WHEEL_TO,
     INVADE_TOWN,
     BOARD_SHIP,
+    ROW_BACK,
 }
 
 export enum Side {
@@ -91,7 +92,7 @@ type QuantityDirective = {
 }
 
 type PlainDirective = {
-    order: Order.RESET_WHEEL | Order.INVADE_TOWN | Order.BOARD_SHIP
+    order: Order.RESET_WHEEL | Order.INVADE_TOWN | Order.BOARD_SHIP | Order.ROW_BACK
 }
 
 type FireDirective = {

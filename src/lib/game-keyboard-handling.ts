@@ -28,6 +28,7 @@ const readKeyMap = (keyMap: KeyMap) => ({
     steerRight: !!keyMap['KeyD'],
     sailsUp: !!keyMap['KeyW'] && !keyMap['KeyS'],
     sailsDown: !!keyMap['KeyS'] && !keyMap['KeyW'],
+    rowBack: !!keyMap['KeyZ'],
 })
 
 export const makeKeyMapHandler = (
@@ -35,9 +36,10 @@ export const makeKeyMapHandler = (
         wheelRef: React.MutableRefObject<number | undefined>,
         wheelNotLockedByKeyboardRef: React.MutableRefObject<boolean>,
         sailChangeRef: React.MutableRefObject<'UP' | 'DOWN' | undefined>,
+        rowBackRef: React.MutableRefObject<boolean>
     }
 ) => (keyMap: Record<string, boolean>) => {
-    const { wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef } = refs
+    const { wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef, rowBackRef } = refs
     const actions = readKeyMap(keyMap)
     const turn = getTurnAmount(actions.steerLeft, actions.steerRight, actions.fineTurn)
     wheelNotLockedByKeyboardRef.current = !turn
@@ -47,6 +49,8 @@ export const makeKeyMapHandler = (
         wheelRef.current = turn
     }
     sailChangeRef.current = actions.sailsUp ? 'UP' : actions.sailsDown ? 'DOWN' : undefined
+
+    rowBackRef.current = actions.rowBack
 }
 
 export const makeKeyDownHandler = (paused: boolean, center: ControlCenter, setFiringPattern: { (value: FiringPattern): void }, firingPattern: FiringPattern, setMapOpen: { (value: boolean): void }, mapOpen: boolean) => (event: KeyboardEvent) => {
