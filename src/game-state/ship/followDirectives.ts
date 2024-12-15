@@ -38,7 +38,7 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                     case FiringPattern.CASCADE:
                         cannons.forEach((cannon, index) => cannon.countdown = 1 + (10 * index))
                         break;
-                    case FiringPattern.ALTERNATE:
+                    case FiringPattern.ALTERNATE: {
                         const readyOddNumberedCannons = cannons.filter((cannon, index) =>
                             !isEven(index) && cannon.cooldown === 0
                         )
@@ -51,6 +51,7 @@ export const followDirectives = (ship: Ship, directives: Directive[]) => {
                             readyOddNumberedCannons.forEach((cannon) => { cannon.countdown = 1 })
                         }
                         break;
+                    }
                 }
                 break;
             }
