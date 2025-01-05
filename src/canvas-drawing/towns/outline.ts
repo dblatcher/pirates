@@ -1,6 +1,6 @@
 import { DEFENCES_TO_REPEL_INVADERS, TOWN_SIZE, Town } from "../../game-state";
 import { clamp } from "../../lib/util";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { flash } from "../helpers";
 
 

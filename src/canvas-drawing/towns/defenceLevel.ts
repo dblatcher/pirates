@@ -1,6 +1,6 @@
 import { TOWN_SIZE, Town } from "../../game-state";
 import { colors, rgb } from "../../lib/Color";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 
 export const showDefenceLevel = (
     ctx: CanvasRenderingContext2D,

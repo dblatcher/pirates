@@ -3,7 +3,7 @@ import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
 import { sum } from "../lib/util";
 import { drawSpriteFunc } from "./draw-sprite";
-import { OffsetDrawMethods } from "./drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 
 
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {

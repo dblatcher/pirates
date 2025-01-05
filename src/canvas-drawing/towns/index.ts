@@ -3,7 +3,7 @@ import { rgb } from "../../lib/Color";
 import { translate, translateZ, xy } from "../../lib/geometry";
 import { drawFlag, drawFlagPole } from "../drawFlag";
 import { drawFlame } from "../drawFlame";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { getFactionColor, getFactionFlag, getFactionSecondColor, isTownInView } from "../helpers";
 import { showDefenceLevel } from "./defenceLevel";
 import { drawFort } from "./forts";

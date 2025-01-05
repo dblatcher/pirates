@@ -4,7 +4,7 @@ import { Landmass } from '../land'
 import type { Ship } from '../model'
 import { Projectile } from './cannon-types'
 import { Town } from './town-types'
-
+export type { ViewPort } from "@dblatcher/sprite-canvas"
 
 export type Wind = {
     force: number;
@@ -40,12 +40,6 @@ export type GameState = {
     mapHeight: number;
 }
 
-export type ViewPort = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-}
 
 export type Collison = {
     ship: Ship;

@@ -3,7 +3,7 @@ import { getProwPosition } from "../../game-state/ship";
 import { SAIL_COLOR_CSS, rgb } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { drawFlag } from "../drawFlag";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { getFactionColor, getFactionSecondColor, s } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25

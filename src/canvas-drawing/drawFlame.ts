@@ -1,5 +1,5 @@
 import { XY, _DEG, translate, getXYVector } from "../lib/geometry";
-import { OffsetDrawMethods } from "./drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 
 export const drawFlame = (

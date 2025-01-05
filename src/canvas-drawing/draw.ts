@@ -1,9 +1,9 @@
+import { makeDrawingMethods } from "@dblatcher/sprite-canvas";
 import { GameState, TOWN_SIZE, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
 import { drawBoardingAction, drawInvadingAction } from "./drawAction";
 import { drawLand } from "./drawLand";
 import { drawProjectile } from "./drawProjectile";
-import { makeDrawingMethods } from "./drawWithOffSet";
 import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";

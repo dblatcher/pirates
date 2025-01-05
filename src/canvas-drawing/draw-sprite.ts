@@ -1,7 +1,7 @@
 import { assetParams } from "../assets"
 import { AssetMap } from "../context/asset-context"
 import { TERRAIN_SQUARE_SIZE } from "../game-state"
-import { OffsetDrawMethods } from "./drawWithOffSet"
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas"
 
 type SpriteParams = {
     key: keyof AssetMap;
