@@ -3,9 +3,9 @@ import { BoardingAction, GameState, InvadingAction } from "../game-state";
 import { colors, rgba } from "../lib/Color";
 import { XY, xy } from "../lib/geometry";
 import { average, timePhase } from "../lib/util";
-import { drawSpriteFunc } from "./draw-sprite";
-import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
+import { OffsetDrawMethods, drawSpriteFunc } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
+import { assetParams } from "../assets";
 
 
 function plotAttack(
@@ -33,7 +33,7 @@ function plotAttack(
     const phase = timePhase(cycleNumber, 30, 1)
     const iconSize = 50 + phase
 
-    drawSpriteFunc(drawingMethods, assets)({
+    drawSpriteFunc(drawingMethods, assets, assetParams)({
         key: 'MISC',
         ...midPoint,
         width: iconSize,

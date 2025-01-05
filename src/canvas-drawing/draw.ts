@@ -1,5 +1,5 @@
-import { makeDrawingMethods } from "@dblatcher/sprite-canvas";
-import { GameState, TOWN_SIZE, ViewPort } from "../game-state";
+import { makeDrawingMethods, drawSpriteFunc } from "@dblatcher/sprite-canvas";
+import { GameState, TERRAIN_SQUARE_SIZE, TOWN_SIZE, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
 import { drawBoardingAction, drawInvadingAction } from "./drawAction";
 import { drawLand } from "./drawLand";
@@ -7,7 +7,7 @@ import { drawProjectile } from "./drawProjectile";
 import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
-import { drawSpriteFunc } from "./draw-sprite";
+import { assetParams } from "../assets";
 
 
 export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCanvasElement | null)) => {
@@ -37,7 +37,7 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
 
         const imageSize = TOWN_SIZE * .8
-        const drawSprite = drawSpriteFunc(drawingMethods, assets)
+        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
         game.towns.forEach(town => {
             drawSprite({
                 key: 'MISC',

@@ -1,9 +1,9 @@
+import { assetParams } from "../assets";
 import { AssetMap } from "../context/asset-context";
 import { TERRAIN_SQUARE_SIZE, ViewPort } from "../game-state";
 import { CoastLines, Landmass, TerrainType, getLandInView } from "../game-state/land";
 import { sum } from "../lib/util";
-import { drawSpriteFunc } from "./draw-sprite";
-import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
+import { OffsetDrawMethods, drawSpriteFunc } from "@dblatcher/sprite-canvas";
 
 
 const setLandFill = (ctx: CanvasRenderingContext2D, terrain: TerrainType) => {
@@ -72,7 +72,7 @@ export function drawLand(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDr
 
     const plotter = new CoastLinePlotter(drawingMethods, assets.coastlines)
     const landInView = getLandInView(land, viewPort)
-    const drawSprite = drawSpriteFunc(drawingMethods, assets)
+    const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams)
 
     landInView.forEach(landmass => {
         landmass.shape.forEach((row, rowIndex) => {
