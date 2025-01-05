@@ -1,25 +1,23 @@
-import { OffsetDrawMethods, drawSpriteFunc } from "@dblatcher/sprite-canvas"
-import { AssetMap } from "../../context/asset-context"
+import { DrawSpriteFunction, OffsetDrawMethods } from "@dblatcher/sprite-canvas"
 import { GameState, ViewPort } from "../../game-state"
 import { isShipInView } from "../../game-state/ship"
 import { timePhase } from "../../lib/util"
 import { drawShipBase } from "./base"
 import { drawDamage } from "./damage"
 import { drawShipMasts } from "./masts"
-import { assetParams } from "../../assets"
+import { AssetKey } from "../../assets"
 
 
 export const drawShips = (
     ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
-    assets: AssetMap,
+    drawSprite: DrawSpriteFunction<AssetKey>,
     viewPort: ViewPort,
     gameState: GameState,
     showCollision = false
 ) => {
 
     const { ships, wind, cycleNumber } = gameState
-    const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams)
     const shipsInView = ships.filter(ship => isShipInView(ship, viewPort))
     shipsInView.forEach(ship => drawShipBase(ctx, drawingMethods, ship, showCollision))
     shipsInView.forEach(ship => drawDamage(ctx, drawingMethods, ship, cycleNumber))

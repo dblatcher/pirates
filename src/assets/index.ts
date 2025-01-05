@@ -35,4 +35,6 @@ const assetParams = {
     EYE_PATCH,
 } satisfies Record<string, AssetData>
 
+export type AssetKey = keyof typeof assetParams;
+
 export { assetParams, captainHatPng, coastlinesPng, eyePatch, housePng, StrawHatIconPng }

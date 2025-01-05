@@ -1,8 +1,7 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { loadAssets, AssetData } from "@dblatcher/sprite-canvas";
-import { assetParams } from "../assets";
+import { AssetKey } from "../assets";
 
-type AssetKey = keyof typeof assetParams;
 
 export type AssetMap = Record<AssetKey, HTMLImageElement>;
 

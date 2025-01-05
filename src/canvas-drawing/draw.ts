@@ -34,10 +34,10 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         }
         const drawingMethods = makeDrawingMethods(ctx, fullViewport)
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
-        drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
+        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+        drawLand(ctx, drawingMethods, fullViewport, game.land, assets, drawSprite)
 
         const imageSize = TOWN_SIZE * .8
-        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
         game.towns.forEach(town => {
             drawSprite({
                 key: 'MISC',
@@ -72,13 +72,14 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
         const ctx = sprite_canvas.getContext('2d')
         if (!ctx) { return }
         const drawingMethods = makeDrawingMethods(ctx, viewPort)
+        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE);
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
         drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
-        drawShips(ctx, drawingMethods, assets, viewPort, game, false)
+        drawShips(ctx, drawingMethods, drawSprite, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
         effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, assets, action, game))
-        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, assets, action, game))
+        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, drawSprite, action, game))
+        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, drawSprite, action, game))
     }
 }
 
