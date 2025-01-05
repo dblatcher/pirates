@@ -10,7 +10,7 @@ import { AssetMap } from "../context/asset-context";
 import { drawSpriteFunc } from "./draw-sprite";
 
 
-export const drawSea = (game: GameState, viewPort: ViewPort, _assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
+export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCanvasElement | null)) => {
     const { surfaceEffects } = game
     if (canvas) {
         const ctx = canvas.getContext('2d')

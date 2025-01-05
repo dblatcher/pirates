@@ -28,7 +28,7 @@ export const GameScreen = ({ gameState, viewPort, magnify = 1 }: Props) => {
         if (!assets) {
             return
         }
-        drawSea(gameState, viewPort, assets)(seaCanvasRef.current)
+        drawSea(gameState, viewPort)(seaCanvasRef.current)
         drawScene(gameState, viewPort, assets)(spriteCanvasRef.current)
     }
 
