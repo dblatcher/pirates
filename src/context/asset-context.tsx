@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { loadAssets } from "@dblatcher/sprite-canvas";
+import { loadAssets, AssetData } from "@dblatcher/sprite-canvas";
 import { assetParams } from "../assets";
 
 type AssetKey = keyof typeof assetParams;
@@ -11,7 +11,7 @@ type AssetContextProps = {
 }
 type AssetProviderProps = {
     children: ReactNode
-    assetParams: Record<AssetKey, { src: string, width: number, height: number }>
+    assetParams: Record<AssetKey, AssetData>
     loadingContent?: ReactNode
 }
 
