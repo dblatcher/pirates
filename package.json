@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@dblatcher/funny-face": "^0.2.0",
+    "@dblatcher/sprite-canvas": "file:../sprite-canvas",
     "astar-typescript": "^1.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

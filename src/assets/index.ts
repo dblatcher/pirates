@@ -1,4 +1,4 @@
-import { AssetData } from "../lib/load-image"
+import { AssetData } from "@dblatcher/sprite-canvas"
 import captainHatPng from "./captain-hat.png"
 import coastlinesPng from "./coastlines.png"
 import eyePatch from "./eyepatch.svg"

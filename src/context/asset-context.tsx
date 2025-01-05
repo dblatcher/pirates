@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { loadAssets } from "../lib/load-image";
+import { loadAssets } from "@dblatcher/sprite-canvas";
 import { assetParams } from "../assets";
 
 type AssetKey = keyof typeof assetParams;
