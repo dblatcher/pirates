@@ -1,4 +1,4 @@
-import { makeDrawingMethods, drawSpriteFunc } from "@dblatcher/sprite-canvas";
+import { makeDrawingMethods, drawSpriteFunc, drawOffScreen, DrawToCanvasFunction, GenerateImageUrl } from "@dblatcher/sprite-canvas";
 import { GameState, TERRAIN_SQUARE_SIZE, TOWN_SIZE, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
 import { drawBoardingAction, drawInvadingAction } from "./drawAction";
@@ -7,7 +7,7 @@ import { drawProjectile } from "./drawProjectile";
 import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
-import { assetParams } from "../assets";
+import { AssetKey, assetParams } from "../assets";
 
 
 export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCanvasElement | null)) => {
@@ -21,7 +21,7 @@ export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCa
     }
 }
 
-export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
+const drawTerrain: DrawToCanvasFunction<GameState, AssetKey> = (game: GameState, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
     if (canvas) {
         const ctx = canvas.getContext('2d')
 
@@ -50,20 +50,7 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         })
     }
 }
-
-export const drawnTerrainOffScreen = (game: GameState, assets: AssetMap) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = game.mapWidth
-    canvas.height = game.mapHeight
-    drawTerrain(game, {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    }, assets)(canvas)
-
-    return (canvas.toDataURL())
-}
+export const drawnTerrainOffScreen: GenerateImageUrl<GameState, AssetKey> = (game: GameState, assets: AssetMap) => drawOffScreen(drawTerrain)(game, assets)
 
 
 export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
