@@ -14,7 +14,7 @@ type Props = {
 
 const frameStyle: CSSProperties = {
     position: "absolute",
-    inset: 0,
+    inset: '2rem 0',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
