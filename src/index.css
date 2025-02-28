@@ -20,7 +20,7 @@ body {
 
   /* source: https://commons.wikimedia.org/wiki/File:Flag_of_Edward_England.svg */
   /* license: https://creativecommons.org/licenses/by-sa/3.0/ */
-  background-image: url(/320px-Flag_of_Edward_England.svg.png);
+  background-image: url(/pirates-images/320px-Flag_of_Edward_England.svg.png);
   background-size: 150px;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .paper {
-  border-image-source: url(/page.png);
+  border-image-source: url(/pirates-images/page.png);
   border-image-repeat: round;
   border-image-slice: calc(30 / 160 * 100%) calc(30 / 160 * 100%) fill;
   border-image-width: 1rem;
@@ -38,7 +38,7 @@ body {
 }
 
 .skull-stamp {
-  background-image: url(/jolly-rodger.png);
+  background-image: url(/pirates-images/jolly-rodger.png);
   background-clip: padding-box;
   background-position: bottom right;
   background-size: 10rem;
