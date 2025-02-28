@@ -1,6 +1,6 @@
 import { Projectile } from "../game-state";
 import { translateZ } from "../lib/geometry";
-import { OffsetDrawMethods } from "./drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 
 export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, projectile: Projectile) => {

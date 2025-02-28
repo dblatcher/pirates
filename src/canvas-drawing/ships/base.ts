@@ -2,7 +2,7 @@ import { CYCLES_TO_SINK, SINKING_DISTANCE, Ship } from "../../game-state";
 import { getCollisionCircles } from "../../game-state/ship";
 import { colors, rgba } from "../../lib/Color";
 import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { getFactionColor, s } from "../helpers";
 
 

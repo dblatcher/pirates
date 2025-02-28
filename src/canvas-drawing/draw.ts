@@ -1,13 +1,13 @@
-import { GameState, TOWN_SIZE, ViewPort } from "../game-state";
+import { makeDrawingMethods, drawSpriteFunc, drawOffScreen, DrawToCanvasFunction, GenerateImageUrl } from "@dblatcher/sprite-canvas";
+import { GameState, TERRAIN_SQUARE_SIZE, TOWN_SIZE, ViewPort } from "../game-state";
 import { drawEffect } from "./drawEffect";
 import { drawBoardingAction, drawInvadingAction } from "./drawAction";
 import { drawLand } from "./drawLand";
 import { drawProjectile } from "./drawProjectile";
-import { makeDrawingMethods } from "./drawWithOffSet";
 import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
-import { drawSpriteFunc } from "./draw-sprite";
+import { AssetKey, assetParams } from "../assets";
 
 
 export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCanvasElement | null)) => {
@@ -21,7 +21,7 @@ export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCa
     }
 }
 
-export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
+const drawTerrain: DrawToCanvasFunction<GameState, AssetKey> = (game: GameState, assets: AssetMap) => (canvas: (HTMLCanvasElement | null)) => {
     if (canvas) {
         const ctx = canvas.getContext('2d')
 
@@ -34,10 +34,10 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         }
         const drawingMethods = makeDrawingMethods(ctx, fullViewport)
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
-        drawLand(ctx, drawingMethods, fullViewport, game.land, assets)
+        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
+        drawLand(ctx, drawingMethods, fullViewport, game.land, assets, drawSprite)
 
         const imageSize = TOWN_SIZE * .8
-        const drawSprite = drawSpriteFunc(drawingMethods, assets)
         game.towns.forEach(town => {
             drawSprite({
                 key: 'MISC',
@@ -50,20 +50,7 @@ export const drawTerrain = (game: GameState, _viewPort: ViewPort, assets: AssetM
         })
     }
 }
-
-export const drawnTerrainOffScreen = (game: GameState, assets: AssetMap) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = game.mapWidth
-    canvas.height = game.mapHeight
-    drawTerrain(game, {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    }, assets)(canvas)
-
-    return (canvas.toDataURL())
-}
+export const drawnTerrainOffScreen: GenerateImageUrl<GameState, AssetKey> = (game: GameState, assets: AssetMap) => drawOffScreen(drawTerrain)(game, assets)
 
 
 export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
@@ -72,13 +59,14 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
         const ctx = sprite_canvas.getContext('2d')
         if (!ctx) { return }
         const drawingMethods = makeDrawingMethods(ctx, viewPort)
+        const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE);
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
         drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
-        drawShips(ctx, drawingMethods, assets, viewPort, game, false)
+        drawShips(ctx, drawingMethods, drawSprite, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
         effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, assets, action, game))
-        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, assets, action, game))
+        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, drawSprite, action, game))
+        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, drawSprite, action, game))
     }
 }
 

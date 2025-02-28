@@ -2,7 +2,7 @@ import { Flag } from "../game-state"
 import { colors, rgb } from "../lib/Color"
 import { XY, _DEG, getXYVector, translate, translateZ } from "../lib/geometry"
 import { timePhase } from "../lib/util"
-import { OffsetDrawMethods } from "./drawWithOffSet"
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas"
 import { s } from "./helpers"
 
 const WAVE_PHASE = 8

@@ -3,7 +3,7 @@ import { Effect, EffectType } from "../game-state/effects/effect";
 import { colors, rgba } from "../lib/Color";
 import { translate, xy } from "../lib/geometry";
 import { clamp } from "../lib/util";
-import { OffsetDrawMethods } from "./drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 import { drawShipBase } from "./ships/base";
 

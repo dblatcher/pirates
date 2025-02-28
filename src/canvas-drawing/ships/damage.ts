@@ -1,7 +1,7 @@
 import { Ship } from "../../game-state";
 import { getXYVector, translate } from "../../lib/geometry";
 import { drawFlame } from "../drawFlame";
-import { OffsetDrawMethods } from "../drawWithOffSet";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 
 
 const flamePositions = [

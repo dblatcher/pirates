@@ -1,17 +1,16 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { AssetData, loadAssets } from "../lib/load-image";
-import { assetParams } from "../assets";
+import { loadAssets, GenericAssetMap, GenericDataMap } from "@dblatcher/sprite-canvas";
+import { AssetKey } from "../assets";
 
-type AssetKey = keyof typeof assetParams;
 
-export type AssetMap = Record<AssetKey, HTMLImageElement>;
+export type AssetMap = GenericAssetMap<AssetKey>;
 
 type AssetContextProps = {
     assets?: AssetMap
 }
 type AssetProviderProps = {
     children: ReactNode
-    assetParams: Record<AssetKey, AssetData>
+    assetParams: GenericDataMap<AssetKey>
     loadingContent?: ReactNode
 }
 

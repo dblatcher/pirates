@@ -1,16 +1,15 @@
-import { AssetMap } from "../context/asset-context";
+import { DrawSpriteFunction, OffsetDrawMethods } from "@dblatcher/sprite-canvas";
+import { AssetKey } from "../assets";
 import { BoardingAction, GameState, InvadingAction } from "../game-state";
 import { colors, rgba } from "../lib/Color";
 import { XY, xy } from "../lib/geometry";
 import { average, timePhase } from "../lib/util";
-import { drawSpriteFunc } from "./draw-sprite";
-import { OffsetDrawMethods } from "./drawWithOffSet";
 import { s } from "./helpers";
 
 
 function plotAttack(
     target: XY, attackingShip: XY, attackerCount: number, defenderCount: number, cycleNumber: number,
-    ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, assets: AssetMap,
+    ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, drawSprite: DrawSpriteFunction<AssetKey>,
 ) {
     const midPoint = xy(average([target.x, attackingShip.x]), average([target.y, attackingShip.y]))
     const message = `${attackerCount} / ${defenderCount}`
@@ -33,7 +32,7 @@ function plotAttack(
     const phase = timePhase(cycleNumber, 30, 1)
     const iconSize = 50 + phase
 
-    drawSpriteFunc(drawingMethods, assets)({
+    drawSprite({
         key: 'MISC',
         ...midPoint,
         width: iconSize,
@@ -51,16 +50,16 @@ function plotAttack(
     ctx.fill()
 }
 
-export function drawInvadingAction(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, assets: AssetMap, action: InvadingAction, game: GameState): void {
+export function drawInvadingAction(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, drawSprite: DrawSpriteFunction<AssetKey>, action: InvadingAction, game: GameState): void {
     const town = game.towns.find(town => town.id === action.townId)
     const ship = game.ships.find(ship => ship.id === action.attackingShipId)
     if (!town || !ship) { return }
-    plotAttack(town, ship, action.numberOfAttackers, town.garrison, game.cycleNumber, ctx, drawingMethods, assets)
+    plotAttack(town, ship, action.numberOfAttackers, town.garrison, game.cycleNumber, ctx, drawingMethods, drawSprite)
 }
 
-export function drawBoardingAction(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, assets: AssetMap, action: BoardingAction, game: GameState): void {
+export function drawBoardingAction(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, drawSprite: DrawSpriteFunction<AssetKey>, action: BoardingAction, game: GameState): void {
     const boardedShip = game.ships.find(ship => ship.id === action.boardedShipId)
     const attackingShip = game.ships.find(ship => ship.id === action.attackingShipId)
     if (!boardedShip || !attackingShip) { return }
-    plotAttack(boardedShip, attackingShip, action.numberOfAttackers, boardedShip.marines, game.cycleNumber, ctx, drawingMethods, assets)
+    plotAttack(boardedShip, attackingShip, action.numberOfAttackers, boardedShip.marines, game.cycleNumber, ctx, drawingMethods, drawSprite)
 }
