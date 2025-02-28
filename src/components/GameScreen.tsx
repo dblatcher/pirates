@@ -1,8 +1,8 @@
 import { createRef, useEffect, useLayoutEffect, useState } from "react"
 import { drawScene, drawSea, drawnTerrainOffScreen } from "../canvas-drawing/draw"
-import { useAssets } from "../context/asset-context"
 import { GameState, ViewPort } from "../game-state"
 import { SEA_COLOR_CSS } from "../lib/Color"
+import { useAssets } from "../hooks/useAssets"
 
 interface Props {
     gameState: GameState

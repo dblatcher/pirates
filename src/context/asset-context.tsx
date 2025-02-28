@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { loadAssets, GenericAssetMap, GenericDataMap } from "@dblatcher/sprite-canvas";
 import { AssetKey } from "../assets";
 
@@ -14,7 +14,7 @@ type AssetProviderProps = {
     loadingContent?: ReactNode
 }
 
-const AssetContext = createContext<AssetContextProps>({ assets: undefined })
+export const AssetContext = createContext<AssetContextProps>({ assets: undefined })
 
 export const WaitingAssetProvider = ({ children, assetParams, loadingContent }: AssetProviderProps) => {
     const [assetMap, setAssetMap] = useState<AssetMap | undefined>(undefined)
@@ -29,5 +29,3 @@ export const WaitingAssetProvider = ({ children, assetParams, loadingContent }: 
         assets: assetMap
     }}>{children}</AssetContext.Provider>
 }
-
-export const useAssets = () => useContext(AssetContext).assets
