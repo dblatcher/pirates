@@ -1,0 +1,1 @@
+export const CANONICAL_URL = 'http://www.davidblatcher.co.uk/pirates'
