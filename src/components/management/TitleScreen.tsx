@@ -1,4 +1,3 @@
-import { CANONICAL_URL } from "../../admin-constants"
 import { Scenario } from "../../scenarios"
 import { BlueskyButton } from "../promotion/BlueSkyButton"
 
@@ -6,8 +5,6 @@ type Props = {
     setScenario: { (scenario: Scenario): void }
     scenarios: Record<string, Scenario>
 }
-
-const postText = `play Buccaneer! ${CANONICAL_URL}`
 
 export const TitleScreen = ({ setScenario, scenarios }: Props) => {
     return (
@@ -20,7 +17,7 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
                             setScenario(scenario)
                         }}>{scenario.name ?? key}</button>
                     ))}
-                    <BlueskyButton label="Share on Bluesky" postText={postText}/>
+                    <BlueskyButton label="Share on Bluesky" postText={'Play Buccaneer!'}/>
                 </div>
             </main>
         </div>

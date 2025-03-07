@@ -1,5 +1,5 @@
+import { BLUE_SKY_BASE, CANONICAL_URL } from '../../admin-constants'
 import './sharing.css'
-const BLUE_SKY_BASE = 'https://bsky.app/intent/compose'
 
 interface Props {
     postText: string
@@ -11,7 +11,7 @@ interface Props {
 export const BlueskyButton: React.FunctionComponent<Props> = ({ postText, label }) => {
 
     const url = new URL(BLUE_SKY_BASE)
-    url.searchParams.append('text', postText)
+    url.searchParams.append('text', [postText, CANONICAL_URL].join(" "))
 
     return <a className='share-link'
         href={url.toString()}
