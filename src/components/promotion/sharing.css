@@ -5,28 +5,46 @@
 
 .share-link {
     display: inline-flex;
-    font-size: larger;
     background-color: var(--blueSkyBlue);
     color: white;
-    padding: 5px;
     align-items: center;
-    gap: 5px;
     text-decoration: none;
+}
+
+.share-link--text-button {
+    font-size: larger;
     border-radius: 3px;
+    padding: 5px;
+    gap: 5px;
     outline: 1px solid gray;
 }
 
-.share-link:hover {
+.share-link--text:hover {
     outline: 1px solid black;
 }
+
+
+.share-link span {
+    line-height: 1;
+    text-align: center;
+    flex: 1;
+}
+
+.share-link--round-button {
+    border-radius: 50%;
+    padding: .2em;
+    font-size: 20px;
+}
+
 
 .share-link svg {
     height: 1em;
     fill: white;
 }
 
-.share-link span {
-    line-height: 1;
-    text-align: center;
-    flex: 1;
+.share-link--round-button svg {
+    transition: transform .5s;
+}
+.share-link--round-button:hover svg {
+    transform: scale(1.1);
 }

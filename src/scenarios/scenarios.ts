@@ -29,6 +29,7 @@ export type Scenario = {
     makeInitialState: { (): GameState }
     name?: string,
     intro?: Intro,
+    getShareMessage?: { (outcome: ScenarioOutcome): { postText: string } | undefined }
     checkForOutcome?: { (game: GameState): ScenarioOutcome | undefined }
 }
 

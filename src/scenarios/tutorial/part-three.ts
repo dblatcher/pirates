@@ -59,4 +59,13 @@ export const tutorialThree: Scenario = ({
         }
         return undefined
     },
+    getShareMessage(outcome) {
+        if (!outcome.success) {
+            return undefined
+        }
+
+        return {
+            postText: 'I completed the Buccaneer tutorial!'
+        }
+    },
 })

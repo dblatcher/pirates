@@ -1,6 +1,8 @@
 import { CSSProperties } from "react";
 import { useManagement } from "../context/management-context";
 import { ScenarioOutcome } from "../scenarios";
+import { BlueskyButton } from "./promotion/BlueskyButton";
+import { cornerOverlay } from "../lib/style-helpers";
 
 interface Props {
     outcome: ScenarioOutcome
@@ -15,10 +17,13 @@ const buttonContainerStyle: CSSProperties = {
 }
 
 export const EndOfScenario = ({ outcome }: Props) => {
-    const { reportOutcome } = useManagement()
+    const { reportOutcome, scenario } = useManagement()
+
+    const shareMessage = scenario?.getShareMessage?.(outcome);
+
     const buttonText = outcome.success ? outcome.exitToTitle ? 'fin' : 'next misson' : 'try again'
     return (
-        <div className="paper" style={{ minWidth: 200, textAlign: 'center' }}>
+        <div className="paper" style={{ minWidth: 200, textAlign: 'center', position: 'relative' }}>
             <h2>{outcome.success ? "Success!" : "Failure!"}</h2>
             <p>{outcome.message}</p>
             <div style={buttonContainerStyle}>
@@ -27,6 +32,17 @@ export const EndOfScenario = ({ outcome }: Props) => {
                     className="scrawl-button"
                 >{buttonText}</button>
             </div>
+            {shareMessage && (
+                <BlueskyButton
+                    style={{
+                        ...cornerOverlay('bottom', 'right', 10)
+
+                    }}
+                    format="round"
+                    postText={shareMessage.postText}
+                    label="share on Bluesky"
+                />
+            )}
         </div>
     )
 }

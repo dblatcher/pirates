@@ -1,9 +1,9 @@
 import { CSSProperties } from "react"
 
-export const cornerOverlay = (y: 'top' | 'bottom' = 'top', x: 'left' | 'right' | 'center' = 'left'): CSSProperties => ({
+export const cornerOverlay = (y: 'top' | 'bottom' = 'top', x: 'left' | 'right' | 'center' = 'left', inset = 0): CSSProperties => ({
     position: 'absolute',
-    [x]: 0,
-    [y]: 0
+    [x]: inset,
+    [y]: inset
 })
 export const middleOverlay = (y = 0): CSSProperties => ({
     position: 'absolute',
