@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
@@ -69,7 +69,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const [recentRefeshTimes, setRecentRefreshTimes] = useState<number[]>([])
     const [outcome, setOutcome] = useState<ScenarioOutcome | undefined>()
 
-    const pushLog = (message: string, cycleNumber: number) => setLog([...log, { message, cycleNumber }])
+    const pushLog = useCallback((message: string, cycleNumber: number) => setLog([...log, { message, cycleNumber }]), [setLog, log])
 
     const addDirective = useCallback((directive: Directive) => {
         directivesRef.current.push(directive)
@@ -105,9 +105,9 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         []
     )
 
-    const doNextCycle = useCallback<{ (): void }>(
-        makeNextCycleFunction(gameStateRef.current, viewPortRef.current, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
-        [getAndClearDirectives, updateTimeTracking, makeNextCycleFunction,]
+    const doNextCycle = useMemo<{ (): void }>(
+        () => makeNextCycleFunction(gameStateRef.current, viewPortRef.current, landAndFortsMatrix, paddedObstacleMatrix, getAndClearDirectives, updateTimeTracking, pushLog, soundDeck,),
+        [getAndClearDirectives, updateTimeTracking, landAndFortsMatrix, paddedObstacleMatrix, soundDeck, pushLog]
     )
 
     const checkScenarioOver = useCallback(
@@ -116,13 +116,12 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         }, [scenario, gameStateRef]
     )
 
-    const keyMapHandler = useCallback(
+    const keyMapHandler = useMemo(() =>
         makeKeyMapHandler({ wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef, rowBackRef }),
         [wheelRef, wheelNotLockedByKeyboardRef, sailChangeRef, rowBackRef]
     )
 
-    const keyDownFunction = useCallback(
-        makeKeyDownHandler(gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen),
+    const keyDownFunction = useMemo(() => makeKeyDownHandler(gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen),
         [gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen]
     )
 
@@ -131,7 +130,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
             doNextCycle()
             setDoneInitialCycle(true)
         }
-    }, [doneInitialCycle])
+    }, [doneInitialCycle, setDoneInitialCycle, doNextCycle])
 
     useSchedule(() => {
         // let player wheel drift back to 0 if not locked or being turned by the player
@@ -165,7 +164,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
             center.offDirective(addAddirectiveFromEvent)
             center.offWheelValue(changeWheelValueFromEvent)
         }
-    }, [center])
+    }, [center, addDirective])
 
     const adjustScale = (scale: number) => {
         const adjusted = clamp(scale, 8 / 6, 2 / 6)
