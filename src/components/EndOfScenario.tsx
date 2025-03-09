@@ -23,7 +23,7 @@ export const EndOfScenario = ({ outcome }: Props) => {
 
     const buttonText = outcome.success ? outcome.exitToTitle ? 'fin' : 'next misson' : 'try again'
     return (
-        <div className="paper" style={{ minWidth: 200, textAlign: 'center', position: 'relative' }}>
+        <div className="paper no-select-highlight" style={{ minWidth: 200, textAlign: 'center', position: 'relative' }}>
             <h2>{outcome.success ? "Success!" : "Failure!"}</h2>
             <p>{outcome.message}</p>
             <div style={buttonContainerStyle}>

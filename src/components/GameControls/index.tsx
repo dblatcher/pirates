@@ -31,7 +31,7 @@ export const GameControls = ({
     const rightCannonsReady = rightCannons.map(c => c.cooldown <= 0)
 
     return (
-        <aside className="controls-container">
+        <aside className="controls-container no-select-highlight">
             {player ? (<>
                 <WheelWidget
                     playerWheel={player.wheel}
