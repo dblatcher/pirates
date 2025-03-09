@@ -1,8 +1,8 @@
 import { browShapes } from "@dblatcher/funny-face";
 import { Person } from "../scenarios";
-import { StrawHatIconPng, eyePatch,  } from "../../assets";
+import { StrawHatIconPng, eyePatch, } from "../../assets";
 import { TERRAIN_SQUARE_SIZE, Town } from "../../game-state";
-import { Landmass, LandmassInput, inputToLandmass } from "../../game-state/land";
+import { Landmass, LandmassInput, inputToLandmass, stringToTerrainGrid } from "../../game-state/land";
 import { makeTownWithForts } from "../../game-state/towns";
 import { FactionId } from "../../game-state/faction";
 
@@ -39,7 +39,7 @@ export const BARNEY: Person = {
         lipColor: 'brown'
     },
     accessories: [
-        {x: 0, y: 0, src: eyePatch, width: 100, place:'right-eye'}
+        { x: 0, y: 0, src: eyePatch, width: 100, place: 'right-eye' }
     ]
 }
 
@@ -125,13 +125,13 @@ const GROUPELLE_ISLAND: LandmassInput = {
 const CANTO_ISLAND: LandmassInput = {
     x: TERRAIN_SQUARE_SIZE * 18,
     y: TERRAIN_SQUARE_SIZE * 22,
-    shape: [
-        [2, 2],
-        [2, 2, 2],
-        [2, _, 2],
-        [2, 2],
-        [2, 2],
-    ]
+    shape: stringToTerrainGrid(`
+22
+222
+2 2
+22
+22
+`, 3, 5)
 };
 
 const SANDBANK: LandmassInput = {

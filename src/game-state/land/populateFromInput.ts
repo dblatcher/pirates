@@ -1,5 +1,5 @@
 import { XY, translate, xy } from "../../lib/geometry"
-import { CoastLines, Landmass, LandmassInput, TerrainSquare } from "./model"
+import { CoastLines, Landmass, LandmassInput, TerrainSquare, TerrainType } from "./model"
 
 
 type SquareAtFunc = { (point: XY): boolean }
@@ -49,6 +49,35 @@ const buildCoasts = (inputShape: LandmassInput['shape'], isSquareAt: SquareAtFun
     }
     return coasts
 }
+
+
+const charToTerrainType = (char: string): TerrainType | undefined => {
+    if (char === " ") { return undefined }
+    const n = Number(char);
+    switch (n) {
+        case TerrainType.DESERT:
+        case TerrainType.JUNGLE:
+        case TerrainType.PLAIN:
+        case TerrainType.SWAMP:
+            return n;
+        default:
+            return undefined
+    }
+}
+
+export const stringToTerrainGrid = (input: string, width = 0, height?: number): LandmassInput['shape'] => {
+    const characterRows = input.split("\n").filter(row => row.length > 0)
+    if (height) {
+        while (characterRows.length < height) {
+            characterRows.push("_")
+        }
+    }
+    const charGrid = characterRows.map(row => row.padEnd(width, "_").split(''))
+    const tileGrid = charGrid.map(row => row.map((char) => charToTerrainType(char)))
+    return tileGrid
+}
+
+
 
 export const inputToLandmass = (landmassInput: LandmassInput): Landmass => {
     const { x, y, shape: inputShape } = landmassInput
