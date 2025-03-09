@@ -19,16 +19,26 @@ const modalFrameStyle = (isOpen: boolean): CSSProperties => ({
     alignItems: 'center',
 })
 
+const closeOverlayStyle: CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    zIndex: -1,
+    background: 'none',
+    border:'none',
+    outline:'none',
+}
+
 
 const headerStyle: CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems:'flex-start',
+    alignItems: 'flex-start',
 }
 
 export const Modal = ({ setIsOpen, isOpen, children, title }: Props) => {
     return (
         <div style={modalFrameStyle(isOpen)}>
+            <button style={closeOverlayStyle} onClick={() => setIsOpen(false)}></button>
             <section className="paper">
                 <header style={headerStyle}>
                     <h2>{title}</h2>

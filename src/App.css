@@ -10,6 +10,13 @@
   }
 }
 
+.button-row {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--small-space);
+}
+
 @keyframes pulsingTextShadow {
   from {
     text-shadow:  

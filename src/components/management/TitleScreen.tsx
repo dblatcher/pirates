@@ -1,5 +1,8 @@
+import { useState } from "react"
 import { Scenario } from "../../scenarios"
-import { BlueskyButton } from "../promotion/BlueSkyButton"
+import { Modal } from "../Modal"
+import { BlueskyButton } from "../promotion/BlueskyButton"
+import { About } from "../promotion/About"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
@@ -7,6 +10,9 @@ type Props = {
 }
 
 export const TitleScreen = ({ setScenario, scenarios }: Props) => {
+
+    const [aboutModalOpen, setAboutModalOpen] = useState(false)
+
     return (
         <div className="paper" style={{ margin: '0 auto' }}>
             <main className="title-screen skull-stamp">
@@ -17,9 +23,15 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
                             setScenario(scenario)
                         }}>{scenario.name ?? key}</button>
                     ))}
-                    <BlueskyButton label="Share on Bluesky" postText={'Play Buccaneer!'}/>
+                </div>
+                <div className="button-row">
+                    <button onClick={() => setAboutModalOpen(true)}>about this game</button>
+                    <BlueskyButton label="Share on Bluesky" postText={'Play Buccaneer!'} />
                 </div>
             </main>
+            <Modal title="About Buccaneer" isOpen={aboutModalOpen} setIsOpen={() => setAboutModalOpen(false)}>
+                <About />
+            </Modal>
         </div>
     )
 }
