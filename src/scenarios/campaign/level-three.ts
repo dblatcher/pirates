@@ -166,4 +166,18 @@ export const campaignLevelThree: Scenario = ({
 
         return undefined
     },
+    getShareMessage({success, nextScenarioId}) {
+        if (!success) {
+            return undefined
+        }
+        if (nextScenarioId === 'campaignPiratesFour') {
+            return {
+                postText: "I stole Lord Robert's treasure galleon and joined the pirates!"
+            }
+        } else {
+            return {
+                postText: "I recovered Lord Robert's treasure galleon and brought it safely back to port!" 
+            }
+        }
+    },
 })
