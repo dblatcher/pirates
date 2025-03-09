@@ -86,13 +86,16 @@ export const BuccaneerProgram = () => {
                             {!!scenario && (<>
                                 <IconButton
                                     onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                                    icon="⚙️" />
+                                    icon="menu" />
                                 <IconButton
                                     onClick={() => { setGameIsPaused(!gameIsPaused) }}
-                                    icon={gameIsPaused ? "⏯️" : "⏸️"} />
+                                    icon={'pause'}
+                                    negate={!gameIsPaused}
+                                />
                                 <IconButton
                                     onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                                    icon={cyclePeriod === 10 ? "▶️" : "⏩"} />
+                                    icon="fast"
+                                    negate={cyclePeriod !== 0} />
                             </>)}
                             <SoundToggle />
                         </div>

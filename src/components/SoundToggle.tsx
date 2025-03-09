@@ -7,7 +7,8 @@ export const SoundToggle = () => {
     return (
         <IconButton
             onClick={toggleSound}
-            icon={soundIsEnabled ? '🔊' : '🔇'}
+            negate={!soundIsEnabled}
+            icon={'sound'}
         />
     )
 } 

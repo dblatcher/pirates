@@ -49,15 +49,35 @@
   border: 2px solid var(--border-color);
 }
 
-.menu-icon {
+
+.menu-icon-button {
+  position: relative;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon {
+  position: relative;
   background-color: black;
   padding: 2px;
   border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
 
-  i {
-    font-size: large;
-    font-style: normal;
+  svg {
+    position: absolute;
+    inset: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    fill: white;
+    height: 1.2em;
+  }
+
+  svg.negate-icon {
+    fill: rgba(255, 0, 0, .75);
+    height: 1.8em;
   }
 }
 
