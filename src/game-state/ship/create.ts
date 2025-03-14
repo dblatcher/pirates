@@ -4,6 +4,9 @@ import { Ship } from "../model";
 const SMALL_PENNANT: Flag = {
     shape: 'triangle', length: 30, height: 10
 }
+const TINY_PENNANT: Flag = {
+    shape: 'triangle', length: 20, height: 8
+}
 // const BIG_PENNANT: Flag = {
 //     shape: 'triangle', length: 40, height: 15
 // }
@@ -42,6 +45,22 @@ const cargoBargeAttributes = () => ({
         ]
     },
     cannons: [],
+})
+
+const pinnaceAttributes = () => ({
+    width: 15,
+    length: 65,
+    profile: {
+        maxHp: 15,
+        maxMarines: 10,
+        speed: 1.2,
+        maneuver: 1.2,
+        masts: [
+            { position: -1 / 4, height: .8, flag: SMALL_PENNANT },
+            { position: 1 / 3, height: .6, flag: TINY_PENNANT },
+        ]
+    },
+    cannons: defaultCannons(),
 })
 
 const sloopAttributes = () => ({
@@ -101,6 +120,12 @@ const galleonAttributes = () => ({
 export const makeFrigateShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
     ...shipDefaults(),
     ...frigateAttributes(),
+    ...input,
+})
+
+export const makePinnaceShip = (input: Pick<Ship, 'x' | 'y' | 'h' | 'id'> & Partial<Ship>): Ship => ({
+    ...shipDefaults(),
+    ...pinnaceAttributes(),
     ...input,
 })
 

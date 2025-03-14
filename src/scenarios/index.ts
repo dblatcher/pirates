@@ -11,6 +11,7 @@ import { campaignMapTest } from './campaign/map-test'
 import { campaignLevelThree } from './campaign/level-three'
 import { campaignPiratesFour } from './campaign/level-four-pirate'
 import { campaignFour } from './campaign/level-four'
+import { campaignPiratesFive } from './campaign/level-five-pirate'
 
 const scenarios: Record<string, Scenario> = {
     campaignLevelOne,
@@ -20,6 +21,7 @@ const scenarios: Record<string, Scenario> = {
     campaignLevelThree,
     campaignFour,
     campaignPiratesFour,
+    campaignPiratesFive,
     sandbox,
     tutorialOne,
     tutorialTwo,
