@@ -3,13 +3,12 @@ import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 
 export const drawFlame = (
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     base: XY,
     gameCycle: number,
     flameScale = 1,
 ) => {
-    const { lineTo, moveTo } = drawMethods;
+    const { ctx, lineTo, moveTo } = drawMethods;
     const mod10 = gameCycle % 10
     const mod7h = gameCycle / 2 % 7
     const flameSize = .25 * (50 + mod10) * flameScale

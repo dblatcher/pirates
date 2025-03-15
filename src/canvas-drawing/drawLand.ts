@@ -69,14 +69,13 @@ class CoastLinePlotter {
 }
 
 export function drawLand(
-    ctx: CanvasRenderingContext2D, 
-    drawingMethods: OffsetDrawMethods, 
-    viewPort: ViewPort, 
-    land: Landmass[], 
+    drawingMethods: OffsetDrawMethods,
+    viewPort: ViewPort,
+    land: Landmass[],
     assets: AssetMap,
     drawSprite: DrawSpriteFunction<AssetKey>,
 ) {
-
+    const { ctx } = drawingMethods
     const plotter = new CoastLinePlotter(drawingMethods, assets.coastlines)
     const landInView = getLandInView(land, viewPort)
 

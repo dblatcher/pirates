@@ -18,7 +18,7 @@ export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCa
         if (!ctx) { return }
         const drawingMethods = makeDrawingMethods(ctx, viewPort)
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
-        surfaceEffects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
+        surfaceEffects.forEach(effect => drawEffect(drawingMethods, effect))
     }
 }
 
@@ -36,7 +36,7 @@ const drawTerrain: DrawToCanvasFunction<GameState, AssetKey> = (game: GameState,
         const drawingMethods = makeDrawingMethods(ctx, fullViewport)
         ctx.clearRect(0, 0, fullViewport.width, fullViewport.height)
         const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE)
-        drawLand(ctx, drawingMethods, fullViewport, game.land, assets, drawSprite)
+        drawLand(drawingMethods, fullViewport, game.land, assets, drawSprite)
 
         const imageSize = TOWN_SIZE * .8
         game.towns.forEach(town => {
@@ -62,13 +62,13 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
         const drawingMethods = makeDrawingMethods(ctx, viewPort)
         const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE);
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
-        drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
+        drawTowns(drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
         objectives.forEach(objective => drawObjective(drawingMethods, objective, game))
-        drawShips(ctx, drawingMethods, drawSprite, viewPort, game, false)
-        projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
-        effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))
-        invadingActions.forEach(action => drawInvadingAction(ctx, drawingMethods, drawSprite, action, game))
-        boardingActions.forEach(action => drawBoardingAction(ctx, drawingMethods, drawSprite, action, game))
+        drawShips(drawingMethods, drawSprite, viewPort, game, false)
+        projectiles.forEach(projectile => drawProjectile(drawingMethods, projectile))
+        effects.forEach(effect => drawEffect(drawingMethods, effect))
+        invadingActions.forEach(action => drawInvadingAction(drawingMethods, drawSprite, action, game))
+        boardingActions.forEach(action => drawBoardingAction(drawingMethods, drawSprite, action, game))
     }
 }
 

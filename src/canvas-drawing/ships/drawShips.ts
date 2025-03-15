@@ -9,7 +9,6 @@ import { AssetKey } from "../../assets"
 
 
 export const drawShips = (
-    ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     drawSprite: DrawSpriteFunction<AssetKey>,
     viewPort: ViewPort,
@@ -19,10 +18,10 @@ export const drawShips = (
 
     const { ships, wind, cycleNumber } = gameState
     const shipsInView = ships.filter(ship => isShipInView(ship, viewPort))
-    shipsInView.forEach(ship => drawShipBase(ctx, drawingMethods, ship, showCollision))
-    shipsInView.forEach(ship => drawDamage(ctx, drawingMethods, ship, cycleNumber))
+    shipsInView.forEach(ship => drawShipBase(drawingMethods, ship, showCollision))
+    shipsInView.forEach(ship => drawDamage(drawingMethods, ship, cycleNumber))
     shipsInView.forEach(ship => {
-        drawShipMasts(ship.profile.masts, ctx, drawingMethods, ship, cycleNumber, wind)
+        drawShipMasts(ship.profile.masts, drawingMethods, ship, cycleNumber, wind)
     })
     shipsInView.forEach(ship => {
         if (ship.underRepair) {

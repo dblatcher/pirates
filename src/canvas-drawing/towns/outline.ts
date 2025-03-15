@@ -14,8 +14,7 @@ const getWallOffset = (damageLevel: number, isOuterWall: boolean) => {
 }
 
 const drawWall = (
-    ctx: CanvasRenderingContext2D,
-    drawingMethods: OffsetDrawMethods,
+    { arc, ctx }: OffsetDrawMethods,
     town: Town,
 
     wallWidth: number,
@@ -26,7 +25,7 @@ const drawWall = (
     ctx.beginPath();
     ctx.lineWidth = wallWidth;
     ctx.setLineDash(getWallOffset(damageLevel, isOuterWall))
-    drawingMethods.arc(town.x, town.y, (TOWN_SIZE / 2) + offset, Math.PI * -0.1, Math.PI * 1.1);
+    arc(town.x, town.y, (TOWN_SIZE / 2) + offset, Math.PI * -0.1, Math.PI * 1.1);
     ctx.stroke();
     ctx.setLineDash([])
 }
@@ -47,11 +46,11 @@ const dividePointsByWall = (totalWalls: number, defences: number): number[] => {
 }
 
 export const drawTownOutline = (
-    ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     town: Town,
     cycleNumber: number,
 ) => {
+    const { ctx } = drawingMethods
     ctx.beginPath();
 
     const townCanBeInvaded = town.defences < DEFENCES_TO_REPEL_INVADERS
@@ -61,7 +60,7 @@ export const drawTownOutline = (
     // inner wall first
     dividePointsByWall(totalWalls, town.defences).forEach((amountOfPoints, index) => {
         drawWall(
-            ctx, drawingMethods, town,
+            drawingMethods, town,
             WALL_WIDTH,
             1 - (amountOfPoints / POINTS_PER_WALL),
             (index - totalWalls) * WALL_WIDTH,

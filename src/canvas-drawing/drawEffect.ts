@@ -7,9 +7,9 @@ import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 import { drawShipBase } from "./ships/base";
 
-export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, effect: Effect) {
+export function drawEffect(drawingMethods: OffsetDrawMethods, effect: Effect) {
     const { x, y } = effect
-    const { arc, lineTo, moveTo } = drawingMethods
+    const { arc, lineTo, moveTo, ctx } = drawingMethods
 
     switch (effect.type) {
         case EffectType.SPLASH: {
@@ -63,7 +63,7 @@ export function drawEffect(ctx: CanvasRenderingContext2D, drawingMethods: Offset
 
         case EffectType.SHINKING_SHIP: {
             const sinking = clamp(effect.sink, CYCLES_TO_SINK, 0)
-            drawShipBase(ctx, drawingMethods, effect.ship, false, sinking)
+            drawShipBase(drawingMethods, effect.ship, false, sinking)
             break;
         }
     }

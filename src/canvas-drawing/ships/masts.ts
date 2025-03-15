@@ -17,18 +17,16 @@ type MastWithPoints = MastConfig & {
 
 const drawFlagOn = (
     mast: MastWithPoints,
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
     cycleNumber: number,
     wind: Wind,
 ) => {
-    drawFlag(ctx, drawMethods, mast.top, wind.direction, cycleNumber, rgb(getFactionColor(ship)), rgb(getFactionSecondColor(ship)), mast.flag)
+    drawFlag(drawMethods, mast.top, wind.direction, cycleNumber, rgb(getFactionColor(ship)), rgb(getFactionSecondColor(ship)), mast.flag)
 }
 
 export const drawShipMasts = (
     masts: MastConfig[],
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
     cycleNumber: number,
@@ -36,7 +34,7 @@ export const drawShipMasts = (
 ) => {
 
     const { sailLevel, length, h } = ship
-    const { lineTo, moveTo } = drawMethods
+    const { lineTo, moveTo, ctx } = drawMethods
 
     const mastsWithPoints: MastWithPoints[] = masts.map(config => {
         const { position, height } = config
@@ -101,7 +99,7 @@ export const drawShipMasts = (
     // flag
     mastsWithPoints.forEach(mast => {
         if (mast.flag) {
-            drawFlagOn(mast, ctx, drawMethods, ship, cycleNumber, wind)
+            drawFlagOn(mast, drawMethods, ship, cycleNumber, wind)
         }
     })
 }

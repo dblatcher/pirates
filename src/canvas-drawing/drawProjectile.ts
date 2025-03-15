@@ -3,10 +3,10 @@ import { translateZ } from "../lib/geometry";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 
-export const drawProjectile = (ctx: CanvasRenderingContext2D, drawingMethods: OffsetDrawMethods, projectile: Projectile) => {
+export const drawProjectile = (drawingMethods: OffsetDrawMethods, projectile: Projectile) => {
 
     const { x, y, z } = projectile
-    const { arc } = drawingMethods
+    const { arc, ctx } = drawingMethods
     //shadow
     ctx.beginPath();
     ctx.lineWidth = 1;

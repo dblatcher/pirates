@@ -12,7 +12,6 @@ const flamePositions = [
 ]
 
 export const drawDamage = (
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
     gameCycle: number,
@@ -24,15 +23,15 @@ export const drawDamage = (
 
     const damageLevel = damage / profile.maxHp
     if (damageLevel >= .8) {
-        drawFlame(ctx, drawMethods, translate(ship, getXYVector(length * flamePositions[0], h)), gameCycle)
+        drawFlame(drawMethods, translate(ship, getXYVector(length * flamePositions[0], h)), gameCycle)
     }
     if (damageLevel >= .6) {
-        drawFlame(ctx, drawMethods, translate(ship, getXYVector(length * flamePositions[1], h)), gameCycle)
+        drawFlame(drawMethods, translate(ship, getXYVector(length * flamePositions[1], h)), gameCycle)
     }
     if (damageLevel >= .4) {
-        drawFlame(ctx, drawMethods, translate(ship, getXYVector(length * flamePositions[2], h)), gameCycle)
+        drawFlame(drawMethods, translate(ship, getXYVector(length * flamePositions[2], h)), gameCycle)
     }
     if (damageLevel >= .2) {
-        drawFlame(ctx, drawMethods, translate(ship, getXYVector(length * flamePositions[3], h)), gameCycle)
+        drawFlame(drawMethods, translate(ship, getXYVector(length * flamePositions[3], h)), gameCycle)
     }
 };

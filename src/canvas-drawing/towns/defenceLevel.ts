@@ -3,11 +3,10 @@ import { colors, rgb } from "../../lib/Color";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 
 export const showDefenceLevel = (
-    ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     town: Town,
 ) => {
-    const { fillText, } = drawingMethods
+    const { fillText, ctx } = drawingMethods
     ctx.beginPath()
     const garrisonString = `${town.garrison} troops`
     ctx.font = 'bold 30px arial'

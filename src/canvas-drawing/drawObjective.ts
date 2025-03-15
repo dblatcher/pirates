@@ -23,9 +23,8 @@ export const drawObjective = (
         ctx.stroke();
 
         if (flag) {
-            drawFlagPole(ctx, drawingMethods, objective, 40)
+            drawFlagPole(drawingMethods, objective, 40)
             drawFlag(
-                ctx,
                 drawingMethods,
                 translateZ(objective, 40 - flag.height),
                 wind.direction,

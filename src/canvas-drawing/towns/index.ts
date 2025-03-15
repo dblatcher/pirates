@@ -11,7 +11,6 @@ import { drawTownOutline } from "./outline";
 
 
 export const drawTowns = (
-    ctx: CanvasRenderingContext2D,
     drawingMethods: OffsetDrawMethods,
     towns: Town[],
     viewPort: ViewPort,
@@ -24,19 +23,17 @@ export const drawTowns = (
 
     townsInView.forEach(town => {
         const beingInvaded = idsOfTownsInBeingInvaded.includes(town.id)
-        drawTownOutline(
-            ctx, drawingMethods, town, cycleNumber
-        )
+        drawTownOutline(drawingMethods, town, cycleNumber)
         if (beingInvaded) {
-            drawFlame(ctx, drawingMethods, translate(town, xy(-3, -4)), cycleNumber, 3)
+            drawFlame(drawingMethods, translate(town, xy(-3, -4)), cycleNumber, 3)
         }
-        showDefenceLevel(ctx, drawingMethods, town)
+        showDefenceLevel(drawingMethods, town)
     })
 
     // TO DO - check separately if the fort is in view
     townsInView.forEach(town => {
         town.forts.forEach(fort => {
-            drawFort(ctx, drawingMethods, fort, cycleNumber)
+            drawFort(drawingMethods, fort, cycleNumber)
         })
     })
 
@@ -45,8 +42,8 @@ export const drawTowns = (
         const secondColor = getFactionSecondColor(town)
         const flagHeight = Math.min(50, town.garrison * 2)
         const flagPosition = translate(town, { x: -TOWN_SIZE / 2, y: -TOWN_SIZE / 4 })
-        drawFlagPole(ctx, drawingMethods, flagPosition, 80)
-        drawFlag(ctx, drawingMethods,
+        drawFlagPole(drawingMethods, flagPosition, 80)
+        drawFlag(drawingMethods,
             translateZ(flagPosition, flagHeight),
             wind.direction, cycleNumber,
             rgb(color), rgb(secondColor), getFactionFlag(town))

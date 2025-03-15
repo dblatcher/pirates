@@ -27,7 +27,6 @@ const raise = (z: number, points: HullPoints): HullPoints => {
 }
 
 const drawHullPath = (
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     colors: {
         fill?: string,
@@ -44,7 +43,7 @@ const drawHullPath = (
     },
     z = 0
 ) => {
-    const { lineTo, moveTo, quadraticCurveTo } = drawMethods;
+    const { lineTo, moveTo, quadraticCurveTo, ctx } = drawMethods;
     const { fill, stroke, width = 3 } = colors
     const raised = raise(z, points)
     ctx.beginPath();
@@ -75,14 +74,13 @@ const getSinkDistance = (sinking: number): number => {
 }
 
 export const drawShipBase = (
-    ctx: CanvasRenderingContext2D,
     drawMethods: OffsetDrawMethods,
     ship: Ship,
     showCollision = false,
     sinking = 0
 ) => {
     const { h, width, length } = ship;
-    const { arc } = drawMethods;
+    const { arc, ctx } = drawMethods;
 
     const r = h + _90_DEG_RIGHT;
     const l = h + _90_DEG_LEFT;
@@ -91,7 +89,7 @@ export const drawShipBase = (
     const fore = sinking ? translateZ(surfaceFore, getSinkDistance(sinking)) : surfaceFore
     const foreBack = translate(fore, getXYVector(-width / 2, h));
     const foreLeft = translate(translate(foreBack, getXYVector(width / 2, l)), getXYVector(-length * .1, h));
-    const foreRight = translate( translate(foreBack, getXYVector(width / 2, r)), getXYVector(-length * .1, h));
+    const foreRight = translate(translate(foreBack, getXYVector(width / 2, r)), getXYVector(-length * .1, h));
 
     const surfaceBack = translate(ship, getXYVector(-(length / 2 - width / 2), h));
     const back = sinking ? translateZ(surfaceBack, getSinkDistance(sinking)) : surfaceBack
@@ -106,16 +104,16 @@ export const drawShipBase = (
     const opacity = sinking ? fadeAsSinking(sinking) : 1
     const factionColor = rgba(getFactionColor(ship), opacity)
 
-    drawHullPath(ctx, drawMethods,
+    drawHullPath(drawMethods,
         { stroke: factionColor, fill: factionColor, width: 1 },
         points,
     )
-    drawHullPath(ctx, drawMethods,
+    drawHullPath(drawMethods,
         { stroke: factionColor, fill: rgba(colors.BROWN, opacity), width: 1 },
         points,
         2
     )
-    drawHullPath(ctx, drawMethods,
+    drawHullPath(drawMethods,
         { stroke: factionColor, width: 4 },
         points,
         4
