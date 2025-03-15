@@ -201,6 +201,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
                 <GameControls
                     player={player}
+                    objectives={gameStateRef.current.objectives}
                     paused={gameIsPaused}
                     wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     mapOpen={mapOpen}

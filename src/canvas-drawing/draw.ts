@@ -8,6 +8,7 @@ import { drawShips } from "./ships";
 import { drawTowns } from "./towns";
 import { AssetMap } from "../context/asset-context";
 import { AssetKey, assetParams } from "../assets";
+import { drawObjective } from "./drawObjective";
 
 
 export const drawSea = (game: GameState, viewPort: ViewPort) => (canvas: (HTMLCanvasElement | null)) => {
@@ -54,7 +55,7 @@ export const drawnTerrainOffScreen: GenerateImageUrl<GameState, AssetKey> = (gam
 
 
 export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap) => (sprite_canvas: (HTMLCanvasElement | null)) => {
-    const { projectiles, effects, towns, invadingActions, boardingActions } = game
+    const { projectiles, effects, towns, invadingActions, boardingActions, objectives } = game
     if (sprite_canvas) {
         const ctx = sprite_canvas.getContext('2d')
         if (!ctx) { return }
@@ -62,6 +63,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
         const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE);
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
         drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
+        objectives.forEach(objective => drawObjective(ctx, drawingMethods, objective))
         drawShips(ctx, drawingMethods, drawSprite, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
         effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

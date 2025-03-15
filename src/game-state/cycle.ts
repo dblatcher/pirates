@@ -1,14 +1,14 @@
 import { AIFactory } from "../factory";
-import { _DEG, normaliseHeading } from "../lib/geometry";
+import { _DEG, getDistance, normaliseHeading } from "../lib/geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
 import { handleBoardingActions, handleInvadingActions } from "./melee";
 import { fireCannons, handleProjectileHitsAndLandings, updateProjectile } from "./cannons";
 import { addWaves } from "./effects/background";
 import { AddSinkingShip, createImpact, createSplash, updateEffect } from "./effects/effect";
-import { Collison, Directive, GameState, MAX_WIND, ViewPort } from "./model";
+import { Collison, Directive, GameState, MAX_WIND, Ship, ViewPort } from "./model";
 import { SoundEffectRequest } from "./model/sound";
-import { followDirectives, getProwPosition, updateShip } from "./ship";
+import { followDirectives, getAftPosition, getProwPosition, updateShip } from "./ship";
 import { aimAndFireCannonsFromForts, updateTown } from "./towns";
 
 
@@ -49,6 +49,21 @@ const updateWind = (game: GameState) => {
     game.wind.force = windForceDice
 }
 
+const collectObjectives = (player: Ship, gameState: GameState, soundEffectRequests: SoundEffectRequest[],) => {
+    const prow = getProwPosition(player)
+    const aft = getAftPosition(player)
+
+    gameState.objectives.filter(objective => !objective.obtained).forEach(objective => {
+        if (getDistance(player, objective) < 20 || getDistance(prow, objective) < 20 || getDistance(aft, objective) < 20) {
+            objective.obtained = true
+            soundEffectRequests.push({
+                position: { ...objective },
+                sfx: 'ding',
+            })
+        }
+    })
+}
+
 export const cycle = (
     oldGameState: GameState,
     playerDirectives: Directive[],
@@ -67,6 +82,7 @@ export const cycle = (
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
         followDirectives(player, playerDirectives)
+        collectObjectives(player, gameState, soundEffectRequests)
     }
 
     gameState.ships.forEach(ship => {

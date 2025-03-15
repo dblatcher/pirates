@@ -14,6 +14,13 @@ const makeInitialState = (): GameState => {
             direction: _DEG * 90,
             force: 10,
         },
+        objectives: [
+            {
+                x: TERRAIN_SQUARE_SIZE * 8,
+                y: TERRAIN_SQUARE_SIZE * 15,
+                name:'MaGuffin',
+            }
+        ],
         ships: [
             makeFrigateShip({
                 name: 'Player McPlayerFace',

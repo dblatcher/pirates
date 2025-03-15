@@ -1,4 +1,4 @@
-import { FiringPattern, Ship, Side } from "../../game-state"
+import { FiringPattern, Objective, Ship, Side } from "../../game-state"
 import { splitArray } from "../../lib/util"
 import { GunneryWidget } from "./GunneryWidget"
 import { MeleeControls } from "./MeleeControl"
@@ -9,6 +9,7 @@ import "./controls.css"
 
 interface Props {
     player?: Ship
+    objectives: Objective[]
     paused: boolean
     wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     mapOpen: boolean,
@@ -20,6 +21,7 @@ interface Props {
 
 export const GameControls = ({
     player,
+    objectives,
     paused,
     wheelNotLockedByPointerRef,
     mapOpen,
@@ -57,6 +59,7 @@ export const GameControls = ({
                     ship={{ ...player }}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}
+                    objectives={structuredClone(objectives)}
                 />
             </>
             ) : (

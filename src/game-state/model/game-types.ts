@@ -3,6 +3,7 @@ import { Effect } from '../effects/effect'
 import { Landmass } from '../land'
 import type { Ship } from '../model'
 import { Projectile } from './cannon-types'
+import { Objective } from './objectives'
 import { Town } from './town-types'
 export type { ViewPort } from "@dblatcher/sprite-canvas"
 
@@ -38,6 +39,7 @@ export type GameState = {
     invadingActions: InvadingAction[];
     mapWidth: number;
     mapHeight: number;
+    objectives: Objective[]
 }
 
 

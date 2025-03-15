@@ -11,8 +11,7 @@ export type ShipCannon = Cannon & {
     side: Side,
 }
 
-export type FortCannon = Cannon & {
-}
+export type FortCannon = Cannon;
 
 export type Projectile = {
     x: number

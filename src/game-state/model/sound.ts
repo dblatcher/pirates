@@ -24,11 +24,16 @@ const splash: SoundEffect = {
     noise: { duration: .3, frequency: 2000 }
 }
 
+const ding: SoundEffect = {
+    tone: { duration: .5, frequency: 1800, endFrequency: 2200, type:'triangle' }
+}
+
 export const soundEffects = {
     cannonFire,
     shipHit,
     shipSink,
     splash,
+    ding,
 }
 
 type SfxId = keyof typeof soundEffects
