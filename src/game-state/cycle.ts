@@ -49,13 +49,25 @@ const updateWind = (game: GameState) => {
     game.wind.force = windForceDice
 }
 
-const collectObjectives = (player: Ship, gameState: GameState, soundEffectRequests: SoundEffectRequest[],) => {
+const COLLECTION_DISTANCE = 30
+
+const collectObjectives = (
+    player: Ship,
+    gameState: GameState,
+    soundEffectRequests: SoundEffectRequest[],
+    pushLog: { (message: string): void }
+) => {
     const prow = getProwPosition(player)
     const aft = getAftPosition(player)
 
     gameState.objectives.filter(objective => !objective.obtained).forEach(objective => {
-        if (getDistance(player, objective) < 20 || getDistance(prow, objective) < 20 || getDistance(aft, objective) < 20) {
+        if (
+            getDistance(player, objective) < COLLECTION_DISTANCE ||
+            getDistance(prow, objective) < COLLECTION_DISTANCE ||
+            getDistance(aft, objective) < COLLECTION_DISTANCE
+        ) {
             objective.obtained = true
+            pushLog(`${player.name ?? 'player'} found ${objective.name}`)
             soundEffectRequests.push({
                 position: { ...objective },
                 sfx: 'ding',
@@ -82,7 +94,7 @@ export const cycle = (
     const player = gameState.ships.find(ship => ship.id === gameState.playerId)
     if (player) {
         followDirectives(player, playerDirectives)
-        collectObjectives(player, gameState, soundEffectRequests)
+        collectObjectives(player, gameState, soundEffectRequests, pushLogWithCycleNumber)
     }
 
     gameState.ships.forEach(ship => {

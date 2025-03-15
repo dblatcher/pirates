@@ -2,6 +2,7 @@ import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeFrigateShip, makeGalleonShip } from "../../game-state/ship";
+import { colors, rgb } from "../../lib/Color";
 import { _DEG } from "../../lib/geometry";
 import { MAP_HEIGHT, MAP_WIDTH, landMasses } from "./library";
 
@@ -18,7 +19,13 @@ const makeInitialState = (): GameState => {
             {
                 x: TERRAIN_SQUARE_SIZE * 8,
                 y: TERRAIN_SQUARE_SIZE * 15,
-                name:'MaGuffin',
+                name: 'MaGuffin',
+                flag: {
+                    shape: 'cross',
+                    height: 30,
+                    length: 30,
+                },
+                flagColorTwo: rgb(colors.RED),
             }
         ],
         ships: [

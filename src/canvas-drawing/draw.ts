@@ -63,7 +63,7 @@ export const drawScene = (game: GameState, viewPort: ViewPort, assets: AssetMap)
         const drawSprite = drawSpriteFunc(drawingMethods, assets, assetParams, TERRAIN_SQUARE_SIZE, TERRAIN_SQUARE_SIZE);
         ctx.clearRect(0, 0, viewPort.width, viewPort.height)
         drawTowns(ctx, drawingMethods, towns, viewPort, game.cycleNumber, game.wind, game.invadingActions)
-        objectives.forEach(objective => drawObjective(ctx, drawingMethods, objective))
+        objectives.forEach(objective => drawObjective(drawingMethods, objective, game))
         drawShips(ctx, drawingMethods, drawSprite, viewPort, game, false)
         projectiles.forEach(projectile => drawProjectile(ctx, drawingMethods, projectile))
         effects.forEach(effect => drawEffect(ctx, drawingMethods, effect))

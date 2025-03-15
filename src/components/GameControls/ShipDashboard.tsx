@@ -8,17 +8,33 @@ interface Props {
     objectives: Objective[]
 }
 
-const listObjectivesObtained = (objectives: Objective[]) => objectives.filter(_ => _.obtained).map(_ => _.name).join()
+const objectivesAreEqual = (prevObjectives: Objective[], nextObjectives: Objective[]): boolean => {
+    if (prevObjectives.length !== nextObjectives.length) {
+        return false
+    }
+    return prevObjectives.every((objective, index) => objective.obtained === nextObjectives[index]?.obtained)
+}
 
 const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) => {
     return (
-        <div className="panel-frame" style={{ flex: 1 }}>
-            <p>
-                damage: {ship.damage} / {ship.profile.maxHp}
-            </p>
-            <button onClick={() => setMapOpen(!mapOpen)}>map</button>
+        <div className="panel-frame dashboard-panel">
+            <div>
+                <p>
+                    damage: {ship.damage} / {ship.profile.maxHp}
+                </p>
+                <button onClick={() => setMapOpen(!mapOpen)}>map</button>
+            </div>
             {!!(objectives.length) && (
-                <p>objectives: {listObjectivesObtained(objectives)}</p>
+                <table>
+                    <tbody>
+                        {objectives.map((objective, index) => (
+                            <tr key={index}>
+                                <td>{objective.name}</td>
+                                <td>{objective.obtained ? '☑' : '☐'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             )}
         </div>
     )
@@ -27,7 +43,7 @@ const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) =>
         prevProps.ship.damage === nextProps.ship.damage &&
         prevProps.ship.profile.maxHp === nextProps.ship.profile.maxHp &&
         prevProps.mapOpen === nextProps.mapOpen &&
-        listObjectivesObtained(prevProps.objectives) === listObjectivesObtained(nextProps.objectives)
+        objectivesAreEqual(prevProps.objectives, nextProps.objectives)
     )
 }))
 
