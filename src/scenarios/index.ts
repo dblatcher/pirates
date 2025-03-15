@@ -12,6 +12,7 @@ import { campaignLevelThree } from './campaign/level-three'
 import { campaignPiratesFour } from './campaign/level-four-pirate'
 import { campaignFour } from './campaign/level-four'
 import { campaignPiratesFive } from './campaign/level-five-pirate'
+import { campaignFive } from './campaign/level-five'
 
 const scenarios: Record<string, Scenario> = {
     campaignLevelOne,
@@ -20,6 +21,7 @@ const scenarios: Record<string, Scenario> = {
     campaignLevelTwo,
     campaignLevelThree,
     campaignFour,
+    campaignFive,
     campaignPiratesFour,
     campaignPiratesFive,
     sandbox,

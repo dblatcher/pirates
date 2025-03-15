@@ -234,8 +234,8 @@ export const makeTownHaven = (): Town => makeTownWithForts({
 }, [
 ])
 
-export const makeTownForto = (): Town => makeTownWithForts({
-    faction: 'spaim',
+export const makeTownForto = (faction: FactionId): Town => makeTownWithForts({
+    faction,
     x: TERRAIN_SQUARE_SIZE * 32,
     y: TERRAIN_SQUARE_SIZE * 2,
     id: townIds.PUERTOFORTO,

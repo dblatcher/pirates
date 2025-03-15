@@ -1,12 +1,14 @@
 import { GAME_STATE_DEFAULTS, Scenario } from "..";
-import { FollowerAutoPilot } from "../../ai/follower-ai";
+import { AttackAutoPilot } from "../../ai";
 import { MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { factions } from "../../game-state/faction";
-import { makeFrigateShip, makePinnaceShip, makeSloopShip, } from "../../game-state/ship";
+import { makeCargoBarge, makeFrigateShip, makeSloopShip, } from "../../game-state/ship";
 import { rgb } from "../../lib/Color";
-import { _DEG } from "../../lib/geometry";
-import { BARNEY, MAP_HEIGHT, MAP_WIDTH, TERRA_FIRMA, landMasses, makeTownCanto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
+import { _DEG, xy } from "../../lib/geometry";
+import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownCanto, makeTownForto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
+
+const xyT = (x: number, y: number) => xy(x * TERRAIN_SQUARE_SIZE, y * TERRAIN_SQUARE_SIZE)
 
 const makeInitialState = (): GameState => {
     const initalState: GameState = {
@@ -18,61 +20,66 @@ const makeInitialState = (): GameState => {
             force: 10,
         },
         ships: [
-            makePinnaceShip({
-                name: 'Speedy McReady',
-                x: TERRA_FIRMA.x + TERRAIN_SQUARE_SIZE * 25,
-                y: TERRA_FIRMA.y + TERRAIN_SQUARE_SIZE - 3,
+            makeFrigateShip({
+                name: 'Player McPlayerFace',
+                faction: 'grance',
+                x: 400,
+                y: 500,
                 h: _DEG * 50,
                 id: 1,
                 damage: 0,
                 sailLevelTarget: 0,
                 sailLevel: 0
             }),
-            makeFrigateShip({
-                x: TERRA_FIRMA.x + TERRAIN_SQUARE_SIZE * 18,
-                y: TERRA_FIRMA.y - TERRAIN_SQUARE_SIZE * 4,
-                h: _DEG * 180,
-                id: 3,
-                damage: 0,
-                sailLevelTarget: 0,
-                sailLevel: 0,
-                ai: new MissonAi({
-                    mission: { type: 'patrol' },
-                    path: [
-                    ]
-                }),
-            }),
-            makeSloopShip({
-                id: 14,
-                x: 1820,
-                y: 600,
-                h: 0,
+            makeCargoBarge({
+                name: 'Cargio',
                 faction: 'grance',
+                id: 3,
+                ...xyT(12, 11),
+                h: _DEG * 90,
                 ai: new MissonAi({
                     mission: {
-                        type: 'patrol',
+                        type: 'travel', waypoints: [
+                            xyT(20, 31),
+                            xyT(21, 9),
+                            xyT(31, 11)
+                        ]
                     },
-                    path: [
-                        {
-                            x: 2020,
-                            y: 300,
-                        },
-                        {
-                            x: 2020,
-                            y: 1400,
-                        },
-                    ]
-                })
+                    path: []
+                }, true)
             }),
-            makeSloopShip({
-                id: 15,
-                x: 1820,
-                y: 500,
-                h: 0,
+            makeCargoBarge({
+                name: "Bart's barge",
                 faction: 'grance',
-                ai: new FollowerAutoPilot(14)
+                id: 4,
+                ...xyT(19, 30),
+                h: _DEG * 90,
+                ai: new MissonAi({
+                    mission: {
+                        type: 'travel', waypoints: [
+                            xyT(19, 30),
+                            xyT(20, 8),
+                            xyT(30, 10)
+                        ]
+                    },
+                    path: []
+                }, true)
             }),
 
+            makeSloopShip({
+                h: 0,
+                x: TERRAIN_SQUARE_SIZE * 32,
+                y: TERRAIN_SQUARE_SIZE * 10,
+                id: 5,
+                ai: new AttackAutoPilot(),
+            }),
+            makeSloopShip({
+                h: 0,
+                x: TERRAIN_SQUARE_SIZE * 32,
+                y: TERRAIN_SQUARE_SIZE * 14,
+                id: 6,
+                ai: new AttackAutoPilot(),
+            }),
         ],
         land: landMasses,
         towns: [
@@ -80,6 +87,7 @@ const makeInitialState = (): GameState => {
             makeTownCanto('grance'),
             makeTownTeulville(),
             makeTownHaven(),
+            makeTownForto('grance'),
         ],
         objectives: [
             {
@@ -109,33 +117,27 @@ const makeInitialState = (): GameState => {
     return initalState
 }
 
-export const campaignPiratesFive: Scenario = ({
+export const campaignFive: Scenario = ({
     makeInitialState,
     intro: {
         pages: [
             {
-                person: BARNEY,
+                person: ROBERT,
+                text: "Well done Captain! This bay is ours now! But there's no time to rest on your laurels.",
                 expression: 'HAPPY',
-                text: "Yar-harr! That was a fine battle! Ye have the makin's of a fine buccaneer!"
             },
             {
-                person: BARNEY,
+                person: ROBERT,
+                text: "Now this area is under control, You are being re-assiged. Collect supplies from Villa della Canto to prepare for the journey."
+            },
+            {
+                person: ROBERT,
                 expression: 'HAPPY',
-                text: "There be richer rewards in store out for ye... 'Tis time ye travelled to new seas."
-            },
-            {
-                person: BARNEY,
-                expression: 'NEUTRAL',
-                text: "Arrr, but don't be forgetting to steal some supplies from that town to the west first!"
-            },
-            {
-                person: BARNEY,
-                expression: 'NEUTRAL',
-                text: "Take this pinnace, grab the supplies, head east out the bay, then sail to the Windswept Isles!"
+                text: "When you have them, and head east out the bay, then sail to the Windswept Isles. Good luck in your new posting!"
             },
         ]
     },
-    name: 'Campaign Level five (pirates)',
+    name: 'Campaign Level five',
     checkForOutcome({ ships, playerId, objectives }) {
         const player = ships.find(_ => _.id === playerId)
         if (player && player.x > MAP_WIDTH) {
@@ -151,7 +153,6 @@ export const campaignPiratesFive: Scenario = ({
                 exitToTitle: true,
             }
         }
-
         return undefined
     },
 })

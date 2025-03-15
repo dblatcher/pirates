@@ -63,7 +63,7 @@ const makeInitialState = (): GameState => {
             makeTownCanto('grance'),
             makeTownTeulville(),
             makeTownHaven(),
-            makeTownForto(),
+            makeTownForto('spaim'),
         ],
     }
     return initalState
@@ -95,7 +95,7 @@ export const campaignFour: Scenario = ({
                 return {
                     success: true,
                     message: 'You captured the town.',
-                    nextScenarioId: 'campaignLevelFive',
+                    nextScenarioId: 'campaignFive',
                 }
             }
         }
