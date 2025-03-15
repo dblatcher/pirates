@@ -173,7 +173,8 @@ export const townIds = {
     GROUPELLE: 1,
     CANTO: 2,
     TEULVILLE: 3,
-    HAVEN: 4
+    HAVEN: 4,
+    PUERTOFORTO: 5,
 }
 
 export const makeTownLaGroupelle = (): Town => makeTownWithForts({
@@ -233,3 +234,19 @@ export const makeTownHaven = (): Town => makeTownWithForts({
 }, [
 ])
 
+export const makeTownForto = (): Town => makeTownWithForts({
+    faction: 'spaim',
+    x: TERRAIN_SQUARE_SIZE * 32,
+    y: TERRAIN_SQUARE_SIZE * 2,
+    id: townIds.PUERTOFORTO,
+    name: "Puerto Forto",
+    profile: {
+        maxDefences: 100,
+        maxGarrison: 25,
+    },
+    garrison: 20,
+}, [
+    { x: 0, y: 120 },
+    { x: 75, y: -50 },
+    { x: -75, y: -50 },
+])
