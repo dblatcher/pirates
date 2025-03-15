@@ -33,10 +33,12 @@ const faceAndTextWrapperStyle: CSSProperties = {
     minHeight: 150,
 }
 
-const textBubbleStyle: CSSProperties = {
+const textBubbleWrapperStyle: CSSProperties = {
+    paddingTop: '2rem',
     flexBasis: '15rem',
-    margin: 0,
+    alignSelf: 'flex-start'
 }
+
 const buttonContainerStyle: CSSProperties = {
     fontSize: '200%',
     display: 'flex',
@@ -82,10 +84,12 @@ export const IntroMessage = ({ intro, closeIntro, soundDeck }: Props) => {
                                 talking={displayedCharacters < currentIntroPage.text.length}
                             />
                         )}
-                        <p style={textBubbleStyle} className="speech-bubble">
-                            {currentIntroPage.text.slice(0, displayedCharacters)}
-                            <span className="speech-bubble-tail"></span>
-                        </p>
+                        <div style={textBubbleWrapperStyle}>
+                            <p className="speech-bubble">
+                                {currentIntroPage.text.slice(0, displayedCharacters)}
+                                <span className="speech-bubble-tail"></span>
+                            </p>
+                        </div>
                     </div>
                 </>)}
                 <div style={buttonContainerStyle}>
