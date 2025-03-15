@@ -154,4 +154,12 @@ export const campaignPiratesFive: Scenario = ({
 
         return undefined
     },
+    getShareMessage({ success }) {
+        if (success) {
+            return {
+                postText: "I sailed off to join the pirates on #Buccaneer!"
+            }
+        }
+        return undefined
+    },
 })

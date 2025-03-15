@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { BLUE_SKY_BASE, CANONICAL_URL } from '../../admin-constants'
+import { BLUE_SKY_BASE, CANONICAL_URL, TAGS } from '../../admin-constants'
 import './sharing.css'
 
 interface Props {
@@ -15,7 +15,7 @@ const BluskyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51
 export const BlueskyButton: React.FunctionComponent<Props> = ({ postText, label, style, format = 'text' }) => {
 
     const url = new URL(BLUE_SKY_BASE)
-    url.searchParams.append('text', [postText, CANONICAL_URL].join(" "))
+    url.searchParams.append('text', [postText, CANONICAL_URL , ...TAGS].join(" "))
 
     switch (format) {
         case 'text':

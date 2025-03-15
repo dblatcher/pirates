@@ -65,7 +65,7 @@ export const tutorialThree: Scenario = ({
         }
 
         return {
-            postText: 'I completed the Buccaneer tutorial!'
+            postText: 'I completed the #Buccaneer tutorial!'
         }
     },
 })

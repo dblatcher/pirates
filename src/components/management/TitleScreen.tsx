@@ -26,7 +26,7 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
                 </div>
                 <div className="button-row">
                     <button onClick={() => setAboutModalOpen(true)}>about this game</button>
-                    <BlueskyButton label="Share on Bluesky" postText={'Play Buccaneer!'} />
+                    <BlueskyButton label="Share on Bluesky" postText={'Play #Buccaneer, the ad-free browser game of naval combat!'} />
                 </div>
             </main>
             <Modal title="About Buccaneer" isOpen={aboutModalOpen} setIsOpen={() => setAboutModalOpen(false)}>

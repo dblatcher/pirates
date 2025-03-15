@@ -155,4 +155,12 @@ export const campaignFive: Scenario = ({
         }
         return undefined
     },
+    getShareMessage({ success }) {
+        if (success) {
+            return {
+                postText: "I sailed to the Windswept Isles on #Buccaneer!"
+            }
+        }
+        return undefined
+    },
 })
