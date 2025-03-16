@@ -11,7 +11,9 @@ export const About = () => {
             <li>There are no ads</li>
             <li>It does not track users</li>
         </ul>
-        <p>It is a work in progress.</p>
+        <p>It is a work in progress!</p>
         <p>Comments, suggestions and pirate-themed insults can be sent to me on <a href={BLUE_SKY_PROFILE} target="_blank">{BLUE_SKY_PROFILE}</a></p>
+        <h3>Controls</h3>
+        <p>Buccaneer is best played with a keyboard. Using the mouse with the on-screen controls is possible, but challenging.</p>
     </div>
 }

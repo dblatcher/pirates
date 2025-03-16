@@ -52,6 +52,14 @@ body {
   align-items: center;
 }
 
+.warning-message {
+  color: red;
+  background-color:black;
+  padding: var(--small-space) var(--space);
+  text-align: center;
+  border-radius: var(--small-space);
+}
+
 .loading-frame {
   display: flex;
   justify-content: center;

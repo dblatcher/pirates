@@ -19,8 +19,8 @@ import { WorldMap } from './WorldMap'
 import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { KeyboardControls } from './KeyboardControls'
 
-export const SCREEN_WIDTH = 750
-export const SCREEN_HEIGHT = 425
+const SCREEN_WIDTH = 750
+const SCREEN_HEIGHT = 425
 
 interface Props {
     initial: GameState;

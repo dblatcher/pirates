@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SoundDeck } from "sound-deck"
 import { assetParams } from "../../assets"
 import { WaitingAssetProvider } from "../../context/asset-context"
@@ -13,6 +13,7 @@ import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
 
 export const BuccaneerProgram = () => {
+    const [screenWidth, setScreenWidth] = useState<number | undefined>(undefined)
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [gameIsPaused, setGameIsPaused] = useState(false)
@@ -22,6 +23,15 @@ export const BuccaneerProgram = () => {
     //changes to soundDeck.isEnabled are not reactive - use separate state to track for the UI
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
+
+    useEffect(() => {
+        const onResize = () => {
+            setScreenWidth(window.innerWidth)
+        }
+        onResize()
+        window.addEventListener('resize', onResize)
+        return () => window.removeEventListener('resize', onResize)
+    }, [setScreenWidth])
 
     // fairly crude, but way of controlling the scenarios on the menu, but will work for now
     const secariosToShowOnMenu = location.search.includes('all') ? scenarios : startingScenarios
@@ -116,6 +126,7 @@ export const BuccaneerProgram = () => {
                         />
                     </>) : (
                         <TitleScreen
+                            screenWidth={screenWidth}
                             setScenario={setScenario}
                             scenarios={secariosToShowOnMenu} />
                     )}
