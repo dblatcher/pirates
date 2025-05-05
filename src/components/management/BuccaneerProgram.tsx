@@ -46,7 +46,7 @@ export const BuccaneerProgram = () => {
         if (!soundDeck.isEnabled) {
             await soundDeck.enable()
             setSoundIsEnabled(true)
-            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25 }, { volume: .1 })
+            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25, volume:.1 })
         } else {
             await soundDeck.disable()
             setSoundIsEnabled(false)

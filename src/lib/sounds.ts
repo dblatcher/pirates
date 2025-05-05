@@ -39,5 +39,6 @@ export const makeTalkSound = (soundDeck: SoundDeck) => {
         frequency: frequency,
         endFrequency: frequency + 60,
         type: 'sawtooth',
-    }, { volume: .1 })
+        volume: .1
+    })
 }

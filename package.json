@@ -15,7 +15,7 @@
     "astar-typescript": "^1.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sound-deck": "^0.0.3"
+    "sound-deck": "^1.1.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.18",

@@ -79,6 +79,7 @@ export const handleProjectileHitsAndLandings = (game: GameState, _pushLog: { (ne
     projectilesLanded.forEach(projectile => {
         if (isLandAt(projectile, game.land)) {
             createGroundHit({ x: projectile.x, y: projectile.y, timeLeft: 60, }, game)
+            soundEffectRequests.push({ position: projectile, sfx: 'thud' })
         } else {
             createSplash({ x: projectile.x, y: projectile.y, timeLeft: 50, radius: 2 }, game)
             soundEffectRequests.push({ position: projectile, sfx: 'splash' })
