@@ -18,6 +18,7 @@ import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { KeyboardControls } from './KeyboardControls'
+import { FullGestureState, useDrag } from '@use-gesture/react'
 
 const SCREEN_WIDTH = 750
 const SCREEN_HEIGHT = 425
@@ -173,10 +174,29 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         viewPortRef.current.height = SCREEN_HEIGHT / adjusted
     }
 
+    const handleDrag = (state: Omit<FullGestureState<"drag">, "event"> & {
+        event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
+    }) => {
+
+        wheelNotLockedByPointerRef.current = false
+        if (state.event.type === 'pointerup') {
+            wheelNotLockedByPointerRef.current = true
+        }
+
+        const adjustedDelta = -Math.sign(state.movement[0]) * clamp(Math.abs(state.movement[0]) / 100, .5)
+        wheelRef.current = adjustedDelta
+    }
+
+    const bind = useDrag(handleDrag, {
+        axis: 'x',
+    })
+
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
-            <section className='game-wrapper'>
-                <div style={{ position: 'relative' }}>
+            <section className='game-wrapper' style={{
+                touchAction: 'none',
+            }} {...bind()}>
+                <div style={{ position: 'relative' }} >
                     <GameScreen
                         viewPort={viewPortRef.current}
                         gameState={gameStateRef.current}
