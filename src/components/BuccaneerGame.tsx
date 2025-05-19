@@ -178,17 +178,27 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
     }) => {
 
+        const xMovement = state.movement[0]
+        const yDelta = state.delta[1]
+
+        if (Math.abs(yDelta) > 1.5) {
+            center.sendDirective({
+                order: Order.SAILS_BY,
+                quantity: (-yDelta - 1.5 * Math.sign(yDelta)) / 100
+            })
+        }
+
         wheelNotLockedByPointerRef.current = false
         if (state.event.type === 'pointerup') {
             wheelNotLockedByPointerRef.current = true
         }
 
-        const adjustedDelta = -Math.sign(state.movement[0]) * clamp(Math.abs(state.movement[0]) / 100, .5)
-        wheelRef.current = adjustedDelta
+        const adjustedXMovement = -Math.sign(xMovement) * clamp(Math.abs(xMovement) / 100, .5);
+        center.sendWheelValue(adjustedXMovement)
     }
 
     const bind = useDrag(handleDrag, {
-        axis: 'x',
+        threshold: 1
     })
 
     return (<ControlsProvider value={{ center, keyMapRef }}>
