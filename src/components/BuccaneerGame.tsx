@@ -41,7 +41,7 @@ let lastCycleStartedAt = Date.now()
 
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
-    const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
+    const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod, controlMode } = useManagement()
     const [center] = useState(new ControlCenter())
     const [magnify, setMagnify] = useState(4 / 6)
     const gameStateRef = useRef<GameState>(initial)
@@ -198,7 +198,8 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     }
 
     const bind = useDrag(handleDrag, {
-        threshold: 1
+        threshold: 1,
+        enabled: controlMode === 'touchscreen'
     })
 
     return (<ControlsProvider value={{ center, keyMapRef }}>

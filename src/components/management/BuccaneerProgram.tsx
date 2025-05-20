@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { SoundDeck } from "sound-deck"
 import { assetParams } from "../../assets"
 import { WaitingAssetProvider } from "../../context/asset-context"
 import { ManagementProvider } from "../../context/management-context"
+import { useWindowSize } from "../../hooks/useWindowSize"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
@@ -11,11 +12,14 @@ import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
 import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
+import { ControlMode } from "../../lib/types"
+import { ControlModeSwitch } from "../ControlModeSwitch"
 
 export const BuccaneerProgram = () => {
-    const [screenWidth, setScreenWidth] = useState<number | undefined>(undefined)
+    const { windowWidth } = useWindowSize()
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
+    const [controlMode, setControlMode] = useState<ControlMode>(() => windowWidth <= 600 ? 'touchscreen' : 'desktop')
     const [gameIsPaused, setGameIsPaused] = useState(false)
     const [cyclePeriod, setCyclePeriod] = useState(10)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())
@@ -23,15 +27,6 @@ export const BuccaneerProgram = () => {
     //changes to soundDeck.isEnabled are not reactive - use separate state to track for the UI
     const [soundIsEnabled, setSoundIsEnabled] = useState(soundDeck.isEnabled)
     const resetScenario = () => setGameTimeStamp(Date.now())
-
-    useEffect(() => {
-        const onResize = () => {
-            setScreenWidth(window.innerWidth)
-        }
-        onResize()
-        window.addEventListener('resize', onResize)
-        return () => window.removeEventListener('resize', onResize)
-    }, [setScreenWidth])
 
     // fairly crude, but way of controlling the scenarios on the menu, but will work for now
     const secariosToShowOnMenu = location.search.includes('all') ? scenarios : startingScenarios
@@ -46,7 +41,7 @@ export const BuccaneerProgram = () => {
         if (!soundDeck.isEnabled) {
             await soundDeck.enable()
             setSoundIsEnabled(true)
-            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25, volume:.1 })
+            soundDeck.playTone({ frequency: 2000, type: 'square', endFrequency: 3000, duration: .25, volume: .1 })
         } else {
             await soundDeck.disable()
             setSoundIsEnabled(false)
@@ -75,7 +70,7 @@ export const BuccaneerProgram = () => {
     return (
         <WaitingAssetProvider assetParams={assetParams} loadingContent={<p>waiting for image</p>}>
             <ManagementProvider value={{
-                mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod
+                mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod, controlMode, setControlMode
             }}>
                 <KeyboardControls keyDownFunction={({ code }) => {
                     switch (code) {
@@ -107,6 +102,7 @@ export const BuccaneerProgram = () => {
                                     icon="fast"
                                     negate={cyclePeriod !== 0} />
                             </>)}
+                            <ControlModeSwitch />
                             <SoundToggle />
                         </div>
                     }
@@ -126,7 +122,7 @@ export const BuccaneerProgram = () => {
                         />
                     </>) : (
                         <TitleScreen
-                            screenWidth={screenWidth}
+                            screenWidth={windowWidth}
                             setScenario={setScenario}
                             scenarios={secariosToShowOnMenu} />
                     )}

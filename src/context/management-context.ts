@@ -1,5 +1,6 @@
-import { createContext, useContext } from "react"
+import { createContext, Dispatch, SetStateAction, useContext } from "react"
 import { Scenario, ScenarioOutcome } from '../scenarios'
+import { ControlMode } from "../lib/types"
 
 const mangementContext = createContext<{
     mainMenuOpen: boolean,
@@ -9,6 +10,8 @@ const mangementContext = createContext<{
     scenario?: Scenario,
     reportOutcome: { (outcome: ScenarioOutcome): void }
     cyclePeriod: number,
+    controlMode: ControlMode,
+    setControlMode: Dispatch<SetStateAction<ControlMode>>
 }>({
     mainMenuOpen: false,
     soundIsEnabled: false,
@@ -16,7 +19,9 @@ const mangementContext = createContext<{
     toggleSound: () => Promise.resolve(),
     scenario: undefined,
     reportOutcome: () => { },
-    cyclePeriod: 10
+    cyclePeriod: 10,
+    controlMode: 'desktop',
+    setControlMode: () => { }
 })
 
 export const ManagementProvider = mangementContext.Provider
