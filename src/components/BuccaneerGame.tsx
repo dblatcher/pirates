@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
-import { Directive, FiringPattern, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
+import { Directive, FiringPattern, GameState, Order, Side, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
 import { makeNextCycleFunction } from '../lib/cycle-updates'
 import { CellMatrix } from '../lib/path-finding/types'
@@ -18,7 +18,7 @@ import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { KeyboardControls } from './KeyboardControls'
-import { FullGestureState, useDrag } from '@use-gesture/react'
+import { FullGestureState, useGesture } from '@use-gesture/react'
 
 const SCREEN_WIDTH = 750
 const SCREEN_HEIGHT = 425
@@ -197,8 +197,18 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         center.sendWheelValue(adjustedXMovement)
     }
 
-    const bind = useDrag(handleDrag, {
-        threshold: 1,
+    const bindGestures = useGesture({
+        onDrag: handleDrag,
+        onDoubleClick: ({event}) => {
+            console.log(event.clientX, event.clientY, event.target)
+            // TO DO - locate the tap to determine which side to fire from
+            center.sendDirective({
+                side: Side.LEFT,
+                order: Order.FIRE,
+                pattern: FiringPattern.ALTERNATE
+            })
+        }
+    }, {
         enabled: controlMode === 'touchscreen'
     })
 
@@ -206,7 +216,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper' style={{
                 touchAction: 'none',
-            }} {...bind()}>
+            }} {...bindGestures()}>
                 <div style={{ position: 'relative' }} >
                     <GameScreen
                         viewPort={viewPortRef.current}
