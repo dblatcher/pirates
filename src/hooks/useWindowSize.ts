@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { WindowSizeContext } from "../context/window-size-context"
 
 
 export const useWindowSize = () => {
@@ -21,3 +22,5 @@ export const useWindowSize = () => {
         windowWidth,
     }
 }
+
+export const useWindowSizeContext = () => useContext(WindowSizeContext);

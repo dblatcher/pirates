@@ -3,21 +3,21 @@ import { Scenario } from "../../scenarios"
 import { Modal } from "../Modal"
 import { About } from "../promotion/About"
 import { BlueskyButton } from "../promotion/BlueskyButton"
+import { useWindowSizeContext } from "../../hooks/useWindowSize"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
     scenarios: Record<string, Scenario>
-    screenWidth?: number
 }
 
-export const TitleScreen = ({ setScenario, scenarios, screenWidth }: Props) => {
-
+export const TitleScreen = ({ setScenario, scenarios }: Props) => {
+    const { windowWidth } = useWindowSizeContext();
     const [aboutModalOpen, setAboutModalOpen] = useState(false)
     return (
         <div className="paper" style={{ margin: '0 auto' }}>
             <main className="title-screen skull-stamp">
                 <h1>Buccaneer</h1>
-                {!!screenWidth && screenWidth < 600 && (
+                {windowWidth < 600 && (
                     <div className="warning-message">
                         This game is not intended for mobile devices!
                     </div>

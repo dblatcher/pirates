@@ -14,9 +14,10 @@ import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
 import { ControlMode } from "../../lib/types"
 import { ControlModeSwitch } from "../ControlModeSwitch"
+import { WindowSizeContext } from "../../context/window-size-context"
 
 export const BuccaneerProgram = () => {
-    const { windowWidth } = useWindowSize()
+    const { windowWidth, windowHeight } = useWindowSize()
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
     const [controlMode, setControlMode] = useState<ControlMode>(() => windowWidth <= 600 ? 'touchscreen' : 'desktop')
@@ -72,61 +73,62 @@ export const BuccaneerProgram = () => {
             <ManagementProvider value={{
                 mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod, controlMode, setControlMode
             }}>
-                <KeyboardControls keyDownFunction={({ code }) => {
-                    switch (code) {
-                        case 'Equal':
-                            return toggleSound()
-                        case 'Escape':
-                            return setMainMenuOpen(!mainMenuOpen)
-                        case 'KeyP':
-                            return setGameIsPaused(!gameIsPaused)
-                    }
-                }} />
-                <Layout
-                    topMenu={
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                        }}>
-                            {!!scenario && (<>
-                                <IconButton
-                                    onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                                    icon="menu" />
-                                <IconButton
-                                    onClick={() => { setGameIsPaused(!gameIsPaused) }}
-                                    icon={'pause'}
-                                    negate={!gameIsPaused}
-                                />
-                                <IconButton
-                                    onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                                    icon="fast"
-                                    negate={cyclePeriod !== 0} />
-                            </>)}
-                            <ControlModeSwitch />
-                            <SoundToggle />
-                        </div>
-                    }
-                >
-                    {scenario ? (<>
-                        <ScenarioGame
-                            soundDeck={soundDeck}
-                            scenario={scenario}
-                            key={gameTimeStamp} />
-                        <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
-                            quitToTitle={exitToTitle}
-                            restartGame={() => {
-                                setGameIsPaused(false)
-                                setMainMenuOpen(false)
-                                resetScenario()
-                            }}
-                        />
-                    </>) : (
-                        <TitleScreen
-                            screenWidth={windowWidth}
-                            setScenario={setScenario}
-                            scenarios={secariosToShowOnMenu} />
-                    )}
-                </Layout>
+                <WindowSizeContext.Provider value={{ windowWidth, windowHeight }}>
+                    <KeyboardControls keyDownFunction={({ code }) => {
+                        switch (code) {
+                            case 'Equal':
+                                return toggleSound()
+                            case 'Escape':
+                                return setMainMenuOpen(!mainMenuOpen)
+                            case 'KeyP':
+                                return setGameIsPaused(!gameIsPaused)
+                        }
+                    }} />
+                    <Layout
+                        topMenu={
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                            }}>
+                                {!!scenario && (<>
+                                    <IconButton
+                                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
+                                        icon="menu" />
+                                    <IconButton
+                                        onClick={() => { setGameIsPaused(!gameIsPaused) }}
+                                        icon={'pause'}
+                                        negate={!gameIsPaused}
+                                    />
+                                    <IconButton
+                                        onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
+                                        icon="fast"
+                                        negate={cyclePeriod !== 0} />
+                                </>)}
+                                <ControlModeSwitch />
+                                <SoundToggle />
+                            </div>
+                        }
+                    >
+                        {scenario ? (<>
+                            <ScenarioGame
+                                soundDeck={soundDeck}
+                                scenario={scenario}
+                                key={gameTimeStamp} />
+                            <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
+                                quitToTitle={exitToTitle}
+                                restartGame={() => {
+                                    setGameIsPaused(false)
+                                    setMainMenuOpen(false)
+                                    resetScenario()
+                                }}
+                            />
+                        </>) : (
+                            <TitleScreen
+                                setScenario={setScenario}
+                                scenarios={secariosToShowOnMenu} />
+                        )}
+                    </Layout>
+                </WindowSizeContext.Provider>
             </ManagementProvider>
         </WaitingAssetProvider>
     )
