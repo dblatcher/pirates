@@ -3,7 +3,6 @@ import { useControls } from "../../context/control-context"
 
 interface Props {
     playerWheel: number
-    wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
 }
 
 
@@ -19,7 +18,7 @@ const wheelStyle = (angle: number, size: number): CSSProperties => ({
 })
 
 
-export const WheelWidget = ({ playerWheel, wheelNotLockedByPointerRef }: Props) => {
+export const WheelWidget = ({ playerWheel }: Props) => {
     const { center } = useControls()
     const [locked, setLocked] = useState(false)
     const [userIsTurningWheel, setUserIsTurningWheel] = useState(false)
@@ -37,11 +36,11 @@ export const WheelWidget = ({ playerWheel, wheelNotLockedByPointerRef }: Props) 
                     className="range-control"
                     onPointerDown={() => {
                         setUserIsTurningWheel(true)
-                        wheelNotLockedByPointerRef.current = false
+                        center.wheelFreeFromPointer.current = false
                     }}
                     onPointerUp={() => {
                         setUserIsTurningWheel(false)
-                        wheelNotLockedByPointerRef.current = !locked
+                        center.wheelFreeFromPointer.current = !locked
                     }}
                     max={50} min={-50} step={'any'}
                     value={playerWheel * -100}
@@ -55,9 +54,9 @@ export const WheelWidget = ({ playerWheel, wheelNotLockedByPointerRef }: Props) 
                 <input type="checkbox" checked={locked} onChange={e => {
                     setLocked(e.target.checked)
                     if (e.target.checked) {
-                        wheelNotLockedByPointerRef.current = false
+                        center.wheelFreeFromPointer.current = false
                     } else {
-                        wheelNotLockedByPointerRef.current = !userIsTurningWheel
+                        center.wheelFreeFromPointer.current = !userIsTurningWheel
                     }
                 }} />
             </div>

@@ -23,6 +23,13 @@ type Handler<T extends Event> = { (event: T): void }
 
 export class ControlCenter extends EventTarget {
 
+    wheelFreeFromPointer: { current: boolean }
+
+    constructor() {
+        super()
+        this.wheelFreeFromPointer = { current: true }
+    }
+
     sendDirective(data: Directive) {
         const event = new DirectiveEvent(data)
         this.dispatchEvent(event)

@@ -42,14 +42,13 @@ let lastCycleStartedAt = Date.now()
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod, controlMode } = useManagement()
-    const [center] = useState(new ControlCenter())
     const [magnify, setMagnify] = useState(4 / 6)
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const wheelRef = useRef<number | undefined>(undefined)
     const rowBackRef = useRef<boolean>(false)
-    const wheelNotLockedByPointerRef = useRef(true)
     const wheelNotLockedByKeyboardRef = useRef(true)
+    const [center] = useState(new ControlCenter())
     const sailChangeRef = useRef<'UP' | 'DOWN' | undefined>(undefined)
     const viewPortRef = useRef<ViewPort>({
         x: 100,
@@ -135,7 +134,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
     useSchedule(() => {
         // let player wheel drift back to 0 if not locked or being turned by the player
-        if (wheelNotLockedByPointerRef.current === true && wheelNotLockedByKeyboardRef.current && player?.wheel) {
+        if (center.wheelFreeFromPointer.current === true && wheelNotLockedByKeyboardRef.current && player?.wheel) {
             const changeAmount = Math.min(Math.abs(player.wheel), .01) * Math.sign(player.wheel)
             wheelRef.current = player.wheel - changeAmount
         }
@@ -188,9 +187,9 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
             })
         }
 
-        wheelNotLockedByPointerRef.current = false
+        center.wheelFreeFromPointer.current = false
         if (state.event.type === 'pointerup') {
-            wheelNotLockedByPointerRef.current = true
+            center.wheelFreeFromPointer.current = true
         }
 
         const adjustedXMovement = -Math.sign(xMovement) * clamp(Math.abs(xMovement) / 100, .5);
@@ -199,7 +198,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
     const bindGestures = useGesture({
         onDrag: handleDrag,
-        onDoubleClick: ({event}) => {
+        onDoubleClick: ({ event }) => {
             console.log(event.clientX, event.clientY, event.target)
             // TO DO - locate the tap to determine which side to fire from
             center.sendDirective({
@@ -214,10 +213,11 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
-            <section className='game-wrapper' style={{
-                touchAction: 'none',
-            }} {...bindGestures()}>
-                <div style={{ position: 'relative' }} >
+            <section className='game-wrapper' >
+                <div style={{
+                    position: 'relative',
+                    touchAction: 'none',
+                }} {...bindGestures()} >
                     <GameScreen
                         viewPort={viewPortRef.current}
                         gameState={gameStateRef.current}
@@ -244,7 +244,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     player={player}
                     objectives={gameStateRef.current.objectives}
                     paused={gameIsPaused}
-                    wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}
                     firingPattern={firingPattern}

@@ -11,7 +11,6 @@ interface Props {
     player?: Ship
     objectives: Objective[]
     paused: boolean
-    wheelNotLockedByPointerRef: React.MutableRefObject<boolean>
     mapOpen: boolean,
     setMapOpen: { (value: boolean): void }
     firingPattern: FiringPattern
@@ -23,7 +22,6 @@ export const GameControls = ({
     player,
     objectives,
     paused,
-    wheelNotLockedByPointerRef,
     mapOpen,
     setMapOpen,
     firingPattern, setFiringPattern
@@ -37,7 +35,6 @@ export const GameControls = ({
             {player ? (<>
                 <WheelWidget
                     playerWheel={player.wheel}
-                    wheelNotLockedByPointerRef={wheelNotLockedByPointerRef}
                 />
                 <SailsWidget
                     sailLevel={player.sailLevel}
