@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
-import { Directive, FiringPattern, GameState, Order, Side, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
+import { Directive, FiringPattern, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
 import { makeNextCycleFunction } from '../lib/cycle-updates'
+import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { CellMatrix } from '../lib/path-finding/types'
 import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 import { average, clamp } from '../lib/util'
@@ -13,12 +14,11 @@ import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { IntroMessage } from './IntroMessage'
+import { KeyboardControls } from './KeyboardControls'
 import { ShipsLog } from './ShipsLog'
+import { TouchControlWrapper } from './TouchControlWrapper'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
-import { KeyboardControls } from './KeyboardControls'
-import { FullGestureState, useGesture } from '@use-gesture/react'
 
 const SCREEN_WIDTH = 750
 const SCREEN_HEIGHT = 425
@@ -41,7 +41,7 @@ let lastCycleStartedAt = Date.now()
 
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
-    const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod, controlMode } = useManagement()
+    const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const [magnify, setMagnify] = useState(4 / 6)
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
@@ -173,51 +173,10 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         viewPortRef.current.height = SCREEN_HEIGHT / adjusted
     }
 
-    const handleDrag = (state: Omit<FullGestureState<"drag">, "event"> & {
-        event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
-    }) => {
-
-        const xMovement = state.movement[0]
-        const yDelta = state.delta[1]
-
-        if (Math.abs(yDelta) > 1.5) {
-            center.sendDirective({
-                order: Order.SAILS_BY,
-                quantity: (-yDelta - 1.5 * Math.sign(yDelta)) / 100
-            })
-        }
-
-        center.wheelFreeFromPointer.current = false
-        if (state.event.type === 'pointerup') {
-            center.wheelFreeFromPointer.current = true
-        }
-
-        const adjustedXMovement = -Math.sign(xMovement) * clamp(Math.abs(xMovement) / 100, .5);
-        center.sendWheelValue(adjustedXMovement)
-    }
-
-    const bindGestures = useGesture({
-        onDrag: handleDrag,
-        onDoubleClick: ({ event }) => {
-            console.log(event.clientX, event.clientY, event.target)
-            // TO DO - locate the tap to determine which side to fire from
-            center.sendDirective({
-                side: Side.LEFT,
-                order: Order.FIRE,
-                pattern: FiringPattern.ALTERNATE
-            })
-        }
-    }, {
-        enabled: controlMode === 'touchscreen'
-    })
-
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper' >
-                <div style={{
-                    position: 'relative',
-                    touchAction: 'none',
-                }} {...bindGestures()} >
+                <TouchControlWrapper>
                     <GameScreen
                         viewPort={viewPortRef.current}
                         gameState={gameStateRef.current}
@@ -238,7 +197,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                             {<EndOfScenario outcome={outcome} />}
                         </div>
                     }
-                </div>
+                </TouchControlWrapper>
 
                 <GameControls
                     player={player}
