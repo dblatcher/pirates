@@ -1,9 +1,9 @@
 import { FullGestureState, useGesture } from "@use-gesture/react";
-import { FunctionComponent, ReactNode } from "react";
-import { Order, Side, FiringPattern } from "../game-state";
-import { clamp } from "../lib/util";
+import { FunctionComponent, ReactNode, useCallback, useRef } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
+import { FiringPattern, Order, Side } from "../game-state";
+import { clamp } from "../lib/util";
 
 interface Props {
     children: ReactNode
@@ -11,10 +11,11 @@ interface Props {
 
 export const TouchControlWrapper: FunctionComponent<Props> = ({ children }) => {
 
+    const elementRef = useRef<HTMLDivElement>(null);
     const { center } = useControls()
     const { controlMode } = useManagement()
 
-    const handleDrag = (state: Omit<FullGestureState<"drag">, "event"> & {
+    const handleDrag = useCallback((state: Omit<FullGestureState<"drag">, "event"> & {
         event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
     }) => {
         const xMovement = state.movement[0]
@@ -34,15 +35,23 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children }) => {
 
         const adjustedXMovement = -Math.sign(xMovement) * clamp(Math.abs(xMovement) / 100, .5);
         center.sendWheelValue(adjustedXMovement)
-    }
+    }, [center])
 
     const bindGestures = useGesture({
         onDrag: handleDrag,
         onDoubleClick: ({ event }) => {
-            console.log(event.clientX, event.clientY, event.target)
+
+            const rect = (elementRef.current?.getBoundingClientRect())
+            if (!rect) {
+                return
+            }
+            const elementCoords = { x: event.pageX - rect.left, y: event.pageY - rect.top }
+            console.log(elementCoords)
+
             // TO DO - locate the tap to determine which side to fire from
+            // relative to ship position and orientation...
             center.sendDirective({
-                side: Side.LEFT,
+                side: elementCoords.x < rect.width / 2 ? Side.LEFT : Side.RIGHT,
                 order: Order.FIRE,
                 pattern: FiringPattern.ALTERNATE
             })
@@ -52,6 +61,7 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children }) => {
     })
 
     return <div
+        ref={elementRef}
         style={{
             position: 'relative',
             touchAction: 'none',
