@@ -1,15 +1,17 @@
-import { FullGestureState, useGesture } from "@use-gesture/react";
-import { FunctionComponent, ReactNode, useCallback, useRef } from "react";
+import { FullGestureState, SharedGestureState, useGesture } from "@use-gesture/react";
+import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
-import { FiringPattern, Order, Side } from "../game-state";
+import { FiringPattern, GameState, Order, Side } from "../game-state";
 import { clamp } from "../lib/util";
+import { findRotationBetweenHeadings, getHeading, getVectorFrom, normaliseHeading } from "../lib/geometry";
 
 interface Props {
     children: ReactNode
+    gameStateRef: MutableRefObject<GameState>
 }
 
-export const TouchControlWrapper: FunctionComponent<Props> = ({ children }) => {
+export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef }) => {
 
     const elementRef = useRef<HTMLDivElement>(null);
     const { center } = useControls()
@@ -37,25 +39,30 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children }) => {
         center.sendWheelValue(adjustedXMovement)
     }, [center])
 
-    const bindGestures = useGesture({
-        onDrag: handleDrag,
-        onDoubleClick: ({ event }) => {
-
+    const handleDoubleClick = useCallback(
+        ({ event }: SharedGestureState & {
+            event: MouseEvent;
+        }) => {
             const rect = (elementRef.current?.getBoundingClientRect())
             if (!rect) {
                 return
             }
-            const elementCoords = { x: event.pageX - rect.left, y: event.pageY - rect.top }
-            console.log(elementCoords)
+            const clickCoords = { x: event.pageX - rect.left, y: event.pageY - rect.top }
+            const elementCenter = { x: rect.width / 2, y: rect.height / 2 } // to do - use the point on the element where the player is plotted
 
-            // TO DO - locate the tap to determine which side to fire from
-            // relative to ship position and orientation...
+            const heading = normaliseHeading(getHeading(getVectorFrom(elementCenter, clickCoords)))
+            const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+
             center.sendDirective({
-                side: elementCoords.x < rect.width / 2 ? Side.LEFT : Side.RIGHT,
+                side: findRotationBetweenHeadings(heading, player?.h ?? 0) < 0 ? Side.LEFT : Side.RIGHT,
                 order: Order.FIRE,
                 pattern: FiringPattern.ALTERNATE
             })
-        }
+        }, [center, gameStateRef])
+
+    const bindGestures = useGesture({
+        onDrag: handleDrag,
+        onDoubleClick: handleDoubleClick
     }, {
         enabled: controlMode === 'touchscreen'
     })
