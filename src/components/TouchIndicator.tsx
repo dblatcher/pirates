@@ -23,7 +23,7 @@ const wheelStyle = (angle: number, size: number): CSSProperties => ({
 
 export const TouchIndicator: FunctionComponent<Props> = ({ touch, locate, gameStateRef }) => {
 
-    if (!touch || touch.elapsedTime < 250) {
+    if (!touch || touch.elapsedTime < 100) {
         return null
     }
     const { initial } = locate(touch)

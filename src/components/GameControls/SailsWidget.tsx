@@ -1,13 +1,11 @@
 import { CSSProperties, memo, useCallback } from "react"
 import { SAIL_COLOR_CSS } from "../../lib/Color"
-import { cornerOverlay } from "../../lib/style-helpers"
 import { VerticalRange } from "../VerticalRange"
 import { useControls } from "../../context/control-context";
 import { Order } from "../../game-state";
 
 interface Props {
     sailLevelTarget: number;
-    speedLastTurn: number;
     sailLevel: number;
 }
 
@@ -26,7 +24,7 @@ const targetLineStyle = (level: number): CSSProperties => ({
     top: `${level * 100}%`,
 })
 
-export const SailsWidget = memo(({ sailLevelTarget, speedLastTurn, sailLevel }: Props) => {
+export const SailsWidget = memo(({ sailLevelTarget, sailLevel }: Props) => {
     const { center } = useControls()
     const setSailLevelTarget = useCallback((quantity: number) => {
         center.sendDirective({ order: Order.SAILS_TO, quantity })
@@ -48,9 +46,6 @@ export const SailsWidget = memo(({ sailLevelTarget, speedLastTurn, sailLevel }: 
                         <div className="sail" style={sailStyle(sailLevel)}></div>
                         <div className="target-line" style={targetLineStyle(sailLevelTarget)}></div>
                     </figure>
-                    <div style={cornerOverlay('bottom', 'right')}>
-                        Speed: {speedLastTurn.toFixed(2)}
-                    </div>
                 </div>
             </div>
         </div >

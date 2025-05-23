@@ -1,3 +1,4 @@
+import { useManagement } from "../../context/management-context"
 import { FiringPattern, Objective, Ship, Side } from "../../game-state"
 import { splitArray } from "../../lib/util"
 import { GunneryWidget } from "./GunneryWidget"
@@ -26,6 +27,7 @@ export const GameControls = ({
     setMapOpen,
     firingPattern, setFiringPattern
 }: Props) => {
+    const {controlMode} = useManagement()
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
     const rightCannonsReady = rightCannons.map(c => c.cooldown <= 0)
@@ -33,12 +35,11 @@ export const GameControls = ({
     return (
         <aside className="controls-container no-select-highlight">
             {player ? (<>
-                <WheelWidget
+                {controlMode === 'desktop' && <WheelWidget
                     playerWheel={player.wheel}
-                />
+                />}
                 <SailsWidget
                     sailLevel={player.sailLevel}
-                    speedLastTurn={player.speedLastTurn}
                     sailLevelTarget={player.sailLevelTarget} />
                 <GunneryWidget
                     leftCannons={leftCannonsReady}

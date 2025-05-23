@@ -22,6 +22,9 @@ const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) =>
                 <p>
                     damage: {ship.damage} / {ship.profile.maxHp}
                 </p>
+                <p>
+                    Speed: {ship.speedLastTurn.toFixed(2)}
+                </p>
                 <button onClick={() => setMapOpen(!mapOpen)}>map</button>
             </div>
             {!!(objectives.length) && (
@@ -40,6 +43,7 @@ const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) =>
     )
 }, ((prevProps, nextProps) => {
     return (
+        prevProps.ship.speedLastTurn === nextProps.ship.speedLastTurn &&
         prevProps.ship.damage === nextProps.ship.damage &&
         prevProps.ship.profile.maxHp === nextProps.ship.profile.maxHp &&
         prevProps.mapOpen === nextProps.mapOpen &&
