@@ -2,16 +2,17 @@ import { FullGestureState, SharedGestureState, useGesture } from "@use-gesture/r
 import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
-import { FiringPattern, GameState, Order, Side } from "../game-state";
+import { FiringPattern, GameState, Order, Side, ViewPort } from "../game-state";
 import { clamp } from "../lib/util";
-import { findRotationBetweenHeadings, getHeading, getVectorFrom, normaliseHeading } from "../lib/geometry";
+import { findRotationBetweenHeadings, getHeading, getVectorFrom } from "../lib/geometry";
 
 interface Props {
     children: ReactNode
     gameStateRef: MutableRefObject<GameState>
+    viewPortRef: MutableRefObject<ViewPort>
 }
 
-export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef }) => {
+export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef, viewPortRef }) => {
 
     const elementRef = useRef<HTMLDivElement>(null);
     const { center } = useControls()
@@ -43,22 +44,24 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         ({ event }: SharedGestureState & {
             event: MouseEvent;
         }) => {
-            const rect = (elementRef.current?.getBoundingClientRect())
-            if (!rect) {
+            const rect = elementRef.current?.getBoundingClientRect();
+            const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+            const { current: viewPort } = viewPortRef
+            if (!rect || !player || !viewPort) {
                 return
             }
             const clickCoords = { x: event.pageX - rect.left, y: event.pageY - rect.top }
-            const elementCenter = { x: rect.width / 2, y: rect.height / 2 } // to do - use the point on the element where the player is plotted
-
-            const heading = normaliseHeading(getHeading(getVectorFrom(elementCenter, clickCoords)))
-            const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
-
+            const playerCoords = {
+                x: (player.x - viewPort.x) / viewPort.width * rect.width,
+                y: (player.y - viewPort.y) / viewPort.height * rect.height
+            }
+            const heading = getHeading(getVectorFrom(playerCoords, clickCoords))
             center.sendDirective({
-                side: findRotationBetweenHeadings(heading, player?.h ?? 0) < 0 ? Side.LEFT : Side.RIGHT,
+                side: findRotationBetweenHeadings(heading, player.h) < 0 ? Side.LEFT : Side.RIGHT,
                 order: Order.FIRE,
                 pattern: FiringPattern.ALTERNATE
             })
-        }, [center, gameStateRef])
+        }, [center, gameStateRef, viewPortRef])
 
     const bindGestures = useGesture({
         onDrag: handleDrag,
