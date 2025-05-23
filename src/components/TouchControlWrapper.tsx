@@ -1,10 +1,10 @@
-import { FullGestureState, SharedGestureState, useGesture } from "@use-gesture/react";
+import { DragState, useGesture } from "@use-gesture/react";
 import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
 import { FiringPattern, GameState, Order, Side, ViewPort } from "../game-state";
+import { findRotationBetweenHeadings, getHeading, getVectorFrom, XY } from "../lib/geometry";
 import { clamp } from "../lib/util";
-import { findRotationBetweenHeadings, getHeading, getVectorFrom } from "../lib/geometry";
 
 interface Props {
     children: ReactNode
@@ -18,9 +18,27 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
     const { center } = useControls()
     const { controlMode } = useManagement()
 
-    const handleDrag = useCallback((state: Omit<FullGestureState<"drag">, "event"> & {
-        event: PointerEvent | MouseEvent | TouchEvent | KeyboardEvent;
-    }) => {
+    const handleFireTap = useCallback(
+        (clickCoords: XY, rect: DOMRect) => {
+            const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
+            const { current: viewPort } = viewPortRef
+            if (!player || !viewPort) {
+                return
+            }
+            const playerCoords = {
+                x: (player.x - viewPort.x) / viewPort.width * rect.width,
+                y: (player.y - viewPort.y) / viewPort.height * rect.height
+            }
+            const heading = getHeading(getVectorFrom(playerCoords, clickCoords))
+            center.sendDirective({
+                side: findRotationBetweenHeadings(heading, player.h) < 0 ? Side.LEFT : Side.RIGHT,
+                order: Order.FIRE,
+                pattern: FiringPattern.ALTERNATE
+            })
+        },
+        [center, gameStateRef, viewPortRef])
+
+    const handleDrag = useCallback((state: DragState) => {
         const xMovement = state.movement[0]
         const yDelta = state.delta[1]
 
@@ -40,32 +58,26 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         center.sendWheelValue(adjustedXMovement)
     }, [center])
 
-    const handleDoubleClick = useCallback(
-        ({ event }: SharedGestureState & {
-            event: MouseEvent;
-        }) => {
-            const rect = elementRef.current?.getBoundingClientRect();
-            const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
-            const { current: viewPort } = viewPortRef
-            if (!rect || !player || !viewPort) {
-                return
-            }
-            const clickCoords = { x: event.pageX - rect.left, y: event.pageY - rect.top }
-            const playerCoords = {
-                x: (player.x - viewPort.x) / viewPort.width * rect.width,
-                y: (player.y - viewPort.y) / viewPort.height * rect.height
-            }
-            const heading = getHeading(getVectorFrom(playerCoords, clickCoords))
-            center.sendDirective({
-                side: findRotationBetweenHeadings(heading, player.h) < 0 ? Side.LEFT : Side.RIGHT,
-                order: Order.FIRE,
-                pattern: FiringPattern.ALTERNATE
-            })
-        }, [center, gameStateRef, viewPortRef])
+
 
     const bindGestures = useGesture({
+
+        onDragStart: (state) => {
+            console.log('start', state._pointerId)
+
+        },
+        onDragEnd: (state) => {
+            if (state.tap) {
+                const [x, y] = state.initial
+                const rect = elementRef.current?.getBoundingClientRect();
+                if (!rect) {
+                    return
+                }
+                const clickCoords = { x: x - rect.left, y: y - rect.top }
+                handleFireTap(clickCoords, rect)
+            }
+        },
         onDrag: handleDrag,
-        onDoubleClick: handleDoubleClick
     }, {
         enabled: controlMode === 'touchscreen'
     })
