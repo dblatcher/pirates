@@ -1,10 +1,11 @@
 import { DragState, useGesture } from "@use-gesture/react";
-import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef } from "react";
+import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef, useState } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
 import { FiringPattern, GameState, Order, Side, ViewPort } from "../game-state";
 import { findRotationBetweenHeadings, getHeading, getVectorFrom, XY } from "../lib/geometry";
 import { clamp } from "../lib/util";
+import { TouchIndicator } from "./TouchIndicator";
 
 interface Props {
     children: ReactNode
@@ -12,17 +13,38 @@ interface Props {
     viewPortRef: MutableRefObject<ViewPort>
 }
 
+
 export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef, viewPortRef }) => {
 
     const elementRef = useRef<HTMLDivElement>(null);
     const { center } = useControls()
     const { controlMode } = useManagement()
+    const [touches, setTouches] = useState<DragState[]>([])
+
+    const locateTouchInitial = useCallback(
+        (state: DragState) => {
+            const { initial, values: current } = state
+            const rect = elementRef.current?.getBoundingClientRect();
+            if (!rect) {
+                return {
+                    initial: { x: 0, y: 0 },
+                    current: { x: 0, y: 0 },
+                }
+            }
+            return {
+                initial: { x: initial[0] - rect.left, y: initial[1] - rect.top },
+                current: { x: current[0] - rect.left, y: current[1] - rect.top },
+            }
+        },
+        []
+    )
 
     const handleFireTap = useCallback(
-        (clickCoords: XY, rect: DOMRect) => {
+        (clickCoords: XY) => {
+            const rect = elementRef.current?.getBoundingClientRect();
             const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
             const { current: viewPort } = viewPortRef
-            if (!player || !viewPort) {
+            if (!player || !viewPort || !rect) {
                 return
             }
             const playerCoords = {
@@ -39,6 +61,8 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         [center, gameStateRef, viewPortRef])
 
     const handleDrag = useCallback((state: DragState) => {
+        setTouches(current => current.map(t => t._pointerId === state._pointerId ? state : t))
+
         const xMovement = state.movement[0]
         const yDelta = state.delta[1]
 
@@ -63,18 +87,18 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
     const bindGestures = useGesture({
 
         onDragStart: (state) => {
-            console.log('start', state._pointerId)
-
+            if (!state._pointerId) {
+                return
+            }
+            setTouches(current => [...current, state])
         },
         onDragEnd: (state) => {
+            const { _pointerId } = state;
+            if (_pointerId) {
+                setTouches(current => current.filter(t => t._pointerId != _pointerId))
+            }
             if (state.tap) {
-                const [x, y] = state.initial
-                const rect = elementRef.current?.getBoundingClientRect();
-                if (!rect) {
-                    return
-                }
-                const clickCoords = { x: x - rect.left, y: y - rect.top }
-                handleFireTap(clickCoords, rect)
+                handleFireTap(locateTouchInitial(state).initial)
             }
         },
         onDrag: handleDrag,
@@ -91,6 +115,7 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         {...bindGestures()}
     >
         {children}
+        <TouchIndicator touch={touches[0]} locate={locateTouchInitial} gameStateRef={gameStateRef}/>
     </ div>
 
 }

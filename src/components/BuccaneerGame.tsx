@@ -176,7 +176,10 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper' >
-                <TouchControlWrapper gameStateRef={gameStateRef} viewPortRef={viewPortRef}>
+                <TouchControlWrapper 
+                    gameStateRef={gameStateRef} 
+                    viewPortRef={viewPortRef}
+                >
                     <GameScreen
                         viewPort={viewPortRef.current}
                         gameState={gameStateRef.current}
