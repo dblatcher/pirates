@@ -1,6 +1,6 @@
 import { expressions } from "@dblatcher/funny-face"
 import { CSSProperties, useState } from "react"
-import { useInterval } from "../hooks/useInterval"
+import { useSchedule } from "../hooks/useSchedule"
 import { Intro } from "../scenarios"
 import { PersonFace } from "./PersonFace"
 import type { SoundDeck } from "sound-deck"
@@ -60,7 +60,7 @@ export const IntroMessage = ({ intro, closeIntro, soundDeck }: Props) => {
             }
         }
     }
-    useInterval(showMoreText, 75)
+    useSchedule(showMoreText, 75)
 
     const onLastPage = pageIndex + 1 >= intro.pages.length
 
