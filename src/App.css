@@ -153,3 +153,24 @@
   }
 }
 
+.wheel-frame {
+  position: relative;
+  margin: 0px auto;
+  overflow: visible;
+}
+
+.wheel {
+  position: absolute;
+  border-radius: 30%;
+  left: 50%;
+  top: 50%;
+  transition: transform .2s;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  text-shadow: 2px 2px black;
+  align-items: center;
+  line-height: 0;
+  color: saddlebrown;
+  border-top: 5px outset saddlebrown;
+}
