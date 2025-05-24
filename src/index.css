@@ -37,24 +37,33 @@ body {
   padding: var(--space);
 }
 
+
+.title-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 10px 60px;
+  background-size: 60px;
+
+  @media screen and (min-width:600px) {
+    padding: 10px 90px 120px;
+  }
+}
+
 .skull-stamp {
   background-image: url(/pirates-images/jolly-rodger.png);
   background-clip: padding-box;
   background-position: bottom right;
-  background-size: 10rem;
-  background-repeat: no-repeat;
-}
-
-.title-screen {
-  padding: 10px 90px 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background-repeat: repeat-x;
+  
+  @media screen and (min-width:600px) {
+    background-size: 120px;
+  }
 }
 
 .warning-message {
   color: red;
-  background-color:black;
+  background-color: black;
   padding: var(--small-space) var(--space);
   text-align: center;
   border-radius: var(--small-space);
@@ -75,12 +84,19 @@ h2 {
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   color: var(--accent-color);
+  
+  @media screen and (min-width:600px) {
+    font-size: 4rem;
+  }
 }
 
 h2 {
   font-size: 2.5rem;
+  @media screen and (min-width:600px) {
+    font-size: 2rem;
+  }
 }
 
 p {
