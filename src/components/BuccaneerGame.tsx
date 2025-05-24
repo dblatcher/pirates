@@ -19,9 +19,10 @@ import { ShipsLog } from './ShipsLog'
 import { TouchControlWrapper } from './TouchControlWrapper'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { useWindowSizeContext } from '../hooks/useWindowSize'
 
-const SCREEN_WIDTH = 750
-const SCREEN_HEIGHT = 425
+const MAX_VIEWPORT_WIDTH = 750
+const MAX_VIEWPORT_HEIGHT = 425
 
 interface Props {
     initial: GameState;
@@ -41,8 +42,11 @@ let lastCycleStartedAt = Date.now()
 
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
+    const { windowWidth, windowHeight } = useWindowSizeContext()
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
-    const [magnify, setMagnify] = useState(4 / 6)
+    const [magnify, setMagnify] = useState(() => {
+        return windowWidth < 600 ? 3 / 6 : 4 / 6
+    })
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
     const wheelRef = useRef<number | undefined>(undefined)
@@ -53,8 +57,8 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const viewPortRef = useRef<ViewPort>({
         x: 100,
         y: 10,
-        width: SCREEN_WIDTH / magnify,
-        height: SCREEN_HEIGHT / magnify,
+        width: Math.min(windowWidth - 40, MAX_VIEWPORT_WIDTH) / magnify,
+        height: Math.min(windowWidth, MAX_VIEWPORT_HEIGHT) / magnify,
     })
     const keyMapRef = useRef<KeyMap>({})
     const directivesRef = useRef<Directive[]>([])
@@ -125,6 +129,15 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         [gameIsPaused, center, setFiringPattern, firingPattern, setMapOpen, mapOpen]
     )
 
+    const adjustScale = (scale = magnify) => {
+        const adjusted = clamp(scale, 8 / 6, 2 / 6)
+        setMagnify(adjusted);
+        viewPortRef.current.width = Math.min(windowWidth, MAX_VIEWPORT_WIDTH) / adjusted
+        viewPortRef.current.height = Math.min(windowHeight - 40, MAX_VIEWPORT_HEIGHT) / adjusted
+    }
+
+    useEffect(adjustScale, [windowWidth, windowHeight])
+
     useEffect(() => {
         if (!doneInitialCycle) {
             doNextCycle()
@@ -166,18 +179,11 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         }
     }, [center, addDirective])
 
-    const adjustScale = (scale: number) => {
-        const adjusted = clamp(scale, 8 / 6, 2 / 6)
-        setMagnify(adjusted);
-        viewPortRef.current.width = SCREEN_WIDTH / adjusted
-        viewPortRef.current.height = SCREEN_HEIGHT / adjusted
-    }
-
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper' >
-                <TouchControlWrapper 
-                    gameStateRef={gameStateRef} 
+                <TouchControlWrapper
+                    gameStateRef={gameStateRef}
                     viewPortRef={viewPortRef}
                 >
                     <GameScreen
