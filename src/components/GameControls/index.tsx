@@ -27,7 +27,7 @@ export const GameControls = ({
     setMapOpen,
     firingPattern, setFiringPattern
 }: Props) => {
-    const {controlMode} = useManagement()
+    const { controlMode } = useManagement()
     const [leftCannons, rightCannons] = splitArray(player?.cannons ?? [], (_ => _.side === Side.LEFT))
     const leftCannonsReady = leftCannons.map(c => c.cooldown <= 0)
     const rightCannonsReady = rightCannons.map(c => c.cooldown <= 0)
@@ -35,12 +35,14 @@ export const GameControls = ({
     return (
         <aside className="controls-container no-select-highlight">
             {player ? (<>
-                {controlMode === 'desktop' && <WheelWidget
-                    playerWheel={player.wheel}
-                />}
-                <SailsWidget
-                    sailLevel={player.sailLevel}
-                    sailLevelTarget={player.sailLevelTarget} />
+                {controlMode === 'desktop' && <>
+                    <WheelWidget
+                        playerWheel={player.wheel}
+                    />
+                    <SailsWidget
+                        sailLevel={player.sailLevel}
+                        sailLevelTarget={player.sailLevelTarget} />
+                </>}
                 <GunneryWidget
                     leftCannons={leftCannonsReady}
                     rightCannons={rightCannonsReady}

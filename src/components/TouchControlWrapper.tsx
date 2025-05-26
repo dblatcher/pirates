@@ -17,11 +17,15 @@ interface Props {
 export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef, viewPortRef }) => {
 
     const elementRef = useRef<HTMLDivElement>(null);
+    const [lastPointerToMoveSails, setLastPointerToMoveSail] = useState<number>();
+
     const { center } = useControls()
     const { controlMode } = useManagement()
     const [touches, setTouches] = useState<DragState[]>([])
 
-    const locateTouchInitial = useCallback(
+    const showSail = !!lastPointerToMoveSails && touches[0]?._pointerId === lastPointerToMoveSails;
+
+    const locateTouch = useCallback(
         (state: DragState) => {
             const { initial, values: current } = state
             const rect = elementRef.current?.getBoundingClientRect();
@@ -66,10 +70,11 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         const xMovement = state.movement[0]
         const yDelta = state.delta[1]
 
-        if (Math.abs(yDelta) > 1.5) {
+        if (Math.abs(yDelta) > 2) {
+            setLastPointerToMoveSail(state._pointerId);
             center.sendDirective({
                 order: Order.SAILS_BY,
-                quantity: (-yDelta - 1.5 * Math.sign(yDelta)) / 100
+                quantity: (-yDelta - 2 * Math.sign(yDelta)) / 100
             })
         }
 
@@ -98,7 +103,7 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
                 setTouches(current => current.filter(t => t._pointerId != _pointerId))
             }
             if (state.tap) {
-                handleFireTap(locateTouchInitial(state).initial)
+                handleFireTap(locateTouch(state).initial)
             }
         },
         onDrag: handleDrag,
@@ -115,7 +120,12 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
         {...bindGestures()}
     >
         {children}
-        <TouchIndicator touch={touches[0]} locate={locateTouchInitial} gameStateRef={gameStateRef}/>
+        <TouchIndicator
+            touch={touches[0]}
+            locate={locateTouch}
+            gameStateRef={gameStateRef}
+            showSail={showSail}
+        />
     </ div>
 
 }

@@ -19,17 +19,15 @@
 
 @keyframes pulsingTextShadow {
   from {
-    text-shadow:  
+    text-shadow:
       1px 1px 0px white,
-      0px 0px 10px black
-      ; 
+      0px 0px 10px black;
   }
 
   to {
-    text-shadow:  
+    text-shadow:
       1px 1px 6px white,
-      0px 0px 15px black
-      ; 
+      0px 0px 15px black;
   }
 }
 
@@ -47,7 +45,7 @@
   font-family: var(--title-font);
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     animation: pulsingTextShadow .5s ease-in-out 0s infinite alternate;
   }
 }
@@ -174,3 +172,37 @@
   color: saddlebrown;
   border-top: 5px outset saddlebrown;
 }
+
+.sail-figure {
+  position: relative;
+  box-sizing: border-box;
+  border-top: 3px solid saddlebrown;
+  margin: 0 auto;
+
+  .mast {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    border-right: 3px solid saddlebrown;
+  }
+  
+  .sail {
+    box-sizing: border-box;
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 5%;
+  }
+  
+  .target-line {
+    width: 100%;
+    border-bottom: 3px dashed gray;
+    position: absolute;
+    left: 0;
+    height: 0;
+  }
+}
+
