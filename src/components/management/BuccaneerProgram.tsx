@@ -89,6 +89,7 @@ export const BuccaneerProgram = () => {
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'flex-end',
+                                width:'100%'
                             }}>
                                 {!!scenario && (<>
                                     <IconButton

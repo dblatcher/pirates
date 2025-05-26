@@ -1,4 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
+import { cornerOverlay } from "../lib/style-helpers";
 
 const containerStyle: CSSProperties = {
     position: 'fixed',
@@ -16,17 +17,20 @@ const centerStyle: CSSProperties = {
 
 const navStyle: CSSProperties = {
     minHeight: '2rem',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%'
 }
 
-export const Layout = ({ children, topMenu, bottomNav }: { children: ReactNode, topMenu?: ReactNode, bottomNav?: ReactNode }) => {
+export const Layout = ({ children, topMenu }: { children: ReactNode, topMenu?: ReactNode }) => {
 
     return (
         <div style={containerStyle}>
-            <nav style={navStyle}>{topMenu}</nav>
             <section style={centerStyle}>
                 {children}
             </section>
-            <nav style={navStyle}>{bottomNav}</nav>
+            <nav style={navStyle}>{topMenu}</nav>
         </div>
     )
 

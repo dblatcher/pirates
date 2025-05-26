@@ -195,7 +195,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                         <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
                         <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
                     </div>
-                    <div style={cornerOverlay('top', 'right')}>
+                    <div style={cornerOverlay('top', 'left')}>
                         <span>{coordinatesString}</span>
                     </div>
                     <div style={cornerOverlay('bottom', 'left')}>
