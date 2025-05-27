@@ -5,9 +5,8 @@ export const ControlModeSwitch: FunctionComponent = () => {
 
     const { controlMode, setControlMode } = useManagement()
     const toggle = () => setControlMode(controlMode === 'desktop' ? 'touchscreen' : 'desktop')
+    const label = controlMode === 'desktop' ? 'D' : 'T'
+    return <button onClick={toggle}>{label}</button>
 
-    return <div>
-        <button onClick={toggle}>{controlMode}</button>
-    </div>
 
 }

@@ -55,6 +55,26 @@
 }
 
 
+.top-menu-bar-responsive {
+  display: flex;
+  
+  @media screen and (min-height:500px) {
+    position: fixed;
+    justify-Content: flex-end;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+}
+
+.top-menu-bar-fixed {
+  display: flex;
+  position: fixed;
+  justify-Content: flex-end;
+  top: 0;
+  right: 0;
+}
+
 .menu-icon-button {
   position: relative;
   display: inline-flex;

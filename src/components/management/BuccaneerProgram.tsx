@@ -68,6 +68,26 @@ export const BuccaneerProgram = () => {
         return console.warn(`Success outcome has no next scenario`)
     }
 
+    const topMenu = <>
+        {!!scenario && (<>
+            <IconButton
+                onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
+                icon="menu" />
+            <IconButton
+                onClick={() => { setGameIsPaused(!gameIsPaused) }}
+                icon={'pause'}
+                negate={!gameIsPaused}
+            />
+            <IconButton
+                onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
+                icon="fast"
+                negate={cyclePeriod !== 0} />
+        </>)}
+        <ControlModeSwitch />
+        <SoundToggle />
+    </>
+
+
     return (
         <WaitingAssetProvider assetParams={assetParams} loadingContent={<p>waiting for image</p>}>
             <ManagementProvider value={{
@@ -84,37 +104,16 @@ export const BuccaneerProgram = () => {
                                 return setGameIsPaused(!gameIsPaused)
                         }
                     }} />
-                    <Layout
-                        topMenu={
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                width:'100%'
-                            }}>
-                                {!!scenario && (<>
-                                    <IconButton
-                                        onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                                        icon="menu" />
-                                    <IconButton
-                                        onClick={() => { setGameIsPaused(!gameIsPaused) }}
-                                        icon={'pause'}
-                                        negate={!gameIsPaused}
-                                    />
-                                    <IconButton
-                                        onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                                        icon="fast"
-                                        negate={cyclePeriod !== 0} />
-                                </>)}
-                                <ControlModeSwitch />
-                                <SoundToggle />
-                            </div>
-                        }
-                    >
+                    <Layout>
                         {scenario ? (<>
                             <ScenarioGame
                                 soundDeck={soundDeck}
                                 scenario={scenario}
-                                key={gameTimeStamp} />
+                                key={gameTimeStamp} >
+                                <nav className="top-menu-bar-responsive">
+                                    {topMenu}
+                                </nav>
+                            </ScenarioGame>
                             <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
                                 quitToTitle={exitToTitle}
                                 restartGame={() => {
@@ -126,7 +125,11 @@ export const BuccaneerProgram = () => {
                         </>) : (
                             <TitleScreen
                                 setScenario={setScenario}
-                                scenarios={secariosToShowOnMenu} />
+                                scenarios={secariosToShowOnMenu} >
+                                <nav className="top-menu-bar-fixed">
+                                    {topMenu}
+                                </nav>
+                            </TitleScreen>
                         )}
                     </Layout>
                 </WindowSizeContext.Provider>

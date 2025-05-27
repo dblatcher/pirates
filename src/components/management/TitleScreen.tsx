@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { Scenario } from "../../scenarios"
 import { Modal } from "../Modal"
 import { About } from "../promotion/About"
@@ -7,9 +7,10 @@ import { BlueskyButton } from "../promotion/BlueskyButton"
 type Props = {
     setScenario: { (scenario: Scenario): void }
     scenarios: Record<string, Scenario>
+    children?: ReactNode
 }
 
-export const TitleScreen = ({ setScenario, scenarios }: Props) => {
+export const TitleScreen = ({ setScenario, scenarios, children }: Props) => {
     const [aboutModalOpen, setAboutModalOpen] = useState(false)
     return (
         <div className="paper" style={{ margin: '0 auto' }}>
@@ -27,6 +28,7 @@ export const TitleScreen = ({ setScenario, scenarios }: Props) => {
                     <BlueskyButton label="Share on Bluesky" postText={'Play #Buccaneer, the ad-free browser game of naval combat!'} />
                 </div>
             </main>
+            {children}
             <Modal title="About Buccaneer" isOpen={aboutModalOpen} setIsOpen={() => setAboutModalOpen(false)}>
                 <About />
             </Modal>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
@@ -30,6 +30,7 @@ interface Props {
     paddedObstacleMatrix: CellMatrix;
     landMatrix: CellMatrix;
     soundDeck: SoundDeck;
+    children?: ReactNode
 }
 
 export interface LogEntry {
@@ -41,7 +42,7 @@ export interface LogEntry {
 let lastCycleStartedAt = Date.now()
 
 
-export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck }: Props) => {
+export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck, children }: Props) => {
     const { windowWidth, windowHeight } = useWindowSizeContext()
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const [magnify, setMagnify] = useState(() => {
@@ -136,7 +137,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
         viewPortRef.current.height = Math.min(windowHeight - 40, MAX_VIEWPORT_HEIGHT) / adjusted
     }
 
-    useEffect(adjustScale, [windowWidth, windowHeight])
+    useEffect(adjustScale, [windowWidth, windowHeight, magnify])
 
     useEffect(() => {
         if (!doneInitialCycle) {
@@ -197,6 +198,9 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     </div>
                     <div style={cornerOverlay('top', 'left')}>
                         <span>{coordinatesString}</span>
+                    </div>
+                    <div style={cornerOverlay('top', 'right')}>
+                        {children}
                     </div>
                     <div style={cornerOverlay('bottom', 'left')}>
                         <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
