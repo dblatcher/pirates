@@ -1,5 +1,5 @@
 import { DragState, useGesture } from "@use-gesture/react";
-import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useRef, useState } from "react";
+import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
 import { FiringPattern, GameState, Order, Side, ViewPort } from "../game-state";
@@ -78,19 +78,15 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
             })
         }
 
-        center.wheelFreeFromPointer.current = false
-        if (state.event.type === 'pointerup') {
-            center.wheelFreeFromPointer.current = true
-        }
-
         const adjustedXMovement = -Math.sign(xMovement) * clamp(Math.abs(xMovement) / 100, .5);
         center.sendWheelValue(adjustedXMovement)
     }, [center])
 
-
+    useEffect(() => {
+        center.wheelFreeFromPointer.current = touches.length === 0
+    }, [touches.length])
 
     const bindGestures = useGesture({
-
         onDragStart: (state) => {
             if (!state._pointerId) {
                 return
