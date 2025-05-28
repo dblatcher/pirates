@@ -183,36 +183,40 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     return (<ControlsProvider value={{ center, keyMapRef }}>
         <main style={{ display: 'flex', justifyContent: 'center' }}>
             <section className='game-wrapper' >
-                <TouchControlWrapper
-                    gameStateRef={gameStateRef}
-                    viewPortRef={viewPortRef}
-                >
-                    <GameScreen
-                        viewPort={viewPortRef.current}
-                        gameState={gameStateRef.current}
-                        magnify={magnify} />
+                <div style={{ position: 'relative' }}>
+                    <TouchControlWrapper
+                        gameStateRef={gameStateRef}
+                        viewPortRef={viewPortRef}
+                    >
+                        <GameScreen
+                            viewPort={viewPortRef.current}
+                            gameState={gameStateRef.current}
+                            magnify={magnify} />
+                        <div style={cornerOverlay('top', 'left')} className='blur-frame'>
+                            {player && (
+                                <PlayerStatus ship={{ ...player }} />
+                            )}
+                        </div>
+                        <div style={cornerOverlay('bottom', 'right')}>
+                            <WindSock wind={gameStateRef.current.wind} />
+                        </div>
+                        <div style={cornerOverlay('bottom', 'left')}>
+                            <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
+                        </div>
+                    </TouchControlWrapper>
                     <div style={cornerOverlay('bottom', 'right')}>
-                        <WindSock wind={gameStateRef.current.wind} />
                         <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
                         <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
                     </div>
-                    <div style={cornerOverlay('top', 'left')} className='blur-frame'>
-                        {player && (
-                            <PlayerStatus ship={{ ...player }} />
-                        )}
-                    </div>
                     <div style={cornerOverlay('top', 'right')}>
                         {children}
-                    </div>
-                    <div style={cornerOverlay('bottom', 'left')}>
-                        <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
                     </div>
                     {outcome &&
                         <div style={middleOverlay(60)}>
                             {<EndOfScenario outcome={outcome} />}
                         </div>
                     }
-                </TouchControlWrapper>
+                </div>
 
                 <GameControls
                     player={player}

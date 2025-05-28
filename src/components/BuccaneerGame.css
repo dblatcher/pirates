@@ -44,6 +44,8 @@
 }
 
 .message-log {
+  pointer-events: none;
+  
   ul {
     list-style: none;
     padding: 0;
@@ -55,6 +57,7 @@
   li {
     height: 1em;
     color: var(--ink-color);
+    text-shadow: 1px 1px white;
   }
 
   li:first-child {
@@ -124,4 +127,5 @@
     backdrop-filter: blur(2px) brightness(150%) contrast(50%);
     color: black;
     text-shadow: 1px 1px white;
+    pointer-events: none;
 }
