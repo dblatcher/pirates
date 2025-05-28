@@ -2,24 +2,26 @@ import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 're
 import { SoundDeck } from 'sound-deck'
 import { ControlCenter, ControlsProvider, DirectiveEvent, KeyMap, WheelValueEvent } from '../context/control-context'
 import { useManagement } from '../context/management-context'
-import { Directive, FiringPattern, GameState, Order, TERRAIN_SQUARE_SIZE, ViewPort } from '../game-state'
+import { Directive, FiringPattern, GameState, Order, ViewPort } from '../game-state'
 import { useSchedule } from '../hooks/useSchedule'
+import { useWindowSizeContext } from '../hooks/useWindowSize'
 import { makeNextCycleFunction } from '../lib/cycle-updates'
 import { makeKeyDownHandler, makeKeyMapHandler } from '../lib/game-keyboard-handling'
 import { CellMatrix } from '../lib/path-finding/types'
 import { cornerOverlay, middleOverlay } from '../lib/style-helpers'
 import { average, clamp } from '../lib/util'
 import { ScenarioOutcome, checkForPlayerDeathOutcome } from '../scenarios'
+import './BuccaneerGame.css'
 import { EndOfScenario } from './EndOfScenario'
 import { GameControls } from './GameControls'
 import { GameScreen } from './GameScreen'
 import { IntroMessage } from './IntroMessage'
 import { KeyboardControls } from './KeyboardControls'
+import { PlayerStatus } from './PlayerStatus'
 import { ShipsLog } from './ShipsLog'
 import { TouchControlWrapper } from './TouchControlWrapper'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
-import { useWindowSizeContext } from '../hooks/useWindowSize'
 
 const MAX_VIEWPORT_WIDTH = 750
 const MAX_VIEWPORT_HEIGHT = 425
@@ -162,8 +164,6 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
 
 
     const player = gameStateRef.current.ships.find(ship => ship.id === gameStateRef.current.playerId)
-    const playerCoordinates = player && { x: Math.floor(player.x / TERRAIN_SQUARE_SIZE), y: Math.floor(player.y / TERRAIN_SQUARE_SIZE) }
-    const coordinatesString = playerCoordinates ? `[${playerCoordinates.x.toString().padStart(3, " ")} , ${playerCoordinates.y.toString().padStart(3, " ")}]` : ""
 
     useEffect(() => {
         const addAddirectiveFromEvent = (e: DirectiveEvent) => {
@@ -196,8 +196,10 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                         <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
                         <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
                     </div>
-                    <div style={cornerOverlay('top', 'left')}>
-                        <span>{coordinatesString}</span>
+                    <div style={cornerOverlay('top', 'left')} className='blur-frame'>
+                        {player && (
+                            <PlayerStatus ship={{ ...player }} />
+                        )}
                     </div>
                     <div style={cornerOverlay('top', 'right')}>
                         {children}
@@ -245,7 +247,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
             />
         )}
 
-        <span className='performance-monitor'>
+        <span className='performance-monitor blur-frame'>
             T: {average(recentRefeshTimes).toFixed(0).padStart(3, " ")}
         </span>
     </ControlsProvider>)

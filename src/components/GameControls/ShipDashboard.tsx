@@ -1,8 +1,7 @@
 import { memo } from "react";
-import { Objective, Ship } from "../../game-state";
+import { Objective } from "../../game-state";
 
 interface Props {
-    ship: Ship,
     mapOpen: boolean,
     setMapOpen: { (value: boolean): void },
     objectives: Objective[]
@@ -15,16 +14,10 @@ const objectivesAreEqual = (prevObjectives: Objective[], nextObjectives: Objecti
     return prevObjectives.every((objective, index) => objective.obtained === nextObjectives[index]?.obtained)
 }
 
-const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) => {
+const ShipDashBoard = memo(({ mapOpen, setMapOpen, objectives }: Props) => {
     return (
         <div className="panel-frame dashboard-panel">
             <div>
-                <p>
-                    damage: {ship.damage} / {ship.profile.maxHp}
-                </p>
-                <p>
-                    Speed: {ship.speedLastTurn.toFixed(2)}
-                </p>
                 <button onClick={() => setMapOpen(!mapOpen)}>map</button>
             </div>
             {!!(objectives.length) && (
@@ -43,9 +36,6 @@ const ShipDashBoard = memo(({ ship, mapOpen, setMapOpen, objectives }: Props) =>
     )
 }, ((prevProps, nextProps) => {
     return (
-        prevProps.ship.speedLastTurn === nextProps.ship.speedLastTurn &&
-        prevProps.ship.damage === nextProps.ship.damage &&
-        prevProps.ship.profile.maxHp === nextProps.ship.profile.maxHp &&
         prevProps.mapOpen === nextProps.mapOpen &&
         objectivesAreEqual(prevProps.objectives, nextProps.objectives)
     )

@@ -56,7 +56,6 @@ export const GameControls = ({
                     maxMarines={player.profile.maxMarines}
                 />
                 <ShipDashBoard
-                    ship={{ ...player }}
                     mapOpen={mapOpen}
                     setMapOpen={setMapOpen}
                     objectives={structuredClone(objectives)}
