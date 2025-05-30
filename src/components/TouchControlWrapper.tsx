@@ -84,7 +84,7 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
 
     useEffect(() => {
         center.wheelFreeFromPointer.current = touches.length === 0
-    }, [touches.length])
+    }, [center.wheelFreeFromPointer, touches.length])
 
     const bindGestures = useGesture({
         onDragStart: (state) => {

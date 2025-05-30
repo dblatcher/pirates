@@ -15,12 +15,13 @@ import { TitleScreen } from "./TitleScreen"
 import { ControlMode } from "../../lib/types"
 import { ControlModeSwitch } from "../ControlModeSwitch"
 import { WindowSizeContext } from "../../context/window-size-context"
+import { probablyMobile } from "../../lib/screen-helpers"
 
 export const BuccaneerProgram = () => {
     const { windowWidth, windowHeight } = useWindowSize()
     const [scenario, setScenario] = useState<Scenario | undefined>()
     const [mainMenuOpen, setMainMenuOpen] = useState(false)
-    const [controlMode, setControlMode] = useState<ControlMode>(() => windowWidth <= 600 ? 'touchscreen' : 'desktop')
+    const [controlMode, setControlMode] = useState<ControlMode>(() => probablyMobile(windowWidth, windowHeight) ? 'touchscreen' : 'desktop')
     const [gameIsPaused, setGameIsPaused] = useState(false)
     const [cyclePeriod, setCyclePeriod] = useState(10)
     const [gameTimeStamp, setGameTimeStamp] = useState(Date.now())

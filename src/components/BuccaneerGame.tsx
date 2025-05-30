@@ -22,6 +22,7 @@ import { ShipsLog } from './ShipsLog'
 import { TouchControlWrapper } from './TouchControlWrapper'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
+import { probablyMobile } from '../lib/screen-helpers'
 
 const MAX_VIEWPORT_WIDTH = 750
 const MAX_VIEWPORT_HEIGHT = 425
@@ -48,7 +49,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     const { windowWidth, windowHeight } = useWindowSizeContext()
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
     const [magnify, setMagnify] = useState(() => {
-        return windowWidth < 600 ? 3 / 6 : 4 / 6
+        return probablyMobile(windowWidth, windowHeight) ? 3 / 6 : 4 / 6
     })
     const gameStateRef = useRef<GameState>(initial)
     const [firingPattern, setFiringPattern] = useState<FiringPattern>(FiringPattern.BROADSIDE)
