@@ -194,9 +194,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                             gameState={gameStateRef.current}
                             magnify={magnify} />
                         <div style={cornerOverlay('top', 'left')} className='blur-frame'>
-                            {player && (
-                                <PlayerStatus ship={{ ...player }} />
-                            )}
+                            {player && <PlayerStatus ship={{ ...player }} />}
                         </div>
                         <div style={cornerOverlay('bottom', 'right')}>
                             <WindSock wind={gameStateRef.current.wind} />
@@ -205,12 +203,12 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                             <ShipsLog entries={log} currentCycleNumber={gameStateRef.current.cycleNumber} />
                         </div>
                     </TouchControlWrapper>
-                    <div style={cornerOverlay('bottom', 'right')}>
-                        <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
-                        <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
-                    </div>
                     <div style={cornerOverlay('top', 'right')}>
-                        {children}
+                        <nav className="top-menu-bar-responsive">
+                            <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
+                            <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
+                            {children}
+                        </nav>
                     </div>
                     {outcome &&
                         <div style={middleOverlay(60)}>

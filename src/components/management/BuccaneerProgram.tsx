@@ -111,9 +111,9 @@ export const BuccaneerProgram = () => {
                                 soundDeck={soundDeck}
                                 scenario={scenario}
                                 key={gameTimeStamp} >
-                                <nav className="top-menu-bar-responsive">
+                                
                                     {topMenu}
-                                </nav>
+                                
                             </ScenarioGame>
                             <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
                                 quitToTitle={exitToTitle}

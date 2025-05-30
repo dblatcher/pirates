@@ -52,8 +52,6 @@ export const GameControls = ({
                 />
                 <MeleeControls
                     alreadyFighting={false}
-                    marines={player.marines}
-                    maxMarines={player.profile.maxMarines}
                 />
                 <ShipDashBoard
                     mapOpen={mapOpen}

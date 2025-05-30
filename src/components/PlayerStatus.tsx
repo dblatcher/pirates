@@ -23,6 +23,9 @@ export const PlayerStatus = memo(({ ship }: Props) => {
             <div>
                 Speed: {ship.speedLastTurn.toFixed(2)}
             </div>
+            <div>
+                Marines: {ship.marines} / {ship.profile.maxMarines}
+            </div>
         </>
     )
 }, ((prevProps, nextProps) => {
@@ -30,6 +33,8 @@ export const PlayerStatus = memo(({ ship }: Props) => {
         prevProps.ship.speedLastTurn === nextProps.ship.speedLastTurn &&
         prevProps.ship.damage === nextProps.ship.damage &&
         prevProps.ship.profile.maxHp === nextProps.ship.profile.maxHp &&
+        prevProps.ship.marines === nextProps.ship.marines &&
+        prevProps.ship.profile.maxMarines === nextProps.ship.profile.maxMarines &&
         roundCoord(prevProps.ship.x) === roundCoord(nextProps.ship.x) &&
         roundCoord(prevProps.ship.y) === roundCoord(nextProps.ship.y)
     )

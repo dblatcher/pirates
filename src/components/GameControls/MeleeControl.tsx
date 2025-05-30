@@ -1,15 +1,12 @@
 import { memo } from "react"
 import { useControls } from "../../context/control-context"
 import { Order } from "../../game-state"
-import { cornerOverlay } from "../../lib/style-helpers"
 
 interface Props {
     alreadyFighting: boolean
-    marines: number
-    maxMarines: number
 }
 
-export const MeleeControls = memo(({ alreadyFighting, marines, maxMarines }: Props) => {
+export const MeleeControls = memo(({ alreadyFighting }: Props) => {
     const {center} = useControls()
 
     return (
@@ -24,11 +21,6 @@ export const MeleeControls = memo(({ alreadyFighting, marines, maxMarines }: Pro
                 onClick={() => {
                     center.sendDirective({ order: Order.BOARD_SHIP })
                 }}>Ship</button>
-            <div
-                style={cornerOverlay('bottom', 'right')}
-            >
-                🗡️ &times; {marines}/{maxMarines}
-            </div>
         </aside>
     )
 })
