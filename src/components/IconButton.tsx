@@ -2,6 +2,7 @@ interface Props {
     onClick: { (): void }
     icon: string
     negate?: boolean
+    label?: string
 }
 
 // <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -35,6 +36,13 @@ const IsOff = () => <svg className="negate-icon" xmlns="http://www.w3.org/2000/s
     <path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
 </svg>
 
+const Keyboard = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+    <path d="M64 64C28.7 64 0 92.7 0 128L0 384c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64L64 64zm16 64l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80-176c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM160 336c0-8.8 7.2-16 16-16l224 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-224 0c-8.8 0-16-7.2-16-16l0-32zM272 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM256 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM368 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM352 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM464 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM448 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z" />
+</svg>
+
+const Mobile = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+    <path d="M16 64C16 28.7 44.7 0 80 0L304 0c35.3 0 64 28.7 64 64l0 384c0 35.3-28.7 64-64 64L80 512c-35.3 0-64-28.7-64-64L16 64zM144 448c0 8.8 7.2 16 16 16l64 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-64 0c-8.8 0-16 7.2-16 16zM304 64L80 64l0 320 224 0 0-320z"/>
+</svg>
 
 const Icon = ({ icon }: { icon: string }) => {
     switch (icon) {
@@ -46,19 +54,25 @@ const Icon = ({ icon }: { icon: string }) => {
         case 'map': return <Map />
         case 'zoom-in': return <ZoomIn />
         case 'zoom-out': return <ZoomOut />
+        case 'desktop': return <Keyboard />
+        case 'touchscreen': return <Mobile />
         default: return null
     }
 }
 
-const getLabel = (icon: string, negate?: boolean) => typeof negate === 'undefined'
+const getTitle = (icon: string, negate?: boolean) => typeof negate === 'undefined'
     ? icon
     : `${icon} (${negate ? 'off' : 'on'})`
 
-export const IconButton = ({ onClick, icon, negate }: Props) => (
-    <button onClick={onClick} className="menu-icon-button" title={getLabel(icon, negate)} >
+export const IconButton = ({ onClick, icon, negate, label }: Props) => {
+
+    const buttonClass = label ? 'icon-button-with-text' : 'menu-icon-button'
+
+    return <button onClick={onClick} className={buttonClass} title={getTitle(icon, negate)} >
         <div className="menu-icon">
             <Icon icon={icon} />
             {negate && <IsOff />}
         </div>
+        {label && <span>{label}</span>}
     </button>
-)
+}

@@ -3,7 +3,10 @@ import { SoundDeck } from "sound-deck"
 import { assetParams } from "../../assets"
 import { WaitingAssetProvider } from "../../context/asset-context"
 import { ManagementProvider } from "../../context/management-context"
+import { WindowSizeContext } from "../../context/window-size-context"
 import { useWindowSize } from "../../hooks/useWindowSize"
+import { probablyMobile } from "../../lib/screen-helpers"
+import { ControlMode } from "../../lib/types"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
@@ -11,10 +14,6 @@ import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
 import { ScenarioGame } from "./ScenarioGame"
 import { TitleScreen } from "./TitleScreen"
-import { ControlMode } from "../../lib/types"
-import { ControlModeSwitch } from "../ControlModeSwitch"
-import { WindowSizeContext } from "../../context/window-size-context"
-import { probablyMobile } from "../../lib/screen-helpers"
 
 export const BuccaneerProgram = () => {
     const { windowWidth, windowHeight } = useWindowSize()
@@ -69,18 +68,16 @@ export const BuccaneerProgram = () => {
     }
 
     const topMenu = <>
+        <SoundToggle />
         {!!scenario && (<>
-            <IconButton
-                onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
-                icon="menu" />
             <IconButton
                 onClick={() => { setGameIsPaused(!gameIsPaused) }}
                 icon={'pause'}
-                negate={!gameIsPaused}
-            />
+                negate={!gameIsPaused} />
+            <IconButton
+                onClick={() => { setMainMenuOpen(!mainMenuOpen) }}
+                icon="menu" />
         </>)}
-        <ControlModeSwitch />
-        <SoundToggle />
     </>
 
 

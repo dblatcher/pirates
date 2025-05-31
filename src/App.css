@@ -94,11 +94,19 @@
   right: 0;
 }
 
-.menu-icon-button {
+.menu-icon-button, .icon-button-with-text {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.icon-button-with-text {
+  justify-content: space-between;
+
+  & > span {
+    flex: 1;
+  }
 }
 
 .menu-icon {
@@ -122,5 +130,18 @@
   svg.negate-icon {
     fill: rgba(255, 0, 0, .75);
     height: 1.8em;
+  }
+}
+
+.icon-button-with-text .menu-icon {
+  width: 1em;
+  height: 1em;
+
+  svg {
+    height: .8em;
+  }
+
+  svg.negate-icon {
+    height: 1.2em;
   }
 }

@@ -22,11 +22,12 @@ export const MainMenu = ({ restartGame, quitToTitle, setIsOpen, isOpen }: Props)
                 <button onClick={restartGame}>restart scenario</button>
             </div>
             <div className="button-stack">
-                <ControlModeSwitch />
-                <SoundToggle />
+                <ControlModeSwitch withLabel />
+                <SoundToggle withLabel />
                 <IconButton
                     onClick={() => { setCyclePeriod((cyclePeriod) => cyclePeriod === 10 ? 0 : 10) }}
                     icon="fast"
+                    label={cyclePeriod !== 0 ? 'Normal speed' : 'Fast speed'}
                     negate={cyclePeriod !== 0} />
             </div>
         </Modal>
