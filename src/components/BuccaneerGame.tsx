@@ -182,9 +182,9 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
     }, [center, addDirective])
 
     return (<ControlsProvider value={{ center, keyMapRef }}>
-        <main style={{ display: 'flex', justifyContent: 'center' }}>
-            <section className='game-wrapper' >
-                <div style={{ position: 'relative' }}>
+        <main className='game-wrapper-outer'>
+            <div className='game-wrapper-inner'>
+                <section className='game-screen-container'>
                     <TouchControlWrapper
                         gameStateRef={gameStateRef}
                         viewPortRef={viewPortRef}
@@ -215,7 +215,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                             {<EndOfScenario outcome={outcome} />}
                         </div>
                     }
-                </div>
+                </section>
 
                 <GameControls
                     player={player}
@@ -229,7 +229,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                 <KeyboardControls
                     keyDownFunction={keyDownFunction}
                 />
-            </section>
+            </div>
         </main>
 
         {mapOpen && (

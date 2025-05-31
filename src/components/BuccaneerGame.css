@@ -1,3 +1,16 @@
+.game-wrapper-outer {
+  display: flex;
+  justify-content: center;
+}
+
+.game-wrapper-inner {
+  border: 2px solid var(--border-color);
+}
+
+.game-screen-container {
+  position: relative;
+}
+
 .speech-bubble {
   margin: 0;
   font-family: var(--speech-font);

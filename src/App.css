@@ -73,10 +73,6 @@
   }
 }
 
-.game-wrapper {
-  border: 2px solid var(--border-color);
-}
-
 
 .top-menu-bar-responsive {
   display: flex;
