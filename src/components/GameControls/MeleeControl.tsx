@@ -10,7 +10,7 @@ export const MeleeControls = memo(({ alreadyFighting }: Props) => {
     const {center} = useControls()
 
     return (
-        <aside className="panel-frame">
+        <aside className="panel-frame melee-panel">
             <button
                 disabled={alreadyFighting}
                 onClick={() => {
