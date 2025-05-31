@@ -31,7 +31,10 @@ export const TitleScreen = ({ setScenario, scenarios, children }: Props) => {
             <nav className="top-menu-bar-fixed">
                 {children}
             </nav>
-            <Modal title="About Buccaneer" isOpen={aboutModalOpen} setIsOpen={() => setAboutModalOpen(false)}>
+            <Modal title="About Buccaneer"
+                scrollable
+                isOpen={aboutModalOpen}
+                setIsOpen={() => setAboutModalOpen(false)}>
                 <About />
             </Modal>
         </div>

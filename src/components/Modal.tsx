@@ -4,6 +4,7 @@ interface Props {
     setIsOpen: { (isOpen: boolean): void }
     isOpen: boolean;
     title: string;
+    scrollable?: boolean;
     children: ReactNode
 }
 
@@ -24,8 +25,8 @@ const closeOverlayStyle: CSSProperties = {
     inset: 0,
     zIndex: -1,
     background: 'none',
-    border:'none',
-    outline:'none',
+    border: 'none',
+    outline: 'none',
 }
 
 
@@ -35,19 +36,25 @@ const headerStyle: CSSProperties = {
     alignItems: 'flex-start',
 }
 
-export const Modal = ({ setIsOpen, isOpen, children, title }: Props) => {
+export const Modal = ({ setIsOpen, isOpen, children, title, scrollable }: Props) => {
+
+    const content = <section className="paper">
+        <header style={headerStyle}>
+            <h2>{title}</h2>
+            <button
+                className="scrawl-button"
+                onClick={() => setIsOpen(false)}>X</button>
+        </header>
+        {children}
+    </section>
+
     return (
         <div style={modalFrameStyle(isOpen)}>
             <button style={closeOverlayStyle} onClick={() => setIsOpen(false)}></button>
-            <section className="paper">
-                <header style={headerStyle}>
-                    <h2>{title}</h2>
-                    <button
-                        className="scrawl-button"
-                        onClick={() => setIsOpen(false)}>X</button>
-                </header>
-                {children}
-            </section>
+            {scrollable 
+                ? <div className="scrolling-container">{content}</div> 
+                : content
+            }
         </div>
     )
 }
