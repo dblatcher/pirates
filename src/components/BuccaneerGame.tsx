@@ -23,6 +23,7 @@ import { TouchControlWrapper } from './TouchControlWrapper'
 import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { probablyMobile } from '../lib/screen-helpers'
+import { IconButton } from './IconButton'
 
 const MAX_VIEWPORT_WIDTH = 750
 const MAX_VIEWPORT_HEIGHT = 425
@@ -206,8 +207,10 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     </TouchControlWrapper>
                     <div style={cornerOverlay('top', 'right')}>
                         <nav className="top-menu-bar-responsive">
-                            <button onClick={() => { adjustScale(magnify + (1 / 6)) }}>+</button>
-                            <button onClick={() => { adjustScale(magnify - (1 / 6)) }}>-</button>
+                            <IconButton icon='zoom-in' onClick={() => { adjustScale(magnify + (1 / 6)) }} />
+                            <IconButton icon='zoom-out' onClick={() => { adjustScale(magnify - (1 / 6)) }} />
+                            <IconButton icon='map' onClick={() => setMapOpen(isOpen => !isOpen)} />
+                            <span style={{paddingLeft:10}}></span>
                             {children}
                         </nav>
                     </div>

@@ -23,8 +23,6 @@ export const GameControls = ({
     player,
     objectives,
     paused,
-    mapOpen,
-    setMapOpen,
     firingPattern, setFiringPattern
 }: Props) => {
     const { controlMode } = useManagement()
@@ -54,8 +52,6 @@ export const GameControls = ({
                     alreadyFighting={false}
                 />
                 <ShipDashBoard
-                    mapOpen={mapOpen}
-                    setMapOpen={setMapOpen}
                     objectives={structuredClone(objectives)}
                 />
             </>
