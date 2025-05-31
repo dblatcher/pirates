@@ -11,10 +11,11 @@ interface Props {
     children: ReactNode
     gameStateRef: MutableRefObject<GameState>
     viewPortRef: MutableRefObject<ViewPort>
+    firingPattern: FiringPattern
 }
 
 
-export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef, viewPortRef }) => {
+export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameStateRef, viewPortRef, firingPattern }) => {
 
     const elementRef = useRef<HTMLDivElement>(null);
     const [lastPointerToMoveSails, setLastPointerToMoveSail] = useState<number>();
@@ -59,10 +60,10 @@ export const TouchControlWrapper: FunctionComponent<Props> = ({ children, gameSt
             center.sendDirective({
                 side: findRotationBetweenHeadings(heading, player.h) < 0 ? Side.LEFT : Side.RIGHT,
                 order: Order.FIRE,
-                pattern: FiringPattern.ALTERNATE
+                pattern: firingPattern
             })
         },
-        [center, gameStateRef, viewPortRef])
+        [center, gameStateRef, viewPortRef, firingPattern])
 
     const handleDrag = useCallback((state: DragState) => {
         setTouches(current => current.map(t => t._pointerId === state._pointerId ? state : t))

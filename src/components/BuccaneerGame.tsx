@@ -188,6 +188,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                     <TouchControlWrapper
                         gameStateRef={gameStateRef}
                         viewPortRef={viewPortRef}
+                        firingPattern={firingPattern}
                     >
                         <GameScreen
                             viewPort={viewPortRef.current}
