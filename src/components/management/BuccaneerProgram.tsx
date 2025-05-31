@@ -7,7 +7,6 @@ import { useWindowSize } from "../../hooks/useWindowSize"
 import { Scenario, ScenarioOutcome, scenarios, startingScenarios } from '../../scenarios'
 import { IconButton } from "../IconButton"
 import { KeyboardControls } from "../KeyboardControls"
-import { Layout } from "../Layout"
 import { SoundToggle } from "../SoundToggle"
 import { MainMenu } from "./MainMenu"
 import { ScenarioGame } from "./ScenarioGame"
@@ -105,34 +104,32 @@ export const BuccaneerProgram = () => {
                                 return setGameIsPaused(!gameIsPaused)
                         }
                     }} />
-                    <Layout>
-                        {scenario ? (<>
-                            <ScenarioGame
-                                soundDeck={soundDeck}
-                                scenario={scenario}
-                                key={gameTimeStamp} >
-                                
+                    <div className="main-layout-outer">
+                        <div className="main-layout-inner">
+                            {scenario ? (<>
+                                <ScenarioGame
+                                    soundDeck={soundDeck}
+                                    scenario={scenario}
+                                    key={gameTimeStamp} >
                                     {topMenu}
-                                
-                            </ScenarioGame>
-                            <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
-                                quitToTitle={exitToTitle}
-                                restartGame={() => {
-                                    setGameIsPaused(false)
-                                    setMainMenuOpen(false)
-                                    resetScenario()
-                                }}
-                            />
-                        </>) : (
-                            <TitleScreen
-                                setScenario={setScenario}
-                                scenarios={secariosToShowOnMenu} >
-                                <nav className="top-menu-bar-fixed">
+                                </ScenarioGame>
+                                <MainMenu setIsOpen={setMainMenuOpen} isOpen={mainMenuOpen}
+                                    quitToTitle={exitToTitle}
+                                    restartGame={() => {
+                                        setGameIsPaused(false)
+                                        setMainMenuOpen(false)
+                                        resetScenario()
+                                    }}
+                                />
+                            </>) : (
+                                <TitleScreen
+                                    setScenario={setScenario}
+                                    scenarios={secariosToShowOnMenu} >
                                     {topMenu}
-                                </nav>
-                            </TitleScreen>
-                        )}
-                    </Layout>
+                                </TitleScreen>
+                            )}
+                        </div>
+                    </div >
                 </WindowSizeContext.Provider>
             </ManagementProvider>
         </WaitingAssetProvider>
