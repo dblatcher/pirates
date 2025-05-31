@@ -4,7 +4,9 @@
 }
 
 .game-wrapper-inner {
+  position: relative;
   border: 2px solid var(--border-color);
+  max-height: 100vh;
 }
 
 .game-screen-container {

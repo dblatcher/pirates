@@ -2,13 +2,17 @@
     min-height: 100px;
     display: flex;
     justify-content: center;
+
+    position: absolute;
+    bottom: 0;
+
+    @media screen and (min-height:500px) {
+        bottom: unset;
+        position: relative;
+    }
 }
 
 .panel-frame {
-    position: relative;
-    border-top: 2px solid var(--border-color);
-    border-right: 2px solid var(--border-color);
-    background-color: var(--panel-color);
     padding: var(--space);
 
     &:last-child {
@@ -22,6 +26,17 @@
     ul {
         margin: 0;
         padding-inline-start: 1em;
+    }
+
+    text-shadow: 1px 1px white;
+    backdrop-filter: saturate(50%) blur(1px);
+
+    @media screen and (min-height:500px) {
+        border-top: 2px solid var(--border-color);
+        border-right: 2px solid var(--border-color);
+        backdrop-filter: unset;
+        background-color: var(--panel-color);
+        text-shadow: unset;
     }
 }
 
@@ -37,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     .range-wrapper {
         position: absolute;
