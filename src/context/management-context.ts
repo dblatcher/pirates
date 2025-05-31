@@ -12,6 +12,7 @@ const mangementContext = createContext<{
     cyclePeriod: number,
     controlMode: ControlMode,
     setControlMode: Dispatch<SetStateAction<ControlMode>>
+    setCyclePeriod: Dispatch<SetStateAction<number>>
 }>({
     mainMenuOpen: false,
     soundIsEnabled: false,
@@ -21,7 +22,8 @@ const mangementContext = createContext<{
     reportOutcome: () => { },
     cyclePeriod: 10,
     controlMode: 'desktop',
-    setControlMode: () => { }
+    setControlMode: () => { },
+    setCyclePeriod: () => { },
 })
 
 export const ManagementProvider = mangementContext.Provider

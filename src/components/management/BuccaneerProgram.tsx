@@ -78,10 +78,6 @@ export const BuccaneerProgram = () => {
                 icon={'pause'}
                 negate={!gameIsPaused}
             />
-            <IconButton
-                onClick={() => { setCyclePeriod(cyclePeriod === 10 ? 0 : 10) }}
-                icon="fast"
-                negate={cyclePeriod !== 0} />
         </>)}
         <ControlModeSwitch />
         <SoundToggle />
@@ -91,7 +87,12 @@ export const BuccaneerProgram = () => {
     return (
         <WaitingAssetProvider assetParams={assetParams} loadingContent={<p>waiting for image</p>}>
             <ManagementProvider value={{
-                mainMenuOpen, scenario, soundIsEnabled, toggleSound, reportOutcome, gameIsPaused, cyclePeriod, controlMode, setControlMode
+                mainMenuOpen, scenario,
+                soundIsEnabled, toggleSound,
+                reportOutcome,
+                gameIsPaused,
+                cyclePeriod, setControlMode,
+                controlMode, setCyclePeriod,
             }}>
                 <WindowSizeContext.Provider value={{ windowWidth, windowHeight }}>
                     <KeyboardControls keyDownFunction={({ code }) => {
