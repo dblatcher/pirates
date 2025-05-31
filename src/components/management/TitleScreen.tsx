@@ -13,8 +13,8 @@ type Props = {
 export const TitleScreen = ({ setScenario, scenarios, children }: Props) => {
     const [aboutModalOpen, setAboutModalOpen] = useState(false)
     return (
-        <div className="paper" style={{ margin: '0 auto' }}>
-            <main className="title-screen skull-stamp">
+        <div className="scrolling-container">
+            <main className="paper title-screen skull-stamp">
                 <h1>Buccaneer</h1>
                 <div className="button-stack">
                     {Object.entries(scenarios).map(([key, scenario]) => (

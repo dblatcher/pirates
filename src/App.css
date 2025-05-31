@@ -12,6 +12,15 @@
     justify-content: center;
 }
 
+.scrolling-container {
+  margin: 0px auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
 .button-stack {
   min-width: 200px;
   padding: 10px;
