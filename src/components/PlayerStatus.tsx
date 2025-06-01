@@ -13,20 +13,23 @@ export const PlayerStatus = memo(({ ship }: Props) => {
     const coordinatesString = `[${playerCoordinates.x.toString().padStart(3, " ")} , ${playerCoordinates.y.toString().padStart(3, " ")}]`
 
     return (
-        <>
-            <div>
-                {coordinatesString}
-            </div>
-            <div>
-                damage: {ship.damage} / {ship.profile.maxHp}
-            </div>
-            <div>
-                Speed: {ship.speedLastTurn.toFixed(2)}
-            </div>
-            <div>
-                Marines: {ship.marines} / {ship.profile.maxMarines}
-            </div>
-        </>
+        <table className="status-table">
+            <tr>
+                <td colSpan={2}>{coordinatesString}</td>
+            </tr>
+            <tr>
+                <th>Damage</th>
+                <td>{ship.damage} / {ship.profile.maxHp}</td>
+            </tr>
+            <tr>
+                <th>Speed</th>
+                <td>{ship.speedLastTurn.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <th>Marines</th>
+                <td>{ship.marines} / {ship.profile.maxMarines}</td>
+            </tr>
+        </table>
     )
 }, ((prevProps, nextProps) => {
     return (

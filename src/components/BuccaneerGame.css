@@ -60,7 +60,7 @@
 
 .message-log {
   pointer-events: none;
-  
+
   ul {
     list-style: none;
     padding: 0;
@@ -117,7 +117,7 @@
     width: 50%;
     border-right: 3px solid saddlebrown;
   }
-  
+
   .sail {
     box-sizing: border-box;
     width: 90%;
@@ -127,7 +127,7 @@
     top: 0;
     left: 5%;
   }
-  
+
   .target-line {
     width: 100%;
     border-bottom: 3px dashed gray;
@@ -138,9 +138,18 @@
 }
 
 .blur-frame {
-    padding: 2px;
-    backdrop-filter: blur(2px) brightness(150%) contrast(50%);
-    color: black;
-    text-shadow: 1px 1px white;
-    pointer-events: none;
+  padding: 2px;
+  backdrop-filter: blur(2px) brightness(150%) contrast(50%);
+  color: black;
+  text-shadow: 1px 1px white;
+  pointer-events: none;
+}
+
+.status-table {
+  th {
+    text-align: left;
+  }
+  td {
+    text-align: right;
+  }
 }
