@@ -3,14 +3,20 @@ import { Scenario } from "../../scenarios"
 import { Modal } from "../Modal"
 import { About } from "../promotion/About"
 import { BlueskyButton } from "../promotion/BlueskyButton"
+import { useBgm } from "../../hooks/use-bgm"
+import { SoundDeck } from "sound-deck"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
     scenarios: Record<string, Scenario>
     children?: ReactNode
+    soundDeck: SoundDeck,
 }
 
-export const TitleScreen = ({ setScenario, scenarios, children }: Props) => {
+export const TitleScreen = ({ setScenario, scenarios, children, soundDeck }: Props) => {
+
+    useBgm('blow-the-man-down', false, soundDeck)
+
     const [aboutModalOpen, setAboutModalOpen] = useState(false)
     return (
         <div className="scrolling-container">

@@ -122,6 +122,7 @@ export const BuccaneerProgram = () => {
                             </>) : (
                                 <TitleScreen
                                     setScenario={setScenario}
+                                    soundDeck={soundDeck}
                                     scenarios={secariosToShowOnMenu} >
                                     {topMenu}
                                 </TitleScreen>

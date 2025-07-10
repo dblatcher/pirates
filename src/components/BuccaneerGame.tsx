@@ -24,6 +24,7 @@ import { WindSock } from './WindSock'
 import { WorldMap } from './WorldMap'
 import { probablyMobile } from '../lib/screen-helpers'
 import { IconButton } from './IconButton'
+import { useBgm } from '../hooks/use-bgm'
 
 const MAX_VIEWPORT_WIDTH = 750
 const MAX_VIEWPORT_HEIGHT = 425
@@ -44,11 +45,12 @@ export interface LogEntry {
 
 
 let lastCycleStartedAt = Date.now()
-
+const PLAYMUSIC = false as boolean;
 
 export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatrix, landMatrix, soundDeck, children }: Props) => {
     const { windowWidth, windowHeight } = useWindowSizeContext()
     const { mainMenuOpen, scenario, gameIsPaused, cyclePeriod } = useManagement()
+    useBgm(PLAYMUSIC ? 'drunken-sailor' : undefined, gameIsPaused, soundDeck);
     const [magnify, setMagnify] = useState(() => {
         return probablyMobile(windowWidth, windowHeight) ? 3 / 6 : 4 / 6
     })
@@ -210,7 +212,7 @@ export const BuccaneerGame = ({ initial, landAndFortsMatrix, paddedObstacleMatri
                             <IconButton icon='zoom-in' onClick={() => { adjustScale(magnify + (1 / 6)) }} />
                             <IconButton icon='zoom-out' onClick={() => { adjustScale(magnify - (1 / 6)) }} />
                             <IconButton icon='map' onClick={() => setMapOpen(isOpen => !isOpen)} />
-                            <span style={{paddingLeft:10}}></span>
+                            <span style={{ paddingLeft: 10 }}></span>
                             {children}
                         </nav>
                     </div>
