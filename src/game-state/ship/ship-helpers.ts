@@ -1,4 +1,4 @@
-import { expandRect, isPointInsideRect } from "../../lib/geometry";
+import { expandRect, isPointInsideRect } from "typed-geometry";
 import { viewPortToRect } from "../helpers";
 import { GameState, ViewPort } from "../model";
 import { Ship } from "../model";

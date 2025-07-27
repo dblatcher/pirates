@@ -1,6 +1,6 @@
 import { Directive, MIN_CYCLES_BETWEEN_PATH_FINDING, Ship, TERRAIN_SQUARE_SIZE } from "../game-state";
 import { describeShipWithId } from "../game-state/ship";
-import { XY, findClosestAndDistance, getDistance } from "../lib/geometry";
+import { XY, findClosestAndDistance, getDistance } from "typed-geometry";
 import { findPath } from "../lib/path-finding/find-path";
 import { AIState, DescisonContext } from "./types";
 

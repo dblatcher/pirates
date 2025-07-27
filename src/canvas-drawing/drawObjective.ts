@@ -1,8 +1,8 @@
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { GameState, Objective } from "../game-state";
-import { translateZ } from "../lib/geometry";
 import { drawFlag, drawFlagPole } from "./drawFlag";
 import { colors, rgb } from "../lib/Color";
+import { translateZ } from "./helpers";
 
 export const drawObjective = (
     drawingMethods: OffsetDrawMethods,

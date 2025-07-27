@@ -1,4 +1,4 @@
-import { XY } from "../../lib/geometry";
+import { XY } from "typed-geometry";
 import { CYCLES_TO_SINK, GameState, Ship } from "../model";
 
 // TO DO - move to model

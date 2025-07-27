@@ -2,7 +2,7 @@ import { SoundDeck } from "sound-deck";
 import { SoundEffectRequest, soundEffects } from "../game-state/model/sound";
 import { ViewPort } from "../game-state";
 import { viewPortToRect } from "../game-state/helpers";
-import { isPointInsideRect } from "./geometry";
+import { isPointInsideRect } from "typed-geometry";
 
 
 export const playSoundEffectsInView = (soundEffectRequests: SoundEffectRequest[], soundDeck: SoundDeck, viewPort: ViewPort) => {

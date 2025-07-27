@@ -1,4 +1,4 @@
-import { XY, _DEG, translate, getXYVector } from "../lib/geometry";
+import { XY, _DEG, translate, getXYVector } from "typed-geometry";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";
 

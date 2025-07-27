@@ -1,6 +1,6 @@
 import { FORT_SIZE, Fort, GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { Landmass } from "../../game-state/land";
-import { XY, translate, xy } from "../geometry";
+import { XY, translate, xy } from "typed-geometry";
 import { xYToString } from "../util";
 import { CellMatrix } from "./types";
 import { toCell, toCellContaining } from "./util";

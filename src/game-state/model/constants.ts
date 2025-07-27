@@ -1,4 +1,4 @@
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 
 // sizes
 export const TERRAIN_SQUARE_SIZE = 50

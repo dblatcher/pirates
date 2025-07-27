@@ -1,5 +1,5 @@
 import { TERRAIN_SQUARE_SIZE } from "../../game-state"
-import { XY } from "../geometry"
+import { XY } from "typed-geometry"
 
 export const toCell = (point: XY): XY => {
     return {

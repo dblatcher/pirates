@@ -1,7 +1,8 @@
+import { XY, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "typed-geometry";
 import { TERRAIN_SQUARE_SIZE } from "../../game-state";
-import { XY, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../geometry";
 import { CellMatrix } from "./types";
 import { toCell } from "./util";
+
 
 const step = TERRAIN_SQUARE_SIZE / 2
 

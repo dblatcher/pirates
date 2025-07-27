@@ -1,4 +1,4 @@
-import { getDistance } from "../../lib/geometry";
+import { getDistance } from "typed-geometry";
 import { GameState, REPAIR_RANGE, Ship, TOWN_SIZE } from "../model";
 
 export const shipIsAtPort = (ship: Ship, gameState: GameState): boolean => {

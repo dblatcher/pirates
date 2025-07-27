@@ -1,6 +1,6 @@
 import { GameState, Ship, TERRAIN_SQUARE_SIZE, Town } from "../../game-state"
 import { colors, rgb } from "../../lib/Color"
-import { getXYVector, translate } from "../../lib/geometry"
+import { getXYVector, translate } from "typed-geometry"
 import { CellMatrix } from "../../lib/path-finding/types"
 import { getFactionColor, s } from "../helpers"
 

@@ -3,7 +3,7 @@ import { AttackAutoPilot } from "../../ai";
 import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeFrigateShip, makeSloopShip, } from "../../game-state/ship";
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownCanto, makeTownForto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
 const makeInitialState = (): GameState => {

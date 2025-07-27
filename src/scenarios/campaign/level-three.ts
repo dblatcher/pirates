@@ -4,7 +4,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeDefaultShip, makeFrigateShip, makeGalleonShip } from "../../game-state/ship";
-import { _DEG, getDistance } from "../../lib/geometry";
+import { _DEG, getDistance } from "typed-geometry";
 import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownCanto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville, townIds } from "./library";
 
 const galleonId = 2

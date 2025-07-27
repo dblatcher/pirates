@@ -3,7 +3,7 @@ import { FunctionComponent, MutableRefObject, ReactNode, useCallback, useEffect,
 import { useControls } from "../context/control-context";
 import { useManagement } from "../context/management-context";
 import { FiringPattern, GameState, Order, Side, ViewPort } from "../game-state";
-import { findRotationBetweenHeadings, getHeading, getVectorFrom, XY } from "../lib/geometry";
+import { findRotationBetweenHeadings, getHeading, getVectorFrom, XY } from "typed-geometry";
 import { clamp } from "../lib/util";
 import { TouchIndicator } from "./TouchIndicator";
 

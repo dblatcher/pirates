@@ -1,5 +1,5 @@
 import { AIFactory } from "../factory";
-import { _DEG, getDistance, normaliseHeading } from "../lib/geometry";
+import { _DEG, getDistance, normaliseHeading } from "typed-geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 import { randomInt, splitArray } from "../lib/util";
 import { handleBoardingActions, handleInvadingActions } from "./melee";

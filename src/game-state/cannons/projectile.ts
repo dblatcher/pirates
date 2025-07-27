@@ -1,4 +1,4 @@
-import { getXYVector, translate } from "../../lib/geometry";
+import { getXYVector, translate } from "typed-geometry";
 import { splitArray } from "../../lib/util";
 import { willProjectileHitFort, willProjectileHitShip, willProjectileHitTown } from "../collisions";
 import { createGroundHit, createImpact, createSplash } from "../effects/effect";

@@ -1,4 +1,4 @@
-import { Circle, Rect, getXYVector, translate } from "../../lib/geometry";
+import { Circle, Rect, getXYVector, translate } from "typed-geometry";
 import { Ship } from "../model";
 
 const pointAlongMiddleAtOf = ({ length, width, x, y, h }: Ship) => (distanceFromCentre: number) => translate(getXYVector((length - width) * distanceFromCentre, h), { x, y });

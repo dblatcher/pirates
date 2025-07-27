@@ -1,4 +1,4 @@
-import { Circle, doCircleIntersect, getDistance, isPointInsideRect } from "../lib/geometry";
+import { Circle, doCircleIntersect, getDistance, isPointInsideRect } from "typed-geometry";
 import { getBoundingRect, getCollisionCircles } from "./ship";
 import { Projectile, TOWN_SIZE, Town, Ship, Fort, FORT_SIZE } from "./model";
 

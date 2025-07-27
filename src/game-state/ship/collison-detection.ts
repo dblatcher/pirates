@@ -1,8 +1,8 @@
-import { Ship, Fort, } from "../model"
-import { getFrontCollisionCircle, getProwPosition, getCollisionCircles, getRearCollisionCircle, getAftPosition } from "./collision-shapes"
-import { XY, normaliseHeading } from "../../lib/geometry"
-import { willShipRunIntoOtherShip, willShipRunIntoFort, willShipOverlapWithOtherShip, willShipOverlapWithFort } from "../collisions"
+import { XY, normaliseHeading } from "typed-geometry"
+import { willShipOverlapWithFort, willShipOverlapWithOtherShip, willShipRunIntoFort, willShipRunIntoOtherShip } from "../collisions"
 import { Landmass, isLandAt } from "../land"
+import { Fort, Ship, } from "../model"
+import { getAftPosition, getCollisionCircles, getFrontCollisionCircle, getProwPosition, getRearCollisionCircle } from "./collision-shapes"
 
 
 const detectMoveCollisions = (backwards: boolean, ship: Ship, vector: XY, otherShipsNearby: Ship[], forts: Fort[], land: Landmass[]) => {

@@ -1,6 +1,6 @@
 import { Directive, Order } from "../../game-state"
 import { isLandAt } from "../../game-state/land"
-import { XY, _DEG, getHeading, getHeadingFrom, getVectorFrom, normaliseHeading } from "../../lib/geometry"
+import { XY, _DEG, getHeading, getHeadingFrom, getVectorFrom, normaliseHeading } from "typed-geometry"
 import { isDirectPathTo } from "../../lib/path-finding/direct-route"
 import { AI } from "../base-class"
 import { DescisonContext } from "../types"

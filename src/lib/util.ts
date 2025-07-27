@@ -1,4 +1,4 @@
-import { XY } from "./geometry"
+import { XY } from "typed-geometry"
 
 export const splitArray = <T,>(list: T[], predicate: { (item: T): boolean }): [T[], T[]] => {
     const passes: T[] = []

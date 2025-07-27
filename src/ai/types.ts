@@ -1,5 +1,5 @@
 import { GameState, Ship } from "../game-state";
-import { XY } from "../lib/geometry";
+import { XY } from "typed-geometry";
 import { CellMatrix } from "../lib/path-finding/types";
 
 type MissionType = 'patrol' | 'follow' | 'travel' | 'hunt'

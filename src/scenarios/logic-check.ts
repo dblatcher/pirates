@@ -4,7 +4,7 @@ import { TerrainType, inputToLandmass } from "../game-state/land";
 import { GameState } from "../game-state/model";
 import { makeDefaultShip } from "../game-state/ship";
 import { makeTownWithForts } from "../game-state/towns";
-import { _DEG, xy } from "../lib/geometry";
+import { _DEG, xy } from "typed-geometry";
 
 makeTownWithForts;
 xy;

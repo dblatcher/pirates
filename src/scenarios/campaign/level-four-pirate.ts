@@ -3,7 +3,7 @@ import { FollowerAutoPilot } from "../../ai/follower-ai";
 import { HunterAi, MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeFrigateShip, makeSloopShip, } from "../../game-state/ship";
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 import { BARNEY, MAP_HEIGHT, MAP_WIDTH, TERRA_FIRMA, landMasses, makeTownCanto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
 const makeInitialState = (): GameState => {

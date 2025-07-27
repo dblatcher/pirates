@@ -1,5 +1,5 @@
 import { AStarFinder } from "astar-typescript";
-import { XY } from "../geometry";
+import { XY } from "typed-geometry";
 import { CellMatrix } from "./types";
 
 

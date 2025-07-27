@@ -5,7 +5,7 @@ import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { factions } from "../../game-state/faction";
 import { makeFrigateShip, makePinnaceShip, makeSloopShip, } from "../../game-state/ship";
 import { rgb } from "../../lib/Color";
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 import { BARNEY, MAP_HEIGHT, MAP_WIDTH, TERRA_FIRMA, landMasses, makeTownCanto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
 const makeInitialState = (): GameState => {

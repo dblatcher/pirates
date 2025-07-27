@@ -2,7 +2,7 @@ import { DrawSpriteFunction, OffsetDrawMethods } from "@dblatcher/sprite-canvas"
 import { AssetKey } from "../assets";
 import { BoardingAction, GameState, InvadingAction } from "../game-state";
 import { colors, rgba } from "../lib/Color";
-import { XY, xy } from "../lib/geometry";
+import { XY, xy } from "typed-geometry";
 import { average, timePhase } from "../lib/util";
 import { s } from "./helpers";
 

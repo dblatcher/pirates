@@ -1,6 +1,6 @@
 import { DescisonContext } from "../types"
 import { Directive, Order, TERRAIN_SQUARE_SIZE } from "../../game-state"
-import { _DEG, findRotationBetweenHeadings, getDistance, getHeading } from "../../lib/geometry"
+import { _DEG, findRotationBetweenHeadings, getDistance, getHeading } from "typed-geometry"
 import { AI } from "../base-class"
 
 export const followCurrentPath = (ai: AI, { ship }: DescisonContext): Directive[] => {

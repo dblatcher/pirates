@@ -1,6 +1,6 @@
 import { AI, DescisonContext } from "..";
 import { Directive, TERRAIN_SQUARE_SIZE } from "../../game-state";
-import { getDistance } from "../../lib/geometry";
+import { getDistance } from "typed-geometry";
 import { followCurrentPath } from "../issue-directives/follow-path";
 import { opportunisticFire } from "../issue-directives/opportunistic-fire";
 

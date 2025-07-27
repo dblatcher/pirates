@@ -3,7 +3,7 @@ import { MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeFrigateShip, makeGalleonShip } from "../../game-state/ship";
 import { colors, rgb } from "../../lib/Color";
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 import { MAP_HEIGHT, MAP_WIDTH, landMasses } from "./library";
 
 const makeInitialState = (): GameState => {

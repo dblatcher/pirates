@@ -1,5 +1,5 @@
 import type { GameState, Town, Ship } from "../game-state"
-import { Rect, getDistance, isPointInsideRect } from "../lib/geometry"
+import { Rect, getDistance, isPointInsideRect } from "typed-geometry"
 import { splitArray } from "../lib/util"
 
 export const identifyShips = (observer: Ship | Town, gameState: GameState, sightRange: number) => {

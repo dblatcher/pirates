@@ -1,5 +1,5 @@
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, MAXIMUM_DAMAGE_A_FORT_TAKES } from "../../game-state";
-import { XY, getXYVector, translate } from "../../lib/geometry";
+import { XY, getXYVector, translate } from "typed-geometry";
 import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "../helpers";

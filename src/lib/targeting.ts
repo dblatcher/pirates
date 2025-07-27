@@ -1,6 +1,6 @@
 import { Fort, Ship, Side, anglesBySide } from "../game-state"
 import { getProwPosition, getAftPosition } from "../game-state/ship"
-import { _DEG, getHeadingFrom, findRotationBetweenHeadings, getDistance } from "./geometry"
+import { _DEG, getHeadingFrom, findRotationBetweenHeadings, getDistance } from "typed-geometry"
 
 const HALF_FIRING_ARC = _DEG * 10
 

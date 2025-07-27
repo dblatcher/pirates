@@ -1,7 +1,7 @@
 import { AI, DescisonContext } from "..";
 import { DISTANCE_TO_REEVAULATE_PATH, Directive, GameState, Ship } from "../../game-state";
 import { calculateRequiredSailLevel, getSpeed } from "../../game-state/ship/calculate-speed";
-import { XY, _DEG, getDistance, getHeadingFrom, getXYVector, translate, xy } from "../../lib/geometry";
+import { XY, _DEG, getDistance, getHeadingFrom, getXYVector, translate, xy } from "typed-geometry";
 import { approach, approachOrFindIndirectPathUnlessBlocked } from "./approach";
 import { followCurrentPath } from "./follow-path";
 import { stopAndTurnTowards } from "./stop-and-turn";

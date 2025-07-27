@@ -1,4 +1,4 @@
-import { Rect, XY, doRectsIntersect, isPointInsideRect } from "../../lib/geometry";
+import { Rect, XY, doRectsIntersect, isPointInsideRect } from "typed-geometry";
 import { viewPortToRect } from "../helpers";
 import { TERRAIN_SQUARE_SIZE, ViewPort } from "../model";
 import { Landmass } from "./model";

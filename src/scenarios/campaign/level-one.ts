@@ -3,7 +3,7 @@ import { AttackAutoPilot } from "../../ai";
 import { MissonAi } from "../../ai/mission-ai";
 import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { makeCargoBarge, makeDefaultShip, makeFrigateShip } from "../../game-state/ship";
-import { _DEG, xy } from "../../lib/geometry";
+import { _DEG, xy } from "typed-geometry";
 import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
 const xyT = (x: number, y: number) => xy(x * TERRAIN_SQUARE_SIZE, y * TERRAIN_SQUARE_SIZE)

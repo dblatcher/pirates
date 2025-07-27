@@ -1,7 +1,7 @@
 import { DragState } from "@use-gesture/react"
 import { FunctionComponent, MutableRefObject } from "react"
 import { GameState } from "../game-state"
-import { XY } from "../lib/geometry"
+import { XY } from "typed-geometry"
 import { WheelFigure } from "./WheelFigure"
 import { SailsFigure } from "./SailsFigure"
 

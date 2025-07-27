@@ -2,7 +2,7 @@ import { Flag, Ship, TOWN_SIZE, Town, ViewPort } from "../game-state";
 import { FactionId, factions } from "../game-state/faction";
 import { viewPortToRect } from "../game-state/helpers";
 import { Color, colors } from "../lib/Color";
-import { XY, expandRect, isPointInsideRect } from "../lib/geometry";
+import { XY, expandRect, isPointInsideRect } from "typed-geometry";
 
 export const s = (xy: XY): [number, number] => [xy.x, xy.y]
 
@@ -22,3 +22,8 @@ export const isTownInView = (town: Town, viewPort: ViewPort): boolean => {
     const rect = expandRect(viewPortToRect(viewPort), TOWN_SIZE)
     return isPointInsideRect(town, rect)
 }
+
+export const translateZ = (position: XY, z: number): XY => ({
+    x: position.x + z / 2,
+    y: position.y - z
+})

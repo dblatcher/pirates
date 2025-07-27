@@ -1,7 +1,6 @@
 import { Projectile } from "../game-state";
-import { translateZ } from "../lib/geometry";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
-import { s } from "./helpers";
+import { s, translateZ } from "./helpers";
 
 export const drawProjectile = (drawingMethods: OffsetDrawMethods, projectile: Projectile) => {
 

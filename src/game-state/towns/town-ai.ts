@@ -1,6 +1,6 @@
+import { doesLineSegmentCrossCircleEdge } from "typed-geometry";
 import { identifyShips } from "../../ai/identify-ships";
-import { doesLineSegmentCrossCircleEdge } from "../../lib/expensive-geometry";
-import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "../../lib/geometry";
+import { findClosestAndDistance, getDistance, getHeading, getVectorFrom, getXYVector, translate } from "typed-geometry";
 import { buildInitialTargettingList, getShipsInArcNearestFirst } from "../../lib/targeting";
 import { clamp } from "../../lib/util";
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_AIM_DISTANCE, FORT_FIRE_DISTANCE, GameState, MAXIMUM_DAMAGE_A_FORT_TAKES, TOWN_SIZE, Town } from "../model";

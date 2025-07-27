@@ -1,4 +1,4 @@
-import { Rect } from "../lib/geometry";
+import { Rect } from "typed-geometry";
 import { GameState, ViewPort } from "./model";
 
 export const viewPortToRect = (viewPort :ViewPort):Rect =>({

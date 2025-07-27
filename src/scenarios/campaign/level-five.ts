@@ -5,7 +5,7 @@ import { GameState, TERRAIN_SQUARE_SIZE } from "../../game-state";
 import { factions } from "../../game-state/faction";
 import { makeCargoBarge, makeFrigateShip, makeSloopShip, } from "../../game-state/ship";
 import { rgb } from "../../lib/Color";
-import { _DEG, xy } from "../../lib/geometry";
+import { _DEG, xy } from "typed-geometry";
 import { MAP_HEIGHT, MAP_WIDTH, ROBERT, landMasses, makeTownCanto, makeTownForto, makeTownHaven, makeTownLaGroupelle, makeTownTeulville } from "./library";
 
 const xyT = (x: number, y: number) => xy(x * TERRAIN_SQUARE_SIZE, y * TERRAIN_SQUARE_SIZE)

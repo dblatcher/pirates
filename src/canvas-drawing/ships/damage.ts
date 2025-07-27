@@ -1,5 +1,5 @@
 import { Ship } from "../../game-state";
-import { getXYVector, translate } from "../../lib/geometry";
+import { getXYVector, translate } from "typed-geometry";
 import { drawFlame } from "../drawFlame";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 

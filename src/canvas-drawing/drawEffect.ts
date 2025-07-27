@@ -1,7 +1,7 @@
 import { CYCLES_TO_SINK } from "../game-state";
 import { Effect, EffectType } from "../game-state/effects/effect";
 import { colors, rgba } from "../lib/Color";
-import { translate, xy } from "../lib/geometry";
+import { translate, xy } from "typed-geometry";
 import { clamp } from "../lib/util";
 import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
 import { s } from "./helpers";

@@ -1,10 +1,10 @@
-import { Ship, Wind, MastConfig } from "../../game-state";
+import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
+import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate } from "typed-geometry";
+import { MastConfig, Ship, Wind } from "../../game-state";
 import { getProwPosition } from "../../game-state/ship";
 import { SAIL_COLOR_CSS, rgb } from "../../lib/Color";
-import { XY, _90_DEG_LEFT, _90_DEG_RIGHT, getXYVector, translate, translateZ } from "../../lib/geometry";
 import { drawFlag } from "../drawFlag";
-import { OffsetDrawMethods } from "@dblatcher/sprite-canvas";
-import { getFactionColor, getFactionSecondColor, s } from "../helpers";
+import { getFactionColor, getFactionSecondColor, s, translateZ } from "../helpers";
 
 const BASE_MAST_HEIGHT = 25
 const SAIL_END_AT_FULL = .2

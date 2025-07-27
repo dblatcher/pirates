@@ -1,4 +1,4 @@
-import { getXYVector, isPointInsideRect, normaliseHeading } from "../../lib/geometry"
+import { getXYVector, isPointInsideRect, normaliseHeading } from "typed-geometry"
 import { clamp } from "../../lib/util"
 import { updateCannon } from "../cannons"
 import { Collison, GameState, REPAIR_PERIOD, SAIL_CHANGE_RATE, SHIP_TURN_RATE, Ship } from "../model"

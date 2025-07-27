@@ -1,4 +1,4 @@
-import { XY, translate, xy } from "../../lib/geometry"
+import { XY, translate, xy } from "typed-geometry"
 import { CoastLines, Landmass, LandmassInput, TerrainSquare, TerrainType } from "./model"
 
 

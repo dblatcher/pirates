@@ -1,6 +1,6 @@
-import { FortCannon } from "./cannon-types"
-import { XY } from "../../lib/geometry"
+import { XY } from "typed-geometry"
 import { FactionId } from "../faction"
+import { FortCannon } from "./cannon-types"
 
 export type Fort = XY & {
     h: number,

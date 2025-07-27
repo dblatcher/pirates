@@ -1,5 +1,5 @@
+import { _90_DEG_RIGHT, getXYVector, translate } from "typed-geometry"
 import { launchProjectile } from "."
-import { _90_DEG_RIGHT, getXYVector, translate } from "../../lib/geometry"
 import { DAMAGE_THAT_STOPS_FORTS_FIRING, FORT_SIZE, Fort, FortCannon, GameState, Ship, ShipCannon, anglesBySide } from "../model"
 import { SoundEffectRequest } from "../model/sound"
 

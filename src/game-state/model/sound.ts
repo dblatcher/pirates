@@ -1,5 +1,5 @@
 import { NoiseConfig, ToneConfig } from "sound-deck";
-import { XY } from "../../lib/geometry";
+import { XY } from "typed-geometry";
 
 
 const SUDDEN: ToneConfig['playPattern'] = [

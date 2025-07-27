@@ -1,6 +1,6 @@
+import { findClosestAndDistance, getDistance } from "typed-geometry"
 import { describeShipWithId, isBeingBoarded, isBoarding } from "."
 import { identifyShips } from "../../ai/identify-ships"
-import { findClosestAndDistance, getDistance } from "../../lib/geometry"
 import { startBoardingAction } from "../melee"
 import { DEFENCES_TO_REPEL_INVADERS, GameState, INVASION_RANGE, TOWN_SIZE } from "../model"
 import { Ship } from "../model/ship-types"

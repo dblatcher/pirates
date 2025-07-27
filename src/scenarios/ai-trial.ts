@@ -5,7 +5,7 @@ import { GameState } from "../game-state/model";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { makeTown } from "../game-state/towns";
 import { GAME_STATE_DEFAULTS, Scenario } from ".";
-import { _DEG, xy } from "../lib/geometry";
+import { _DEG, xy } from "typed-geometry";
 
 const makeInitialState = (): GameState => {
 

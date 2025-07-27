@@ -1,4 +1,4 @@
-import { findRotationBetweenHeadings } from "../../lib/geometry";
+import { findRotationBetweenHeadings } from "typed-geometry";
 import { clamp } from "../../lib/util";
 import { BASE_SPEED_MULTIPLIER, GameState, MAX_WIND, MINIMUM_SPEED_FACTOR_DUE_TO_DAMAGE, SHIP_DAMAGE_LEVEL_THAT_SLOWS } from "../model";
 import { Ship } from "../model";

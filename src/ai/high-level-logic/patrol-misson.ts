@@ -1,6 +1,6 @@
 import { AI, DescisonContext } from ".."
 import { DEFAULT_ATTACK_RANGE, DEFAULT_FIRE_DISTANCE, Directive, Order, TERRAIN_SQUARE_SIZE } from "../../game-state"
-import { getDistance } from "../../lib/geometry"
+import { getDistance } from "typed-geometry";
 import { identifyShips } from "../identify-ships"
 import { approachOrFindIndirectPathUnlessBlocked } from "../issue-directives/approach"
 import { followCurrentPath } from "../issue-directives/follow-path"

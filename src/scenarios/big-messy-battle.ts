@@ -3,7 +3,7 @@ import { GameState, Ship } from "../game-state";
 import { FactionId } from "../game-state/faction";
 import { makeDefaultShip, makeFrigateShip } from "../game-state/ship";
 import { Scenario, GAME_STATE_DEFAULTS } from ".";
-import { _DEG } from "../lib/geometry";
+import { _DEG } from "typed-geometry";
 
 
 let nextId = 2;

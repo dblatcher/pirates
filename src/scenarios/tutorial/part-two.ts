@@ -2,7 +2,7 @@ import { GAME_STATE_DEFAULTS, Scenario } from "..";
 import { GameState } from "../../game-state";
 import { inputToLandmass } from "../../game-state/land";
 import { makeFrigateShip, makeSloopShip } from "../../game-state/ship";
-import { _DEG } from "../../lib/geometry";
+import { _DEG } from "typed-geometry";
 import { makeTownOne, tutorialLagoon, tutorialPerson } from "./library";
 
 

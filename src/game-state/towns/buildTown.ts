@@ -1,5 +1,5 @@
 import { Fort, Town } from "../model";
-import { XY, translate } from "../../lib/geometry";
+import { XY, translate } from "typed-geometry";
 
 export const makeFort = (distanceFromTown: XY, townPosition: XY): Fort => ({
     h: 0,

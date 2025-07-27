@@ -1,4 +1,4 @@
-import { XY, _90_DEG_LEFT, _90_DEG_RIGHT } from '../../lib/geometry'
+import { XY, _90_DEG_LEFT, _90_DEG_RIGHT } from "typed-geometry"
 import { Effect } from '../effects/effect'
 import { Landmass } from '../land'
 import type { Ship } from '../model'

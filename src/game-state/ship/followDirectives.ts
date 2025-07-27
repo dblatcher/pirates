@@ -1,4 +1,4 @@
-import { _360_DEG, _DEG, findRotationBetweenHeadings, normaliseHeading } from "../../lib/geometry";
+import { _360_DEG, _DEG, findRotationBetweenHeadings, normaliseHeading } from "typed-geometry";
 import { clamp, isEven } from "../../lib/util";
 import { Directive, FiringPattern, Order } from "../model";
 import { Ship } from "../model";
