@@ -5,6 +5,8 @@ import { About } from "../promotion/About"
 import { BlueskyButton } from "../promotion/BlueskyButton"
 import { useBgm } from "../../hooks/use-bgm"
 import { SoundDeck } from "sound-deck"
+import { SongKey } from "../../lib/songs"
+import { IconButton } from "../IconButton"
 
 type Props = {
     setScenario: { (scenario: Scenario): void }
@@ -13,9 +15,11 @@ type Props = {
     soundDeck: SoundDeck,
 }
 
+
 export const TitleScreen = ({ setScenario, scenarios, children, soundDeck }: Props) => {
 
-    useBgm('blow-the-man-down', false, soundDeck)
+    const [playSong, setPlaySong] = useState<SongKey>()
+    useBgm(playSong, false, soundDeck)
 
     const [aboutModalOpen, setAboutModalOpen] = useState(false)
     return (
@@ -33,6 +37,11 @@ export const TitleScreen = ({ setScenario, scenarios, children, soundDeck }: Pro
                     <div className="button-row">
                         <button onClick={() => setAboutModalOpen(true)}>about this game</button>
                         <BlueskyButton label="Share on Bluesky" postText={'Play #Buccaneer, the ad-free browser game of naval combat!'} />
+                    </div>
+                    <div className="button-row">
+                        <IconButton icon='music' onClick={() => setPlaySong('blow-the-man-down')} label="blow-the-man-down"/>
+                        <IconButton icon='music' onClick={() => setPlaySong('drunken-sailor')} label="drunken-sailor"/>
+                        <IconButton icon='music' negate onClick={() => setPlaySong(undefined)} label="off"/>
                     </div>
                 </div>
             </main>

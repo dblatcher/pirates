@@ -44,6 +44,8 @@ const Mobile = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 51
     <path d="M16 64C16 28.7 44.7 0 80 0L304 0c35.3 0 64 28.7 64 64l0 384c0 35.3-28.7 64-64 64L80 512c-35.3 0-64-28.7-64-64L16 64zM144 448c0 8.8 7.2 16 16 16l64 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-64 0c-8.8 0-16 7.2-16 16zM304 64L80 64l0 320 224 0 0-320z"/>
 </svg>
 
+const Music = () => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M468 7c7.6 6.1 12 15.3 12 25l0 304c0 44.2-43 80-96 80s-96-35.8-96-80 43-80 96-80c11.2 0 22 1.6 32 4.6l0-116.7-224 49.8 0 206.3c0 44.2-43 80-96 80s-96-35.8-96-80 43-80 96-80c11.2 0 22 1.6 32 4.6L128 96c0-15 10.4-28 25.1-31.2l288-64c9.5-2.1 19.4 .2 27 6.3z"/></svg>
+
 const Icon = ({ icon }: { icon: string }) => {
     switch (icon) {
         case 'menu': return <Cog />
@@ -56,6 +58,7 @@ const Icon = ({ icon }: { icon: string }) => {
         case 'zoom-out': return <ZoomOut />
         case 'desktop': return <Keyboard />
         case 'touchscreen': return <Mobile />
+        case 'music': return <Music />
         default: return null
     }
 }
