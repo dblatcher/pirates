@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@dblatcher/funny-face": "^0.2.0",
+    "@dblatcher/funny-face": "^1.0.0",
     "@dblatcher/sprite-canvas": "^0.2.6",
     "@use-gesture/react": "^10.3.1",
     "astar-typescript": "^1.2.7",

@@ -16,6 +16,7 @@ export const tutorialPerson: Person = {
         noseHeight: 8,
         noseWidth: 20,
         mouthNoseDistance: 15,
+        chinWidth: 60,
     },
     accessories: [
         {

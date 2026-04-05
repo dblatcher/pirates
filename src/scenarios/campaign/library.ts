@@ -1,4 +1,4 @@
-import { browShapes } from "@dblatcher/funny-face";
+import { browShapes, earShapes } from "@dblatcher/funny-face";
 import { Person } from "../scenarios";
 import { StrawHatIconPng, eyePatch, } from "../../assets";
 import { TERRAIN_SQUARE_SIZE, Town } from "../../game-state";
@@ -12,6 +12,7 @@ export const ROBERT: Person = {
     size: 80,
     profile: {
         browShape: browShapes.WIDE,
+        earShape: earShapes.WIDE,
         eyeColor: 'purple',
         width: .9,
         color: 'coral',
