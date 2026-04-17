@@ -79,7 +79,7 @@
   
   @media screen and (min-height:500px) {
     position: fixed;
-    justify-Content: flex-end;
+    justify-content: flex-end;
     width: 100%;
     top: 0;
     left: 0;
@@ -89,7 +89,7 @@
 .top-menu-bar-fixed {
   display: flex;
   position: fixed;
-  justify-Content: flex-end;
+  justify-content: flex-end;
   top: 0;
   right: 0;
 }
